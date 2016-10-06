@@ -6,6 +6,8 @@ from nltk import word_tokenize
 from utils.classification_exceptions import ModelNotTrainedException
 import utils.kerasmodel_io as kerasio
 
+# Paper: Yoon Kim, "Convolutional Neural Networks for Sentence Classification," arXiv:1408.5882 (2014).
+#
 # ref: https://gist.github.com/entron/b9bc61a74e7cadeb1fec
 # ref: http://cs231n.github.io/convolutional-networks/
 
