@@ -38,23 +38,22 @@ class CNNEmbeddedVecClassifier:
                 category_bucket[lblidx_dict[label]] = 1
                 indices.append(category_bucket)
                 phrases.append(word_tokenize(shorttext))
-        maxlen = max(map(len, phrases))
 
         # store embedded vectors
-        train_embedvec = np.zeros(shape=(len(phrases), maxlen, self.vecsize))
+        train_embedvec = np.zeros(shape=(len(phrases), self.maxlen, self.vecsize))
         for i in range(len(phrases)):
-            for j in range(len(phrases[i])):
+            for j in range(min(self.maxlen, len(phrases[i]))):
                 train_embedvec[i, j] = self.word_to_embedvec(phrases[i][j])
         indices = np.array(indices, dtype=np.int)
 
-        return classlabels, maxlen, train_embedvec, indices
+        return classlabels, train_embedvec, indices
 
 
     def train(self):
         # convert classdict to training input vectors
-        self.classlabels, self.maxlen, train_embedvec, indices = self.convert_trainingdata_matrix()
+        self.classlabels, train_embedvec, indices = self.convert_trainingdata_matrix()
 
-        # build the model
+        # build the deep neural network model
         model = Sequential()
         model.add(Convolution1D(nb_filter=self.nb_filters,
                                 filter_length=self.n_gram,
@@ -67,8 +66,6 @@ class CNNEmbeddedVecClassifier:
         model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
 
         # train the model
-        # print train_embedvec.shape
-        # print indices.shape
         model.fit(train_embedvec, indices)
 
         # flag switch
@@ -87,16 +84,24 @@ class CNNEmbeddedVecClassifier:
     def word_to_embedvec(self, word):
         return self.wvmodel[word] if word in self.wvmodel else np.zeros(self.vecsize)
 
+    def shorttext_to_matrix(self, shorttext):
+        tokens = word_tokenize(shorttext)
+        matrix = np.zeros((self.maxlen, self.vecsize))
+        for i in range(min(self.maxlen, len(tokens))):
+            matrix[i] = self.word_to_embedvec(tokens[i])
+        return matrix
+
     def score(self, shorttext):
         if not self.trained:
             raise ModelNotTrainedException()
 
-        tokens = word_tokenize(shorttext)
-        matrix = np.zeros((1, len(tokens), self.vecsize))
-        for i in range(len(tokens)):
-            matrix[0, i] = self.word_to_embedvec(tokens[i])
+        # retrieve vector
+        matrix = np.array([self.shorttext_to_matrix(shorttext)])
 
+        # classification using the neural network
         predictions = self.model.predict(matrix)
+
+        # wrangle output result
         scoredict = {}
         for idx, classlabel in zip(range(len(self.classlabels)), self.classlabels):
             scoredict[classlabel] = predictions[0][idx]
