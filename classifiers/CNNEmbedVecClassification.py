@@ -4,7 +4,7 @@ from keras.models import Sequential
 from nltk import word_tokenize
 
 from utils.classification_exceptions import ModelNotTrainedException
-
+import utils.kerasmodel_io as kerasio
 
 # ref: https://gist.github.com/entron/b9bc61a74e7cadeb1fec
 # ref: http://cs231n.github.io/convolutional-networks/
@@ -75,10 +75,19 @@ class CNNEmbeddedVecClassifier:
         self.model = model
         self.trained = True
 
+    def savemodel(self, nameprefix):
+        if not self.trained:
+            raise ModelNotTrainedException()
+        kerasio.save_model(nameprefix, self.model)
+
+    def loadmodel(self, nameprefix):
+        self.model = kerasio.load_model(nameprefix)
+        self.trained = True
+
     def word_to_embedvec(self, word):
         return self.wvmodel[word] if word in self.wvmodel else np.zeros(self.vecsize)
 
-    def categorize(self, shorttext):
+    def score(self, shorttext):
         if not self.trained:
             raise ModelNotTrainedException()
 
@@ -87,5 +96,8 @@ class CNNEmbeddedVecClassifier:
         for i in range(len(tokens)):
             matrix[0, i] = self.word_to_embedvec(tokens[i])
 
-        prediction = self.model.predict(matrix)
-        return prediction
+        predictions = self.model.predict(matrix)
+        scoredict = {}
+        for idx, classlabel in zip(range(len(self.classlabels)), self.classlabels):
+            scoredict[classlabel] = predictions[0][idx]
+        return scoredict

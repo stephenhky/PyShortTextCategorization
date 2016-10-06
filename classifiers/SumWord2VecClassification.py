@@ -1,4 +1,5 @@
 from collections import defaultdict
+import pickle
 
 import numpy as np
 from nltk import word_tokenize
@@ -21,6 +22,15 @@ class SumEmbeddedVecClassifier:
                 self.addvec[classtype] += self.shorttext_to_embedvec(shorttext)
             self.addvec[classtype] /= np.linalg.norm(self.addvec[classtype])
         self.addvec = dict(self.addvec)
+        self.trained = True
+
+    def savemodel(self, nameprefix):
+        if not self.trained:
+            raise ModelNotTrainedException()
+        pickle.dump(self.addvec, open(nameprefix+'_embedvecdict.pickle', 'w'))
+
+    def loadmodel(self, nameprefix):
+        self.addvec = pickle.load(open(nameprefix+'_embedvecdict.pickle', 'r'))
         self.trained = True
 
     def shorttext_to_embedvec(self, shorttext):
