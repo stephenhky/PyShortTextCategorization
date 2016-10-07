@@ -79,7 +79,7 @@ class CNNEmbeddedVecClassifier:
             raise ModelNotTrainedException()
         kerasio.save_model(nameprefix, self.model)
         labelfile = open(nameprefix+'_classlabels.txt', 'w')
-        labelfile.writelines(self.classlabels)
+        labelfile.write('\n'.join(self.classlabels))
         labelfile.close()
 
     def loadmodel(self, nameprefix):
