@@ -39,7 +39,9 @@ class SumEmbeddedVecClassifier:
         for token in tokens:
             if token in self.wvmodel:
                 vec += self.wvmodel[token]
-        vec /= np.linalg.norm(vec)
+        norm = np.linalg.norm(vec)
+        if norm!=0:
+            vec /= np.linalg.norm(vec)
         return vec
 
     def score(self, shorttext):
@@ -47,6 +49,9 @@ class SumEmbeddedVecClassifier:
             raise ModelNotTrainedException()
         vec = self.shorttext_to_embedvec(shorttext)
         scoredict = {}
-        for classtype in self.classdict:
-            scoredict[classtype] = 1 - cosine(vec, self.addvec[classtype])
+        for classtype in self.addvec:
+            try:
+                scoredict[classtype] = 1 - cosine(vec, self.addvec[classtype])
+            except ValueError:
+                scoredict[classtype] = np.nan
         return scoredict
