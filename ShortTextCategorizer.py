@@ -8,7 +8,6 @@ from utils import Word2VecModelNotExistException, AlgorithmNotExistException
 import classifiers.SumWord2VecClassification as sumwv
 import classifiers.AutoencoderEmbedVecClassification as auto
 import classifiers.CNNEmbedVecClassification as cnn
-import data.data_retrieval as ret
 
 allowed_algos = {'sumword2vec', 'autoencoder', 'cnn'}
 
