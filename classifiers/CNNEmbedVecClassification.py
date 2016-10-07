@@ -3,7 +3,7 @@ from keras.layers import Convolution1D, MaxPooling1D, Flatten, Dense
 from keras.models import Sequential
 from nltk import word_tokenize
 
-from utils.classification_exceptions import ModelNotTrainedException
+from utils import ModelNotTrainedException
 import utils.kerasmodel_io as kerasio
 
 # Paper: Yoon Kim, "Convolutional Neural Networks for Sentence Classification," arXiv:1408.5882 (2014).

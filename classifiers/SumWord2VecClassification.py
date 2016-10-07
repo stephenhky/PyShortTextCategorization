@@ -5,7 +5,7 @@ import numpy as np
 from nltk import word_tokenize
 from scipy.spatial.distance import cosine
 
-from utils.classification_exceptions import ModelNotTrainedException
+from utils import ModelNotTrainedException
 
 
 class SumEmbeddedVecClassifier:
