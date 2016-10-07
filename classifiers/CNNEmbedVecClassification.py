@@ -78,9 +78,16 @@ class CNNEmbeddedVecClassifier:
         if not self.trained:
             raise ModelNotTrainedException()
         kerasio.save_model(nameprefix, self.model)
+        labelfile = open(nameprefix+'_classlabels.txt', 'w')
+        labelfile.writelines(self.classlabels)
+        labelfile.close()
 
     def loadmodel(self, nameprefix):
         self.model = kerasio.load_model(nameprefix)
+        labelfile = open(nameprefix+'_classlabels.txt', 'r')
+        self.classlabels = labelfile.readlines()
+        labelfile.close()
+        self.classlabels = map(lambda s: s.strip(), self.classlabels)
         self.trained = True
 
     def word_to_embedvec(self, word):

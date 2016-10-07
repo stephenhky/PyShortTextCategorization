@@ -1,5 +1,6 @@
 from collections import defaultdict
 from operator import add
+import pickle
 
 import numpy as np
 from keras.layers import Input, Dense
@@ -79,10 +80,12 @@ class AutoEncoderWord2VecClassifier:
         if save_complete_autoencoder:
             kerasio.save_model(nameprefix+'_decoder', self.decoder)
             kerasio.save_model(nameprefix+'_autoencoder', self.autoencoder)
+        pickle.dump(self.train_encoded_vecs, open(nameprefix+'_trainedvecs.pickle', 'w'))
 
     def loadmodel(self, nameprefix):
         self.encoder = kerasio.load_model(nameprefix+'encoder')
-        self.trained = False
+        self.train_encoded_vecs = pickle.load(open(nameprefix+'_trainedvecspickle', 'r'))
+        self.trained = True
 
     def shorttext_to_embedvec(self, shorttext):
         vec = np.zeros(self.vecsize)
