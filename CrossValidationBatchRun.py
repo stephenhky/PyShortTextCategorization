@@ -3,6 +3,7 @@
 # It uses the example data as the example.
 
 # argument parsing
+from classifiers import allowed_algos
 import argparse
 argparser = argparse.ArgumentParser(description='Run cross validation.')
 argparser.add_argument('algo', help='Algorithm to run. Options: '+', '.join(list(allowed_algos)))
@@ -12,8 +13,8 @@ args = argparser.parse_args()
 # import other libraries
 from gensim.models import Word2Vec
 import numpy as np
+import pandas as pd
 
-from classifiers import allowed_algos
 import classifiers.SumWord2VecClassification as sumwv
 import classifiers.AutoencoderEmbedVecClassification as auto
 import classifiers.CNNEmbedVecClassification as cnn
@@ -27,7 +28,7 @@ wvmodel = Word2Vec.load_word2vec_format(args.word2vec_path, binary=True)
 # data partition
 partnum = 5
 repetitions = 6
-length = 15
+length = 3
 master_classdict = ret.retrieve_data_as_dict('data/shorttext_exampledata.csv')
 partitioned_classdicts = []
 for grp in range(repetitions):
@@ -41,13 +42,17 @@ for grp in range(repetitions):
         for classlabel in shuffled:
             testdict[classlabel] = shuffled[classlabel][part*length:(part+1)*length]
             traindict[classlabel] = np.append(shuffled[classlabel][:part*length], shuffled[classlabel][(part+1)*length:])
-        partitioned_classdicts.append({'train': traindict,
-                                       'test': testdict})
+            partitioned_classdicts.append({'train': traindict, 'test': testdict})
 
-print 'Number of tests = ', len(shuffled)
+print 'Number of tests = ', len(partitioned_classdicts)
 
 accuracies = []
-
+attemptidx = 0
+attemptdata = []
+parsed_shorttexts = []
+system_predictions = []
+expert_predictions = []
+scores = []
 for classdicts in partitioned_classdicts:
     # train model
     if args.algo=='sumword2vec':
@@ -65,8 +70,28 @@ for classdicts in partitioned_classdicts:
     for classlabel in classdicts['test']:
         for shorttext in classdicts['test'][classlabel]:
             predictions = classifier.score(shorttext)
-            predicted_label = max(predictions.items(), key=lambda s: s[1])[0]
+            predicted_label, predicted_score = max(predictions.items(), key=lambda s: s[1])
             numdata += 1
             numcorrects += 1 if predicted_label==classlabel else 0
 
+            attemptdata.append(attemptidx)
+            parsed_shorttexts.append(shorttext)
+            system_predictions.append(predicted_label)
+            expert_predictions.append(classlabel)
+            scores.append(predicted_score)
+
+    print 'numdata = ', numdata
+    print 'numcorrects = ', numcorrects
+    print 'accuracy = ', float(numcorrects)/numdata
     accuracies.append(float(numcorrects)/numdata)
+
+    attemptidx += 1
+
+accdf = pd.DataFrame({'attempt': range(len(accuracies)), 'accuracy': accuracies})
+accdf.to_csv('crossval/'+args.algo+'_accuracies.csv', index=False)
+datadf = pd.DataFrame({'attempt': attemptdata,
+                       'shorttext': parsed_shorttexts,
+                       'prediction': system_predictions,
+                       'expert_prediction': expert_predictions,
+                       'score': scores})
+datadf.to_csv('crossval/'+args.algo+'_testdata.csv', index=False)

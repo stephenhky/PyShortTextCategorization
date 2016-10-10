@@ -106,5 +106,8 @@ class AutoEncoderWord2VecClassifier:
         encoded_vec = self.encode(shorttext)
         scoredict = {}
         for classtype in self.train_encoded_vecs:
-            scoredict[classtype] = 1 - cosine(encoded_vec, self.train_encoded_vecs[classtype])
+            try:
+                scoredict[classtype] = 1 - cosine(encoded_vec, self.train_encoded_vecs[classtype])
+            except ValueError:
+                scoredict[classtype] = np.nan
         return scoredict
