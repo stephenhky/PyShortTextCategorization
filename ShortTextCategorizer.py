@@ -1,15 +1,15 @@
 import argparse
-import os
 import csv
+import os
 
 from gensim.models import Word2Vec
 
-from utils import Word2VecModelNotExistException, AlgorithmNotExistException
-import classifiers.SumWord2VecClassification as sumwv
 import classifiers.AutoencoderEmbedVecClassification as auto
 import classifiers.CNNEmbedVecClassification as cnn
+import classifiers.SumWord2VecClassification as sumwv
+from classifiers import allowed_algos
+from utils import Word2VecModelNotExistException, AlgorithmNotExistException
 
-allowed_algos = {'sumword2vec', 'autoencoder', 'cnn'}
 
 def get_argparser():
     argparser = argparse.ArgumentParser(description='Perform prediction on short text.')

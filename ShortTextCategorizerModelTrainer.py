@@ -8,8 +8,7 @@ import classifiers.SumWord2VecClassification as sumwv
 import classifiers.AutoencoderEmbedVecClassification as auto
 import classifiers.CNNEmbedVecClassification as cnn
 import data.data_retrieval as ret
-
-allowed_algos = {'sumword2vec', 'autoencoder', 'cnn'}
+from classifiers import allowed_algos
 
 def get_argparser():
     argparser = argparse.ArgumentParser(description='Train short text categorization model.')
