@@ -1,0 +1,811 @@
+attempt,expert_prediction,prediction,score,shorttext
+0,mathematics,mathematics,0.600923597813,differential geometry
+0,mathematics,mathematics,0.56033295393,probability
+0,mathematics,mathematics,0.921330273151,linear algebra
+0,physics,physics,0.782823085785,quantum chaos
+0,physics,physics,0.912052154541,classical mechanics
+0,physics,physics,0.757155239582,topological solitons
+0,theology,theology,0.878703832626,prayer
+0,theology,theology,0.895572543144,scholasticism
+0,theology,theology,0.831583738327,creedal confessionalism
+1,mathematics,physics,0.616901397705,differential geometry
+1,mathematics,mathematics,0.451879709959,probability
+1,mathematics,mathematics,0.841671586037,linear algebra
+1,physics,physics,0.853547036648,quantum chaos
+1,physics,physics,0.96059602499,classical mechanics
+1,physics,physics,0.88499879837,topological solitons
+1,theology,theology,0.882562100887,prayer
+1,theology,theology,0.889537870884,scholasticism
+1,theology,theology,0.792922317982,creedal confessionalism
+2,mathematics,mathematics,0.524856686592,differential geometry
+2,mathematics,mathematics,0.527578294277,probability
+2,mathematics,mathematics,0.878767967224,linear algebra
+2,physics,physics,0.745267689228,quantum chaos
+2,physics,physics,0.916278541088,classical mechanics
+2,physics,physics,0.791139543056,topological solitons
+2,theology,theology,0.881982088089,prayer
+2,theology,theology,0.895903587341,scholasticism
+2,theology,theology,0.809600889683,creedal confessionalism
+3,mathematics,mathematics,0.557807028294,statistics
+3,mathematics,mathematics,0.956622779369,stochastic calculus
+3,mathematics,mathematics,0.599862992764,algebra
+3,physics,physics,0.74056237936,atomic molecular and optical physics
+3,physics,physics,0.813256323338,particle physics
+3,physics,mathematics,0.478179961443,renormalization
+3,theology,theology,0.8937022686,eucharist
+3,theology,theology,0.906004726887,ecclesiology
+3,theology,theology,0.933131933212,soteriology
+4,mathematics,mathematics,0.492970645428,statistics
+4,mathematics,mathematics,0.963984668255,stochastic calculus
+4,mathematics,mathematics,0.566086292267,algebra
+4,physics,physics,0.891595423222,atomic molecular and optical physics
+4,physics,physics,0.898223638535,particle physics
+4,physics,physics,0.52780765295,renormalization
+4,theology,theology,0.915941238403,eucharist
+4,theology,theology,0.926569998264,ecclesiology
+4,theology,theology,0.948521733284,soteriology
+5,mathematics,mathematics,0.527327120304,statistics
+5,mathematics,mathematics,0.977591574192,stochastic calculus
+5,mathematics,mathematics,0.634867191315,algebra
+5,physics,physics,0.712687492371,atomic molecular and optical physics
+5,physics,physics,0.759675979614,particle physics
+5,physics,mathematics,0.549038887024,renormalization
+5,theology,theology,0.877421855927,eucharist
+5,theology,theology,0.893742084503,ecclesiology
+5,theology,theology,0.920835196972,soteriology
+6,mathematics,mathematics,0.693708598614,calculus
+6,mathematics,mathematics,0.829647660255,complex analysis
+6,mathematics,mathematics,0.685374736786,statistical optimization
+6,physics,physics,0.407770097256,path integral
+6,physics,physics,0.756737112999,statistical mechanics
+6,physics,physics,0.965872824192,quantum mechanics
+6,theology,theology,0.889425456524,divine providence
+6,theology,theology,0.862707078457,predestination
+6,theology,theology,0.95702791214,Christology
+7,mathematics,mathematics,0.653138101101,calculus
+7,mathematics,mathematics,0.866644263268,complex analysis
+7,mathematics,mathematics,0.712164521217,statistical optimization
+7,physics,physics,0.416908234358,path integral
+7,physics,physics,0.666541934013,statistical mechanics
+7,physics,physics,0.964193940163,quantum mechanics
+7,theology,theology,0.874852061272,divine providence
+7,theology,theology,0.816104948521,predestination
+7,theology,theology,0.932407319546,Christology
+8,mathematics,mathematics,0.746132671833,calculus
+8,mathematics,mathematics,0.953741192818,complex analysis
+8,mathematics,mathematics,0.89027762413,statistical optimization
+8,physics,mathematics,0.440236538649,path integral
+8,physics,mathematics,0.563410401344,statistical mechanics
+8,physics,physics,0.932106435299,quantum mechanics
+8,theology,theology,0.919701993465,divine providence
+8,theology,theology,0.856253802776,predestination
+8,theology,theology,0.947516262531,Christology
+9,mathematics,mathematics,0.952153801918,numerical analysis
+9,mathematics,mathematics,0.786505758762,differential equation
+9,mathematics,physics,0.478746294975,topology
+9,physics,physics,0.704264223576,electrodynamics
+9,physics,physics,0.428892046213,condensed matter
+9,physics,physics,0.677131772041,quantum field theory
+9,theology,theology,0.337467759848,pneumatology
+9,theology,theology,0.877742350101,Holy Trinity
+9,theology,theology,0.438842236996,anthropology
+10,mathematics,mathematics,0.968252301216,numerical analysis
+10,mathematics,mathematics,0.817990005016,differential equation
+10,mathematics,mathematics,0.454667031765,topology
+10,physics,physics,0.6919272542,electrodynamics
+10,physics,physics,0.467870950699,condensed matter
+10,physics,physics,0.625201642513,quantum field theory
+10,theology,mathematics,0.339112013578,pneumatology
+10,theology,theology,0.887196958065,Holy Trinity
+10,theology,mathematics,0.345581144094,anthropology
+11,mathematics,mathematics,0.982298910618,numerical analysis
+11,mathematics,mathematics,0.868651151657,differential equation
+11,mathematics,physics,0.459703505039,topology
+11,physics,physics,0.776414990425,electrodynamics
+11,physics,physics,0.470046550035,condensed matter
+11,physics,physics,0.748951137066,quantum field theory
+11,theology,mathematics,0.338971495628,pneumatology
+11,theology,theology,0.916709065437,Holy Trinity
+11,theology,theology,0.374552190304,anthropology
+12,mathematics,mathematics,0.947564601898,real analysis
+12,mathematics,physics,0.744927108288,functional field
+12,mathematics,mathematics,0.934705615044,variational calculus
+12,physics,physics,0.744927108288,functional field
+12,physics,physics,0.626029551029,astrophysics
+12,physics,physics,0.628555059433,spontaneous symmetry breaking
+12,theology,theology,0.761178910732,divine degree
+12,theology,theology,0.923538565636,scripture
+12,theology,theology,0.9048371315,eschatology
+13,mathematics,mathematics,0.960633158684,real analysis
+13,mathematics,physics,0.781584024429,functional field
+13,mathematics,mathematics,0.931264281273,variational calculus
+13,physics,physics,0.781584024429,functional field
+13,physics,physics,0.600394546986,astrophysics
+13,physics,physics,0.601556301117,spontaneous symmetry breaking
+13,theology,theology,0.77076202631,divine degree
+13,theology,theology,0.945366859436,scripture
+13,theology,theology,0.919521868229,eschatology
+14,mathematics,mathematics,0.946529209614,real analysis
+14,mathematics,physics,0.79009771347,functional field
+14,mathematics,mathematics,0.896270334721,variational calculus
+14,physics,physics,0.79009771347,functional field
+14,physics,physics,0.585569679737,astrophysics
+14,physics,physics,0.633193075657,spontaneous symmetry breaking
+14,theology,theology,0.79741871357,divine degree
+14,theology,theology,0.939448773861,scripture
+14,theology,theology,0.899752438068,eschatology
+15,mathematics,mathematics,0.412142574787,topology
+15,mathematics,physics,0.590651333332,differential geometry
+15,mathematics,mathematics,0.672424972057,differential equation
+15,physics,mathematics,0.396731942892,path integral
+15,physics,mathematics,0.91010338068,functional field
+15,physics,physics,0.933028459549,atomic molecular and optical physics
+15,theology,theology,0.951751947403,soteriology
+15,theology,theology,0.852635264397,predestination
+15,theology,theology,0.833788216114,creedal confessionalism
+16,mathematics,physics,0.493473798037,topology
+16,mathematics,physics,0.509086966515,differential geometry
+16,mathematics,mathematics,0.720868825912,differential equation
+16,physics,mathematics,0.391261279583,path integral
+16,physics,mathematics,0.889456868172,functional field
+16,physics,physics,0.91633105278,atomic molecular and optical physics
+16,theology,theology,0.93258202076,soteriology
+16,theology,theology,0.825991690159,predestination
+16,theology,theology,0.795319080353,creedal confessionalism
+17,mathematics,physics,0.526614367962,topology
+17,mathematics,physics,0.674853861332,differential geometry
+17,mathematics,mathematics,0.660768687725,differential equation
+17,physics,physics,0.383431881666,path integral
+17,physics,mathematics,0.843085289001,functional field
+17,physics,physics,0.965254306793,atomic molecular and optical physics
+17,theology,theology,0.944629371166,soteriology
+17,theology,theology,0.841261744499,predestination
+17,theology,theology,0.794694125652,creedal confessionalism
+18,mathematics,mathematics,0.492189913988,algebra
+18,mathematics,mathematics,0.819058060646,linear algebra
+18,mathematics,mathematics,0.923059523106,variational calculus
+18,physics,physics,0.418529808521,condensed matter
+18,physics,physics,0.664314806461,quantum chaos
+18,physics,physics,0.51345282793,topological solitons
+18,theology,theology,0.843844115734,Holy Trinity
+18,theology,theology,0.793497264385,divine degree
+18,theology,theology,0.878515839577,prayer
+19,mathematics,mathematics,0.529119610786,algebra
+19,mathematics,mathematics,0.77643173933,linear algebra
+19,mathematics,mathematics,0.918096780777,variational calculus
+19,physics,physics,0.46203315258,condensed matter
+19,physics,physics,0.771932780743,quantum chaos
+19,physics,physics,0.711983501911,topological solitons
+19,theology,theology,0.839614987373,Holy Trinity
+19,theology,theology,0.667023122311,divine degree
+19,theology,theology,0.845240175724,prayer
+20,mathematics,mathematics,0.493691086769,algebra
+20,mathematics,mathematics,0.802149653435,linear algebra
+20,mathematics,mathematics,0.916033506393,variational calculus
+20,physics,physics,0.506945312023,condensed matter
+20,physics,physics,0.781992971897,quantum chaos
+20,physics,physics,0.694430351257,topological solitons
+20,theology,theology,0.838831424713,Holy Trinity
+20,theology,theology,0.780690014362,divine degree
+20,theology,theology,0.885906755924,prayer
+21,mathematics,physics,0.916612386703,functional field
+21,mathematics,mathematics,0.548574447632,statistical optimization
+21,mathematics,mathematics,0.912293851376,real analysis
+21,physics,mathematics,0.447841703892,renormalization
+21,physics,physics,0.867405772209,quantum field theory
+21,physics,physics,0.509936511517,astrophysics
+21,theology,theology,0.879365563393,divine providence
+21,theology,theology,0.955803871155,Christology
+21,theology,mathematics,0.342250496149,pneumatology
+22,mathematics,physics,0.937076210976,functional field
+22,mathematics,mathematics,0.66741669178,statistical optimization
+22,mathematics,mathematics,0.924572110176,real analysis
+22,physics,mathematics,0.492332935333,renormalization
+22,physics,physics,0.886807322502,quantum field theory
+22,physics,physics,0.459708541632,astrophysics
+22,theology,theology,0.90824586153,divine providence
+22,theology,theology,0.947590410709,Christology
+22,theology,theology,0.340658485889,pneumatology
+23,mathematics,physics,0.944182097912,functional field
+23,mathematics,mathematics,0.645182192326,statistical optimization
+23,mathematics,mathematics,0.908299684525,real analysis
+23,physics,mathematics,0.497579663992,renormalization
+23,physics,physics,0.906749904156,quantum field theory
+23,physics,physics,0.570977151394,astrophysics
+23,theology,theology,0.883126378059,divine providence
+23,theology,theology,0.953180909157,Christology
+23,theology,theology,0.337043821812,pneumatology
+24,mathematics,mathematics,0.778311133385,complex analysis
+24,mathematics,mathematics,0.678345024586,calculus
+24,mathematics,mathematics,0.872019767761,numerical analysis
+24,physics,physics,0.814136207104,electrodynamics
+24,physics,physics,0.923647522926,classical mechanics
+24,physics,physics,0.933669626713,particle physics
+24,theology,theology,0.924643337727,scripture
+24,theology,theology,0.882635891438,eschatology
+24,theology,theology,0.910522520542,ecclesiology
+25,mathematics,mathematics,0.905818998814,complex analysis
+25,mathematics,mathematics,0.754643678665,calculus
+25,mathematics,mathematics,0.947167515755,numerical analysis
+25,physics,physics,0.693105340004,electrodynamics
+25,physics,physics,0.896863043308,classical mechanics
+25,physics,physics,0.868572354317,particle physics
+25,theology,theology,0.949184060097,scripture
+25,theology,theology,0.915658473969,eschatology
+25,theology,theology,0.948797643185,ecclesiology
+26,mathematics,mathematics,0.899579167366,complex analysis
+26,mathematics,mathematics,0.758946657181,calculus
+26,mathematics,mathematics,0.947572112083,numerical analysis
+26,physics,physics,0.673062324524,electrodynamics
+26,physics,physics,0.867178916931,classical mechanics
+26,physics,physics,0.867519021034,particle physics
+26,theology,theology,0.929352223873,scripture
+26,theology,theology,0.89599519968,eschatology
+26,theology,theology,0.934626102448,ecclesiology
+27,mathematics,mathematics,0.958864927292,stochastic calculus
+27,mathematics,mathematics,0.555708944798,statistics
+27,mathematics,mathematics,0.541356384754,probability
+27,physics,physics,0.934189736843,quantum mechanics
+27,physics,physics,0.514621376991,spontaneous symmetry breaking
+27,physics,physics,0.585092842579,statistical mechanics
+27,theology,theology,0.802024483681,scholasticism
+27,theology,theology,0.898873031139,eucharist
+27,theology,physics,0.365888088942,anthropology
+28,mathematics,mathematics,0.948577404022,stochastic calculus
+28,mathematics,mathematics,0.530777931213,statistics
+28,mathematics,mathematics,0.443117409945,probability
+28,physics,physics,0.950579106808,quantum mechanics
+28,physics,physics,0.620879769325,spontaneous symmetry breaking
+28,physics,physics,0.618518829346,statistical mechanics
+28,theology,theology,0.859802663326,scholasticism
+28,theology,theology,0.919739067554,eucharist
+28,theology,physics,0.390297114849,anthropology
+29,mathematics,mathematics,0.950700163841,stochastic calculus
+29,mathematics,mathematics,0.527482330799,statistics
+29,mathematics,mathematics,0.528111934662,probability
+29,physics,physics,0.953468382359,quantum mechanics
+29,physics,physics,0.518710434437,spontaneous symmetry breaking
+29,physics,physics,0.647905468941,statistical mechanics
+29,theology,theology,0.859249949455,scholasticism
+29,theology,theology,0.946717083454,eucharist
+29,theology,physics,0.38747254014,anthropology
+30,mathematics,mathematics,0.78742980957,differential equation
+30,mathematics,mathematics,0.921757042408,numerical analysis
+30,mathematics,mathematics,0.840560376644,complex analysis
+30,physics,physics,0.600179851055,spontaneous symmetry breaking
+30,physics,physics,0.667816638947,astrophysics
+30,physics,mathematics,0.840869784355,functional field
+30,theology,theology,0.824758291245,predestination
+30,theology,theology,0.847194254398,prayer
+30,theology,theology,0.843416035175,Holy Trinity
+31,mathematics,mathematics,0.77931201458,differential equation
+31,mathematics,mathematics,0.908803761005,numerical analysis
+31,mathematics,mathematics,0.846119105816,complex analysis
+31,physics,physics,0.61236178875,spontaneous symmetry breaking
+31,physics,physics,0.677001714706,astrophysics
+31,physics,mathematics,0.907004952431,functional field
+31,theology,theology,0.836101174355,predestination
+31,theology,theology,0.873177587986,prayer
+31,theology,theology,0.869662106037,Holy Trinity
+32,mathematics,mathematics,0.782292723656,differential equation
+32,mathematics,mathematics,0.933704257011,numerical analysis
+32,mathematics,mathematics,0.878170907497,complex analysis
+32,physics,physics,0.514910161495,spontaneous symmetry breaking
+32,physics,physics,0.526465833187,astrophysics
+32,physics,mathematics,0.912214040756,functional field
+32,theology,theology,0.868147432804,predestination
+32,theology,theology,0.859833359718,prayer
+32,theology,theology,0.871346771717,Holy Trinity
+33,mathematics,mathematics,0.865123212337,linear algebra
+33,mathematics,mathematics,0.886671066284,variational calculus
+33,mathematics,mathematics,0.89865398407,real analysis
+33,physics,physics,0.525919497013,topological solitons
+33,physics,physics,0.72025769949,quantum chaos
+33,physics,physics,0.80966758728,atomic molecular and optical physics
+33,theology,theology,0.950850665569,soteriology
+33,theology,mathematics,0.339081674814,pneumatology
+33,theology,theology,0.378801584244,anthropology
+34,mathematics,mathematics,0.878525018692,linear algebra
+34,mathematics,mathematics,0.910341620445,variational calculus
+34,mathematics,mathematics,0.950723350048,real analysis
+34,physics,physics,0.599795043468,topological solitons
+34,physics,physics,0.718097746372,quantum chaos
+34,physics,physics,0.867055296898,atomic molecular and optical physics
+34,theology,theology,0.946834445,soteriology
+34,theology,mathematics,0.339011520147,pneumatology
+34,theology,physics,0.393219679594,anthropology
+35,mathematics,mathematics,0.907802581787,linear algebra
+35,mathematics,mathematics,0.938818633556,variational calculus
+35,mathematics,mathematics,0.937422156334,real analysis
+35,physics,physics,0.48007196188,topological solitons
+35,physics,physics,0.708431780338,quantum chaos
+35,physics,physics,0.798129558563,atomic molecular and optical physics
+35,theology,theology,0.933092653751,soteriology
+35,theology,mathematics,0.346946597099,pneumatology
+35,theology,physics,0.34433811903,anthropology
+36,mathematics,physics,0.483703583479,topology
+36,mathematics,mathematics,0.571650445461,algebra
+36,mathematics,physics,0.960417449474,functional field
+36,physics,physics,0.508367776871,classical mechanics
+36,physics,mathematics,0.771082520485,statistical mechanics
+36,physics,physics,0.875356853008,quantum mechanics
+36,theology,theology,0.943917453289,ecclesiology
+36,theology,theology,0.838636398315,divine degree
+36,theology,theology,0.926372766495,eucharist
+37,mathematics,physics,0.503825366497,topology
+37,mathematics,mathematics,0.615672230721,algebra
+37,mathematics,physics,0.971144676208,functional field
+37,physics,physics,0.529624283314,classical mechanics
+37,physics,mathematics,0.753055810928,statistical mechanics
+37,physics,physics,0.87089407444,quantum mechanics
+37,theology,theology,0.946885943413,ecclesiology
+37,theology,theology,0.827808618546,divine degree
+37,theology,theology,0.930738270283,eucharist
+38,mathematics,physics,0.518229186535,topology
+38,mathematics,mathematics,0.552424430847,algebra
+38,mathematics,physics,0.96917539835,functional field
+38,physics,physics,0.503538429737,classical mechanics
+38,physics,mathematics,0.805600881577,statistical mechanics
+38,physics,physics,0.853096723557,quantum mechanics
+38,theology,theology,0.934489667416,ecclesiology
+38,theology,theology,0.780334174633,divine degree
+38,theology,theology,0.921753942966,eucharist
+39,mathematics,mathematics,0.520963966846,statistical optimization
+39,mathematics,mathematics,0.439957380295,statistics
+39,mathematics,mathematics,0.47834789753,probability
+39,physics,physics,0.541230857372,renormalization
+39,physics,physics,0.496328115463,condensed matter
+39,physics,physics,0.75554305315,quantum field theory
+39,theology,theology,0.929760158062,scripture
+39,theology,theology,0.867554605007,scholasticism
+39,theology,theology,0.775954902172,creedal confessionalism
+40,mathematics,mathematics,0.488790303469,statistical optimization
+40,mathematics,mathematics,0.418534249067,statistics
+40,mathematics,mathematics,0.50951385498,probability
+40,physics,physics,0.554317295551,renormalization
+40,physics,physics,0.549987673759,condensed matter
+40,physics,physics,0.783944427967,quantum field theory
+40,theology,theology,0.932450711727,scripture
+40,theology,theology,0.862201869488,scholasticism
+40,theology,theology,0.767968714237,creedal confessionalism
+41,mathematics,mathematics,0.507416844368,statistical optimization
+41,mathematics,mathematics,0.427465111017,statistics
+41,mathematics,mathematics,0.479763090611,probability
+41,physics,physics,0.551010131836,renormalization
+41,physics,physics,0.49382647872,condensed matter
+41,physics,physics,0.758343875408,quantum field theory
+41,theology,theology,0.950726389885,scripture
+41,theology,theology,0.902753531933,scholasticism
+41,theology,theology,0.858955800533,creedal confessionalism
+42,mathematics,mathematics,0.938609778881,stochastic calculus
+42,mathematics,mathematics,0.682445526123,calculus
+42,mathematics,physics,0.503630280495,differential geometry
+42,physics,physics,0.952254414558,particle physics
+42,physics,physics,0.381614774466,path integral
+42,physics,physics,0.835050821304,electrodynamics
+42,theology,theology,0.87793558836,eschatology
+42,theology,theology,0.877872824669,divine providence
+42,theology,theology,0.928092896938,Christology
+43,mathematics,mathematics,0.93813586235,stochastic calculus
+43,mathematics,mathematics,0.68488317728,calculus
+43,mathematics,mathematics,0.519328474998,differential geometry
+43,physics,physics,0.942742586136,particle physics
+43,physics,mathematics,0.429568886757,path integral
+43,physics,physics,0.763068377972,electrodynamics
+43,theology,theology,0.884077966213,eschatology
+43,theology,theology,0.882479131222,divine providence
+43,theology,theology,0.9320089221,Christology
+44,mathematics,mathematics,0.946202516556,stochastic calculus
+44,mathematics,mathematics,0.713132917881,calculus
+44,mathematics,physics,0.507001340389,differential geometry
+44,physics,physics,0.942940890789,particle physics
+44,physics,mathematics,0.405424416065,path integral
+44,physics,physics,0.741712093353,electrodynamics
+44,theology,theology,0.912659823895,eschatology
+44,theology,theology,0.92616724968,divine providence
+44,theology,theology,0.952951550484,Christology
+45,mathematics,mathematics,0.662733018398,algebra
+45,mathematics,mathematics,0.916864991188,complex analysis
+45,mathematics,mathematics,0.76800006628,statistical optimization
+45,physics,physics,0.845707774162,particle physics
+45,physics,physics,0.943728744984,quantum mechanics
+45,physics,physics,0.695238173008,quantum chaos
+45,theology,theology,0.851909577847,scholasticism
+45,theology,physics,0.36780115962,anthropology
+45,theology,theology,0.920386910439,scripture
+46,mathematics,mathematics,0.633655011654,algebra
+46,mathematics,mathematics,0.84590947628,complex analysis
+46,mathematics,mathematics,0.502659380436,statistical optimization
+46,physics,physics,0.927426874638,particle physics
+46,physics,physics,0.979767620564,quantum mechanics
+46,physics,physics,0.737268328667,quantum chaos
+46,theology,theology,0.851569533348,scholasticism
+46,theology,physics,0.400876790285,anthropology
+46,theology,theology,0.942758202553,scripture
+47,mathematics,mathematics,0.754833698273,algebra
+47,mathematics,mathematics,0.9285800457,complex analysis
+47,mathematics,mathematics,0.65288233757,statistical optimization
+47,physics,physics,0.915832400322,particle physics
+47,physics,physics,0.968470990658,quantum mechanics
+47,physics,physics,0.716315507889,quantum chaos
+47,theology,theology,0.839657783508,scholasticism
+47,theology,physics,0.435766398907,anthropology
+47,theology,theology,0.938608705997,scripture
+48,mathematics,mathematics,0.909111261368,linear algebra
+48,mathematics,mathematics,0.468513160944,statistics
+48,mathematics,mathematics,0.780500888824,differential equation
+48,physics,physics,0.644709646702,electrodynamics
+48,physics,physics,0.482617765665,spontaneous symmetry breaking
+48,physics,physics,0.762207627296,quantum field theory
+48,theology,theology,0.89046639204,Holy Trinity
+48,theology,theology,0.921658337116,eschatology
+48,theology,theology,0.957324981689,soteriology
+49,mathematics,mathematics,0.959790766239,linear algebra
+49,mathematics,mathematics,0.549465000629,statistics
+49,mathematics,mathematics,0.866247296333,differential equation
+49,physics,physics,0.579375624657,electrodynamics
+49,physics,physics,0.416460752487,spontaneous symmetry breaking
+49,physics,physics,0.655724048615,quantum field theory
+49,theology,theology,0.902158796787,Holy Trinity
+49,theology,theology,0.90589517355,eschatology
+49,theology,theology,0.957353651524,soteriology
+50,mathematics,mathematics,0.913320660591,linear algebra
+50,mathematics,mathematics,0.553561806679,statistics
+50,mathematics,mathematics,0.826335668564,differential equation
+50,physics,physics,0.726702213287,electrodynamics
+50,physics,physics,0.546221792698,spontaneous symmetry breaking
+50,physics,physics,0.721377789974,quantum field theory
+50,theology,theology,0.873221218586,Holy Trinity
+50,theology,theology,0.900709927082,eschatology
+50,theology,theology,0.949591875076,soteriology
+51,mathematics,physics,0.94819432497,functional field
+51,mathematics,mathematics,0.597878456116,probability
+51,mathematics,mathematics,0.593132674694,differential geometry
+51,physics,physics,0.524392366409,renormalization
+51,physics,physics,0.722235500813,statistical mechanics
+51,physics,physics,0.539722204208,condensed matter
+51,theology,theology,0.737387180328,divine degree
+51,theology,theology,0.776157796383,creedal confessionalism
+51,theology,theology,0.914004445076,ecclesiology
+52,mathematics,physics,0.970356762409,functional field
+52,mathematics,mathematics,0.559178471565,probability
+52,mathematics,mathematics,0.547621905804,differential geometry
+52,physics,physics,0.590762913227,renormalization
+52,physics,physics,0.720307767391,statistical mechanics
+52,physics,physics,0.557496070862,condensed matter
+52,theology,theology,0.70255702734,divine degree
+52,theology,theology,0.816136777401,creedal confessionalism
+52,theology,theology,0.936611890793,ecclesiology
+53,mathematics,physics,0.957009017467,functional field
+53,mathematics,mathematics,0.638154923916,probability
+53,mathematics,mathematics,0.651666879654,differential geometry
+53,physics,physics,0.465907245874,renormalization
+53,physics,physics,0.648647248745,statistical mechanics
+53,physics,physics,0.481178820133,condensed matter
+53,theology,theology,0.809115827084,divine degree
+53,theology,theology,0.827496051788,creedal confessionalism
+53,theology,theology,0.935326993465,ecclesiology
+54,mathematics,mathematics,0.787950217724,stochastic calculus
+54,mathematics,mathematics,0.621471524239,calculus
+54,mathematics,mathematics,0.734663307667,variational calculus
+54,physics,physics,0.595565617085,astrophysics
+54,physics,mathematics,0.478386700153,path integral
+54,physics,mathematics,0.892782092094,functional field
+54,theology,theology,0.864378094673,prayer
+54,theology,theology,0.858553946018,predestination
+54,theology,mathematics,0.338586896658,pneumatology
+55,mathematics,mathematics,0.744390070438,stochastic calculus
+55,mathematics,mathematics,0.579238474369,calculus
+55,mathematics,mathematics,0.634260237217,variational calculus
+55,physics,physics,0.653116881847,astrophysics
+55,physics,mathematics,0.466309696436,path integral
+55,physics,mathematics,0.853235006332,functional field
+55,theology,theology,0.885523080826,prayer
+55,theology,theology,0.858598232269,predestination
+55,theology,theology,0.338886529207,pneumatology
+56,mathematics,mathematics,0.865860283375,stochastic calculus
+56,mathematics,mathematics,0.642310976982,calculus
+56,mathematics,mathematics,0.821722567081,variational calculus
+56,physics,physics,0.605714023113,astrophysics
+56,physics,mathematics,0.522883415222,path integral
+56,physics,mathematics,0.922472238541,functional field
+56,theology,theology,0.86846524477,prayer
+56,theology,theology,0.843694329262,predestination
+56,theology,mathematics,0.343721091747,pneumatology
+57,mathematics,mathematics,0.92451196909,real analysis
+57,mathematics,mathematics,0.955894052982,numerical analysis
+57,mathematics,mathematics,0.504215180874,topology
+57,physics,physics,0.872509419918,classical mechanics
+57,physics,physics,0.849638819695,atomic molecular and optical physics
+57,physics,physics,0.717229008675,topological solitons
+57,theology,theology,0.929611742496,divine providence
+57,theology,theology,0.935700178146,eucharist
+57,theology,theology,0.951919257641,Christology
+58,mathematics,mathematics,0.912764370441,real analysis
+58,mathematics,mathematics,0.945401608944,numerical analysis
+58,mathematics,mathematics,0.542698442936,topology
+58,physics,physics,0.913827061653,classical mechanics
+58,physics,physics,0.833427786827,atomic molecular and optical physics
+58,physics,physics,0.728100538254,topological solitons
+58,theology,theology,0.877340614796,divine providence
+58,theology,theology,0.892999470234,eucharist
+58,theology,theology,0.918564796448,Christology
+59,mathematics,mathematics,0.858572781086,real analysis
+59,mathematics,mathematics,0.916601717472,numerical analysis
+59,mathematics,physics,0.45806774497,topology
+59,physics,physics,0.851109921932,classical mechanics
+59,physics,physics,0.868049561977,atomic molecular and optical physics
+59,physics,physics,0.773501753807,topological solitons
+59,theology,theology,0.924218475819,divine providence
+59,theology,theology,0.926308751106,eucharist
+59,theology,theology,0.949435472488,Christology
+60,mathematics,mathematics,0.776850163937,calculus
+60,mathematics,mathematics,0.956641614437,numerical analysis
+60,mathematics,physics,0.975251078606,functional field
+60,physics,physics,0.785997331142,electrodynamics
+60,physics,physics,0.83594584465,quantum chaos
+60,physics,physics,0.654579997063,astrophysics
+60,theology,theology,0.954001307487,divine providence
+60,theology,theology,0.539269149303,anthropology
+60,theology,mathematics,0.342000246048,pneumatology
+61,mathematics,mathematics,0.796734929085,calculus
+61,mathematics,mathematics,0.955034852028,numerical analysis
+61,mathematics,physics,0.97342634201,functional field
+61,physics,physics,0.754210174084,electrodynamics
+61,physics,physics,0.851855635643,quantum chaos
+61,physics,physics,0.640395283699,astrophysics
+61,theology,theology,0.899927973747,divine providence
+61,theology,theology,0.492756843567,anthropology
+61,theology,theology,0.341012656689,pneumatology
+62,mathematics,mathematics,0.768142104149,calculus
+62,mathematics,mathematics,0.973498880863,numerical analysis
+62,mathematics,physics,0.961265206337,functional field
+62,physics,physics,0.681540906429,electrodynamics
+62,physics,physics,0.798796057701,quantum chaos
+62,physics,physics,0.559819757938,astrophysics
+62,theology,theology,0.94402641058,divine providence
+62,theology,theology,0.516463637352,anthropology
+62,theology,mathematics,0.339419722557,pneumatology
+63,mathematics,mathematics,0.42294922471,statistics
+63,mathematics,physics,0.528528153896,topology
+63,mathematics,physics,0.525384366512,statistical optimization
+63,physics,physics,0.966721117496,quantum mechanics
+63,physics,physics,0.891098856926,particle physics
+63,physics,physics,0.442482680082,condensed matter
+63,theology,theology,0.924619913101,eschatology
+63,theology,theology,0.816432833672,divine degree
+63,theology,theology,0.940407037735,ecclesiology
+64,mathematics,mathematics,0.427882641554,statistics
+64,mathematics,physics,0.560707747936,topology
+64,mathematics,physics,0.559708893299,statistical optimization
+64,physics,physics,0.983524978161,quantum mechanics
+64,physics,physics,0.924294054508,particle physics
+64,physics,physics,0.471323609352,condensed matter
+64,theology,theology,0.932457506657,eschatology
+64,theology,theology,0.794390559196,divine degree
+64,theology,theology,0.946722686291,ecclesiology
+65,mathematics,mathematics,0.432249575853,statistics
+65,mathematics,physics,0.549417436123,topology
+65,mathematics,physics,0.539418101311,statistical optimization
+65,physics,physics,0.989671051502,quantum mechanics
+65,physics,physics,0.926438093185,particle physics
+65,physics,physics,0.518931150436,condensed matter
+65,theology,theology,0.922344267368,eschatology
+65,theology,theology,0.803927242756,divine degree
+65,theology,theology,0.941766560078,ecclesiology
+66,mathematics,mathematics,0.800655066967,differential equation
+66,mathematics,mathematics,0.941533207893,real analysis
+66,mathematics,mathematics,0.960775732994,stochastic calculus
+66,physics,physics,0.519431650639,spontaneous symmetry breaking
+66,physics,mathematics,0.367069751024,path integral
+66,physics,physics,0.771905303001,topological solitons
+66,theology,theology,0.925042748451,scripture
+66,theology,theology,0.87276083231,predestination
+66,theology,theology,0.856932759285,prayer
+67,mathematics,mathematics,0.690330266953,differential equation
+67,mathematics,mathematics,0.913055241108,real analysis
+67,mathematics,mathematics,0.892851352692,stochastic calculus
+67,physics,physics,0.519800424576,spontaneous symmetry breaking
+67,physics,mathematics,0.337947398424,path integral
+67,physics,physics,0.752313375473,topological solitons
+67,theology,theology,0.945963799953,scripture
+67,theology,theology,0.897742569447,predestination
+67,theology,theology,0.887649834156,prayer
+68,mathematics,mathematics,0.821530640125,differential equation
+68,mathematics,mathematics,0.952443599701,real analysis
+68,mathematics,mathematics,0.967094480991,stochastic calculus
+68,physics,physics,0.457171082497,spontaneous symmetry breaking
+68,physics,mathematics,0.425746649504,path integral
+68,physics,physics,0.579528331757,topological solitons
+68,theology,theology,0.89954906702,scripture
+68,theology,theology,0.834846735001,predestination
+68,theology,theology,0.822149634361,prayer
+69,mathematics,mathematics,0.858987271786,linear algebra
+69,mathematics,mathematics,0.591981589794,probability
+69,mathematics,mathematics,0.933336317539,variational calculus
+69,physics,mathematics,0.884661257267,functional field
+69,physics,physics,0.49481511116,quantum field theory
+69,physics,physics,0.492434173822,renormalization
+69,theology,theology,0.938659906387,soteriology
+69,theology,theology,0.880417227745,Holy Trinity
+69,theology,theology,0.880340278149,scholasticism
+70,mathematics,mathematics,0.804188430309,linear algebra
+70,mathematics,mathematics,0.527672588825,probability
+70,mathematics,mathematics,0.883019328117,variational calculus
+70,physics,mathematics,0.9512180686,functional field
+70,physics,physics,0.509274303913,quantum field theory
+70,physics,physics,0.639857113361,renormalization
+70,theology,theology,0.93691599369,soteriology
+70,theology,theology,0.86341291666,Holy Trinity
+70,theology,theology,0.867833435535,scholasticism
+71,mathematics,mathematics,0.840393424034,linear algebra
+71,mathematics,mathematics,0.616733133793,probability
+71,mathematics,mathematics,0.920153796673,variational calculus
+71,physics,mathematics,0.929062008858,functional field
+71,physics,mathematics,0.578962087631,quantum field theory
+71,physics,physics,0.501441180706,renormalization
+71,theology,theology,0.952919006348,soteriology
+71,theology,theology,0.896760582924,Holy Trinity
+71,theology,theology,0.889443933964,scholasticism
+72,mathematics,mathematics,0.53396832943,differential geometry
+72,mathematics,mathematics,0.586462974548,algebra
+72,mathematics,mathematics,0.89767742157,complex analysis
+72,physics,physics,0.953993022442,atomic molecular and optical physics
+72,physics,physics,0.804325044155,classical mechanics
+72,physics,physics,0.540121495724,statistical mechanics
+72,theology,theology,0.964029848576,Christology
+72,theology,theology,0.845365345478,creedal confessionalism
+72,theology,theology,0.943311870098,eucharist
+73,mathematics,mathematics,0.735181212425,differential geometry
+73,mathematics,mathematics,0.6513043046,algebra
+73,mathematics,mathematics,0.942850589752,complex analysis
+73,physics,physics,0.893502056599,atomic molecular and optical physics
+73,physics,physics,0.777605593204,classical mechanics
+73,physics,mathematics,0.58502972126,statistical mechanics
+73,theology,theology,0.931925177574,Christology
+73,theology,theology,0.817085206509,creedal confessionalism
+73,theology,theology,0.908136069775,eucharist
+74,mathematics,mathematics,0.663584411144,differential geometry
+74,mathematics,mathematics,0.593554079533,algebra
+74,mathematics,mathematics,0.929197311401,complex analysis
+74,physics,physics,0.877673685551,atomic molecular and optical physics
+74,physics,physics,0.818522810936,classical mechanics
+74,physics,mathematics,0.50641721487,statistical mechanics
+74,theology,theology,0.943728148937,Christology
+74,theology,theology,0.837417602539,creedal confessionalism
+74,theology,theology,0.918074309826,eucharist
+75,mathematics,mathematics,0.94672960043,stochastic calculus
+75,mathematics,mathematics,0.946968734264,real analysis
+75,mathematics,mathematics,0.889152050018,linear algebra
+75,physics,physics,0.660060584545,electrodynamics
+75,physics,physics,0.754603505135,quantum chaos
+75,physics,physics,0.979787707329,quantum mechanics
+75,theology,theology,0.880533695221,prayer
+75,theology,theology,0.870917975903,scholasticism
+75,theology,theology,0.894387185574,eschatology
+76,mathematics,mathematics,0.948791086674,stochastic calculus
+76,mathematics,mathematics,0.961951494217,real analysis
+76,mathematics,mathematics,0.889769017696,linear algebra
+76,physics,physics,0.643975913525,electrodynamics
+76,physics,physics,0.678624391556,quantum chaos
+76,physics,physics,0.96180576086,quantum mechanics
+76,theology,theology,0.882235586643,prayer
+76,theology,theology,0.878247797489,scholasticism
+76,theology,theology,0.885728299618,eschatology
+77,mathematics,mathematics,0.977205097675,stochastic calculus
+77,mathematics,mathematics,0.958931744099,real analysis
+77,mathematics,mathematics,0.930401206017,linear algebra
+77,physics,physics,0.694118499756,electrodynamics
+77,physics,physics,0.748749732971,quantum chaos
+77,physics,physics,0.972609996796,quantum mechanics
+77,theology,theology,0.861169993877,prayer
+77,theology,theology,0.870178818703,scholasticism
+77,theology,theology,0.882712602615,eschatology
+78,mathematics,physics,0.516164541245,differential equation
+78,mathematics,physics,0.52078962326,topology
+78,mathematics,physics,0.642745256424,differential geometry
+78,physics,physics,0.876315534115,particle physics
+78,physics,physics,0.855874657631,atomic molecular and optical physics
+78,physics,physics,0.830833137035,topological solitons
+78,theology,theology,0.334867358208,pneumatology
+78,theology,theology,0.885874032974,ecclesiology
+78,theology,theology,0.811524808407,predestination
+79,mathematics,mathematics,0.530995190144,differential equation
+79,mathematics,physics,0.458180099726,topology
+79,mathematics,physics,0.544243216515,differential geometry
+79,physics,physics,0.812784969807,particle physics
+79,physics,physics,0.748017668724,atomic molecular and optical physics
+79,physics,physics,0.752813577652,topological solitons
+79,theology,theology,0.336324721575,pneumatology
+79,theology,theology,0.925257742405,ecclesiology
+79,theology,theology,0.851735651493,predestination
+80,mathematics,mathematics,0.589053988457,differential equation
+80,mathematics,mathematics,0.426666051149,topology
+80,mathematics,physics,0.510326087475,differential geometry
+80,physics,physics,0.798071563244,particle physics
+80,physics,physics,0.759781777859,atomic molecular and optical physics
+80,physics,physics,0.709019839764,topological solitons
+80,theology,mathematics,0.337573468685,pneumatology
+80,theology,theology,0.919219613075,ecclesiology
+80,theology,theology,0.843014061451,predestination
+81,mathematics,physics,0.907811164856,functional field
+81,mathematics,mathematics,0.536640405655,probability
+81,mathematics,mathematics,0.778494596481,statistical optimization
+81,physics,physics,0.473881065845,condensed matter
+81,physics,physics,0.774411916733,statistical mechanics
+81,physics,physics,0.89693826437,quantum field theory
+81,theology,theology,0.837869286537,creedal confessionalism
+81,theology,theology,0.378566265106,anthropology
+81,theology,theology,0.956343352795,soteriology
+82,mathematics,physics,0.973304569721,functional field
+82,mathematics,mathematics,0.515685617924,probability
+82,mathematics,mathematics,0.662079691887,statistical optimization
+82,physics,physics,0.530349373817,condensed matter
+82,physics,physics,0.850636065006,statistical mechanics
+82,physics,physics,0.957205474377,quantum field theory
+82,theology,theology,0.811192750931,creedal confessionalism
+82,theology,physics,0.426977396011,anthropology
+82,theology,theology,0.938303887844,soteriology
+83,mathematics,physics,0.910952925682,functional field
+83,mathematics,mathematics,0.504401385784,probability
+83,mathematics,mathematics,0.724447071552,statistical optimization
+83,physics,physics,0.555040121078,condensed matter
+83,physics,physics,0.80457919836,statistical mechanics
+83,physics,physics,0.916788995266,quantum field theory
+83,theology,theology,0.786199688911,creedal confessionalism
+83,theology,physics,0.457655698061,anthropology
+83,theology,theology,0.93739682436,soteriology
+84,mathematics,mathematics,0.730589151382,calculus
+84,mathematics,mathematics,0.919781565666,variational calculus
+84,mathematics,mathematics,0.947441756725,complex analysis
+84,physics,physics,0.529361069202,spontaneous symmetry breaking
+84,physics,mathematics,0.960213840008,functional field
+84,physics,mathematics,0.511701524258,path integral
+84,theology,theology,0.940186858177,scripture
+84,theology,theology,0.799997329712,divine degree
+84,theology,theology,0.94372677803,Christology
+85,mathematics,mathematics,0.763764441013,calculus
+85,mathematics,mathematics,0.935751497746,variational calculus
+85,mathematics,mathematics,0.960304617882,complex analysis
+85,physics,physics,0.517201840878,spontaneous symmetry breaking
+85,physics,mathematics,0.875847160816,functional field
+85,physics,mathematics,0.444600760937,path integral
+85,theology,theology,0.931025564671,scripture
+85,theology,theology,0.799548268318,divine degree
+85,theology,theology,0.934734582901,Christology
+86,mathematics,mathematics,0.772740840912,calculus
+86,mathematics,mathematics,0.907100439072,variational calculus
+86,mathematics,mathematics,0.960532128811,complex analysis
+86,physics,physics,0.500138103962,spontaneous symmetry breaking
+86,physics,mathematics,0.921983540058,functional field
+86,physics,mathematics,0.490697175264,path integral
+86,theology,theology,0.934481322765,scripture
+86,theology,theology,0.787114322186,divine degree
+86,theology,theology,0.943672120571,Christology
+87,mathematics,mathematics,0.612743675709,algebra
+87,mathematics,mathematics,0.928219258785,numerical analysis
+87,mathematics,mathematics,0.485508620739,statistics
+87,physics,physics,0.568575143814,astrophysics
+87,physics,physics,0.465542286634,renormalization
+87,physics,physics,0.885731339455,classical mechanics
+87,theology,theology,0.92883181572,eucharist
+87,theology,theology,0.877143681049,Holy Trinity
+87,theology,theology,0.882684648037,divine providence
+88,mathematics,mathematics,0.61839222908,algebra
+88,mathematics,mathematics,0.971363723278,numerical analysis
+88,mathematics,mathematics,0.504822134972,statistics
+88,physics,physics,0.509357571602,astrophysics
+88,physics,mathematics,0.504124462605,renormalization
+88,physics,physics,0.866993248463,classical mechanics
+88,theology,theology,0.908055126667,eucharist
+88,theology,theology,0.840276837349,Holy Trinity
+88,theology,theology,0.871385276318,divine providence
+89,mathematics,mathematics,0.661114752293,algebra
+89,mathematics,mathematics,0.975888192654,numerical analysis
+89,mathematics,mathematics,0.535226881504,statistics
+89,physics,physics,0.451436907053,astrophysics
+89,physics,mathematics,0.568116009235,renormalization
+89,physics,physics,0.862290620804,classical mechanics
+89,theology,theology,0.932949066162,eucharist
+89,theology,theology,0.881753504276,Holy Trinity
+89,theology,theology,0.886970460415,divine providence
