@@ -14,4 +14,5 @@ The Word2Vec model is implemented with [`gensim`](https://radimrehurek.com/gensi
 
 * Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg Corrado, Jeffrey Dean, "Distributed Representations of Words and Phrases and their Compositionality", *NIPS Proceedings* __26__, 3111-3119 (2013). \[[arXiv](https://arxiv.org/abs/1310.4546)\]
 * Yoon Kim, "Convolutional Neural Networks for Sentence Classification" (2014). \[[arXiv](https://arxiv.org/abs/1408.5882)\]
+* For a theory of word embeddings, see the WordPress blog entry: [Probabilistic Theory of Word Embeddings: GloVe](https://datawarrior.wordpress.com/2016/07/25/probabilistic-theory-of-word-embeddings-glove/).
 
