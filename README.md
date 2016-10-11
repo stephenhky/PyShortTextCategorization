@@ -10,6 +10,10 @@ So far the following algorithms are implemented:
 
 The Word2Vec model is implemented with [`gensim`](https://radimrehurek.com/gensim/), and CNN with [`keras`](https://keras.io/), with a [`Theano`](http://deeplearning.net/software/theano/) backend.
 
+A cross-validation evaluation on the example dataset shows the boxplot of the performances of various algorithms:
+
+![ggplot](crossval/Rplot_acc.png)
+
 # Further Reading
 
 * Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg Corrado, Jeffrey Dean, "Distributed Representations of Words and Phrases and their Compositionality", *NIPS Proceedings* __26__, 3111-3119 (2013). \[[arXiv](https://arxiv.org/abs/1310.4546)\]
