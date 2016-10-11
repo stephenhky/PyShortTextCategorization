@@ -13,7 +13,6 @@ from utils import Word2VecModelNotExistException, AlgorithmNotExistException
 
 def get_argparser():
     argparser = argparse.ArgumentParser(description='Perform prediction on short text.')
-    argparser.add_argument('input_file', help='Input file for prediction')
     argparser.add_argument('input_nameprefix', help='Prefix of the path of input model.')
     argparser.add_argument('algo', help='Algorithm. (Options: sumword2vec (Sum of Embedded Vectors), autoencoder (Autoencoder of Embedded Vectors), cnn (Convolutional Neural Network on Embedded Vectors)')
     argparser.add_argument('wvmodel_path', help='Path of the pre-trained Word2Vec model.')
@@ -31,8 +30,6 @@ if __name__ == '__main__':
         raise Word2VecModelNotExistException(args.wvmodel_path)
     if not (args.algo in allowed_algos):
         raise AlgorithmNotExistException(args.algo)
-    if not (os.path.exists(args.input_file)):
-        raise IOError()
 
     # load models
     print "Loading Word Embedding model..."
