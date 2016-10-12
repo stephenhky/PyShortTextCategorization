@@ -14,6 +14,8 @@ A cross-validation evaluation on the example dataset shows the boxplot of the pe
 
 ![ggplot](crossval/Rplot_acc.png)
 
+This repository is also described in this WordPress blog entry: [Short Text Categorization using Deep Neural Networks and Word-Embedding Models](https://datawarrior.wordpress.com/2016/10/12/short-text-categorization-using-deep-neural-networks-and-word-embedding-models/)
+
 # Further Reading
 
 * Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg Corrado, Jeffrey Dean, "Distributed Representations of Words and Phrases and their Compositionality", *NIPS Proceedings* __26__, 3111-3119 (2013). \[[arXiv](https://arxiv.org/abs/1310.4546)\]
