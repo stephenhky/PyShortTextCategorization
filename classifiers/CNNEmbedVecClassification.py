@@ -36,6 +36,7 @@ class CNNEmbeddedVecClassifier:
         indices = []
         for label in classlabels:
             for shorttext in self.classdict[label]:
+                shorttext = shorttext if type(shorttext)==str else ''
                 category_bucket = [0]*len(classlabels)
                 category_bucket[lblidx_dict[label]] = 1
                 indices.append(category_bucket)
