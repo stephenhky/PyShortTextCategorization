@@ -17,6 +17,8 @@ def get_argparser():
     argparser.add_argument('algo', help='Algorithm. (Options: sumword2vec (Sum of Embedded Vectors), autoencoder (Autoencoder of Embedded Vectors), cnn (Convolutional Neural Network on Embedded Vectors)')
     argparser.add_argument('wvmodel_path', help='Path of the pre-trained Word2Vec model.')
     argparser.add_argument('--ngram', type=int, default=2, help='n-gram, used in convolutional neural network only. (Default: 2)')
+    argparser.add_argument('--final_activation', default='softmax',
+                           help='activation function in final layer, used in convolutional neural network only. (Default=''softmax'')')
     return argparser
 
 if __name__ == '__main__':
@@ -44,7 +46,7 @@ if __name__ == '__main__':
     elif args.algo=='autoencoder':
         classifier = auto.AutoEncoderWord2VecClassifier(wvmodel, classdict)
     elif args.algo=='cnn':
-        classifier = cnn.CNNEmbeddedVecClassifier(wvmodel, classdict, n_gram=args.ngram)
+        classifier = cnn.CNNEmbeddedVecClassifier(wvmodel, classdict, n_gram=args.ngram, final_activation=args.final_activation)
 
     # train
     print "Training..."

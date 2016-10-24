@@ -18,13 +18,15 @@ class CNNEmbeddedVecClassifier:
                  n_gram,
                  vecsize=300,
                  nb_filters=1200,
-                 maxlen=15):
+                 maxlen=15,
+                 final_activation='softmax'):
         self.wvmodel = wvmodel
         self.classdict = classdict
         self.n_gram = n_gram
         self.vecsize = vecsize
         self.nb_filters = nb_filters
         self.maxlen = maxlen
+        self.final_activation = final_activation
         self.trained = False
 
     def convert_trainingdata_matrix(self):
@@ -65,7 +67,7 @@ class CNNEmbeddedVecClassifier:
                                 input_shape=(self.maxlen, self.vecsize)))
         model.add(MaxPooling1D(pool_length=self.maxlen-self.n_gram+1))
         model.add(Flatten())
-        model.add(Dense(len(self.classlabels), activation='softmax'))
+        model.add(Dense(len(self.classlabels), activation=self.final_activation))
         model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
 
         # train the model
