@@ -1,6 +1,7 @@
 import numpy as np
-from keras.layers import Convolution1D, MaxPooling1D, Flatten, Dense
+from keras.layers import Convolution1D, MaxPooling1D, Flatten, Dense, Dropout
 from keras.models import Sequential
+from keras.regularizers import l2
 from nltk import word_tokenize
 
 from utils import ModelNotTrainedException
@@ -19,7 +20,9 @@ class CNNEmbeddedVecClassifier:
                  vecsize=300,
                  nb_filters=1200,
                  maxlen=15,
-                 final_activation='softmax'):
+                 final_activation='softmax',
+                 cnn_dropout=0.0,
+                 dense_wl2reg=0.0):
         self.wvmodel = wvmodel
         self.classdict = classdict
         self.n_gram = n_gram
@@ -27,6 +30,8 @@ class CNNEmbeddedVecClassifier:
         self.nb_filters = nb_filters
         self.maxlen = maxlen
         self.final_activation = final_activation
+        self.cnn_dropout = cnn_dropout
+        self.dense_wl2reg = dense_wl2reg
         self.trained = False
 
     def convert_trainingdata_matrix(self):
@@ -65,9 +70,14 @@ class CNNEmbeddedVecClassifier:
                                 border_mode='valid',
                                 activation='relu',
                                 input_shape=(self.maxlen, self.vecsize)))
+        if self.cnn_dropout > 0.0:
+            model.add(Dropout(self.cnn_dropout))
         model.add(MaxPooling1D(pool_length=self.maxlen-self.n_gram+1))
         model.add(Flatten())
-        model.add(Dense(len(self.classlabels), activation=self.final_activation))
+        model.add(Dense(len(self.classlabels),
+                        activation=self.final_activation,
+                        W_regularizer=l2(self.dense_wl2reg))
+                  )
         model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
 
         # train the model

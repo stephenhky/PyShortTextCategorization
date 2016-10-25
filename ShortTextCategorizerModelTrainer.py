@@ -19,6 +19,10 @@ def get_argparser():
     argparser.add_argument('--ngram', type=int, default=2, help='n-gram, used in convolutional neural network only. (Default: 2)')
     argparser.add_argument('--final_activation', default='softmax',
                            help='activation function in final layer, used in convolutional neural network only. (Default=''softmax'')')
+    argparser.add_argument('--cnn_dropout_prob', type=float, default=0.0,
+                           help='dropout probability in convolutional layer, used in convolutional neural network only. (Default: 0.0)')
+    argparser.add_argument('--wl2regu', type=float, default=0.0,
+                           help='regularization coefficients for weight L2 regularization, used in convolution neural network only. (Default: 0.0)')
     return argparser
 
 if __name__ == '__main__':
@@ -46,7 +50,12 @@ if __name__ == '__main__':
     elif args.algo=='autoencoder':
         classifier = auto.AutoEncoderWord2VecClassifier(wvmodel, classdict)
     elif args.algo=='cnn':
-        classifier = cnn.CNNEmbeddedVecClassifier(wvmodel, classdict, n_gram=args.ngram, final_activation=args.final_activation)
+        classifier = cnn.CNNEmbeddedVecClassifier(wvmodel,
+                                                  classdict,
+                                                  n_gram=args.ngram,
+                                                  final_activation=args.final_activation,
+                                                  cnn_dropout=args.cnn_dropout_prob,
+                                                  dense_wl2reg=args.wl2regu)
 
     # train
     print "Training..."
