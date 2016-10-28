@@ -15,8 +15,8 @@ import utils.kerasmodel_io as kerasio
 class CNNEmbeddedVecClassifier:
     def __init__(self,
                  wvmodel,
-                 classdict,
-                 n_gram,
+                 classdict=None,
+                 n_gram=2,
                  vecsize=300,
                  nb_filters=1200,
                  maxlen=15,

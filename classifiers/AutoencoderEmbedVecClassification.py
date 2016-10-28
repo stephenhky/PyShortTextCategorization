@@ -15,7 +15,7 @@ import utils.kerasmodel_io as kerasio
 # Link: https://blog.keras.io/building-autoencoders-in-keras.html
 
 class AutoEncoderWord2VecClassifier:
-    def __init__(self, wvmodel, classdict, vecsize=300, encoding_dim=10):
+    def __init__(self, wvmodel, classdict=None, vecsize=300, encoding_dim=10):
         self.wvmodel = wvmodel
         self.classdict = classdict
         self.vecsize = vecsize

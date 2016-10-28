@@ -9,7 +9,7 @@ from utils import ModelNotTrainedException
 
 
 class SumEmbeddedVecClassifier:
-    def __init__(self, wvmodel, classdict, vecsize=300):
+    def __init__(self, wvmodel, classdict=None, vecsize=300):
         self.wvmodel = wvmodel
         self.classdict = classdict
         self.vecsize = vecsize

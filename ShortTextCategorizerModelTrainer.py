@@ -46,12 +46,12 @@ if __name__ == '__main__':
     # initialize instance
     print "Instantiating classifier..."
     if args.algo=='sumword2vec':
-        classifier = sumwv.SumEmbeddedVecClassifier(wvmodel, classdict)
+        classifier = sumwv.SumEmbeddedVecClassifier(wvmodel, classdict=classdict)
     elif args.algo=='autoencoder':
-        classifier = auto.AutoEncoderWord2VecClassifier(wvmodel, classdict)
+        classifier = auto.AutoEncoderWord2VecClassifier(wvmodel, classdict=classdict)
     elif args.algo=='cnn':
         classifier = cnn.CNNEmbeddedVecClassifier(wvmodel,
-                                                  classdict,
+                                                  classdict=classdict,
                                                   n_gram=args.ngram,
                                                   final_activation=args.final_activation,
                                                   cnn_dropout=args.cnn_dropout_prob,

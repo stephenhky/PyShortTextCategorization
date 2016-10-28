@@ -34,16 +34,15 @@ if __name__ == '__main__':
     # load models
     print "Loading Word Embedding model..."
     wvmodel = Word2Vec.load_word2vec_format(args.wvmodel_path, binary=True)
-    classdict = None
 
     # initialize instance
     print "Instantiating classifier..."
     if args.algo=='sumword2vec':
-        classifier = sumwv.SumEmbeddedVecClassifier(wvmodel, classdict)
+        classifier = sumwv.SumEmbeddedVecClassifier(wvmodel)
     elif args.algo=='autoencoder':
-        classifier = auto.AutoEncoderWord2VecClassifier(wvmodel, classdict)
+        classifier = auto.AutoEncoderWord2VecClassifier(wvmodel)
     elif args.algo=='cnn':
-        classifier = cnn.CNNEmbeddedVecClassifier(wvmodel, classdict, n_gram=args.ngram)
+        classifier = cnn.CNNEmbeddedVecClassifier(wvmodel, n_gram=args.ngram)
 
     # load model
     print "Loading model..."
