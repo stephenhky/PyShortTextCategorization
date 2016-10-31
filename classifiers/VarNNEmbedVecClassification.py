@@ -39,12 +39,12 @@ class VarNNEmbeddedVecClassifier:
         return classlabels, train_embedvec, indices
 
 
-    def train(self, classdict, kerasmodel):
+    def train(self, classdict, kerasmodel, nb_epoch=10):
         # convert classdict to training input vectors
         self.classlabels, train_embedvec, indices = self.convert_trainingdata_matrix(classdict)
 
         # train the model
-        kerasmodel.fit(train_embedvec, indices)
+        kerasmodel.fit(train_embedvec, indices, nb_epoch=nb_epoch)
 
         # flag switch
         self.model = kerasmodel

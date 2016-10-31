@@ -28,3 +28,37 @@ def CNNWordEmbed(numlabels,
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
 
     return model
+
+def DoubleCNNWordEmbed(numlabels,
+                       nb_filters_1=1200,
+                       nb_filters_2=600,
+                       n_gram=2,
+                       filter_length_2=10,
+                       maxlen=15,
+                       vecsize=300,
+                       cnn_dropout_1=0.0,
+                       cnn_dropout_2=0.0,
+                       final_activation='softmax',
+                       dense_wl2reg=0.0):
+    model = Sequential()
+    model.add(Convolution1D(nb_filter=nb_filters_1,
+                            filter_length=n_gram,
+                            border_mode='valid',
+                            activation='relu',
+                            input_shape=(maxlen, vecsize)))
+    if cnn_dropout_1 > 0.0:
+        model.add(Dropout(cnn_dropout_1))
+    model.add(Convolution1D(nb_filter=nb_filters_2,
+                            filter_length=filter_length_2,
+                            border_mode='valid',
+                            activation='relu'))
+    if cnn_dropout_2 > 0.0:
+        model.add(Dropout(cnn_dropout_2))
+    model.add(MaxPooling1D(pool_length=maxlen - n_gram -filter_length_2 + 1))
+    model.add(Flatten())
+    model.add(Dense(numlabels,
+                    activation=final_activation,
+                    W_regularizer=l2(dense_wl2reg)))
+    model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
+
+    return model
