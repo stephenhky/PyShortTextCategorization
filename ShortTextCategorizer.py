@@ -4,6 +4,7 @@ import os
 
 from gensim.models import Word2Vec
 
+import classifiers.VarNNEmbedVecClassification as vnn
 import classifiers.AutoencoderEmbedVecClassification as auto
 import classifiers.CNNEmbedVecClassification as cnn
 import classifiers.SumWord2VecClassification as sumwv
@@ -41,7 +42,9 @@ if __name__ == '__main__':
 
     # initialize instance
     print "Instantiating classifier..."
-    if args.algo=='sumword2vec':
+    if args.algo=='vnn':
+        classifier = vnn.VarNNEmbeddedVecClassifier(wvmodel)
+    elif args.algo=='sumword2vec':
         classifier = sumwv.SumEmbeddedVecClassifier(wvmodel)
     elif args.algo=='autoencoder':
         classifier = auto.AutoEncoderWord2VecClassifier(wvmodel)
