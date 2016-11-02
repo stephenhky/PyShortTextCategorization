@@ -6,7 +6,7 @@ from keras.regularizers import l2
 #
 # ref: https://gist.github.com/entron/b9bc61a74e7cadeb1fec
 # ref: http://cs231n.github.io/convolutional-networks/
-def CNNWordEmbed(numlabels,
+def CNNWordEmbed(nb_labels,
                  nb_filters=1200,
                  n_gram=2,
                  maxlen=15,
@@ -24,7 +24,7 @@ def CNNWordEmbed(numlabels,
         model.add(Dropout(cnn_dropout))
     model.add(MaxPooling1D(pool_length=maxlen - n_gram + 1))
     model.add(Flatten())
-    model.add(Dense(numlabels,
+    model.add(Dense(nb_labels,
                     activation=final_activation,
                     W_regularizer=l2(dense_wl2reg))
               )
@@ -32,7 +32,8 @@ def CNNWordEmbed(numlabels,
 
     return model
 
-def DoubleCNNWordEmbed(numlabels,
+# two layers of CNN, maxpooling, dense
+def DoubleCNNWordEmbed(nb_labels,
                        nb_filters_1=1200,
                        nb_filters_2=600,
                        n_gram=2,
@@ -59,9 +60,15 @@ def DoubleCNNWordEmbed(numlabels,
         model.add(Dropout(cnn_dropout_2))
     model.add(MaxPooling1D(pool_length=maxlen - n_gram -filter_length_2 + 1))
     model.add(Flatten())
-    model.add(Dense(numlabels,
+    model.add(Dense(nb_labels,
                     activation=final_activation,
                     W_regularizer=l2(dense_wl2reg)))
     model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
 
     return model
+
+# C-LSTM
+# Chunting Zhou, Chonglin Sun, Zhiyuan Liu, Francis Lau,
+# "A C-LSTM Neural Network for Text Classification", arXiv:1511.08630 (2015).
+def CLSTMWordEmbed(nb_labels):
+    pass
