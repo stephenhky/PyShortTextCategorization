@@ -19,7 +19,7 @@ This repository is also described in this WordPress blog entry: [Short Text Cate
 # Useful Links
 
 * Github: [https://github.com/stephenhky/PyShortTextCategorization](https://github.com/stephenhky/PyShortTextCategorization)
-* PyPI: 
+* PyPI: [https://pypi.python.org/pypi/pyqentangle](https://pypi.python.org/pypi/pyqentangle)
 
 # Further Reading
 
