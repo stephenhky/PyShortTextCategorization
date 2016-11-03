@@ -3,8 +3,10 @@
 # It uses the example data as the example.
 
 # argument parsing
-from classifiers import allowed_algos
 import argparse
+
+from classifiers import allowed_algos
+
 argparser = argparse.ArgumentParser(description='Run cross validation.')
 argparser.add_argument('algo', help='Algorithm to run. Options: '+', '.join(list(allowed_algos)))
 argparser.add_argument('word2vec_path', help='Path of the binary Word2Vec model.')

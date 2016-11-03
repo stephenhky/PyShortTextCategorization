@@ -1,14 +1,15 @@
 import argparse
 import os
 
+import data.data_retrieval as ret
 from gensim.models import Word2Vec
-
 from utils.classification_exceptions import Word2VecModelNotExistException, AlgorithmNotExistException
-import classifiers.SumWord2VecClassification as sumwv
+
 import classifiers.AutoencoderEmbedVecClassification as auto
 import classifiers.CNNEmbedVecClassification as cnn
-import data.data_retrieval as ret
+import classifiers.SumWord2VecClassification as sumwv
 from classifiers import allowed_algos
+
 
 def get_argparser():
     argparser = argparse.ArgumentParser(description='Train short text categorization model.')
