@@ -22,7 +22,7 @@ setup(name='shorttext',
       license='MIT',
       packages=['shorttext'],
       install_requires=[
-          'numpy',
+          'numpy', 'scipy', 'keras', 'theano', 'nltk', 'gensim', 'pandas',
       ],
       scripts=['shorttext/ShortTextCategorizer.py',
                'shorttext/ShortTextCategorizerConsole.py',
