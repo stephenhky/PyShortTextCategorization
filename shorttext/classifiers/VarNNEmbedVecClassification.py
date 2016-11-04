@@ -1,8 +1,8 @@
 import numpy as np
 from nltk import word_tokenize
 
-import utils as kerasio
-from utils import ModelNotTrainedException
+from ..utils import kerasmodel_io as kerasio
+from ..utils import ModelNotTrainedException
 
 
 class VarNNEmbeddedVecClassifier:
