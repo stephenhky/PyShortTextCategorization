@@ -12,7 +12,8 @@ def CNNWordEmbed(nb_labels,
                  vecsize=300,
                  cnn_dropout=0.0,
                  final_activation='softmax',
-                 dense_wl2reg=0.0):
+                 dense_wl2reg=0.0,
+                 optimizer='adam'):
     model = Sequential()
     model.add(Convolution1D(nb_filter=nb_filters,
                             filter_length=n_gram,
@@ -27,7 +28,7 @@ def CNNWordEmbed(nb_labels,
                     activation=final_activation,
                     W_regularizer=l2(dense_wl2reg))
               )
-    model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
+    model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
     return model
 
@@ -42,7 +43,8 @@ def DoubleCNNWordEmbed(nb_labels,
                        cnn_dropout_1=0.0,
                        cnn_dropout_2=0.0,
                        final_activation='softmax',
-                       dense_wl2reg=0.0):
+                       dense_wl2reg=0.0,
+                       optimizer='adam'):
     model = Sequential()
     model.add(Convolution1D(nb_filter=nb_filters_1,
                             filter_length=n_gram,
@@ -62,7 +64,8 @@ def DoubleCNNWordEmbed(nb_labels,
     model.add(Dense(nb_labels,
                     activation=final_activation,
                     W_regularizer=l2(dense_wl2reg)))
-    model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
+
+    model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
     return model
 
@@ -78,8 +81,8 @@ def CLSTMWordEmbed(nb_labels,
                    nb_rnnoutdim=1200,
                    rnn_dropout=0.2,
                    final_activation='softmax',
-                   dense_wl2reg=0.0
-                   ):
+                   dense_wl2reg=0.0,
+                   optimizer='adam'):
     model = Sequential()
     model.add(Convolution1D(nb_filter=nb_filters,
                             filter_length=n_gram,
@@ -97,6 +100,6 @@ def CLSTMWordEmbed(nb_labels,
                     W_regularizer=l2(dense_wl2reg)
                     )
               )
-    model.compile(loss='categorical_crossentropy', optimizer='rmsprop')
+    model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
     return model

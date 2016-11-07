@@ -24,6 +24,8 @@ def get_argparser():
                            help='dropout probability in convolutional layer, used in convolutional neural network only. (Default: 0.0)')
     argparser.add_argument('--wl2regu', type=float, default=0.0,
                            help='regularization coefficients for weight L2 regularization, used in convolution neural network only. (Default: 0.0)')
+    argparser.add_argument('--optimizer', default='adam',
+                           help='optimizer for gradient descent (default: adam)')
     return argparser
 
 if __name__ == '__main__':
@@ -56,7 +58,8 @@ if __name__ == '__main__':
                                                   n_gram=args.ngram,
                                                   final_activation=args.final_activation,
                                                   cnn_dropout=args.cnn_dropout_prob,
-                                                  dense_wl2reg=args.wl2regu)
+                                                  dense_wl2reg=args.wl2regu,
+                                                  optimizer=args.optimizer)
 
     # train
     print "Training..."

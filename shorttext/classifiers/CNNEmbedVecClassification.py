@@ -15,7 +15,8 @@ class CNNEmbeddedVecClassifier:
                  maxlen=15,
                  final_activation='softmax',
                  cnn_dropout=0.0,
-                 dense_wl2reg=0.0):
+                 dense_wl2reg=0.0,
+                 optimizer='adam'):
         self.wvmodel = wvmodel
         self.vecsize = vecsize
         self.maxlen = maxlen
@@ -31,6 +32,7 @@ class CNNEmbeddedVecClassifier:
         self.final_activation = final_activation
         self.cnn_dropout = cnn_dropout
         self.dense_wl2reg = dense_wl2reg
+        self.optimizer = optimizer
 
     def train(self):
         self.kerasmodel = fr.CNNWordEmbed(len(self.classdict.keys()),
@@ -40,7 +42,8 @@ class CNNEmbeddedVecClassifier:
                                           vecsize=self.vecsize,
                                           cnn_dropout=self.cnn_dropout,
                                           final_activation=self.final_activation,
-                                          dense_wl2reg=self.dense_wl2reg)
+                                          dense_wl2reg=self.dense_wl2reg,
+                                          optimizer=self.optimizer)
 
         self.wrapped_classifier.train(self.classdict, self.kerasmodel)
 
