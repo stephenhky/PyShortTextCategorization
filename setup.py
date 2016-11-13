@@ -5,7 +5,7 @@ def readme():
         return f.read()
 
 setup(name='shorttext',
-      version="0.0b4",
+      version="0.0b5",
       description="Short Text Categorization using Embedded Word Vectors",
       long_description="Supervised learning algorithms for short text categorization using embedded word vectors such as Word2Vec",
       classifiers=[

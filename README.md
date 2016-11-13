@@ -1,6 +1,6 @@
 # Short Text Categorization with Word Embeddings
 
-This repository is a collection of algorithms for multi-class classification to short texts using Python. Instead of the bag-of-words representation of texts, word-embedding algorithms with a pre-trained model are used. Currently, Word2Vec is implemented.
+This repository is a collection of algorithms for multi-class classification to short texts using Python. Instead of the bag-of-words representation of texts, word-embedding algorithms with a pre-trained model are used. Currently, Word2Vec is implemented. This package is still *under development*, and *not stable*. Feel free to give suggestions.
 
 So far the following algorithms are implemented:
 
