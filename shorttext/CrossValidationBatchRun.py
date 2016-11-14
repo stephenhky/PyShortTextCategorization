@@ -17,9 +17,9 @@ from gensim.models import Word2Vec
 import numpy as np
 import pandas as pd
 
-import classifiers.SumWord2VecClassification as sumwv
-import classifiers.AutoencoderEmbedVecClassification as auto
-import classifiers.CNNEmbedVecClassification as cnn
+import classifiers.embed.sumvec.SumWord2VecClassification as sumwv
+import classifiers.embed.autoencode.AutoencoderEmbedVecClassification as auto
+import classifiers.embed.nnlib.CNNEmbedVecClassification as cnn
 import data.data_retrieval as ret
 from utils import AlgorithmNotExistException
 

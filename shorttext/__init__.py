@@ -1,5 +1,2 @@
-from .classifiers.CNNEmbedVecClassification import CNNEmbeddedVecClassifier
-from .classifiers.SumWord2VecClassification import SumEmbeddedVecClassifier
-from .classifiers.VarNNEmbedVecClassification import VarNNEmbeddedVecClassifier
 
-from .utils.classification_exceptions import ModelNotTrainedException, Word2VecModelNotExistException, AlgorithmNotExistException
+

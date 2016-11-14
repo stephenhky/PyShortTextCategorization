@@ -1,14 +1,14 @@
 import argparse
 import os
 
-import data.data_retrieval as ret
 from gensim.models import Word2Vec
-from utils.classification_exceptions import Word2VecModelNotExistException, AlgorithmNotExistException
 
-import classifiers.AutoencoderEmbedVecClassification as auto
-import classifiers.CNNEmbedVecClassification as cnn
-import classifiers.SumWord2VecClassification as sumwv
+import classifiers.embed.autoencode.AutoencoderEmbedVecClassification as auto
+import classifiers.embed.nnlib.CNNEmbedVecClassification as cnn
+import classifiers.embed.sumvec.SumWord2VecClassification as sumwv
+import data.data_retrieval as ret
 from classifiers import allowed_algos
+from utils.classification_exceptions import Word2VecModelNotExistException, AlgorithmNotExistException
 
 
 def get_argparser():
