@@ -27,7 +27,7 @@ def retrieve_csvdata_as_dict(filepath):
 def retrieve_data_as_dict(filepath):
     """ Retrieve the training data in a CSV file.
 
-    This calls {@link retrieve_csvdata_as_dict} for backward compatibility.
+    This calls :func:`~retrieve_csvdata_as_dict` for backward compatibility.
 
     :param filepath: path of the training data (CSV)
     :return: a dictionary with class labels as keys, and lists of short texts
