@@ -17,6 +17,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   codes
+   refs
    links
 
 .. _Github: https://github.com/stephenhky/PyShortTextCategorization

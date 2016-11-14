@@ -9,6 +9,25 @@ from utils import ModelNotTrainedException
 
 
 class SumEmbeddedVecClassifier:
+    """
+    This is a supervised classification algorithm for short text categorization.
+    Each class label has a few short sentences, where each token is converted
+    to an embedded vector, given by a pre-trained word-embedding model (e.g., Google Word2Vec model).
+    They are then summed up and normalized to a unit vector for that particular class labels.
+    To perform prediction, the input short sentences is converted to a unit vector
+    in the same way. The similarity score is calculated by the cosine similarity.
+
+    A pre-trained Google Word2Vec model can be downloaded
+
+    Examples:
+    >>> from gensim.models import Word2Vec
+    >>> wvmodel = Word2Vec.load_word2vec_format('GoogleNews-vectors-negative300.bin.gz', binary=True)
+    >>> import shorttext.embed.sumvec.SumWord2VecClassification as sumwv
+    >>> classifier = sumwv.SumEmbeddedVecClassifier(wvmodel)
+    >>> classifier.train(trainclassdict)    # assuming trainclassdict was previously loaded
+    >>> classifier.score('artificial intelligence')
+    """
+
     def __init__(self, wvmodel, classdict=None, vecsize=300):
         self.wvmodel = wvmodel
         self.classdict = classdict
