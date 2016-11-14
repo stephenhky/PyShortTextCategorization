@@ -17,12 +17,11 @@ class SumEmbeddedVecClassifier:
     To perform prediction, the input short sentences is converted to a unit vector
     in the same way. The similarity score is calculated by the cosine similarity.
 
-    A pre-trained Google Word2Vec model can be downloaded here_.
-
-    .. _here: https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit
+    A pre-trained Google Word2Vec model can be downloaded
+    `here<https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit>`_.
 
     Examples
-    --------
+
     >>> # load the Word2Vec model
     >>> from gensim.models import Word2Vec
     >>> wvmodel = Word2Vec.load_word2vec_format('GoogleNews-vectors-negative300.bin.gz', binary=True)
