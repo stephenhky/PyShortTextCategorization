@@ -13,15 +13,15 @@ class VarNNEmbeddedVecClassifier:
     Each class label has a few short sentences, where each token is converted
     to an embedded vector, given by a pre-trained word-embedding model (e.g., Google Word2Vec model).
     The type of neural network has to be passed when training, and it has to be of
-    type `keras.models.Sequential`. The number of outputs of the models has to match
+    type :class:`keras.models.Sequential`. The number of outputs of the models has to match
     the number of class labels in the training data.
     To perform prediction, the input short sentences is converted to a unit vector
     in the same way. The score is calculated according to the trained neural network model.
 
     Examples of the models can be found in `frameworks`.
 
-    A pre-trained Google Word2Vec model can be downloaded
-    `here<https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit>`_.
+    A pre-trained Google Word2Vec model can be downloaded `here
+    <https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit>`_.
 
         Examples
 

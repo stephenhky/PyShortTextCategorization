@@ -6,7 +6,8 @@ import frameworks as fr
 # backward compatible with the previous version of this class
 class CNNEmbeddedVecClassifier:
     """
-    This class is a wrapper that runs {@link vnn}, but carries backward compatibility.
+    This class is a wrapper that runs :class:`~vnn.VarNNEmbedVecClassification.VarNNEmbeddedVecClassifier`,
+    but carries backward compatibility.
     """
     def __init__(self,
                  wvmodel,
