@@ -1,2 +1,2 @@
-from .kerasmodel_io import load_model, save_model
-from .classification_exceptions import AlgorithmNotExistException, ModelNotTrainedException, Word2VecModelNotExistException
+import kerasmodel_io
+import classification_exceptions

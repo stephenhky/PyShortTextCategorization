@@ -1,10 +1,13 @@
 import VarNNEmbedVecClassification as vnn
-from classifiers.embed.nnlib import frameworks as fr
+import frameworks as fr
 
 
 # wrapper for VarNNEmbedVecClassification for using CNN only
 # backward compatible with the previous version of this class
 class CNNEmbeddedVecClassifier:
+    """
+    This class is a wrapper that runs {@link vnn}, but carries backward compatibility.
+    """
     def __init__(self,
                  wvmodel,
                  classdict=None,

@@ -1,5 +1,6 @@
 from collections import defaultdict
 import json
+import os
 
 import pandas as pd
 
@@ -49,3 +50,15 @@ def retrieve_jsondata_as_dict(filepath):
     :rtype: dict
     """
     return json.load(open(filepath, 'r'))
+
+def subjectkeywords():
+    """ Return an example data set.
+
+    Return an example data set, with three subjects and corresponding keywords.
+    This is in the format of the training input.
+
+    :return: example data set
+    :rtype: dict
+    """
+    this_dir, _ = os.path.split(__file__)
+    return retrieve_csvdata_as_dict(os.path.join(this_dir, 'shorttext_exampledata.csv'))

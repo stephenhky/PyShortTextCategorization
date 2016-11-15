@@ -5,8 +5,7 @@ import numpy as np
 from nltk import word_tokenize
 from scipy.spatial.distance import cosine
 
-from utils import ModelNotTrainedException
-
+from ... import classification_exceptions as e
 
 class SumEmbeddedVecClassifier:
     """
@@ -25,46 +24,48 @@ class SumEmbeddedVecClassifier:
     >>> # load the Word2Vec model
     >>> from gensim.models import Word2Vec
     >>> wvmodel = Word2Vec.load_word2vec_format('GoogleNews-vectors-negative300.bin.gz', binary=True)
-
+    >>>
     >>> # load the training data
     >>> import shorttext.data.data_retrieval as ret
-    >>> trainclassdict = ret.retrieve_data_as_dict('file.csv')
-
+    >>> trainclassdict = ret.subjectkeywords()
+    >>>
     >>> # initialize the classifier and train
-    >>> import shorttext.embed.sumvec.SumWord2VecClassification as sumwv
+    >>> import shorttext.classifiers.embed.sumvec.SumWord2VecClassification as sumwv
     >>> classifier = sumwv.SumEmbeddedVecClassifier(wvmodel)
     >>> classifier.train(trainclassdict)
-
+    >>>
     >>> # making predictions
     >>> classifier.score('artificial intelligence')
+    {'mathematics': 0.34012238902405745,
+     'physics': 0.34134023723026496,
+     'theology': 0.2157201054314255}
     """
 
-    def __init__(self, wvmodel, classdict=None, vecsize=300):
+    def __init__(self, wvmodel, vecsize=300):
         """ Initialize the classifier.
 
         :param wvmodel: Word2Vec model
-        :param classdict: training data (default: None)
         :param vecsize: length of the embedded vectors in the model (Default: 300)
         :type wvmodel: gensim.models.word2vec.Word2Vec
-        :type classdict: dict
         :type vecsize: int
         """
         self.wvmodel = wvmodel
-        self.classdict = classdict
         self.vecsize = vecsize
         self.trained = False
 
-    def train(self):
+    def train(self, classdict):
         """ Train the classifier.
 
         If this has not been run, or a model was not loaded by :func:`~loadmodel`,
         a `ModelNotTrainedException` will be raised.
 
+        :param classdict: training data
         :return: None
+        :type classdict: dict
         """
         self.addvec = defaultdict(lambda : np.zeros(self.vecsize))
-        for classtype in self.classdict:
-            for shorttext in self.classdict[classtype]:
+        for classtype in classdict:
+            for shorttext in classdict[classtype]:
                 self.addvec[classtype] += self.shorttext_to_embedvec(shorttext)
             self.addvec[classtype] /= np.linalg.norm(self.addvec[classtype])
         self.addvec = dict(self.addvec)
@@ -83,7 +84,7 @@ class SumEmbeddedVecClassifier:
         :raise: ModelNotTrainedException
         """
         if not self.trained:
-            raise ModelNotTrainedException()
+            raise e.ModelNotTrainedException()
         pickle.dump(self.addvec, open(nameprefix+'_embedvecdict.pickle', 'w'))
 
     def loadmodel(self, nameprefix):
@@ -92,10 +93,12 @@ class SumEmbeddedVecClassifier:
         Given the prefix of the file paths, load the model from files with name given by the prefix
         followed by "_embedvecdict.pickle".
 
+        If this has not been run, or a model was not trained by :func:`~train`,
+        a `ModelNotTrainedException` will be raised.
+
         :param nameprefix: prefix of the file path
-        :return: the trained classification model
+        :return: None
         :type nameprefix: str
-        :rtype: dict
         """
         self.addvec = pickle.load(open(nameprefix+'_embedvecdict.pickle', 'r'))
         self.trained = True
@@ -138,7 +141,7 @@ class SumEmbeddedVecClassifier:
         :raise: ModelNotTrainedException
         """
         if not self.trained:
-            raise ModelNotTrainedException()
+            raise e.ModelNotTrainedException()
         vec = self.shorttext_to_embedvec(shorttext)
         scoredict = {}
         for classtype in self.addvec:

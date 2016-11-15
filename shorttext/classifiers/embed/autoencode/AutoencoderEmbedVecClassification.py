@@ -8,8 +8,8 @@ from keras.models import Model
 from nltk import word_tokenize
 from scipy.spatial.distance import cosine
 
-from utils import kerasmodel_io as kerasio
-from utils import ModelNotTrainedException
+from ... import kerasmodel_io as kerasio
+from ... import classification_exceptions as e
 
 
 # Reference: Francois Chollet, "Building Autoencoders in Keras"
@@ -76,7 +76,7 @@ class AutoEncoderWord2VecClassifier:
 
     def savemodel(self, nameprefix, save_complete_autoencoder=False):
         if not self.trained:
-            raise ModelNotTrainedException()
+            raise e.ModelNotTrainedException()
         kerasio.save_model(nameprefix+'_encoder', self.encoder)
         if save_complete_autoencoder:
             kerasio.save_model(nameprefix+'_decoder', self.decoder)
@@ -99,7 +99,7 @@ class AutoEncoderWord2VecClassifier:
 
     def encode(self, shorttext):
         if not self.trained:
-            raise ModelNotTrainedException()
+            raise e.ModelNotTrainedException()
         embedvec = self.shorttext_to_embedvec(shorttext)
         return self.encoder.predict(np.array([embedvec]))
 
