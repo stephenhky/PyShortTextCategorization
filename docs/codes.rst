@@ -7,6 +7,12 @@ Supervised Classification using Word Embedding
 .. automodule:: SumWord2VecClassification
    :members:
 
+.. automodule:: VarNNEmbedVecClassification
+   :members:
+
+.. automodule:: CNNEmbedVecClassification
+   :members:
+
 Text Preprocessing
 ------------------
 

@@ -23,6 +23,7 @@ sys.path.insert(0, os.path.abspath('../shorttext'))
 sys.path.insert(0, os.path.abspath('../shorttext/data'))
 sys.path.insert(0, os.path.abspath('../shorttext/utils'))
 sys.path.insert(0, os.path.abspath('../shorttext/classifiers/embed/sumvec'))
+sys.path.insert(0, os.path.abspath('../shorttext/classifiers/embed/nnlib'))
 
 # -- General configuration ------------------------------------------------
 
