@@ -18,15 +18,15 @@ import os
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-sys.path.insert(0, os.path.abspath('.'))
-sys.path.insert(0, os.path.abspath('../shorttext'))
-sys.path.insert(0, os.path.abspath('../shorttext/data'))
-sys.path.insert(0, os.path.abspath('../shorttext/utils'))
-sys.path.insert(0, os.path.abspath('../shorttext/classifiers'))
-sys.path.insert(0, os.path.abspath('../shorttext/classifiers/embed'))
-sys.path.insert(0, os.path.abspath('../shorttext/classifiers/embed/autoencode'))
-sys.path.insert(0, os.path.abspath('../shorttext/classifiers/embed/sumvec'))
-sys.path.insert(0, os.path.abspath('../shorttext/classifiers/embed/nnlib'))
+sys.path.append(os.path.abspath('.'))
+sys.path.append(os.path.abspath('../shorttext'))
+sys.path.append(os.path.abspath('../shorttext/data'))
+sys.path.append(os.path.abspath('../shorttext/utils'))
+sys.path.append(os.path.abspath('../shorttext/classifiers'))
+sys.path.append(os.path.abspath('../shorttext/classifiers/embed'))
+sys.path.append(os.path.abspath('../shorttext/classifiers/embed/autoencode'))
+sys.path.append(os.path.abspath('../shorttext/classifiers/embed/sumvec'))
+sys.path.append(os.path.abspath('../shorttext/classifiers/embed/nnlib'))
 
 # -- General configuration ------------------------------------------------
 

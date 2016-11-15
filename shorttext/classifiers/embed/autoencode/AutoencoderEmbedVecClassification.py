@@ -8,9 +8,10 @@ from keras.models import Model
 from nltk import word_tokenize
 from scipy.spatial.distance import cosine
 
-from ... import kerasmodel_io as kerasio
-from ... import classification_exceptions as e
-
+# from ... import kerasmodel_io as kerasio
+# from ... import classification_exceptions as e
+import utils.kerasmodel_io as kerasio
+import utils.classification_exceptions as e
 
 # Reference: Francois Chollet, "Building Autoencoders in Keras"
 # Link: https://blog.keras.io/building-autoencoders-in-keras.html

@@ -1,9 +1,10 @@
 import numpy as np
 from nltk import word_tokenize
 
-from ... import kerasmodel_io as kerasio
-from ... import classification_exceptions as e
-
+# from ... import kerasmodel_io as kerasio
+# from ... import classification_exceptions as e
+import utils.kerasmodel_io as kerasio
+import utils.classification_exceptions as e
 
 class VarNNEmbeddedVecClassifier:
     """
