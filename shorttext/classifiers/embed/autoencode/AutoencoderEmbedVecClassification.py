@@ -17,14 +17,48 @@ import utils.classification_exceptions as e
 # Link: https://blog.keras.io/building-autoencoders-in-keras.html
 
 class AutoEncoderWord2VecClassifier:
-    def __init__(self, wvmodel, classdict=None, vecsize=300, encoding_dim=10):
+    """
+    This is a supervised classification algorithm for short text categorization.
+    Each class label has a few short sentences, where each token is converted
+    to an embedded vector, given by a pre-trained word-embedding model (e.g., Google Word2Vec model).
+    The classification score is determined by the cosine similarity of the encoded vectors of
+    the input text and that of the trained data of that class label.
+
+    A reference about how an autoencoder is written with keras by Francois Chollet, titled
+    `Building Autoencoders in Keras
+    <https://blog.keras.io/building-autoencoders-in-keras.html>`_ .
+
+    A pre-trained Google Word2Vec model can be downloaded `here
+    <https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit>`_.
+
+
+    """
+
+    def __init__(self, wvmodel, vecsize=300, encoding_dim=10):
+        """ Initialize the classifier.
+
+        :param wvmodel: Word2Vec model
+        :param vecsize: length of the embedded vectors in the model (Default: 300)
+        :param encoding_dim: encoded dimension
+        :type wvmodel: gensim.models.word2vec.Word2Vec
+        :type vecsize: int
+        :type encoding_dim: int
+        """
         self.wvmodel = wvmodel
-        self.classdict = classdict
         self.vecsize = vecsize
         self.encoding_dim = encoding_dim
         self.trained = False
 
-    def train(self):
+    def train(self, classdict):
+        """ Train the classifier.
+
+        If this has not been run, or a model was not loaded by :func:`~loadmodel`,
+        a `ModelNotTrainedException` will be raised.
+
+        :param classdict: training data
+        :return: None
+        :type classdict: dict
+        """
         # define all the layers of the autoencoder
         input_vec = Input(shape=(self.vecsize,))
         encoded = Dense(self.encoding_dim, activation='relu')(input_vec)
@@ -46,8 +80,8 @@ class AutoEncoderWord2VecClassifier:
 
         # process training data
         embedvecs = np.array(reduce(add,
-                                    [map(self.shorttext_to_embedvec, self.classdict[classtype])
-                                     for classtype in self.classdict]
+                                    [map(self.shorttext_to_embedvec, classdict[classtype])
+                                     for classtype in classdict]
                                     )
                              )
 
@@ -64,8 +98,8 @@ class AutoEncoderWord2VecClassifier:
 
         # calculate the training data
         self.addvec = defaultdict(lambda : np.zeros(self.vecsize))
-        for classtype in self.classdict:
-            for shorttext in self.classdict[classtype]:
+        for classtype in classdict:
+            for shorttext in classdict[classtype]:
                 self.addvec[classtype] += self.shorttext_to_embedvec(shorttext)
             self.addvec[classtype] /= np.linalg.norm(self.addvec[classtype])
         self.addvec = dict(self.addvec)
@@ -76,6 +110,22 @@ class AutoEncoderWord2VecClassifier:
         self.trained = True
 
     def savemodel(self, nameprefix, save_complete_autoencoder=False):
+        """Save the trained model into files.
+
+        Given the prefix of the file paths, save the model into files, with name given by the prefix.
+        There are files with names ending with "_encoder.json" and "_encoder.h5", which are
+        the JSON and HDF5 files for the encoder respectively.
+        And there is a file with name ending with "_trainedvecs.pickle" storing the names of the class labels.
+        If `save_complete_autoencoder` is True,
+        then there are also files with names ending with "_decoder.json" and "_decoder.h5".
+
+        If there is no trained model, a `ModelNotTrainedException`will be thrown.
+
+        :param nameprefix: prefix of the file path
+        :return: None
+        :type nameprefix: str
+        :raise: ModelNotTrainedException
+        """
         if not self.trained:
             raise e.ModelNotTrainedException()
         kerasio.save_model(nameprefix+'_encoder', self.encoder)
@@ -85,11 +135,35 @@ class AutoEncoderWord2VecClassifier:
         pickle.dump(self.train_encoded_vecs, open(nameprefix+'_trainedvecs.pickle', 'w'))
 
     def loadmodel(self, nameprefix):
+        """ Load a trained model from files.
+
+        Given the prefix of the file paths, load the model from files with name given by the prefix
+        followed by "_trainedvecs.pickle", "_encoder.json", and "_encoder.h5".
+
+        If this has not been run, or a model was not trained by :func:`~train`,
+        a `ModelNotTrainedException` will be raised.
+
+        :param nameprefix: prefix of the file path
+        :return: None
+        :type nameprefix: str
+        """
         self.encoder = kerasio.load_model(nameprefix+'encoder')
         self.train_encoded_vecs = pickle.load(open(nameprefix+'_trainedvecspickle', 'r'))
         self.trained = True
 
     def shorttext_to_embedvec(self, shorttext):
+        """ Convert the short text into an averaged embedded vector representation.
+
+        Given a short sentence, it converts all the tokens into embedded vectors according to
+        the given word-embedding model, sums
+        them up, and normalize the resulting vector. It returns the resulting vector
+        that represents this short sentence.
+
+        :param shorttext: a short sentence
+        :return: an embedded vector that represents the short sentence
+        :type shorttext: str
+        :rtype: numpy.ndarray
+        """
         vec = np.zeros(self.vecsize)
         tokens = word_tokenize(shorttext)
         for token in tokens:
@@ -99,12 +173,37 @@ class AutoEncoderWord2VecClassifier:
         return vec
 
     def encode(self, shorttext):
+        """ Calculated the encoded representation of the given text.
+
+        With the trained autoencoder model, calculated the encoded representation.
+
+        If this has not been run, or a model was not trained by :func:`~train`,
+        a `ModelNotTrainedException` will be raised.
+
+        :param shorttext: a short sentence
+        :return: encoded representation of the given short sentence
+        :type shorttext: str
+        :rtype: numpy.ndarray
+        """
         if not self.trained:
             raise e.ModelNotTrainedException()
         embedvec = self.shorttext_to_embedvec(shorttext)
         return self.encoder.predict(np.array([embedvec]))
 
     def score(self, shorttext):
+        """ Calculate the scores for all the class labels for the given short sentence.
+
+        Given a short sentence, calculate the classification scores for all class labels,
+        returned as a dictionary with key being the class labels, and values being the scores.
+        If the short sentence is empty, or if other numerical errors occur, the score will be `numpy.nan`.
+        If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
+
+        :param shorttext: a short sentence
+        :return: a dictionary with keys being the class labels, and values being the corresponding classification scores
+        :type shorttext: str
+        :rtype: dict
+        :raise: ModelNotTrainedException
+        """
         encoded_vec = self.encode(shorttext)
         scoredict = {}
         for classtype in self.train_encoded_vecs:

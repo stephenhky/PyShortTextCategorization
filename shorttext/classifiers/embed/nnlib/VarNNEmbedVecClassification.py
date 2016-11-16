@@ -115,6 +115,8 @@ class VarNNEmbeddedVecClassifier:
     def train(self, classdict, kerasmodel, nb_epoch=10):
         """ Train the classifier.
 
+        The training data and the corresponding keras model have to be given.
+
         If this has not been run, or a model was not loaded by :func:`~loadmodel`,
         a `ModelNotTrainedException` will be raised.
 

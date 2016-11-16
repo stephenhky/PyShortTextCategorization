@@ -13,6 +13,9 @@ Supervised Classification using Word Embedding
 .. automodule:: CNNEmbedVecClassification
    :members:
 
+.. automodule:: AutoencoderEmbedVecClassification
+   :members:
+
 Text Preprocessing
 ------------------
 
