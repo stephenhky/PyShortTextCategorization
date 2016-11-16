@@ -1,12 +1,12 @@
 # Short Text Categorization with Word Embeddings
 
-This repository is a collection of algorithms for multi-class classification to short texts using Python. Instead of the bag-of-words representation of texts, word-embedding algorithms with a pre-trained model are used. Currently, Word2Vec is implemented. This package is still *under development*, and *not stable*. Feel free to give suggestions.
+This repository is a collection of algorithms for multi-class classification to short texts using Python. In addition to the bag-of-words representation of texts, word-embedding algorithms with a pre-trained model are used. Currently, Word2Vec is implemented. This package is still *under development*, and *not stable*. Feel free to give suggestions.
 
-So far the following algorithms are implemented:
+To install it, in a console, use `pip`.
 
-* SumWord2Vec: each short text is represented by the average of the embedded vectors of all the words.
-* Autoencoder: the embedded vectors are passed into an autoencoded representation, where the similarity is calculated by cosine.
-* Convolutional Neural Network (CNN): all the words are represented by embedded vectors, which are passed into a convolional neural network.
+```
+>>> pip install shorttext
+```
 
 The Word2Vec model is implemented with [`gensim`](https://radimrehurek.com/gensim/), and CNN with [`keras`](https://keras.io/), with a [`Theano`](http://deeplearning.net/software/theano/) backend.
 
@@ -16,6 +16,7 @@ A cross-validation evaluation on the example dataset shows the boxplot of the pe
 
 # Useful Links
 
+* Documentation : [https://pythonhosted.org/shorttext/](https://pythonhosted.org/shorttext/)
 * Github: [https://github.com/stephenhky/PyShortTextCategorization](https://github.com/stephenhky/PyShortTextCategorization)
 * PyPI: [https://pypi.python.org/pypi/shorttext](https://pypi.python.org/pypi/shorttext)
 * An [earlier version](https://github.com/stephenhky/PyShortTextCategorization/tree/b298d3ce7d06a9b4e0f7d32f27bab66064ba7afa) of this repository is a demonstration of the following blog post: [Short Text Categorization using Deep Neural Networks and Word-Embedding Models](https://datawarrior.wordpress.com/2016/10/12/short-text-categorization-using-deep-neural-networks-and-word-embedding-models/)

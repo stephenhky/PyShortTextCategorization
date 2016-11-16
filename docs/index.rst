@@ -7,7 +7,7 @@ Welcome to shorttext's documentation!
 =====================================
 
 This repository is a collection of algorithms for multi-class classification to short texts using Python.
-Instead of the bag-of-words representation of texts, word-embedding algorithms with a pre-trained model are used.
+In addition to the bag-of-words representation of texts, word-embedding algorithms with a pre-trained model are used.
 Very likely I will add non-word-embedding models.
 Currently, Word2Vec is implemented. This package is still *under development*, and *not stable*.
 Feel free to give suggestions through the Github_ page.
