@@ -28,7 +28,8 @@ def text_preprocessor(pipeline):
 
     Given the pipeline, which is a list of functions that process an
     input text to another text (e.g., stemming, lemmatizing, removing punctuations etc.),
-    return a function that preprocesses an input text outlined by the pipeline.
+    return a function that preprocesses an input text outlined by the pipeline, essentially
+    a function that runs :func:`~preprocess_text` with the specified pipeline.
 
     :param pipeline: a list of functions that convert a text to another text
     :return: a function that preprocesses text according to the pipeline

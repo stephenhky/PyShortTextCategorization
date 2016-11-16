@@ -23,4 +23,4 @@ The Word2Vec model is implemented with [`gensim`](https://radimrehurek.com/gensi
 * Yoon Kim, "Convolutional Neural Networks for Sentence Classification" (2014). \[[arXiv](https://arxiv.org/abs/1408.5882)\]
 * For a theory of word embeddings, see the WordPress blog entry: [Probabilistic Theory of Word Embeddings: GloVe](https://datawarrior.wordpress.com/2016/07/25/probabilistic-theory-of-word-embeddings-glove/).
 * Chunting Zhou, Chonglin Sun, Zhiyuan Liu, Francis Lau, "A C-LSTM Neural Network for Text Classification", arXiv:1511.08630 (2015). \[[arXiv](https://arxiv.org/abs/1511.08630)\]
-
+* Sebastian Ruder, "An overview of gradient descent optimization algorithms." (2016) [Ruder](http://sebastianruder.com/optimizing-gradient-descent/).

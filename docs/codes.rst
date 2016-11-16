@@ -4,22 +4,22 @@ Documentation
 Supervised Classification using Word Embedding
 ----------------------------------------------
 
-.. automodule:: SumWord2VecClassification
+.. automodule:: shorttext.classifiers.embed.sumvec.SumWord2VecClassification
    :members:
 
-.. automodule:: VarNNEmbedVecClassification
+.. automodule:: shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification
    :members:
 
-.. automodule:: CNNEmbedVecClassification
+.. automodule:: shorttext.classifiers.embed.nnlib.CNNEmbedVecClassification
    :members:
 
-.. automodule:: AutoencoderEmbedVecClassification
+.. automodule:: shorttext.classifiers.embed.autoencode.AutoencoderEmbedVecClassification
    :members:
 
 Neural Networks
 ---------------
 
-.. automodule:: frameworks
+.. automodule:: shorttext.classifiers.embed.nnlib.frameworks
    :members:
 
 Text Preprocessing
@@ -29,18 +29,18 @@ This module consists of functions that facilitate text preprocessing. Please ref
 `this blog entry
 <https://datawarrior.wordpress.com/2015/08/12/codienerd-1-r-or-python-on-text-mining>`_ for examples.
 
-.. automodule:: textpreprocessing
+.. automodule:: shorttext.utils.textpreprocessing
    :members:
 
 Keras Sequential Model I/O
 --------------------------
 
-.. automodule:: kerasmodel_io
+.. automodule:: shorttext.utils.kerasmodel_io
    :members:
 
 Training Data Retrieval
 -----------------------
 
-.. automodule:: data_retrieval
+.. automodule:: shorttext.data.data_retrieval
    :members:
 
