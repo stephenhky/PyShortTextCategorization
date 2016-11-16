@@ -16,6 +16,12 @@ Supervised Classification using Word Embedding
 .. automodule:: AutoencoderEmbedVecClassification
    :members:
 
+Neural Networks
+---------------
+
+.. automodule:: frameworks
+   :members:
+
 Text Preprocessing
 ------------------
 
