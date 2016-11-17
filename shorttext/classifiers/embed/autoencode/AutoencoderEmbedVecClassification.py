@@ -119,7 +119,7 @@ class AutoEncoderWord2VecClassifier:
         If `save_complete_autoencoder` is True,
         then there are also files with names ending with "_decoder.json" and "_decoder.h5".
 
-        If there is no trained model, a `ModelNotTrainedException`will be thrown.
+        If there is no trained model, a `ModelNotTrainedException` will be thrown.
 
         :param nameprefix: prefix of the file path
         :return: None
