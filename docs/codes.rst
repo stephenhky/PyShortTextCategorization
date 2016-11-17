@@ -4,10 +4,10 @@ Documentation
 Supervised Classification using Word Embedding
 ----------------------------------------------
 
-.. automodule:: shorttext.classifiers.embed.sumvec.SumWord2VecClassification
+.. autoclass:: shorttext.classifiers.embed.sumvec.SumWord2VecClassification.SumEmbeddedVecClassifier
    :members:
 
-.. automodule:: shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification
+.. autoclass:: shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification.VarNNEmbeddedVecClassifier
    :members:
 
 .. automodule:: shorttext.classifiers.embed.nnlib.CNNEmbedVecClassification

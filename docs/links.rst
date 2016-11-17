@@ -1,6 +1,9 @@
 Links
 =====
 
+Project Codes and Package
+-------------------------
+
 - Github_
 - PyPI_
 
@@ -9,7 +12,7 @@ Links
 .. _PyPI: https://pypi.python.org/pypi/shorttext
 
 Blog Entries
-============
+------------
 
 "R or Python on Text Mining," *Everything About Data Analytics*, WordPress (2015). [`WordPress
 <https://datawarrior.wordpress.com/2015/08/12/codienerd-1-r-or-python-on-text-mining>`_]
