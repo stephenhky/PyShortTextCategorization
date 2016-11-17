@@ -27,10 +27,10 @@ def CNNWordEmbed(nb_labels,
     :param vecsize: length of the embedded vectors in the model (Default: 300)
     :param cnn_dropout: dropout rate for CNN/ConvNet (Default: 0.0)
     :param final_activation: activation function. Options: softplus, softsign, relu, tanh, sigmoid, hard_sigmoid, linear. More information at `Keras
-     <https://keras.io/activations/>'_ (Default: 'softmax')
+<https://keras.io/activations/>'_ (Default: 'softmax')
     :param dense_wl2reg: L2 regularization coefficient (Default: 0.0)
     :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. More information: `Keras
-     <https://keras.io/optimizers/>`_ (Default: adam)
+<https://keras.io/optimizers/>`_ (Default: adam)
     :return: keras sequantial model for CNN/ConvNet for Word-Embeddings
     :type nb_labels: int
     :type nb_filters: int
@@ -86,10 +86,10 @@ def DoubleCNNWordEmbed(nb_labels,
     :param cnn_dropout_1: dropout rate for the first CNN/ConvNet layer (Default: 0.0)
     :param cnn_dropout_2: dropout rate for the second CNN/ConvNet layer (Default: 0.0)
     :param final_activation: activation function. Options: softplus, softsign, relu, tanh, sigmoid, hard_sigmoid, linear. More information at `Keras
-     <https://keras.io/activations/>'_ (Default: 'softmax')
+<https://keras.io/activations/>'_ (Default: 'softmax')
     :param dense_wl2reg: L2 regularization coefficient (Default: 0.0)
     :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. More information: `Keras
-     <https://keras.io/optimizers/>`_ (Default: adam)
+<https://keras.io/optimizers/>`_ (Default: adam)
     :return: keras sequantial model for CNN/ConvNet for Word-Embeddings
     :type nb_labels: int
     :type nb_filters_1: int
@@ -159,10 +159,10 @@ def CLSTMWordEmbed(nb_labels,
     :param nb_rnnoutdim: output dimension for the LSTM networks (Default: 1200)
     :param rnn_dropout: dropout rate for LSTM (Default: 0.2)
     :param final_activation: activation function. Options: softplus, softsign, relu, tanh, sigmoid, hard_sigmoid, linear. More information at `Keras
-     <https://keras.io/activations/>'_ (Default: 'softmax')
+<https://keras.io/activations/>'_ (Default: 'softmax')
     :param dense_wl2reg: L2 regularization coefficient (Default: 0.0)
     :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. More information: `Keras
-     <https://keras.io/optimizers/>`_ (Default: adam)
+<https://keras.io/optimizers/>`_ (Default: adam)
     :return: keras sequantial model for CNN/ConvNet for Word-Embeddings
     :type nb_labels: int
     :type nb_filters: int
