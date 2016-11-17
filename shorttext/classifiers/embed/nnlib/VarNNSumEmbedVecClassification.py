@@ -6,13 +6,13 @@ from nltk import word_tokenize
 import utils.kerasmodel_io as kerasio
 import utils.classification_exceptions as e
 
-class VarNNEmbeddedVecClassifier:
+class VarNNSumEmbeddedVecClassifier:
     """
     This is a wrapper for various neural network algorithms
     for supervised short text categorization.
     Each class label has a few short sentences, where each token is converted
     to an embedded vector, given by a pre-trained word-embedding model (e.g., Google Word2Vec model).
-    The sentences are represented by a matrix, or rank-2 array.
+    The sentences are represented by an array.
     The type of neural network has to be passed when training, and it has to be of
     type :class:`keras.models.Sequential`. The number of outputs of the models has to match
     the number of class labels in the training data.
@@ -24,44 +24,6 @@ class VarNNEmbeddedVecClassifier:
     A pre-trained Google Word2Vec model can be downloaded `here
     <https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit>`_.
 
-        Examples
-
-    >>> # load the Word2Vec model
-    >>> from gensim.models import Word2Vec
-    >>> wvmodel = Word2Vec.load_word2vec_format('GoogleNews-vectors-negative300.bin.gz', binary=True)
-    >>>
-    >>> # load the training data
-    >>> import shorttext.data.data_retrieval as ret
-    >>> trainclassdict = ret.subjectkeywords()
-    >>>
-    >>> # initialize the classifier and train
-    >>> import shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification as vnn
-    >>> import shorttext.classifiers.embed.nnlib.frameworks as fr
-    >>> kmodel = fr.CNNWordEmbed(len(classdict.keys()))    # using convolutional neural network model
-    >>> classifier = vnn.VarNNEmbeddedVecClassifier(wvmodel)
-    >>> classifier.train(trainclassdict, kmodel)
-    Epoch 1/10
-    45/45 [==============================] - 0s - loss: 1.0578
-    Epoch 2/10
-    45/45 [==============================] - 0s - loss: 0.5536
-    Epoch 3/10
-    45/45 [==============================] - 0s - loss: 0.3437
-    Epoch 4/10
-    45/45 [==============================] - 0s - loss: 0.2282
-    Epoch 5/10
-    45/45 [==============================] - 0s - loss: 0.1658
-    Epoch 6/10
-    45/45 [==============================] - 0s - loss: 0.1273
-    Epoch 7/10
-    45/45 [==============================] - 0s - loss: 0.1052
-    Epoch 8/10
-    45/45 [==============================] - 0s - loss: 0.0961
-    Epoch 9/10
-    45/45 [==============================] - 0s - loss: 0.0839
-    Epoch 10/10
-    45/45 [==============================] - 0s - loss: 0.0743
-    >>> classifier.score('artificial intelligence')
-    {'mathematics': 0.57749695, 'physics': 0.33749574, 'theology': 0.085007325}
     """
     def __init__(self, wvmodel, vecsize=300, maxlen=15):
         """ Initialize the classifier.
@@ -78,40 +40,31 @@ class VarNNEmbeddedVecClassifier:
         self.maxlen = maxlen
         self.trained = False
 
-    def convert_trainingdata_matrix(self, classdict):
-        """ Convert the training data into format put into the neural networks.
+    def convert_traindata_embedvecs(self, classdict):
+        """
 
-        Convert the training data into format put into the neural networks.
-        This is called by :func:`~train`.
-
-        :param classdict: training data
-        :return: a tuple of three, containing a list of class labels, matrix of embedded word vectors, and corresponding outputs
+        :param classdict:
+        :return:
         :type classdict: dict
         :rtype: (list, numpy.ndarray, list)
         """
         classlabels = classdict.keys()
         lblidx_dict = dict(zip(classlabels, range(len(classlabels))))
 
-        # tokenize the words, and determine the word length
-        phrases = []
         indices = []
-        for label in classlabels:
-            for shorttext in classdict[label]:
-                shorttext = shorttext if type(shorttext)==str else ''
+        embedvecs = []
+        for classlabel in classlabels:
+            for shorttext in classdict[classlabel]:
+                embedvec = np.sum(np.array([self.word_to_embedvec(token) for token in word_tokenize(shorttext)]),
+                                  axis=0)
+                embedvec = np.reshape(embedvec, embedvec.shape+(1,))
+                embedvecs.append(embedvec)
                 category_bucket = [0]*len(classlabels)
-                category_bucket[lblidx_dict[label]] = 1
+                category_bucket[lblidx_dict[classlabel]] = 1
                 indices.append(category_bucket)
-                phrases.append(word_tokenize(shorttext))
 
-        # store embedded vectors
-        train_embedvec = np.zeros(shape=(len(phrases), self.maxlen, self.vecsize))
-        for i in range(len(phrases)):
-            for j in range(min(self.maxlen, len(phrases[i]))):
-                train_embedvec[i, j] = self.word_to_embedvec(phrases[i][j])
-        indices = np.array(indices, dtype=np.int)
-
-        return classlabels, train_embedvec, indices
-
+        indices = np.array(indices)
+        return classlabels, embedvecs, indices
 
     def train(self, classdict, kerasmodel, nb_epoch=10):
         """ Train the classifier.
@@ -129,8 +82,8 @@ class VarNNEmbeddedVecClassifier:
         :type kerasmodel: keras.models.Sequential
         :type nb_epoch: int
         """
-        # convert classdict to training input vectors
-        self.classlabels, train_embedvec, indices = self.convert_trainingdata_matrix(classdict)
+        # convert training data into embedded vectors
+        self.classlabels, train_embedvec, indices = self.convert_traindata_embedvecs(classdict)
 
         # train the model
         kerasmodel.fit(train_embedvec, indices, nb_epoch=nb_epoch)
@@ -193,23 +146,28 @@ class VarNNEmbeddedVecClassifier:
         """
         return self.wvmodel[word] if word in self.wvmodel else np.zeros(self.vecsize)
 
-    def shorttext_to_matrix(self, shorttext):
-        """ Convert the short text into a matrix with word-embedding representation.
+    def shorttext_to_embedvec(self, shorttext):
+        """ Convert the short text into an averaged embedded vector representation.
 
         Given a short sentence, it converts all the tokens into embedded vectors according to
-        the given word-embedding model, and put them into a matrix. If a word is not in the model,
-        that row will be filled with zero.
+        the given word-embedding model, sums
+        them up, and normalize the resulting vector. It returns the resulting vector
+        that represents this short sentence.
 
         :param shorttext: a short sentence
-        :return: a matrix of embedded vectors that represent all the tokens in the sentence
+        :return: an embedded vector that represents the short sentence
         :type shorttext: str
         :rtype: numpy.ndarray
         """
+        vec = np.zeros(self.vecsize)
         tokens = word_tokenize(shorttext)
-        matrix = np.zeros((self.maxlen, self.vecsize))
-        for i in range(min(self.maxlen, len(tokens))):
-            matrix[i] = self.word_to_embedvec(tokens[i])
-        return matrix
+        for token in tokens:
+            if token in self.wvmodel:
+                vec += self.wvmodel[token]
+        norm = np.linalg.norm(vec)
+        if norm!=0:
+            vec /= np.linalg.norm(vec)
+        return vec
 
     def score(self, shorttext):
         """ Calculate the scores for all the class labels for the given short sentence.
@@ -229,10 +187,11 @@ class VarNNEmbeddedVecClassifier:
             raise e.ModelNotTrainedException()
 
         # retrieve vector
-        matrix = np.array([self.shorttext_to_matrix(shorttext)])
+        embedvec = np.array([self.shorttext_to_embedvec(shorttext)])
+        embedvec = np.reshape(embedvec, embedvec.shape+(1,))
 
         # classification using the neural network
-        predictions = self.model.predict(matrix)
+        predictions = self.model.predict(embedvec)
 
         # wrangle output result
         scoredict = {}
