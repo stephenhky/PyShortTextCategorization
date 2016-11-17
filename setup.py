@@ -32,7 +32,7 @@ setup(name='shorttext',
       package_data={'shorttext': ['data/*.csv']},
       setup_requires=['numpy'],
       install_requires=[
-          'numpy', 'scipy', 'keras', 'theano', 'nltk', 'gensim', 'pandas',
+          'numpy', 'scipy', 'theano', 'keras', 'nltk', 'gensim', 'pandas',
       ],
       # scripts=['ShortTextCategorizer.py',
       #          'ShortTextCategorizerConsole.py',
