@@ -41,10 +41,13 @@ class VarNNSumEmbeddedVecClassifier:
         self.trained = False
 
     def convert_traindata_embedvecs(self, classdict):
-        """
+        """ Convert the training text data into embedded matrix.
 
-        :param classdict:
-        :return:
+        COnvert the training text data into embedded matrix, where each short sentence
+        is a normalized summed embedded vectors for all words.
+
+        :param classdict: training data
+        :return: tuples, consisting of class labels, matrix of embedded vectors, and corresponding outputs
         :type classdict: dict
         :rtype: (list, numpy.ndarray, list)
         """
@@ -57,13 +60,15 @@ class VarNNSumEmbeddedVecClassifier:
             for shorttext in classdict[classlabel]:
                 embedvec = np.sum(np.array([self.word_to_embedvec(token) for token in word_tokenize(shorttext)]),
                                   axis=0)
-                embedvec = np.reshape(embedvec, embedvec.shape+(1,))
+                # embedvec = np.reshape(embedvec, embedvec.shape+(1,))
+                embedvec /= np.linalg.norm(embedvec)
                 embedvecs.append(embedvec)
                 category_bucket = [0]*len(classlabels)
                 category_bucket[lblidx_dict[classlabel]] = 1
                 indices.append(category_bucket)
 
         indices = np.array(indices)
+        embedvecs = np.array(embedvecs)
         return classlabels, embedvecs, indices
 
     def train(self, classdict, kerasmodel, nb_epoch=10):
