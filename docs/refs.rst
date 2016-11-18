@@ -20,5 +20,13 @@ Sebastian Ruder, "An overview of gradient descent optimization algorithms," blog
 Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, “Efficient Estimation of Word Representations in Vector Space,” *ICLR* 2013 (2013). [`arXiv
 <https://arxiv.org/abs/1301.3781>`_]
 
+Xuan Hieu Phan, Cam-Tu Nguyen, Dieu-Thu Le, Minh Le Nguyen, Susumu Horiguchi, Quang-Thuy Ha,
+"A Hidden Topic-Based Framework toward Building Applications with Short Web Documents,"
+*IEEE Trans. Knowl. Data Eng.* 23(7): 961-976 (2011).
+
+Xuan Hieu Phan, Le-Minh Nguyen, Susumu Horiguchi, "Learning to Classify Short and Sparse Text & Web withHidden Topics from Large-scale Data Collections,"
+WWW '08 Proceedings of the 17th international conference on World Wide Web. (2008) [`ACL
+<http://dl.acm.org/citation.cfm?id=1367510>`_]
+
 Yoon Kim, "Convolutional Neural Networks for Sentence Classification," *EMNLP* 2014, 1746-1751 (arXiv:1408.5882). [`arXiv
 <https://arxiv.org/abs/1408.5882>`_]
