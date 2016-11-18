@@ -28,6 +28,8 @@ sys.path.append(os.path.abspath('../shorttext/classifiers/embed'))
 sys.path.append(os.path.abspath('../shorttext/classifiers/embed/autoencode'))
 sys.path.append(os.path.abspath('../shorttext/classifiers/embed/sumvec'))
 sys.path.append(os.path.abspath('../shorttext/classifiers/embed/nnlib'))
+sys.path.append(os.path.abspath('../shorttext/classifiers/bow'))
+sys.path.append(os.path.abspath('../shorttext/classifiers/bow/topic'))
 
 # -- General configuration ------------------------------------------------
 
