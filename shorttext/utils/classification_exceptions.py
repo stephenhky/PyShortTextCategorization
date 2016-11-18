@@ -10,3 +10,7 @@ class AlgorithmNotExistException(Exception):
 class Word2VecModelNotExistException(Exception):
     def __init__(self, path):
         self.message = 'Given path of Word2Vec not exist: '+path
+
+class UnequalArrayLengthsException(Exception):
+    def __init__(self, arr1, arr2):
+        self.message = 'Unequal lengths: '+str(len(arr1))+" and "+str(len(arr2))
