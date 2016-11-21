@@ -22,7 +22,8 @@ def retrieve_csvdata_as_dict(filepath):
     category_col, descp_col = df.columns.values.tolist()
     shorttextdict = defaultdict(lambda : [])
     for category, descp in zip(df[category_col], df[descp_col]):
-        shorttextdict[category] += [descp]
+        if type(descp)==str:
+            shorttextdict[category] += [descp]
     return dict(shorttextdict)
 
 # for backward compatibility

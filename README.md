@@ -12,7 +12,7 @@ The Word2Vec model is implemented with [`gensim`](https://radimrehurek.com/gensi
 
 # Useful Links
 
-* Documentation : [https://pythonhosted.org/shorttext/](https://pythonhosted.org/shorttext/) or [http://shorttext.readthedocs.io/en/latest/](http://shorttext.readthedocs.io/en/latest/)
+* Documentation : [https://pythonhosted.org/shorttext/](https://pythonhosted.org/shorttext/)
 * Github: [https://github.com/stephenhky/PyShortTextCategorization](https://github.com/stephenhky/PyShortTextCategorization)
 * PyPI: [https://pypi.python.org/pypi/shorttext](https://pypi.python.org/pypi/shorttext)
 * An [earlier version](https://github.com/stephenhky/PyShortTextCategorization/tree/b298d3ce7d06a9b4e0f7d32f27bab66064ba7afa) of this repository is a demonstration of the following blog post: [Short Text Categorization using Deep Neural Networks and Word-Embedding Models](https://datawarrior.wordpress.com/2016/10/12/short-text-categorization-using-deep-neural-networks-and-word-embedding-models/)
