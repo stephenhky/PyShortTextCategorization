@@ -1,4 +1,7 @@
 
+import json
+
+from gensim.corpora import Dictionary
 from gensim.models import TfidfModel, LdaModel, LsiModel
 from gensim.similarities import MatrixSimilarity
 from nltk import word_tokenize
@@ -89,9 +92,58 @@ class LatentTopicModeler:
         return topicvec
 
     def loadmodel(self, nameprefix):
-        pass
+        """ Load the topic model with the given prefix of the file paths.
+
+        Given the prefix of the file paths, load the corresponding topic model. The files
+        include a JSON (.json) file that specifies various parameters, a gensim dictionary (.gensimdict),
+        and a topic model (.gensimmodel). If weighing is applied, load also the tf-idf model (.gensimtfidf).
+
+        :param nameprefix: prefix of the file paths
+        :return: None
+        :type nameprefix: str
+        """
+        # load the JSON file (parameters)
+        parameters = json.load(open(nameprefix+'.json', 'rb'))
+        self.nb_topics = parameters['nb_topics']
+        self.toweigh = parameters['toweigh']
+        self.algorithm = parameters['algorithm']
+
+        # load the dictionary
+        self.dictionary = Dictionary.load(nameprefix+'.gensimdict')
+
+        # load the topic model
+        self.topicmodel = topic_model_dict[self.algorithm].load(nameprefix+'.gensimmodel')
+
+        # load the tf-idf modek
+        if self.toweigh:
+            self.tfidf = TfidfModel.load(nameprefix+'.gensimtfidf')
+
+        # flag
+        self.trained = True
 
     def savemodel(self, nameprefix):
+        """ Save the model with names according to the prefix.
+
+        Given the prefix of the file paths, save the corresponding topic model. The files
+        include a JSON (.json) file that specifies various parameters, a gensim dictionary (.gensimdict),
+        and a topic model (.gensimmodel). If weighing is applied, load also the tf-idf model (.gensimtfidf).
+
+        If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
+
+        :param nameprefix: prefix of the file paths
+        :return: None
+        :raise: ModelNotTrainedException
+        :type nameprefix: str
+        """
         if not self.trained:
             raise e.ModelNotTrainedException()
-        pass
+        parameters = {}
+        parameters['nb_topics'] = self.nb_topics
+        parameters['toweigh'] = self.toweigh
+        parameters['algorithm'] = self.algorithm
+        json.dump(parameters, open(nameprefix+'.json', 'wb'))
+
+        self.dictionary.save(nameprefix+'.gensimdict')
+        self.topicmodel.save(nameprefix+'.gensimmodel')
+        if self.toweigh:
+            self.tfidf.save(nameprefix+'.gensimtfidf')
