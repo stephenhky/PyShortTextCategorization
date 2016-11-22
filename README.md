@@ -1,6 +1,6 @@
-# Short Text Categorization with Word Embeddings
+# Short Text Categorization in Python
 
-This repository is a collection of algorithms for multi-class classification to short texts using Python. In addition to the bag-of-words representation of texts, word-embedding algorithms with a pre-trained model are used. Currently, Word2Vec is implemented. This package is still *under development*, and *not stable*. Feel free to give suggestions.
+This repository is a collection of supervised learning algorithms for multi-class classification to short texts using Python. In addition to the bag-of-words representation of texts, word-embedding algorithms with a pre-trained model are used. Currently, Word2Vec is implemented. This package is still *under development*, and *not stable*. Feel free to give suggestions.
 
 To install it, in a console, use `pip`.
 
@@ -8,7 +8,7 @@ To install it, in a console, use `pip`.
 >>> pip install shorttext
 ```
 
-The Word2Vec model is implemented with [`gensim`](https://radimrehurek.com/gensim/), and CNN with [`keras`](https://keras.io/), with a [`Theano`](http://deeplearning.net/software/theano/) backend.
+The Word2Vec model is implemented with [`nltk`](http://www.nltk.org/), [`gensim`](https://radimrehurek.com/gensim/), and various neural networks with [`keras`](https://keras.io/), with a [`Theano`](http://deeplearning.net/software/theano/) backend.
 
 # Useful Links
 

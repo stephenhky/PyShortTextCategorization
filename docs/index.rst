@@ -19,6 +19,7 @@ Contents:
 
    codes
    refs
+   scripts
    links
 
 .. _Github: https://github.com/stephenhky/PyShortTextCategorization

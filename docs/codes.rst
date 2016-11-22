@@ -23,6 +23,7 @@ Neural Networks
    :members:
 
 Topic Models
+------------
 
 .. automodule:: LatentTopicModeling
    :members:

@@ -1,30 +1,34 @@
+#!/usr/bin/env python
+
+# argument parsing
 import argparse
-import os
-
-import classifiers.VarNNEmbedVecClassification as vnn
-from gensim.models import Word2Vec
-
-import classifiers.embed.autoencode.AutoencoderEmbedVecClassification as auto
-import classifiers.embed.nnlib.CNNEmbedVecClassification as cnn
-import classifiers.embed.sumvec.SumWord2VecClassification as sumwv
-from classifiers import allowed_algos
-from utils.classification_exceptions import Word2VecModelNotExistException, AlgorithmNotExistException
-
 
 def get_argparser():
-    argparser = argparse.ArgumentParser(description='Perform prediction on short text.')
+    argparser = argparse.ArgumentParser(description='Perform prediction on short text.with a given trained model.')
     argparser.add_argument('input_nameprefix', help='Prefix of the path of input model.')
-    argparser.add_argument('algo', help='Algorithm. (Options: sumword2vec (Sum of Embedded Vectors), autoencoder (Autoencoder of Embedded Vectors), cnn (Convolutional Neural Network on Embedded Vectors)')
+    argparser.add_argument('algo', help='Algorithm architecture. (Options: sumword2vec (Summed Embedded Vectors), autoencoder (Autoencoder of Embedded Vectors), vnn (Neural Network on Embedded Vectors)')
     argparser.add_argument('wvmodel_path', help='Path of the pre-trained Word2Vec model.')
     argparser.add_argument('--ngram', type=int, default=2, help='n-gram, used in convolutional neural network only. (Default: 2)')
-    argparser.add_argument('--test', action='store_true', default=False, help='Checked if the test input contains the label, and metrics will be output.')
+    argparser.add_argument('--test', action='store_true', default=False, help='Checked if the test input contains the label, and metrics will be output. (Default: False)')
+    argparser.add_argument('--topn', type=int, default=10, help='Number of top-scored results displayed. (Default: 10)')
     return argparser
 
-if __name__ == '__main__':
-    # parsing argument
-    argparser = get_argparser()
-    args = argparser.parse_args()
+argparser = get_argparser()
+args = argparser.parse_args()
 
+# library loading
+import os
+
+import shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification as vnn
+from gensim.models import Word2Vec
+
+import shorttext.classifiers.embed.autoencode.AutoencoderEmbedVecClassification as auto
+import shorttext.classifiers.embed.sumvec.SumWord2VecClassification as sumwv
+from shorttext.classifiers import allowed_algos
+from shorttext.utils.classification_exceptions import Word2VecModelNotExistException, AlgorithmNotExistException
+
+# main block
+if __name__ == '__main__':
     # check validity
     if not os.path.exists(args.wvmodel_path):
         raise Word2VecModelNotExistException(args.wvmodel_path)
@@ -43,8 +47,8 @@ if __name__ == '__main__':
         classifier = sumwv.SumEmbeddedVecClassifier(wvmodel)
     elif args.algo=='autoencoder':
         classifier = auto.AutoEncoderWord2VecClassifier(wvmodel)
-    elif args.algo=='cnn':
-        classifier = cnn.CNNEmbeddedVecClassifier(wvmodel, n_gram=args.ngram)
+    else:
+        raise AlgorithmNotExistException(args.algo)
 
     # load model
     print "Loading model..."
@@ -56,7 +60,7 @@ if __name__ == '__main__':
         shorttext = raw_input('text> ')
         if len(shorttext) > 0:
             scoredict = classifier.score(shorttext)
-            for label, score in sorted(scoredict.items(), key=lambda s: s[1], reverse=True):
+            for label, score in sorted(scoredict.items(), key=lambda s: s[1], reverse=True)[:args.topn]:
                 print label, ' : ', score
         else:
             run = False
