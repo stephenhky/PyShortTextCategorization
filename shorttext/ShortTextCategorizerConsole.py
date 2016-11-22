@@ -8,7 +8,7 @@ import classifiers.embed.autoencode.AutoencoderEmbedVecClassification as auto
 import classifiers.embed.nnlib.CNNEmbedVecClassification as cnn
 import classifiers.embed.sumvec.SumWord2VecClassification as sumwv
 from classifiers import allowed_algos
-from utils import Word2VecModelNotExistException, AlgorithmNotExistException
+from utils.classification_exceptions import Word2VecModelNotExistException, AlgorithmNotExistException
 
 
 def get_argparser():

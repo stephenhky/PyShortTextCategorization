@@ -32,7 +32,7 @@ setup(name='shorttext',
                 'shorttext.data',],
       package_dir={'shorttext': 'shorttext'},
       package_data={'shorttext': ['data/*.csv']},
-      setup_requires=['numpy'],
+      setup_requires=['numpy', 'theano'],
       install_requires=[
           'numpy', 'scipy', 'theano', 'keras', 'nltk', 'gensim', 'pandas',
       ],
