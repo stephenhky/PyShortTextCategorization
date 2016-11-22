@@ -22,6 +22,11 @@ Neural Networks
 .. automodule:: frameworks
    :members:
 
+Topic Models
+
+.. automodule:: LatentTopicModeling
+   :members:
+
 Text Preprocessing
 ------------------
 
