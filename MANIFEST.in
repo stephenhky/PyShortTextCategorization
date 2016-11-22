@@ -1,2 +1,2 @@
 include README.md
-include shorttext_exampledata.csv
+include shorttext/data/shorttext_exampledata.csv

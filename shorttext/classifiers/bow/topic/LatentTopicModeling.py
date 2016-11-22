@@ -13,13 +13,12 @@ import utils.classification_exceptions as e
 
 topic_model_dict = {'lda': LdaModel,
                     'lsi': LsiModel,
-                    'hdp': HdpModel,
                     'rp': RpModel}
 
 class LatentTopicModeler:
     """
     This class facilitates the creation of topic models (options: LDA (latent Dirichlet Allocation),
-    LSI (latent semantic indexing), Random Projections, and HDP (hierarchical Dirichlet processes)
+    LSI (latent semantic indexing), and Random Projections
     with the given short text training data, and convert future
     short text into topic vectors using the trained topic model.
     """
@@ -32,7 +31,7 @@ class LatentTopicModeler:
 
         :param nb_topics: number of latent topics
         :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
-        :param algorithm: algorithm for topic modeling. Options: lda, lsi, hdp, rp. (Default: lda)
+        :param algorithm: algorithm for topic modeling. Options: lda, lsi, rp. (Default: lda)
         :param toweigh: whether to weigh the words using tf-idf. (Default: True)
         :type nb_topics: int
         :type preprocessor: function
