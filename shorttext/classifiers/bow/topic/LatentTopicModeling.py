@@ -2,7 +2,7 @@
 import json
 
 from gensim.corpora import Dictionary
-from gensim.models import TfidfModel, LdaModel, LsiModel
+from gensim.models import TfidfModel, LdaModel, LsiModel, HdpModel, RpModel
 from gensim.similarities import MatrixSimilarity
 from nltk import word_tokenize
 import numpy as np
@@ -12,12 +12,15 @@ from utils import gensim_corpora as gc
 import utils.classification_exceptions as e
 
 topic_model_dict = {'lda': LdaModel,
-                    'lsi': LsiModel}
+                    'lsi': LsiModel,
+                    'hdp': HdpModel,
+                    'rp': RpModel}
 
 class LatentTopicModeler:
     """
-    This class facilitates the creation of topic models (two options: LDA (latent Dirichlet Allocation),
-    and LSI (latent semantic indexing) with the given short text training data, and convert future
+    This class facilitates the creation of topic models (options: LDA (latent Dirichlet Allocation),
+    LSI (latent semantic indexing), Random Projections, and HDP (hierarchical Dirichlet processes)
+    with the given short text training data, and convert future
     short text into topic vectors using the trained topic model.
     """
     def __init__(self,
@@ -29,7 +32,7 @@ class LatentTopicModeler:
 
         :param nb_topics: number of latent topics
         :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
-        :param algorithm: algorithm for topic modeling. Options: lda, lsi. (Default: lda)
+        :param algorithm: algorithm for topic modeling. Options: lda, lsi, hdp, rp. (Default: lda)
         :param toweigh: whether to weigh the words using tf-idf. (Default: True)
         :type nb_topics: int
         :type preprocessor: function
