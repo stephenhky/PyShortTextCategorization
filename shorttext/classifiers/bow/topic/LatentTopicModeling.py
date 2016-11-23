@@ -26,13 +26,15 @@ class LatentTopicModeler:
                  nb_topics,
                  preprocessor=textpreprocess.standard_text_preprocessor_1(),
                  algorithm='lda',
-                 toweigh=True):
+                 toweigh=True,
+                 normalize=True):
         """ Initialize the classifier.
 
         :param nb_topics: number of latent topics
         :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
         :param algorithm: algorithm for topic modeling. Options: lda, lsi, rp. (Default: lda)
         :param toweigh: whether to weigh the words using tf-idf. (Default: True)
+        :param normalize: whether the retrieved topic vectors are normalized. (Default: True)
         :type nb_topics: int
         :type preprocessor: function
         :type algorithm: str
@@ -42,6 +44,7 @@ class LatentTopicModeler:
         self.preprocessor = preprocessor
         self.algorithm = algorithm
         self.toweigh = toweigh
+        self.normalize = normalize
         self.trained = False
 
     def train(self, classdict, *args, **kwargs):
@@ -71,7 +74,7 @@ class LatentTopicModeler:
         # change the flag
         self.trained = True
 
-    def retrieve_topicvec(self, shorttext, normalize=True):
+    def retrieve_topicvec(self, shorttext):
         """ Calculate the topic vector representation of the short text.
 
         If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
@@ -89,9 +92,17 @@ class LatentTopicModeler:
         topicdist = self.topicmodel[self.tfidf[bow] if self.toweigh else bow]
         for topicid, frac in topicdist:
             topicvec[topicid] = frac
-        if normalize:
+        if self.normalize:
             topicvec /= np.linalg.norm(topicvec)
         return topicvec
+
+    def __getitem__(self, shorttext):
+        return self.retrieve_topicvec(shorttext)
+
+    def __contains__(self, shorttext):
+        if not self.trained:
+            raise e.ModelNotTrainedException()
+        return True
 
     def loadmodel(self, nameprefix):
         """ Load the topic model with the given prefix of the file paths.
