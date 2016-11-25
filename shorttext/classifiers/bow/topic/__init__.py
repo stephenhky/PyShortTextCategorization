@@ -1,1 +1,2 @@
 import LatentTopicModeling
+import TopicVectorDistanceClassification
