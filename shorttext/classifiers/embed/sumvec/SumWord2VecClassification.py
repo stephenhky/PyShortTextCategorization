@@ -42,16 +42,19 @@ class SumEmbeddedVecClassifier:
      'theology': 0.2157201054314255}
     """
 
-    def __init__(self, wvmodel, vecsize=300):
+    def __init__(self, wvmodel, vecsize=300, simfcn=lambda u, v: 1-cosine(u, v)):
         """ Initialize the classifier.
 
         :param wvmodel: Word2Vec model
         :param vecsize: length of the embedded vectors in the model (Default: 300)
+        :param simfcn: similarity function (Default: cosine similarity)
         :type wvmodel: gensim.models.word2vec.Word2Vec
         :type vecsize: int
+        :type simfcn: function
         """
         self.wvmodel = wvmodel
         self.vecsize = vecsize
+        self.simfcn = simfcn
         self.trained = False
 
     def train(self, classdict):
@@ -147,7 +150,7 @@ class SumEmbeddedVecClassifier:
         scoredict = {}
         for classtype in self.addvec:
             try:
-                scoredict[classtype] = 1 - cosine(vec, self.addvec[classtype])
+                scoredict[classtype] = self.simfcn(vec, self.addvec[classtype])
             except ValueError:
                 scoredict[classtype] = np.nan
         return scoredict

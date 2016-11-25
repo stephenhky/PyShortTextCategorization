@@ -1,5 +1,5 @@
-from ..utils import classification_exceptions
-from ..utils import kerasmodel_io as kerasmodel_io
+from utils import classification_exceptions
+from utils import kerasmodel_io as kerasmodel_io
 
 from .embed.autoencode import AutoencoderEmbedVecClassification
 from .embed.nnlib import VarNNEmbedVecClassification, VarNNSumEmbedVecClassification

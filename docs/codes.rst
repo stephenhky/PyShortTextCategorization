@@ -28,6 +28,9 @@ Topic Models
 .. automodule:: LatentTopicModeling
    :members:
 
+.. automodule:: TopicVectorDistanceClassification
+   :members:
+
 Text Preprocessing
 ------------------
 
