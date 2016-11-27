@@ -31,6 +31,39 @@ class TopicVecCosineDistanceClassifier:
             scoredict[label] = similarity
         return dict(scoredict)
 
+    def loadmodel(self, nameprefix):
+        """ Load the topic model with the given prefix of the file paths.
+
+        Given the prefix of the file paths, load the corresponding topic model. The files
+        include a JSON (.json) file that specifies various parameters, a gensim dictionary (.gensimdict),
+        and a topic model (.gensimmodel). If weighing is applied, load also the tf-idf model (.gensimtfidf).
+
+        This is essentialing loading the topic modeler :class:`LatentTopicModeler`.
+
+        :param nameprefix: prefix of the file paths
+        :return: None
+        :type nameprefix: str
+        """
+        self.topicmodeler.loadmodel(nameprefix)
+
+    def savemodel(self, nameprefix):
+        """ Save the model with names according to the prefix.
+
+        Given the prefix of the file paths, save the corresponding topic model. The files
+        include a JSON (.json) file that specifies various parameters, a gensim dictionary (.gensimdict),
+        and a topic model (.gensimmodel). If weighing is applied, load also the tf-idf model (.gensimtfidf).
+
+        If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
+
+        This is essentialing saving the topic modeler :class:`LatentTopicModeler`.
+
+        :param nameprefix: prefix of the file paths
+        :return: None
+        :raise: ModelNotTrainedException
+        :type nameprefix: str
+        """
+        self.topicmodeler.savemodel(nameprefix)
+
 def train_topicvecCosineClassifier(classdict,
                                    nb_topics,
                                    preprocessor=textpreprocess.standard_text_preprocessor_1(),
@@ -78,3 +111,39 @@ def train_topicvecCosineClassifier(classdict,
 
     # cosine distance classifier
     return TopicVecCosineDistanceClassifier(topicmodeler)
+
+def load_topicvecCosineClassifier(nameprefix,
+                                  preprocessor=textpreprocess.standard_text_preprocessor_1(),
+                                  normalize=True):
+    """ Load a topic model from files and return a cosine distance classifier.
+
+    Given the prefix of the files of the topic model, return a cosine distance classifier
+    based on this model, i.e., :class:`TopicVecCosineDistanceClassifier`.
+
+    The files include a JSON (.json) file that specifies various parameters, a gensim dictionary (.gensimdict),
+    and a topic model (.gensimmodel). If weighing is applied, load also the tf-idf model (.gensimtfidf).
+
+    Reference:
+
+    Xuan Hieu Phan, Cam-Tu Nguyen, Dieu-Thu Le, Minh Le Nguyen, Susumu Horiguchi, Quang-Thuy Ha,
+    "A Hidden Topic-Based Framework toward Building Applications with Short Web Documents,"
+    *IEEE Trans. Knowl. Data Eng.* 23(7): 961-976 (2011).
+
+    Xuan Hieu Phan, Le-Minh Nguyen, Susumu Horiguchi, "Learning to Classify Short and Sparse Text & Web withHidden Topics from Large-scale Data Collections,"
+    WWW '08 Proceedings of the 17th international conference on World Wide Web. (2008) [`ACL
+    <http://dl.acm.org/citation.cfm?id=1367510>`_]
+
+    :param nameprefix: prefix of the file paths
+    :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
+    :param normalize: whether the retrieved topic vectors are normalized. (Default: True)
+    :return: a classifier that scores the short text based on the topic model
+    :type nameprefix: str
+    :type preprocessor: function
+    :type normalize: bool
+    :rtype: TopicVecCosineDistanceClassifier
+    """
+    topicmodeler = LatentTopicModeler(10)
+    topicmodeler.loadmodel(nameprefix)
+
+    return TopicVecCosineDistanceClassifier(topicmodeler)
+
