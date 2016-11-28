@@ -102,12 +102,11 @@ def train_topicvecCosineClassifier(classdict,
     :rtype: TopicVecCosineDistanceClassifier
     """
     # train topic model
-    topicmodeler = LatentTopicModeler(nb_topics,
-                                      preprocessor=preprocessor,
+    topicmodeler = LatentTopicModeler(preprocessor=preprocessor,
                                       algorithm=algorithm,
                                       toweigh=toweigh,
                                       normalize=normalize)
-    topicmodeler.train(classdict, *args, **kwargs)
+    topicmodeler.train(classdict, nb_topics, *args, **kwargs)
 
     # cosine distance classifier
     return TopicVecCosineDistanceClassifier(topicmodeler)
@@ -142,7 +141,7 @@ def load_topicvecCosineClassifier(nameprefix,
     :type normalize: bool
     :rtype: TopicVecCosineDistanceClassifier
     """
-    topicmodeler = LatentTopicModeler(10)
+    topicmodeler = LatentTopicModeler(preprocessor=preprocessor, normalize=normalize)
     topicmodeler.loadmodel(nameprefix)
 
     return TopicVecCosineDistanceClassifier(topicmodeler)

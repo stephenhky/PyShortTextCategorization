@@ -1,2 +1,3 @@
 import LatentTopicModeling
 import TopicVectorDistanceClassification
+import SkLearnClassification

@@ -23,39 +23,38 @@ class LatentTopicModeler:
     short text into topic vectors using the trained topic model.
     """
     def __init__(self,
-                 nb_topics,
                  preprocessor=textpreprocess.standard_text_preprocessor_1(),
                  algorithm='lda',
                  toweigh=True,
                  normalize=True):
         """ Initialize the classifier.
 
-        :param nb_topics: number of latent topics
         :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
         :param algorithm: algorithm for topic modeling. Options: lda, lsi, rp. (Default: lda)
         :param toweigh: whether to weigh the words using tf-idf. (Default: True)
         :param normalize: whether the retrieved topic vectors are normalized. (Default: True)
-        :type nb_topics: int
         :type preprocessor: function
         :type algorithm: str
         :type toweigh: bool
         """
-        self.nb_topics = nb_topics
         self.preprocessor = preprocessor
         self.algorithm = algorithm
         self.toweigh = toweigh
         self.normalize = normalize
         self.trained = False
 
-    def train(self, classdict, *args, **kwargs):
+    def train(self, classdict, nb_topics, *args, **kwargs):
         """ Train the classifier.
 
         :param classdict: training data
+        :param nb_topics: number of latent topics
         :param args: arguments to pass to the `train` method for gensim topic models
         :param kwargs: arguments to pass to the `train` method for gensim topic models
         :return: None
         :type classdict: dict
+        :type nb_topics: int
         """
+        self.nb_topics = nb_topics
         self.dictionary, self.corpus, self.classlabels = gc.generate_gensim_corpora(classdict,
                                                                                     preprocess_and_tokenize=lambda sent: word_tokenize(self.preprocessor(sent)))
         if self.toweigh:
@@ -120,12 +119,16 @@ class LatentTopicModeler:
         self.nb_topics = parameters['nb_topics']
         self.toweigh = parameters['toweigh']
         self.algorithm = parameters['algorithm']
+        self.classlabels = parameters['classlabels']
 
         # load the dictionary
         self.dictionary = Dictionary.load(nameprefix+'.gensimdict')
 
         # load the topic model
         self.topicmodel = topic_model_dict[self.algorithm].load(nameprefix+'.gensimmodel')
+
+        # load the similarity matrix
+        self.matsim = MatrixSimilarity.load(nameprefix+'.gensimmat')
 
         # load the tf-idf modek
         if self.toweigh:
@@ -154,9 +157,17 @@ class LatentTopicModeler:
         parameters['nb_topics'] = self.nb_topics
         parameters['toweigh'] = self.toweigh
         parameters['algorithm'] = self.algorithm
+        parameters['classlabels'] = self.classlabels
         json.dump(parameters, open(nameprefix+'.json', 'wb'))
 
         self.dictionary.save(nameprefix+'.gensimdict')
         self.topicmodel.save(nameprefix+'.gensimmodel')
+        self.matsim.save(nameprefix+'.gensimmat')
         if self.toweigh:
             self.tfidf.save(nameprefix+'.gensimtfidf')
+
+def load_topicmodel(nameprefix,
+                    preprocessor=textpreprocess.standard_text_preprocessor_1()):
+    topicmodeler = LatentTopicModeler(preprocessor=preprocessor)
+    topicmodeler.loadmodel(nameprefix)
+    return topicmodeler

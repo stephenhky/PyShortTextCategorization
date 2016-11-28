@@ -5,7 +5,7 @@ def readme():
         return f.read()
 
 setup(name='shorttext',
-      version="0.1.2",
+      version="0.1.3",
       description="Short Text Categorization using Embedded Word Vectors",
       long_description="Supervised learning algorithms for short text categorization using embedded word vectors such as Word2Vec",
       classifiers=[
@@ -34,7 +34,7 @@ setup(name='shorttext',
       package_data={'shorttext': ['data/*.csv']},
       setup_requires=['numpy', 'theano'],
       install_requires=[
-          'numpy', 'scipy', 'theano', 'keras', 'nltk', 'gensim', 'pandas',
+          'numpy', 'scipy', 'scikit-learn', 'theano', 'keras', 'nltk', 'gensim', 'pandas',
       ],
       scripts=['bin/ShortTextCategorizer',
                'bin/ShortTextCategorizerConsole'],

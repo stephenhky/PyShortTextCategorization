@@ -31,6 +31,9 @@ Topic Models
 .. automodule:: TopicVectorDistanceClassification
    :members:
 
+.. automodule:: SkLearnClassification
+   :members:
+
 Text Preprocessing
 ------------------
 
