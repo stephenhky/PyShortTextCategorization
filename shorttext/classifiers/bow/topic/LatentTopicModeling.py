@@ -73,8 +73,39 @@ class LatentTopicModeler:
         # change the flag
         self.trained = True
 
+    def retrieve_bow(self, shorttext):
+        """ Calculate the gensim representation of the given short text.
+
+        If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
+
+        :param shorttext: text to be represented
+        :return: corpus representation of the text
+        :raise: ModelNotTrainedException
+        :type shorttext: str
+        :rtype: list
+        """
+        if not self.trained:
+            raise e.ModelNotTrainedException()
+        return self.dictionary.doc2bow(word_tokenize(self.preprocessor(shorttext)))
+
+    def retrieve_corpus_topicdist(self, shorttext):
+        """ Calculate the topic vector representation of the short text, in the corpus form.
+
+        If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
+
+        :param shorttext: text to be represented
+        :return: topic vector in the corpus form
+        :raise: ModelNotTrainedException
+        :type shorttext: str
+        :rtype: list
+        """
+        bow = self.retrieve_bow(shorttext)
+        return self.topicmodel[self.tfidf[bow] if self.toweigh else bow]
+
     def retrieve_topicvec(self, shorttext):
         """ Calculate the topic vector representation of the short text.
+
+        This function calls :func:`~retrieve_corpus_topicdist`.
 
         If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
 
@@ -87,8 +118,7 @@ class LatentTopicModeler:
         if not self.trained:
             raise e.ModelNotTrainedException()
         topicvec = np.zeros(self.nb_topics)
-        bow = self.dictionary.doc2bow(word_tokenize(self.preprocessor(shorttext)))
-        topicdist = self.topicmodel[self.tfidf[bow] if self.toweigh else bow]
+        topicdist = self.retrieve_corpus_topicdist(shorttext)
         for topicid, frac in topicdist:
             topicvec[topicid] = frac
         if self.normalize:

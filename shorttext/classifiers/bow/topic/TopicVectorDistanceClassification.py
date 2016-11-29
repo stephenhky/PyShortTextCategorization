@@ -27,7 +27,8 @@ class TopicVecCosineDistanceClassifier:
         :rtype: dict
         """
         scoredict = defaultdict(lambda : 0.0)
-        for label, similarity in zip(self.topicmodeler.classlabels, self.topicmodeler.matsim[self.topicmodeler[shorttext]]):
+        similarities = self.topicmodeler.matsim[self.topicmodeler.retrieve_corpus_topicdist(shorttext)]
+        for label, similarity in zip(self.topicmodeler.classlabels, similarities):
             scoredict[label] = similarity
         return dict(scoredict)
 
