@@ -2,8 +2,10 @@ import random
 from collections import defaultdict
 import json
 import os
+import zipfile
 
 import pandas as pd
+import numpy as np
 
 
 def retrieve_csvdata_as_dict(filepath):
@@ -54,7 +56,7 @@ def retrieve_jsondata_as_dict(filepath):
     return json.load(open(filepath, 'r'))
 
 def subjectkeywords():
-    """ Return an example data set.
+    """ Return an example data set of subjects.
 
     Return an example data set, with three subjects and corresponding keywords.
     This is in the format of the training input.
@@ -115,6 +117,51 @@ def subjectkeywords():
     """
     this_dir, _ = os.path.split(__file__)
     return retrieve_csvdata_as_dict(os.path.join(this_dir, 'shorttext_exampledata.csv'))
+
+def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512):
+    """ Return an example data set, sampled from NIH REPORTER.
+
+    Return an example data set from NIH (National Institutes of Health),
+    data publicly available from their RePORTER
+    website. (`link
+    <https://exporter.nih.gov/ExPORTER_Catalog.aspx>`_).
+    The data is with `txt_col` being either project titles ('PROJECT_TITLE')
+    or proposal abstracts ('ABSTRACT_TEXT'), and label_col being the names of the ICs (Institutes or Centers),
+    with 'IC_NAME' the whole form, and 'FUNDING_ICs' the abbreviated form).
+
+    Dataset directly adapted from the NIH data from `R` package `textmineR
+    <https://cran.r-project.org/web/packages/textmineR/index.html>`_.
+
+    :param txt_col: column for the text (Default: 'PROJECT_TITLE')
+    :param label_col: column for the labels (Default: 'FUNDING_ICs')
+    :param sample_size: size of the sample (Default: 512)
+    :return: example data set
+    :type txt_col: str
+    :type label_col: str
+    :type sample_size: int
+    :rtype: dict
+    """
+    # txt_col = 'PROJECT_TITLE' or 'ABSTRACT_TEXT'
+    # label_col = 'FUNDING_ICs' or 'IC_NAME'
+    this_dir, _ = os.path.split(__file__)
+    zfile = zipfile.ZipFile(os.path.join(this_dir, 'nih_full.csv.zip'))
+    nih = pd.read_csv(zfile.open('nih_full.csv'), na_filter=False)
+    nb_data = len(nih)
+    sample_size = nb_data if sample_size==None else min(nb_data, sample_size)
+
+    classdict = defaultdict(lambda : [])
+
+    for rowidx in np.random.randint(nb_data, size=min(nb_data, sample_size)):
+        label = nih.ix[rowidx, label_col]
+        if label_col=='FUNDING_ICs':
+            if label=='':
+                label = 'OTHER'
+            else:
+                endpos = label.index(':')
+                label = label[:endpos]
+        classdict[label] += [nih.ix[rowidx, txt_col]]
+
+    return dict(classdict)
 
 def mergedict(dicts):
     """ Merge data dictionary.
