@@ -2,7 +2,7 @@
 import json
 
 from gensim.corpora import Dictionary
-from gensim.models import TfidfModel, LdaModel, LsiModel, HdpModel, RpModel
+from gensim.models import TfidfModel, LdaModel, LsiModel, RpModel
 from gensim.similarities import MatrixSimilarity
 from nltk import word_tokenize
 import numpy as np
@@ -11,11 +11,58 @@ from utils import textpreprocessing as textpreprocess
 from utils import gensim_corpora as gc
 import utils.classification_exceptions as e
 
-topic_model_dict = {'lda': LdaModel,
-                    'lsi': LsiModel,
-                    'rp': RpModel}
+gensim_topic_model_dict = {'lda': LdaModel, 'lsi': LsiModel, 'rp': RpModel}
 
+# abstract class
 class LatentTopicModeler:
+    def __init__(self,
+                 preprocessor=textpreprocess.standard_text_preprocessor_1(),
+                 normalize=True):
+        self.preprocessor = preprocessor
+        self.normalize = normalize
+        self.trained = False
+
+    def generate_corpus(self, classdict):
+        self.dictionary, self.corpus, self.classlabels = gc.generate_gensim_corpora(classdict,
+                                                                                    preprocess_and_tokenize=lambda sent: word_tokenize(self.preprocessor(sent)))
+
+    def train(self, classdict, nb_topics, *args, **kwargs):
+        self.nb_topics = nb_topics
+        raise e.NotImplementedException()
+
+    def retrieve_bow(self, shorttext):
+        """ Calculate the gensim representation of the given short text.
+
+        If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
+
+        :param shorttext: text to be represented
+        :return: corpus representation of the text
+        :raise: ModelNotTrainedException
+        :type shorttext: str
+        :rtype: list
+        """
+        if not self.trained:
+            raise e.ModelNotTrainedException()
+        return self.dictionary.doc2bow(word_tokenize(self.preprocessor(shorttext)))
+
+    def retrieve_topicvec(self, shorttext):
+        raise e.NotImplementedException()
+
+    def __getitem__(self, shorttext):
+        return self.retrieve_topicvec(shorttext)
+
+    def __contains__(self, shorttext):
+        if not self.trained:
+            raise e.ModelNotTrainedException()
+        return True
+
+    def loadmodel(self, nameprefix):
+        raise e.NotImplementedException()
+
+    def savemodel(self, nameprefix):
+        raise e.NotImplementedException()
+
+class GensimTopicModeler(LatentTopicModeler):
     """
     This class facilitates the creation of topic models (options: LDA (latent Dirichlet Allocation),
     LSI (latent semantic indexing), and Random Projections
@@ -37,11 +84,9 @@ class LatentTopicModeler:
         :type algorithm: str
         :type toweigh: bool
         """
-        self.preprocessor = preprocessor
+        LatentTopicModeler.__init__(self, preprocessor=preprocessor, normalize=normalize)
         self.algorithm = algorithm
         self.toweigh = toweigh
-        self.normalize = normalize
-        self.trained = False
 
     def train(self, classdict, nb_topics, *args, **kwargs):
         """ Train the classifier.
@@ -55,8 +100,7 @@ class LatentTopicModeler:
         :type nb_topics: int
         """
         self.nb_topics = nb_topics
-        self.dictionary, self.corpus, self.classlabels = gc.generate_gensim_corpora(classdict,
-                                                                                    preprocess_and_tokenize=lambda sent: word_tokenize(self.preprocessor(sent)))
+        self.generate_corpus(classdict)
         if self.toweigh:
             self.tfidf = TfidfModel(self.corpus)
             normcorpus = self.tfidf[self.corpus]
@@ -64,29 +108,14 @@ class LatentTopicModeler:
             self.tfidf = None
             normcorpus = self.corpus
 
-        self.topicmodel = topic_model_dict[self.algorithm](normcorpus,
-                                                           num_topics=self.nb_topics,
-                                                           *args,
-                                                           **kwargs)
+        self.topicmodel = gensim_topic_model_dict[self.algorithm](normcorpus,
+                                                                  num_topics=self.nb_topics,
+                                                                  *args,
+                                                                  **kwargs)
         self.matsim = MatrixSimilarity(self.topicmodel[normcorpus])
 
         # change the flag
         self.trained = True
-
-    def retrieve_bow(self, shorttext):
-        """ Calculate the gensim representation of the given short text.
-
-        If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
-
-        :param shorttext: text to be represented
-        :return: corpus representation of the text
-        :raise: ModelNotTrainedException
-        :type shorttext: str
-        :rtype: list
-        """
-        if not self.trained:
-            raise e.ModelNotTrainedException()
-        return self.dictionary.doc2bow(word_tokenize(self.preprocessor(shorttext)))
 
     def retrieve_corpus_topicdist(self, shorttext):
         """ Calculate the topic vector representation of the short text, in the corpus form.
@@ -99,6 +128,8 @@ class LatentTopicModeler:
         :type shorttext: str
         :rtype: list
         """
+        if not self.trained:
+            raise e.ModelNotTrainedException()
         bow = self.retrieve_bow(shorttext)
         return self.topicmodel[self.tfidf[bow] if self.toweigh else bow]
 
@@ -115,23 +146,13 @@ class LatentTopicModeler:
         :type shorttext: str
         :rtype: numpy.ndarray
         """
-        if not self.trained:
-            raise e.ModelNotTrainedException()
-        topicvec = np.zeros(self.nb_topics)
         topicdist = self.retrieve_corpus_topicdist(shorttext)
+        topicvec = np.zeros(self.nb_topics)
         for topicid, frac in topicdist:
             topicvec[topicid] = frac
         if self.normalize:
             topicvec /= np.linalg.norm(topicvec)
         return topicvec
-
-    def __getitem__(self, shorttext):
-        return self.retrieve_topicvec(shorttext)
-
-    def __contains__(self, shorttext):
-        if not self.trained:
-            raise e.ModelNotTrainedException()
-        return True
 
     def loadmodel(self, nameprefix):
         """ Load the topic model with the given prefix of the file paths.
@@ -155,7 +176,7 @@ class LatentTopicModeler:
         self.dictionary = Dictionary.load(nameprefix+'.gensimdict')
 
         # load the topic model
-        self.topicmodel = topic_model_dict[self.algorithm].load(nameprefix+'.gensimmodel')
+        self.topicmodel = gensim_topic_model_dict[self.algorithm].load(nameprefix + '.gensimmodel')
 
         # load the similarity matrix
         self.matsim = MatrixSimilarity.load(nameprefix+'.gensimmat')
@@ -196,8 +217,24 @@ class LatentTopicModeler:
         if self.toweigh:
             self.tfidf.save(nameprefix+'.gensimtfidf')
 
-def load_topicmodel(nameprefix,
-                    preprocessor=textpreprocess.standard_text_preprocessor_1()):
-    topicmodeler = LatentTopicModeler(preprocessor=preprocessor)
+class AutoencodingTopicModeler(LatentTopicModeler):
+    def train(self, classdict, nb_topics, *args, **kwargs):
+        self.nb_topics = nb_topics
+        self.generate_corpus(classdict)
+        # TODO: implement it
+
+
+def load_gensimtopicmodel(nameprefix,
+                          preprocessor=textpreprocess.standard_text_preprocessor_1()):
+    """ Load the topic modeler from files.
+
+    :param nameprefix: prefix of the paths of the model files
+    :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
+    :return: a topic modeler
+    :type nameprefix: str
+    :type preprocessor: function
+    :rtype: GensimTopicModeler
+    """
+    topicmodeler = GensimTopicModeler(preprocessor=preprocessor)
     topicmodeler.loadmodel(nameprefix)
     return topicmodeler

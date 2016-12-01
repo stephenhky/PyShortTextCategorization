@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 from utils import textpreprocessing as textpreprocess
-from classifiers.bow.topic.LatentTopicModeling import LatentTopicModeler
+from classifiers.bow.topic.LatentTopicModeling import LatentTopicModeler, GensimTopicModeler
 
 class TopicVecCosineDistanceClassifier:
     """
@@ -103,7 +103,7 @@ def train_topicvecCosineClassifier(classdict,
     :rtype: TopicVecCosineDistanceClassifier
     """
     # train topic model
-    topicmodeler = LatentTopicModeler(preprocessor=preprocessor,
+    topicmodeler = GensimTopicModeler(preprocessor=preprocessor,
                                       algorithm=algorithm,
                                       toweigh=toweigh,
                                       normalize=normalize)
@@ -142,7 +142,7 @@ def load_topicvecCosineClassifier(nameprefix,
     :type normalize: bool
     :rtype: TopicVecCosineDistanceClassifier
     """
-    topicmodeler = LatentTopicModeler(preprocessor=preprocessor, normalize=normalize)
+    topicmodeler = GensimTopicModeler(preprocessor=preprocessor, normalize=normalize)
     topicmodeler.loadmodel(nameprefix)
 
     return TopicVecCosineDistanceClassifier(topicmodeler)

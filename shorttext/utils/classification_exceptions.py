@@ -14,3 +14,7 @@ class Word2VecModelNotExistException(Exception):
 class UnequalArrayLengthsException(Exception):
     def __init__(self, arr1, arr2):
         self.message = 'Unequal lengths: '+str(len(arr1))+" and "+str(len(arr2))
+
+class NotImplementedException(Exception):
+    def __init__(self):
+        self.message = 'Method not implemented.'

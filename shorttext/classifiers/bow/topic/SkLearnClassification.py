@@ -3,7 +3,7 @@ from collections import defaultdict
 from sklearn.externals import joblib
 
 from utils import textpreprocessing as textpreprocess
-from classifiers.bow.topic.LatentTopicModeling import LatentTopicModeler
+from classifiers.bow.topic.LatentTopicModeling import GensimTopicModeler
 import utils.classification_exceptions as e
 
 class TopicVectorSkLearnClassifier:
@@ -17,7 +17,7 @@ class TopicVectorSkLearnClassifier:
 
         :param topicmodeler: a topic modeler
         :param sklearn_classifier: a scikit-learn classifier
-        :type topicmodeler: LatentTopicModeler
+        :type topicmodeler: GensimTopicModeler
         :type sklearn_classifier: sklearn.base.BaseEstimator
         """
         self.topicmodeler = topicmodeler
@@ -168,7 +168,7 @@ def train_topicvec_sklearnclassifier(classdict,
     :rtype: TopicVectorSkLearnClassifier
     """
     # topic model training
-    topicmodeler = LatentTopicModeler(preprocessor=preprocessor,
+    topicmodeler = GensimTopicModeler(preprocessor=preprocessor,
                                       algorithm=topicmodel_algorithm,
                                       toweigh=toweigh,
                                       normalize=normalize)
@@ -196,7 +196,7 @@ def load_topicvec_sklearnclassifier(nameprefix,
     :rtype: TopicVectorSkLearnClassifier
     """
     # loading topic model
-    topicmodeler = LatentTopicModeler(preprocessor=preprocessor, normalize=normalize)
+    topicmodeler = GensimTopicModeler(preprocessor=preprocessor, normalize=normalize)
     topicmodeler.loadmodel(nameprefix)
 
     # loading intermediate model
