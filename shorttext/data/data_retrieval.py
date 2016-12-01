@@ -134,18 +134,24 @@ def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512
 
     :param txt_col: column for the text (Default: 'PROJECT_TITLE')
     :param label_col: column for the labels (Default: 'FUNDING_ICs')
-    :param sample_size: size of the sample (Default: 512)
+    :param sample_size: size of the sample. Set to None if all rows. (Default: 512)
     :return: example data set
     :type txt_col: str
     :type label_col: str
     :type sample_size: int
     :rtype: dict
     """
+    # validation
     # txt_col = 'PROJECT_TITLE' or 'ABSTRACT_TEXT'
     # label_col = 'FUNDING_ICs' or 'IC_NAME'
+    if not (txt_col in ['PROJECT_TITLE', 'ABSTRACT_TEXT']):
+        raise KeyError('Undefined text column: '+txt_col+'. Must be PROJECT_TITLE or ABSTRACT_TEXT.')
+    if not (label_col in ['FUNDING_ICs', 'IC_NAME']):
+        raise KeyError('Undefined label column: '+label_col+'. Must be FUNDING_ICs or IC_NAME.')
+
     this_dir, _ = os.path.split(__file__)
     zfile = zipfile.ZipFile(os.path.join(this_dir, 'nih_full.csv.zip'))
-    nih = pd.read_csv(zfile.open('nih_full.csv'), na_filter=False)
+    nih = pd.read_csv(zfile.open('nih_full.csv'), na_filter=False, usecols=[label_col, txt_col])
     nb_data = len(nih)
     sample_size = nb_data if sample_size==None else min(nb_data, sample_size)
 
