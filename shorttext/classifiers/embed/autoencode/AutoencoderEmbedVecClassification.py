@@ -198,7 +198,7 @@ class AutoEncoderWord2VecClassifier:
         If the short sentence is empty, or if other numerical errors occur, the score will be `numpy.nan`.
         If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
 
-        :param shorttext: a short sentence
+        :param shorttext: short text
         :return: a dictionary with keys being the class labels, and values being the corresponding classification scores
         :type shorttext: str
         :rtype: dict

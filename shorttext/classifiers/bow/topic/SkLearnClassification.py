@@ -11,6 +11,16 @@ class TopicVectorSkLearnClassifier:
     This is a classifier that wraps any supervised learning algorithm in `scikit-learn`,
     and use the topic vectors output by the topic modeler :class:`LatentTopicModeler` that
     wraps the topic models in `gensim`.
+
+    # Reference
+
+    Xuan Hieu Phan, Cam-Tu Nguyen, Dieu-Thu Le, Minh Le Nguyen, Susumu Horiguchi, Quang-Thuy Ha,
+    "A Hidden Topic-Based Framework toward Building Applications with Short Web Documents,"
+    *IEEE Trans. Knowl. Data Eng.* 23(7): 961-976 (2011).
+
+    Xuan Hieu Phan, Le-Minh Nguyen, Susumu Horiguchi, "Learning to Classify Short and Sparse Text & Web withHidden Topics from Large-scale Data Collections,"
+    WWW '08 Proceedings of the 17th international conference on World Wide Web. (2008) [`ACL
+    <http://dl.acm.org/citation.cfm?id=1367510>`_]
     """
     def __init__(self, topicmodeler, sklearn_classifier):
         """ Initialize the classifier.
@@ -146,6 +156,16 @@ def train_topicvec_sklearnclassifier(classdict,
     learning classifier. The instantiated (not trained) scikit-learn classifier must be
     passed into the argument.
 
+    # Reference
+
+    Xuan Hieu Phan, Cam-Tu Nguyen, Dieu-Thu Le, Minh Le Nguyen, Susumu Horiguchi, Quang-Thuy Ha,
+    "A Hidden Topic-Based Framework toward Building Applications with Short Web Documents,"
+    *IEEE Trans. Knowl. Data Eng.* 23(7): 961-976 (2011).
+
+    Xuan Hieu Phan, Le-Minh Nguyen, Susumu Horiguchi, "Learning to Classify Short and Sparse Text & Web withHidden Topics from Large-scale Data Collections,"
+    WWW '08 Proceedings of the 17th international conference on World Wide Web. (2008) [`ACL
+    <http://dl.acm.org/citation.cfm?id=1367510>`_]
+
     :param classdict: training data
     :param nb_topics: number of topics in the topic model
     :param sklearn_classifier: instantiated scikit-learn classifier
@@ -185,6 +205,16 @@ def load_topicvec_sklearnclassifier(nameprefix,
                                     normalize=True):
     """ Load the classifier, a wrapper that uses scikit-learn classifier, with
      feature vectors given by a topic model, from files.
+
+    # Reference
+
+    Xuan Hieu Phan, Cam-Tu Nguyen, Dieu-Thu Le, Minh Le Nguyen, Susumu Horiguchi, Quang-Thuy Ha,
+    "A Hidden Topic-Based Framework toward Building Applications with Short Web Documents,"
+    *IEEE Trans. Knowl. Data Eng.* 23(7): 961-976 (2011).
+
+    Xuan Hieu Phan, Le-Minh Nguyen, Susumu Horiguchi, "Learning to Classify Short and Sparse Text & Web withHidden Topics from Large-scale Data Collections,"
+    WWW '08 Proceedings of the 17th international conference on World Wide Web. (2008) [`ACL
+    <http://dl.acm.org/citation.cfm?id=1367510>`_]
 
     :param nameprefix: prefix of the paths of model files
     :param preprocessor: function that preprocesses the text (Default: `utils.textpreprocess.standard_text_preprocessor_1`)

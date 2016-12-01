@@ -1,12 +1,15 @@
-
+from operator import add
 import json
 
+import numpy as np
 from gensim.corpora import Dictionary
 from gensim.models import TfidfModel, LdaModel, LsiModel, RpModel
 from gensim.similarities import MatrixSimilarity
 from nltk import word_tokenize
-import numpy as np
+from keras.layers import Input, Dense
+from keras.models import Model
 
+import utils.kerasmodel_io as kerasio
 from utils import textpreprocessing as textpreprocess
 from utils import gensim_corpora as gc
 import utils.classification_exceptions as e
@@ -15,37 +18,90 @@ gensim_topic_model_dict = {'lda': LdaModel, 'lsi': LsiModel, 'rp': RpModel}
 
 # abstract class
 class LatentTopicModeler:
+    """
+    Abstract class for various topic modeler.
+    """
     def __init__(self,
                  preprocessor=textpreprocess.standard_text_preprocessor_1(),
                  normalize=True):
+        """ Initialize the modeler.
+
+        :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
+        :param normalize: whether the retrieved topic vectors are normalized. (Default: True)
+        :type preprocessor: function
+        :type normalize: bool
+        """
         self.preprocessor = preprocessor
         self.normalize = normalize
         self.trained = False
 
     def generate_corpus(self, classdict):
+        """ Calculate the gensim dictionary and corpus, and extract the class labels
+        from the training data. Called by :func:`~train`.
+
+        :param classdict: training data
+        :return: None
+        :type classdict: dict
+        """
         self.dictionary, self.corpus, self.classlabels = gc.generate_gensim_corpora(classdict,
                                                                                     preprocess_and_tokenize=lambda sent: word_tokenize(self.preprocessor(sent)))
 
     def train(self, classdict, nb_topics, *args, **kwargs):
+        """ Train the modeler.
+
+        This is an abstract method of this abstract class, which raise the `NotImplementedException`.
+
+        :param classdict: training data
+        :param nb_topics: number of latent topics
+        :param args: arguments to be passed into the wrapped training functions
+        :param kwargs: arguments to be passed into the wrapped training functions
+        :return: None
+        :raise: NotImplementedException
+        :type classdict: dict
+        :type nb_topics: int
+        """
         self.nb_topics = nb_topics
         raise e.NotImplementedException()
 
     def retrieve_bow(self, shorttext):
-        """ Calculate the gensim representation of the given short text.
-
-        If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
+        """ Calculate the gensim bag-of-words representation of the given short text.
 
         :param shorttext: text to be represented
         :return: corpus representation of the text
-        :raise: ModelNotTrainedException
         :type shorttext: str
         :rtype: list
         """
-        if not self.trained:
-            raise e.ModelNotTrainedException()
         return self.dictionary.doc2bow(word_tokenize(self.preprocessor(shorttext)))
 
+    def retrieve_bow_vector(self, shorttext, normalize=True):
+        """ Calculate the vector representation of the bag-of-words in terms of numpy.ndarray.
+
+        :param shorttext: short text
+        :param normalize: whether the retrieved topic vectors are normalized. (Default: True)
+        :return: vector represtation of the text
+        :type shorttext: str
+        :type normalize: bool
+        :rtype: numpy.ndarray
+        """
+        bow = self.retrieve_bow(shorttext)
+        vec = np.zeros(len(self.dictionary))
+        for id, val in bow:
+            vec[id] = val
+        if normalize:
+            vec /= np.linalg.norm(vec)
+        return vec
+
     def retrieve_topicvec(self, shorttext):
+        """ Calculate the topic vector representation of the short text.
+
+        This is an abstract method of this abstract class, which raise the `NotImplementedException`.
+
+        :param shorttext: short text
+        :return: topic vector
+        :raise: NotImplementedException
+        :type shorttext: str
+        :rtype: numpy.ndarray
+        """
         raise e.NotImplementedException()
 
     def __getitem__(self, shorttext):
@@ -57,9 +113,27 @@ class LatentTopicModeler:
         return True
 
     def loadmodel(self, nameprefix):
+        """ Load the model from files.
+
+        This is an abstract method of this abstract class, which raise the `NotImplementedException`.
+
+        :param nameprefix: prefix of the paths of the model files
+        :return: None
+        :raise: NotImplementedException
+        :type nameprefix: str
+        """
         raise e.NotImplementedException()
 
     def savemodel(self, nameprefix):
+        """ Save the model to files.
+
+        This is an abstract method of this abstract class, which raise the `NotImplementedException`.
+
+        :param nameprefix: prefix of the paths of the model files
+        :return: None
+        :raise: NotImplementedException
+        :type nameprefix: str
+        """
         raise e.NotImplementedException()
 
 class GensimTopicModeler(LatentTopicModeler):
@@ -68,13 +142,15 @@ class GensimTopicModeler(LatentTopicModeler):
     LSI (latent semantic indexing), and Random Projections
     with the given short text training data, and convert future
     short text into topic vectors using the trained topic model.
+
+    This class extends :class:`LatentTopicModeler`.
     """
     def __init__(self,
                  preprocessor=textpreprocess.standard_text_preprocessor_1(),
                  algorithm='lda',
                  toweigh=True,
                  normalize=True):
-        """ Initialize the classifier.
+        """ Initialize the topic modeler.
 
         :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
         :param algorithm: algorithm for topic modeling. Options: lda, lsi, rp. (Default: lda)
@@ -89,7 +165,7 @@ class GensimTopicModeler(LatentTopicModeler):
         self.toweigh = toweigh
 
     def train(self, classdict, nb_topics, *args, **kwargs):
-        """ Train the classifier.
+        """ Train the topic modeler.
 
         :param classdict: training data
         :param nb_topics: number of latent topics
@@ -146,6 +222,8 @@ class GensimTopicModeler(LatentTopicModeler):
         :type shorttext: str
         :rtype: numpy.ndarray
         """
+        if not self.trained:
+            raise e.ModelNotTrainedException()
         topicdist = self.retrieve_corpus_topicdist(shorttext)
         topicvec = np.zeros(self.nb_topics)
         for topicid, frac in topicdist:
@@ -218,11 +296,127 @@ class GensimTopicModeler(LatentTopicModeler):
             self.tfidf.save(nameprefix+'.gensimtfidf')
 
 class AutoencodingTopicModeler(LatentTopicModeler):
+    """
+    This class facilitates the topic modeling of input training data using the autoencoder.
+
+    A reference about how an autoencoder is written with keras by Francois Chollet, titled
+    `Building Autoencoders in Keras
+    <https://blog.keras.io/building-autoencoders-in-keras.html>`_ .
+
+    This class extends :class:`LatentTopicModeler`.
+    """
     def train(self, classdict, nb_topics, *args, **kwargs):
+        """ Train the autoencoder.
+
+        :param classdict: training data
+        :param nb_topics: number of topics, i.e., the number of encoding dimensions
+        :param args: arguments to be passed to keras model fitting
+        :param kwargs: arguments to be passed to keras model fitting
+        :return: None
+        :type classdict: dict
+        :type nb_topics: int
+        """
         self.nb_topics = nb_topics
         self.generate_corpus(classdict)
-        # TODO: implement it
+        vecsize = len(self.dictionary)
 
+        # define all the layers of the autoencoder
+        input_vec = Input(shape=(vecsize,))
+        encoded = Dense(self.nb_topics, activation='relu')(input_vec)
+        decoded = Dense(vecsize, activation='sigmoid')(encoded)
+
+        # define the autoencoder model
+        autoencoder = Model(input=input_vec, output=decoded)
+
+        # define the encoder
+        encoder = Model(input=input_vec, output=encoded)
+
+        # define the decoder
+        encoded_input = Input(shape=(self.nb_topics,))
+        decoder_layer = autoencoder.layers[-1]
+        decoder = Model(input=encoded_input, output=decoder_layer(encoded_input))
+
+        # compile the autoencoder
+        autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
+
+        # process training data
+        embedvecs = np.array(reduce(add,
+                                    [map(lambda shorttext: self.retrieve_bow_vector(shorttext, normalize=True),
+                                         classdict[classtype])
+                                     for classtype in classdict]
+                                    )
+                             )
+
+        # fit the model
+        autoencoder.fit(embedvecs, embedvecs, *args, **kwargs)
+
+        # store the autoencoder models
+        self.autoencoder = autoencoder
+        self.encoder = encoder
+        self.decoder = decoder
+
+        # flag setting
+        self.trained = True
+
+    def retrieve_topicvec(self, shorttext):
+        """ Calculate the topic vector representation of the short text.
+
+        If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
+
+        :param shorttext: short text
+        :return: encoded vector representation of the short text
+        :type shorttext: str
+        :rtype: numpy.ndarray
+        """
+        if not self.trained:
+            raise e.ModelNotTrainedException()
+        bow_vector = self.retrieve_bow_vector(shorttext)
+        encoded_vec = self.encoder.predict(np.array([bow_vector]))[0]
+        if self.normalize:
+            encoded_vec /= np.linalg.norm(encoded_vec)
+        return encoded_vec
+
+    def savemodel(self, nameprefix, save_complete_autoencoder=False):
+        """ Save the model with names according to the prefix.
+
+        Given the prefix of the file paths, save the model into files, with name given by the prefix.
+        There are files with names ending with "_encoder.json" and "_encoder.h5", which are
+        the JSON and HDF5 files for the encoder respectively. They also include a gensim dictionary (.gensimdict).
+
+        If `save_complete_autoencoder` is True,
+        then there are also files with names ending with "_decoder.json" and "_decoder.h5".
+
+        If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
+
+        :param nameprefix: prefix of the paths of the file
+        :param save_complete_autoencoder: whether to store the decoder and the complete autoencoder (Default: False)
+        :return: None
+        :type nameprefix: str
+        :type save_complete_autoencoder: bool
+        """
+        if not self.trained:
+            raise e.ModelNotTrainedException()
+        self.dictionary.save(nameprefix+'.gensimdict')
+        kerasio.save_model(nameprefix+'_encoder', self.encoder)
+        if save_complete_autoencoder:
+            kerasio.save_model(nameprefix+'_decoder', self.decoder)
+            kerasio.save_model(nameprefix+'_autoencoder', self.autoencoder)
+
+    def loadmodel(self, nameprefix):
+        """ Save the model with names according to the prefix.
+
+        Given the prefix of the file paths, load the model into files, with name given by the prefix.
+        There are files with names ending with "_encoder.json" and "_encoder.h5", which are
+        the JSON and HDF5 files for the encoder respectively.
+        They also include a gensim dictionary (.gensimdict).
+
+        :param nameprefix: prefix of the paths of the file
+        :return: None
+        :type nameprefix: str
+        """
+        self.dictionary = Dictionary.load(nameprefix + '.gensimdict')
+        self.encoder = kerasio.load_model(nameprefix+'_encoder')
+        self.trained = True
 
 def load_gensimtopicmodel(nameprefix,
                           preprocessor=textpreprocess.standard_text_preprocessor_1()):

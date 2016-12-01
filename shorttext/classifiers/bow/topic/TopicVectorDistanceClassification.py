@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 from utils import textpreprocessing as textpreprocess
-from classifiers.bow.topic.LatentTopicModeling import LatentTopicModeler, GensimTopicModeler
+from classifiers.bow.topic.LatentTopicModeling import LatentTopicModeler, GensimTopicModeler, load_gensimtopicmodel
 
 class TopicVecCosineDistanceClassifier:
     """
@@ -75,16 +75,6 @@ def train_topicvecCosineClassifier(classdict,
     """ Return a cosine distance classifier, i.e., :class:`TopicVecCosineDistanceClassifier`, while
     training a topic model in between.
 
-    Reference:
-
-    Xuan Hieu Phan, Cam-Tu Nguyen, Dieu-Thu Le, Minh Le Nguyen, Susumu Horiguchi, Quang-Thuy Ha,
-    "A Hidden Topic-Based Framework toward Building Applications with Short Web Documents,"
-    *IEEE Trans. Knowl. Data Eng.* 23(7): 961-976 (2011).
-
-    Xuan Hieu Phan, Le-Minh Nguyen, Susumu Horiguchi, "Learning to Classify Short and Sparse Text & Web withHidden Topics from Large-scale Data Collections,"
-    WWW '08 Proceedings of the 17th international conference on World Wide Web. (2008) [`ACL
-    <http://dl.acm.org/citation.cfm?id=1367510>`_]
-
     :param classdict: training data
     :param nb_topics: number of latent topics
     :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
@@ -113,8 +103,7 @@ def train_topicvecCosineClassifier(classdict,
     return TopicVecCosineDistanceClassifier(topicmodeler)
 
 def load_topicvecCosineClassifier(nameprefix,
-                                  preprocessor=textpreprocess.standard_text_preprocessor_1(),
-                                  normalize=True):
+                                  preprocessor=textpreprocess.standard_text_preprocessor_1()):
     """ Load a topic model from files and return a cosine distance classifier.
 
     Given the prefix of the files of the topic model, return a cosine distance classifier
@@ -123,27 +112,13 @@ def load_topicvecCosineClassifier(nameprefix,
     The files include a JSON (.json) file that specifies various parameters, a gensim dictionary (.gensimdict),
     and a topic model (.gensimmodel). If weighing is applied, load also the tf-idf model (.gensimtfidf).
 
-    Reference:
-
-    Xuan Hieu Phan, Cam-Tu Nguyen, Dieu-Thu Le, Minh Le Nguyen, Susumu Horiguchi, Quang-Thuy Ha,
-    "A Hidden Topic-Based Framework toward Building Applications with Short Web Documents,"
-    *IEEE Trans. Knowl. Data Eng.* 23(7): 961-976 (2011).
-
-    Xuan Hieu Phan, Le-Minh Nguyen, Susumu Horiguchi, "Learning to Classify Short and Sparse Text & Web withHidden Topics from Large-scale Data Collections,"
-    WWW '08 Proceedings of the 17th international conference on World Wide Web. (2008) [`ACL
-    <http://dl.acm.org/citation.cfm?id=1367510>`_]
-
     :param nameprefix: prefix of the file paths
     :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
-    :param normalize: whether the retrieved topic vectors are normalized. (Default: True)
     :return: a classifier that scores the short text based on the topic model
     :type nameprefix: str
     :type preprocessor: function
-    :type normalize: bool
     :rtype: TopicVecCosineDistanceClassifier
     """
-    topicmodeler = GensimTopicModeler(preprocessor=preprocessor, normalize=normalize)
-    topicmodeler.loadmodel(nameprefix)
-
+    topicmodeler = load_gensimtopicmodel(nameprefix, preprocessor=preprocessor)
     return TopicVecCosineDistanceClassifier(topicmodeler)
 
