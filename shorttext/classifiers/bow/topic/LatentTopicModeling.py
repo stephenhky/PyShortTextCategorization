@@ -420,7 +420,7 @@ class AutoencodingTopicModeler(LatentTopicModeler):
 
 def load_gensimtopicmodel(nameprefix,
                           preprocessor=textpreprocess.standard_text_preprocessor_1()):
-    """ Load the topic modeler from files.
+    """ Load the gensim topic modeler from files.
 
     :param nameprefix: prefix of the paths of the model files
     :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
@@ -432,3 +432,18 @@ def load_gensimtopicmodel(nameprefix,
     topicmodeler = GensimTopicModeler(preprocessor=preprocessor)
     topicmodeler.loadmodel(nameprefix)
     return topicmodeler
+
+def load_autoencoder_topic(nameprefix,
+                           preprocessor=textpreprocess.standard_text_preprocessor_1()):
+    """ Load the autoencoding topic model from files.
+
+    :param nameprefix: prefix of the paths of the model files
+    :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
+    :return: an autoencoder as a topic modeler
+    :type nameprefix: str
+    :type preprocessor: function
+    :rtype: AutoencodingTopicModeler
+    """
+    autoencoder = AutoencodingTopicModeler(preprocessor=preprocessor)
+    autoencoder.loadmodel(nameprefix)
+    return autoencoder

@@ -3,7 +3,8 @@ from collections import defaultdict
 from sklearn.externals import joblib
 
 from utils import textpreprocessing as textpreprocess
-from classifiers.bow.topic.LatentTopicModeling import GensimTopicModeler
+from classifiers.bow.topic.LatentTopicModeling import GensimTopicModeler, AutoencodingTopicModeler
+from classifiers.bow.topic.LatentTopicModeling import load_gensimtopicmodel, load_autoencoder_topic
 import utils.classification_exceptions as e
 
 class TopicVectorSkLearnClassifier:
@@ -27,7 +28,7 @@ class TopicVectorSkLearnClassifier:
 
         :param topicmodeler: a topic modeler
         :param sklearn_classifier: a scikit-learn classifier
-        :type topicmodeler: GensimTopicModeler
+        :type topicmodeler: LatentTopicModeler
         :type sklearn_classifier: sklearn.base.BaseEstimator
         """
         self.topicmodeler = topicmodeler
@@ -141,15 +142,15 @@ class TopicVectorSkLearnClassifier:
         self.topicmodeler.loadmodel(nameprefix)
         self.classifier = joblib.load(nameprefix+'.pkl')
 
-def train_topicvec_sklearnclassifier(classdict,
-                                     nb_topics,
-                                     sklearn_classifier,
-                                     preprocessor=textpreprocess.standard_text_preprocessor_1(),
-                                     topicmodel_algorithm='lda',
-                                     toweigh=True,
-                                     normalize=True,
-                                     gensim_paramdict={},
-                                     sklearn_paramdict={}):
+def train_gensim_topicvec_sklearnclassifier(classdict,
+                                            nb_topics,
+                                            sklearn_classifier,
+                                            preprocessor=textpreprocess.standard_text_preprocessor_1(),
+                                            topicmodel_algorithm='lda',
+                                            toweigh=True,
+                                            normalize=True,
+                                            gensim_paramdict={},
+                                            sklearn_paramdict={}):
     """ Train the supervised learning classifier, with features given by topic vectors.
 
     It trains a topic model, and with its topic vector representation, train a supervised
@@ -200,9 +201,8 @@ def train_topicvec_sklearnclassifier(classdict,
 
     return classifier
 
-def load_topicvec_sklearnclassifier(nameprefix,
-                                    preprocessor=textpreprocess.standard_text_preprocessor_1(),
-                                    normalize=True):
+def load_gensim_topicvec_sklearnclassifier(nameprefix,
+                                           preprocessor=textpreprocess.standard_text_preprocessor_1()):
     """ Load the classifier, a wrapper that uses scikit-learn classifier, with
      feature vectors given by a topic model, from files.
 
@@ -218,22 +218,101 @@ def load_topicvec_sklearnclassifier(nameprefix,
 
     :param nameprefix: prefix of the paths of model files
     :param preprocessor: function that preprocesses the text (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
-    :param normalize: whether the retrieved topic vectors are normalized (Default: True)
     :return: a trained classifier
     :type nameprefix: str
     :type preprocessor: function
-    :type normalize: bool
     :rtype: TopicVectorSkLearnClassifier
     """
     # loading topic model
-    topicmodeler = GensimTopicModeler(preprocessor=preprocessor, normalize=normalize)
-    topicmodeler.loadmodel(nameprefix)
+    topicmodeler = load_gensimtopicmodel(nameprefix, preprocessor=preprocessor)
 
     # loading intermediate model
     sklearn_classifier = joblib.load(nameprefix+'.pkl')
 
     # the wrapped classifier
     classifier = TopicVectorSkLearnClassifier(topicmodeler, sklearn_classifier)
+    classifier.trained = True
+
+    return classifier
+
+def train_autoencoder_topic_sklearnclassifier(classdict,
+                                             nb_topics,
+                                             sklearn_classifier,
+                                             preprocessor=textpreprocess.standard_text_preprocessor_1(),
+                                             normalize=True,
+                                             keras_paramdict={},
+                                             sklearn_paramdict={}):
+    """ Train the supervised learning classifier, with features given by topic vectors.
+
+    It trains an autoencoder topic model, and with its encoded vector representation, train a supervised
+    learning classifier. The instantiated (not trained) scikit-learn classifier must be
+    passed into the argument.
+
+    # Reference
+
+    Xuan Hieu Phan, Cam-Tu Nguyen, Dieu-Thu Le, Minh Le Nguyen, Susumu Horiguchi, Quang-Thuy Ha,
+    "A Hidden Topic-Based Framework toward Building Applications with Short Web Documents,"
+    *IEEE Trans. Knowl. Data Eng.* 23(7): 961-976 (2011).
+
+    Xuan Hieu Phan, Le-Minh Nguyen, Susumu Horiguchi, "Learning to Classify Short and Sparse Text & Web withHidden Topics from Large-scale Data Collections,"
+    WWW '08 Proceedings of the 17th international conference on World Wide Web. (2008) [`ACL
+    <http://dl.acm.org/citation.cfm?id=1367510>`_]
+
+    :param classdict: training data
+    :param nb_topics: number topics, i.e., number of encoding dimensions
+    :param sklearn_classifier: instantiated scikit-learn classifier
+    :param preprocessor: function that preprocesses the text (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
+    :param normalize: whether the retrieved topic vectors are normalized (Default: True)
+    :param keras_paramdict: arguments to be passed to keras for training autoencoder
+    :param sklearn_paramdict: arguemtnst to be passed to scikit-learn for fitting the classifier
+    :return: a trained classifier
+    :type classdict: dict
+    :type nb_topics: int
+    :type sklearn_classifier: sklearn.base.BaseEstimator
+    :type preprocessor: function
+    :type normalize: bool
+    :rtype: TopicVectorSkLearnClassifier
+    """
+    # train the autoencoder
+    autoencoder = AutoencodingTopicModeler(preprocessor=preprocessor, normalize=normalize)
+    autoencoder.train(classdict, nb_topics, **keras_paramdict)
+
+    # intermediate classification training
+    classifier = TopicVectorSkLearnClassifier(autoencoder, sklearn_classifier)
+    classifier.train(classdict, **sklearn_paramdict)
+
+    return classifier
+
+def load_autoencoder_topic_sklearnclassifier(nameprefix,
+                                             preprocessor=textpreprocess.standard_text_preprocessor_1()):
+    """ Load the classifier, a wrapper that uses scikit-learn classifier, with
+     feature vectors given by an autocoder topic model, from files.
+
+    # Reference
+
+    Xuan Hieu Phan, Cam-Tu Nguyen, Dieu-Thu Le, Minh Le Nguyen, Susumu Horiguchi, Quang-Thuy Ha,
+    "A Hidden Topic-Based Framework toward Building Applications with Short Web Documents,"
+    *IEEE Trans. Knowl. Data Eng.* 23(7): 961-976 (2011).
+
+    Xuan Hieu Phan, Le-Minh Nguyen, Susumu Horiguchi, "Learning to Classify Short and Sparse Text & Web withHidden Topics from Large-scale Data Collections,"
+    WWW '08 Proceedings of the 17th international conference on World Wide Web. (2008) [`ACL
+    <http://dl.acm.org/citation.cfm?id=1367510>`_]
+
+    :param nameprefix: prefoix of the paths of model files
+    :param preprocessor: function that preprocesses the text (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
+    :return: a trained classifier
+    :type nameprefix: str
+    :type preprocessor: function
+    :rtype: TopicVectorSkLearnClassifier
+    """
+    # load the autoencoder
+    autoencoder = load_autoencoder_topic(nameprefix, preprocessor=preprocessor)
+
+    # load intermediate model
+    sklearn_classifier = joblib.load(nameprefix+'.pkl')
+
+    # the wrapper classifier
+    classifier = TopicVectorSkLearnClassifier(autoencoder, sklearn_classifier)
     classifier.trained = True
 
     return classifier
