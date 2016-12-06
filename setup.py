@@ -34,7 +34,7 @@ setup(name='shorttext',
       package_data={'shorttext': ['data/*.csv', 'data/*.zip']},
       setup_requires=['numpy', 'theano'],
       install_requires=[
-          'numpy', 'scipy', 'scikit-learn', 'tensorflow', 'theano', 'keras', 'nltk', 'gensim', 'pandas',
+          'numpy', 'scipy', 'scikit-learn', 'theano', 'keras', 'nltk', 'gensim', 'pandas',
       ],
       scripts=['bin/ShortTextCategorizer',
                'bin/ShortTextCategorizerConsole'],
