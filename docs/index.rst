@@ -15,11 +15,14 @@ Feel free to give suggestions through the Github_ page.
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
+   install
+   tutorial
    codes
-   refs
    scripts
+   faq
+   refs
    links
 
 .. _Github: https://github.com/stephenhky/PyShortTextCategorization

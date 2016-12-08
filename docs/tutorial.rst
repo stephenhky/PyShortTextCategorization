@@ -1,0 +1,16 @@
+Tutorial
+========
+
+After installation, you are ready to start tasting the convenience and power
+of the package.
+
+Before using, type
+
+>>> import shorttext
+
+You will get the message that `Theano` backend is used for `keras`.
+
+.. toctree::
+   :maxdepth: 2
+
+   tutorial_dataprep
