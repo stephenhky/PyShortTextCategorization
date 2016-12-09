@@ -67,7 +67,7 @@ def subjectkeywords():
     Examples
 
     >>> import shorttext
-    >>> classdict = shorttext.data.data_retrieval.subjectkeywords()
+    >>> classdict = shorttext.data.subjectkeywords()
     >>> classdict
     {'mathematics': ['linear algebra',
       'topology',
@@ -119,10 +119,11 @@ def subjectkeywords():
     return retrieve_csvdata_as_dict(os.path.join(this_dir, 'shorttext_exampledata.csv'))
 
 def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512):
-    """ Return an example data set, sampled from NIH REPORTER.
+    """ Return an example data set, sampled from NIH RePORT (Research Portfolio
+    Online Reporting Tools).
 
     Return an example data set from NIH (National Institutes of Health),
-    data publicly available from their RePORTER
+    data publicly available from their RePORT
     website. (`link
     <https://exporter.nih.gov/ExPORTER_Catalog.aspx>`_).
     The data is with `txt_col` being either project titles ('PROJECT_TITLE')

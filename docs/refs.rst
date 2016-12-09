@@ -17,6 +17,10 @@ Sebastian Ruder, "An overview of gradient descent optimization algorithms," blog
 <http://sebastianruder.com/optimizing-gradient-descent/>`_ or `arXiv
 <https://arxiv.org/abs/1609.04747>`_]
 
+Thomas W. Jones, "textmineR: Functions for Text Mining and Topic Modeling," CRAN Project. [`CRAN
+<https://cran.r-project.org/web/packages/textmineR/index.html>`_ or `Github_
+<https://github.com/TommyJones/textmineR>`_]
+
 Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, “Efficient Estimation of Word Representations in Vector Space,” *ICLR* 2013 (2013). [`arXiv
 <https://arxiv.org/abs/1301.3781>`_]
 

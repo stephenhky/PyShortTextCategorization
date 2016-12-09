@@ -14,3 +14,6 @@ You will get the message that `Theano` backend is used for `keras`.
    :maxdepth: 2
 
    tutorial_dataprep
+   tutorial_textpreprocessing
+   tutorial_wordembed
+   tutorial_topic
