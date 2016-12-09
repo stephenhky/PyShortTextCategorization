@@ -30,12 +30,110 @@ First, load a set of training data (all NIH data in this example):
 
 >>> trainclassdict = shorttext.data.nihreports(sample_size=None)
 
+Initialize an instance of topic modeler, and use LDA as an example:
 
+>>> topicmodeler = ltm.GensimTopicModeler(algorithm='lda')
 
+For the algorithms, user can use `lsi` and `rp` in addition to `lda` in the example.
+To train with 128 topics, enter:
 
+>>> topicmodeler.train(trainclassdict, 128)
+
+After the training is done, the user can retrieve the topic vector representation
+with the trained model. For example,
+
+>>> topicmodeler.retrieve_topicvec('stem cell research')
+
+>>> topicmodeler.retrieve_topicvec('bioinformatics')
+
+By default, the vectors are normalized. Another way to retrieve the topic vector
+representation is as follow:
+
+>>> topicmodeler['stem cell research']
+
+>>> topicmodeler['bioinformatics']
+
+In the training and the retrieval above, the same preprocessing process is applied.
+Users can provide their own preprocessor while initiating the topic modeler.
+
+Users can save the trained models, by calling:
+
+>>> topicmodeler.savemodel('/path/to/nihlda128')
+
+The following files for the topic model are produced:
+
+::
+
+    /path/to/nihlda128.json
+    /path/to/nihlda128.gensimdict
+    /path/to/nihlda128.gensimmodel.state
+    /path/to/nihlda128.gensimtfidf
+    /path/to/nihlda128.gensimmodel
+    /path/to/nihlda128.gensimmat
+
+All of them have to be present in order to be loaded. Note that the preprocessor is
+not saved. To load the model, enter:
+
+>>> topicmodeler2 = ltm.load_gensimtopicmodel('/path/to/nihlda128')
+
+While initialize the instance of the topic modeler, the user can also specify
+whether to weigh the terms using tf-idf (term frequency - inverse document frequency).
+The default is to weigh. To not weigh, initialize it as
+
+>>> topicmodeler3 = ltm.GensimTopicModeler(toweight=False)
+
+AutoEncoder
+-----------
+
+Another way to find a new topic vector representation is to use the autoencoder, a neural network model
+which compresses a vector representation into another one of a shorter (or longer, rarely though)
+representation, by minimizing the difference between the input layer and the decoding layer.
+To train such a model, we perform in a similar way with the LDA model (or LSI and random projections above):
+
+>>> autoencoder = ltm.AutoencodingTopicModeler()
+>>> autoencoder.train(trainclassdict, 128)
+
+After the training is done, the user can retrieve the encoded vector representation
+with the trained autoencoder model. For example,
+
+>>> autoencoder.retrieve_topicvec('stem cell research')
+
+>>> autoencoder.retrieve_topicvec('bioinformatics')
+
+By default, the vectors are normalized. Another way to retrieve the topic vector
+representation is as follow:
+
+>>> autoencoder['stem cell research']
+
+>>> autoencoder['bioinformatics']
+
+In the training and the retrieval above, the same preprocessing process is applied.
+Users can provide their own preprocessor while initiating the topic modeler.
+
+Users can save the trained models, by calling:
+
+>>> autoencoder.savemodel('/path/to/nih_autoencoder128')
+
+Users can load the same model later by entering:
+
+>>> autoencoder2 = ltm.load_autoencoder_topic('/path/to/nih_autoencoder128')
+
+Like other topic models, while initialize the instance of the topic modeler, the user can also specify
+whether to weigh the terms using tf-idf (term frequency - inverse document frequency).
+The default is to weigh. To not weigh, initialize it as:
+
+>>> autoencoder3 = ltm.AutoencodingTopicModeler(toweight=False)
+
+Abstract Latent Topic Modeling Class
+------------------------------------
+
+Both `GensimTopicModeler` and `AutoencodingTopicModeler` extends `LatentTopicModeler`.
 
 Reference
 ---------
+
+Francois Chollet, "Building Autoencoders in Keras," *The Keras Blog*. [`Keras
+<https://blog.keras.io/building-autoencoders-in-keras.html>`_]
 
 Xuan Hieu Phan, Cam-Tu Nguyen, Dieu-Thu Le, Minh Le Nguyen, Susumu Horiguchi, Quang-Thuy Ha,
 "A Hidden Topic-Based Framework toward Building Applications with Short Web Documents,"
