@@ -166,7 +166,12 @@ Classification Using Scikit-Learn Classifiers
 
 The topic modeler can be used to generate features used for other machine learning
 algorithms. We can take any supervised learning algorithms in `scikit-learn` here.
-We use Gaussian naive Bayes as an example.
+We use Gaussian naive Bayes as an example. For faster demonstration, use the subject
+keywords as the example dataset:
+
+>>> subdict = shorttext.data.subjectkeywords()
+>>> subtopicmodeler = shorttext.classifiers.bow.topic.LatentTopicModeling.GensimTopicModeler()
+>>> subtopicmodeler.train(subdict, 8)
 
 We first import the class:
 
@@ -175,10 +180,23 @@ We first import the class:
 And we train the classifier:
 
 >>> from shorttext.classifiers.bow.topic.SkLearnClassification import TopicVectorSkLearnClassifier
->>> classifier = TopicVectorSkLearnClassifier(topicmodeler, GaussianNB())
->>> classifier.train(trainclassdict)
+>>> classifier = TopicVectorSkLearnClassifier(subtopicmodeler, GaussianNB())
+>>> classifier.train(subdict)
 
+Predictions can be performed like the following example:
 
+>>> classifier.score('functional integral')
+
+which outputs a dictionary with labels and the corresponding scores.
+
+You can save the model by:
+
+>>> classifier.savemodel('/path/to/sublda8nb')
+
+where the argument specifies the prefix of the path of the model files, including the topic
+models, and the scikit-learn model files. The classifier can be loaded by calling:
+
+>>> classifier2 = shorttext.classifiers.bow.topic.SkLearnClassification.load_gensim_topicvec_sklearnclassifier('/path/to/sublda8nb')
 
 Reference
 ---------

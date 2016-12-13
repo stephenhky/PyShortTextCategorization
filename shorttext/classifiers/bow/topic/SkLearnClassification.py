@@ -141,6 +141,7 @@ class TopicVectorSkLearnClassifier:
         """
         self.topicmodeler.loadmodel(nameprefix)
         self.classifier = joblib.load(nameprefix+'.pkl')
+        self.classlabels = self.topicmodeler.classlabels
 
 def train_gensim_topicvec_sklearnclassifier(classdict,
                                             nb_topics,
