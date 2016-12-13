@@ -13,6 +13,9 @@ Francois Chollet, "Building Autoencoders in Keras," *The Keras Blog*. [`Keras
 Hsiang-Fu Yu, Chia-Hua Ho, Yu-Chin Juan, and Chih-Jen Lin, "LibShortText: A Library for Short-text Classification." [`NTU
 <https://www.csie.ntu.edu.tw/~cjlin/libshorttext/>`_]
 
+Jeffrey Pennington, Richard Socher, Christopher D. Manning, “GloVe: Global Vectors for Word Representation,” *Empirical Methods in Natural Language Processing (EMNLP)*, pp. 1532-1543 (2014). [`PDF
+<http://www.aclweb.org/anthology/D14-1162>`_]
+
 Sebastian Ruder, "An overview of gradient descent optimization algorithms," blog of Sebastian Ruder, arXiv:1609.04747 (2016). [`Ruder
 <http://sebastianruder.com/optimizing-gradient-descent/>`_ or `arXiv
 <https://arxiv.org/abs/1609.04747>`_]

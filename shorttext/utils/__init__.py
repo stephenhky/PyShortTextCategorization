@@ -1,2 +1,5 @@
 import kerasmodel_io
 import classification_exceptions
+import gensim_corpora
+import textpreprocessing
+import wordembed
