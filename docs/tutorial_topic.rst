@@ -198,6 +198,21 @@ models, and the scikit-learn model files. The classifier can be loaded by callin
 
 >>> classifier2 = shorttext.classifiers.bow.topic.SkLearnClassification.load_gensim_topicvec_sklearnclassifier('/path/to/sublda8nb')
 
+The topic modeler here can also be an autoencoder, by putting `subtopicmodeler` as the autoencoder
+will still do the work. However, to load the saved classifier with an autoencoder model, do
+
+>>> classifier2 = shorttext.classifiers.bow.topic.SkLearnClassification.load_autoencoder_topic_sklearnclassifier('/path/to/someprefix')
+
+Notes about Text Preprocessing
+------------------------------
+
+The topic models are based on bag-of-words model, and text preprocessing is very important.
+However, the text preprocessing step cannot be serialized. The users should keep track of the
+text preprocessing step on their own. Unless it is necessary, use the standard preprocessing.
+
+See more: :doc:`tutorial_textpreprocessing` .
+
+
 Reference
 ---------
 
