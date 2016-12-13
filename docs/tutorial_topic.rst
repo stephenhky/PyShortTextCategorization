@@ -127,7 +127,58 @@ The default is to weigh. To not weigh, initialize it as:
 Abstract Latent Topic Modeling Class
 ------------------------------------
 
-Both `GensimTopicModeler` and `AutoencodingTopicModeler` extends `LatentTopicModeler`.
+Both `GensimTopicModeler` and `AutoencodingTopicModeler` extends `LatentTopicModeler`,
+an abstract class virtually. If user wants to develop its own topic model that extends
+this, he has to define the methods `train`, `retrieve_topic_vec`, `loadmodel`, and
+`savemodel`.
+
+Classification Using Cosine Similarity
+--------------------------------------
+
+The topic modelers are trained to represent the short text in terms of a topic vector,
+effectively the feature vector. However, to perform supervised classification, there
+needs a classification algorithm. The first one is to calculate the cosine similarities
+between topic vectors of the given short text with those of the texts in all class labels.
+
+If there is already a trained topic modeler, whether it is `GensimTopicModeler` or
+`AutoencodingTopicModeler`, a classifier based on cosine similarities can be initiated
+immediately without training. Taking the LDA example above, such classifier can be initiated as follow:
+
+>>> cos_classifier = shorttext.classifiers.bow.topic.TopicVectorDistanceClassification.TopicVecCosineDistanceClassifier(topicmodeler)
+
+Or if the user already saved the topic modeler, one can initiate the same classifier by
+loading the topic modeler:
+
+>>> cos_classifier = shorttext.classifiers.bow.topic.TopicVectorDistanceClassification.load_gensimtopicvec_cosineClassifier('/path/to/nihlda128')
+
+To perform prediction, enter:
+
+>>> cos_classifier.score('stem cell research')
+
+which outputs a dictionary with labels and the corresponding scores.
+
+The same thing for autoencoder, but the classifier based on autoencoder can be loaded by another function:
+
+>>> cos_classifier = shorttext.classifiers.bow.topic.TopicVectorDistanceClassification.load_autoencoder_cosineClassifier('/path/to/nih_autoencoder128')
+
+Classification Using Scikit-Learn Classifiers
+---------------------------------------------
+
+The topic modeler can be used to generate features used for other machine learning
+algorithms. We can take any supervised learning algorithms in `scikit-learn` here.
+We use Gaussian naive Bayes as an example.
+
+We first import the class:
+
+>>> from sklearn.naive_bayes import GaussianNB
+
+And we train the classifier:
+
+>>> from shorttext.classifiers.bow.topic.SkLearnClassification import TopicVectorSkLearnClassifier
+>>> classifier = TopicVectorSkLearnClassifier(topicmodeler, GaussianNB())
+>>> classifier.train(trainclassdict)
+
+
 
 Reference
 ---------
