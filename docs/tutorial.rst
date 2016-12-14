@@ -15,5 +15,5 @@ You will get the message that `Theano` backend is used for `keras`.
 
    tutorial_dataprep
    tutorial_textpreprocessing
-   tutorial_wordembed
    tutorial_topic
+   tutorial_wordembed

@@ -144,12 +144,14 @@ If there is already a trained topic modeler, whether it is `GensimTopicModeler` 
 `AutoencodingTopicModeler`, a classifier based on cosine similarities can be initiated
 immediately without training. Taking the LDA example above, such classifier can be initiated as follow:
 
->>> cos_classifier = shorttext.classifiers.bow.topic.TopicVectorDistanceClassification.TopicVecCosineDistanceClassifier(topicmodeler)
+>>> from shorttext.classifiers.bow.topic.TopicVectorDistanceClassification import TopicVecCosineDistanceClassifier
+>>> cos_classifier = TopicVecCosineDistanceClassifier(topicmodeler)
 
 Or if the user already saved the topic modeler, one can initiate the same classifier by
 loading the topic modeler:
 
->>> cos_classifier = shorttext.classifiers.bow.topic.TopicVectorDistanceClassification.load_gensimtopicvec_cosineClassifier('/path/to/nihlda128')
+>>> from shorttext.classifiers.bow.topic.TopicVectorDistanceClassification import load_gensimtopicvec_cosineClassifier
+>>> cos_classifier = load_gensimtopicvec_cosineClassifier('/path/to/nihlda128')
 
 To perform prediction, enter:
 
@@ -170,7 +172,7 @@ We use Gaussian naive Bayes as an example. For faster demonstration, use the sub
 keywords as the example dataset:
 
 >>> subdict = shorttext.data.subjectkeywords()
->>> subtopicmodeler = shorttext.classifiers.bow.topic.LatentTopicModeling.GensimTopicModeler()
+>>> subtopicmodeler = ltm.GensimTopicModeler()
 >>> subtopicmodeler.train(subdict, 8)
 
 We first import the class:

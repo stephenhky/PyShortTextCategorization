@@ -22,5 +22,8 @@ Blog Entries
 (A code demonstration can be found in an early version of the Github repository for this package: `here
 <https://github.com/stephenhky/PyShortTextCategorization/tree/b298d3ce7d06a9b4e0f7d32f27bab66064ba7afa>`_)
 
+"Toying with Word2Vec," *Everything About Data Analytics*, WordPress (2015). [`WordPress
+<https://datawarrior.wordpress.com/2015/10/25/codienerd-2-toying-with-word2vec/>`_]
+
 "Probabilistic Theory of Word Embeddings: GloVe," *Everything About Data Analytics*, WordPress (2016). [`WordPress
 <https://datawarrior.wordpress.com/2016/07/25/probabilistic-theory-of-word-embeddings-glove/>`_]
