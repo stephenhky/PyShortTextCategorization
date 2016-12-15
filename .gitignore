@@ -136,6 +136,9 @@ ENV/
 .idea/dictionaries
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/PyShortTextCategorization.iml
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids
