@@ -17,3 +17,4 @@ You will get the message that `Theano` backend is used for `keras`.
    tutorial_textpreprocessing
    tutorial_topic
    tutorial_wordembed
+   tutorial_sumvec

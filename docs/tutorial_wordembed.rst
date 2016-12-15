@@ -16,6 +16,44 @@ It is a binary file, and the default is set to be `binary=True`. In fact, it is 
 >>> wvmodel = Word2Vec.load_word2vec_format('/path/to/GoogleNews-vectors-negative300.bin.gz', binary=True)
 
 Word2Vec is a neural network model that embeds words into semantic vectors that carry semantic meaning.
+It is easy to extract the vector of a word, like for the word 'coffee':
+
+>>> wvmodel['coffee']   # an ndarray for the word will be output
+
+One can find the most similar words to 'coffee' according to this model:
+
+>>> wvmodel.most_similar('coffee')
+
+which outputs:
+
+::
+
+    [(u'coffees', 0.721267819404602),
+     (u'gourmet_coffee', 0.7057087421417236),
+     (u'Coffee', 0.6900454759597778),
+     (u'o_joe', 0.6891065835952759),
+     (u'Starbucks_coffee', 0.6874972581863403),
+     (u'coffee_beans', 0.6749703884124756),
+     (u'latt\xe9', 0.664122462272644),
+     (u'cappuccino', 0.662549614906311),
+     (u'brewed_coffee', 0.6621608138084412),
+     (u'espresso', 0.6616827249526978)]
+
+Or if you want to find the cosine similarity between 'coffee' and 'tea', enter:
+
+>>> wvmodel.similarity('coffee', 'tea')   # outputs: 0.56352921707810621
+
+Semantic meaning can be reflected by their differences. For example, we can vaguely
+say `Francis` - `Paris` = `Taiwan` - `Taipei`, or `man` - `actor` = `woman` - `actress`.
+Define first the cosine similarity for readability:
+
+>>> from scipy.spatial.distance import cosine
+>>> similarity = lambda u, v: 1-cosine(u, v)
+
+Then
+
+>>> similarity(wvmodel['France'] + wvmodel['Taipei'] - wvmodel['Taiwan'], wvmodel['Paris'])  # outputs: 0.70574580801216202
+>>> similarity(wvmodel['woman'] + wvmodel['actor'] - wvmodel['man'], wvmodel['actress'])  # outputs: 0.876354245612604
 
 GloVe
 -----

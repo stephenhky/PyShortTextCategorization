@@ -23,8 +23,8 @@ class SumEmbeddedVecClassifier:
     Examples
 
     >>> # load the Word2Vec model
-    >>> from gensim.models import Word2Vec
-    >>> wvmodel = Word2Vec.load_word2vec_format('GoogleNews-vectors-negative300.bin.gz', binary=True)
+    >>> from shorttext.utils.wordembed import load_word2vec_model
+    >>> wvmodel = load_word2vec_model('GoogleNews-vectors-negative300.bin.gz')
     >>>
     >>> # load the training data
     >>> import shorttext.data.data_retrieval as ret
