@@ -88,35 +88,57 @@ AutoEncoder
 Another way to find a new topic vector representation is to use the autoencoder, a neural network model
 which compresses a vector representation into another one of a shorter (or longer, rarely though)
 representation, by minimizing the difference between the input layer and the decoding layer.
+For faster demonstration, use the subject keywords as the example dataset:
+
+>>> subdict = shorttext.data.subjectkeywords()
+
 To train such a model, we perform in a similar way with the LDA model (or LSI and random projections above):
 
 >>> autoencoder = ltm.AutoencodingTopicModeler()
->>> autoencoder.train(trainclassdict, 128)
+>>> autoencoder.train(subdict, 8)
 
 After the training is done, the user can retrieve the encoded vector representation
 with the trained autoencoder model. For example,
 
->>> autoencoder.retrieve_topicvec('stem cell research')
+>>> autoencoder.retrieve_topicvec('linear algebra')
 
->>> autoencoder.retrieve_topicvec('bioinformatics')
+>>> autoencoder.retrieve_topicvec('path integral')
 
 By default, the vectors are normalized. Another way to retrieve the topic vector
 representation is as follow:
 
->>> autoencoder['stem cell research']
+>>> autoencoder['linear algebra']
 
->>> autoencoder['bioinformatics']
+>>> autoencoder['path integral']
 
 In the training and the retrieval above, the same preprocessing process is applied.
 Users can provide their own preprocessor while initiating the topic modeler.
 
 Users can save the trained models, by calling:
 
->>> autoencoder.savemodel('/path/to/nih_autoencoder128')
+>>> autoencoder.savemodel('/path/to/sub_autoencoder8')
+
+The following files are produced for the autoencoder:
+
+::
+
+    /path/to/sub_autoencoder.gensimdict
+    /path/to/sub_autoencoder_encoder.json
+    /path/to/sub_autoencoder_encoder.h5
+    /path/to/sub_autoencoder_classtopicvecs.pkl
+
+If specifying `save_complete_autoencoder=True`, then four more files are found:
+
+::
+
+    /path/to/sub_autoencoder_decoder.json
+    /path/to/sub_autoencoder_decoder.h5
+    /path/to/sub_autoencoder_autoencoder.json
+    /path/to/sub_autoencoder_autoencoder.h5
 
 Users can load the same model later by entering:
 
->>> autoencoder2 = ltm.load_autoencoder_topic('/path/to/nih_autoencoder128')
+>>> autoencoder2 = ltm.load_autoencoder_topic('/path/to/sub_autoencoder8')
 
 Like other topic models, while initialize the instance of the topic modeler, the user can also specify
 whether to weigh the terms using tf-idf (term frequency - inverse document frequency).
@@ -161,7 +183,8 @@ which outputs a dictionary with labels and the corresponding scores.
 
 The same thing for autoencoder, but the classifier based on autoencoder can be loaded by another function:
 
->>> cos_classifier = shorttext.classifiers.bow.topic.TopicVectorDistanceClassification.load_autoencoder_cosineClassifier('/path/to/nih_autoencoder128')
+>>> from shorttext.classifiers.bow.topic.TopicVectorDistanceClassification import load_autoencoder_cosineClassifier
+>>> cos_classifier = load_autoencoder_cosineClassifier('/path/to/sub_autoencoder8')
 
 Classification Using Scikit-Learn Classifiers
 ---------------------------------------------
@@ -169,9 +192,8 @@ Classification Using Scikit-Learn Classifiers
 The topic modeler can be used to generate features used for other machine learning
 algorithms. We can take any supervised learning algorithms in `scikit-learn` here.
 We use Gaussian naive Bayes as an example. For faster demonstration, use the subject
-keywords as the example dataset:
+keywords as the example dataset.
 
->>> subdict = shorttext.data.subjectkeywords()
 >>> subtopicmodeler = ltm.GensimTopicModeler()
 >>> subtopicmodeler.train(subdict, 8)
 

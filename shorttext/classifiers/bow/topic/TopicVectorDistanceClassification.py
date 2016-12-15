@@ -27,11 +27,12 @@ class TopicVecCosineDistanceClassifier:
         :type shorttext: str
         :rtype: dict
         """
-        scoredict = defaultdict(lambda : 0.0)
-        similarities = self.topicmodeler.matsim[self.topicmodeler.retrieve_corpus_topicdist(shorttext)]
-        for label, similarity in zip(self.topicmodeler.classlabels, similarities):
-            scoredict[label] = similarity
-        return dict(scoredict)
+        # scoredict = defaultdict(lambda : 0.0)
+        # similarities = self.topicmodeler.matsim[self.topicmodeler.retrieve_corpus_topicdist(shorttext)]
+        # for label, similarity in zip(self.topicmodeler.classlabels, similarities):
+        #     scoredict[label] = similarity
+        # return dict(scoredict)
+        return self.topicmodeler.get_batch_cos_similarities(shorttext)
 
     def loadmodel(self, nameprefix):
         """ Load the topic model with the given prefix of the file paths.

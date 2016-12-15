@@ -1,7 +1,9 @@
 from operator import add
 import json
+import pickle
 
 import numpy as np
+from scipy.spatial.distance import cosine
 from gensim.corpora import Dictionary
 from gensim.models import TfidfModel, LdaModel, LsiModel, RpModel
 from gensim.similarities import MatrixSimilarity
@@ -93,6 +95,19 @@ class LatentTopicModeler:
 
     def retrieve_topicvec(self, shorttext):
         """ Calculate the topic vector representation of the short text.
+
+        This is an abstract method of this abstract class, which raise the `NotImplementedException`.
+
+        :param shorttext: short text
+        :return: topic vector
+        :raise: NotImplementedException
+        :type shorttext: str
+        :rtype: numpy.ndarray
+        """
+        raise e.NotImplementedException()
+
+    def get_batch_cos_similarities(self, shorttext):
+        """ Calculate the cosine similarities of the given short text and all the class labels.
 
         This is an abstract method of this abstract class, which raise the `NotImplementedException`.
 
@@ -232,6 +247,26 @@ class GensimTopicModeler(LatentTopicModeler):
             topicvec /= np.linalg.norm(topicvec)
         return topicvec
 
+    def get_batch_cos_similarities(self, shorttext):
+        """ Calculate the score, which is the cosine similarity with the topic vector of the model,
+        of the short text against each class labels.
+
+        If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
+
+        :param shorttext: short text
+        :return: dictionary of scores of the text to all classes
+        :raise: ModelNotTrainedException
+        :type shorttext: str
+        :rtype: dict
+        """
+        if not self.trained:
+            raise e.ModelNotTrainedException()
+        simdict = {}
+        similarities = self.matsim[self.retrieve_corpus_topicdist(shorttext)]
+        for label, similarity in zip(self.classlabels, similarities):
+            simdict[label] = similarity
+        return simdict
+
     def loadmodel(self, nameprefix):
         """ Load the topic model with the given prefix of the file paths.
 
@@ -358,6 +393,11 @@ class AutoencodingTopicModeler(LatentTopicModeler):
         # flag setting
         self.trained = True
 
+        # classes topic vector precomputation
+        self.classtopicvecs = {}
+        for label in classdict:
+            self.classtopicvecs[label] = self.precalculate_liststr_topicvec(classdict[label])
+
     def retrieve_topicvec(self, shorttext):
         """ Calculate the topic vector representation of the short text.
 
@@ -365,6 +405,7 @@ class AutoencodingTopicModeler(LatentTopicModeler):
 
         :param shorttext: short text
         :return: encoded vector representation of the short text
+        :raise: ModelNotTrainedException
         :type shorttext: str
         :rtype: numpy.ndarray
         """
@@ -375,6 +416,40 @@ class AutoencodingTopicModeler(LatentTopicModeler):
         if self.normalize:
             encoded_vec /= np.linalg.norm(encoded_vec)
         return encoded_vec
+
+    def precalculate_liststr_topicvec(self, shorttexts):
+        """ Calculate the summed topic vectors for training data for each class.
+
+        This function is called while training.
+
+        :param shorttexts: list of short texts
+        :return: average topic vector
+        :raise: ModelNotTrainedException
+        :type shorttexts: list
+        :rtype: numpy.ndarray
+        """
+        sumvec = sum(map(self.retrieve_topicvec, shorttexts))
+        sumvec /= np.linalg.norm(sumvec)
+        return sumvec
+
+    def get_batch_cos_similarities(self, shorttext):
+        """ Calculate the score, which is the cosine similarity with the topic vector of the model,
+        of the short text against each class labels.
+
+        If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
+
+        :param shorttext: short text
+        :return: dictionary of scores of the text to all classes
+        :raise: ModelNotTrainedException
+        :type shorttext: str
+        :rtype: dict
+        """
+        if not self.trained:
+            raise e.ModelNotTrainedException()
+        simdict = {}
+        for label in self.classtopicvecs:
+            simdict[label] = 1 - cosine(self.classtopicvecs[label], self.retrieve_topicvec(shorttext))
+        return simdict
 
     def savemodel(self, nameprefix, save_complete_autoencoder=False):
         """ Save the model with names according to the prefix.
@@ -401,6 +476,7 @@ class AutoencodingTopicModeler(LatentTopicModeler):
         if save_complete_autoencoder:
             kerasio.save_model(nameprefix+'_decoder', self.decoder)
             kerasio.save_model(nameprefix+'_autoencoder', self.autoencoder)
+        pickle.dump(self.classtopicvecs, open(nameprefix+'_classtopicvecs.pkl', 'w'))
 
     def loadmodel(self, nameprefix):
         """ Save the model with names according to the prefix.
@@ -416,6 +492,7 @@ class AutoencodingTopicModeler(LatentTopicModeler):
         """
         self.dictionary = Dictionary.load(nameprefix + '.gensimdict')
         self.encoder = kerasio.load_model(nameprefix+'_encoder')
+        self.classtopicvecs = pickle.load(open(nameprefix+'_classtopicvecs.pkl', 'r'))
         self.trained = True
 
 def load_gensimtopicmodel(nameprefix,
