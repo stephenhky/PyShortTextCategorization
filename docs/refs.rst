@@ -16,6 +16,9 @@ Hsiang-Fu Yu, Chia-Hua Ho, Yu-Chin Juan, and Chih-Jen Lin, "LibShortText: A Libr
 Jeffrey Pennington, Richard Socher, Christopher D. Manning, “GloVe: Global Vectors for Word Representation,” *Empirical Methods in Natural Language Processing (EMNLP)*, pp. 1532-1543 (2014). [`PDF
 <http://www.aclweb.org/anthology/D14-1162>`_]
 
+Michael Czerny, "Modern Methods for Sentiment Analysis," *District Data Labs (2015). [`DistrictDataLabs
+<https://districtdatalabs.silvrback.com/modern-methods-for-sentiment-analysis>`_]
+
 Sebastian Ruder, "An overview of gradient descent optimization algorithms," blog of Sebastian Ruder, arXiv:1609.04747 (2016). [`Ruder
 <http://sebastianruder.com/optimizing-gradient-descent/>`_ or `arXiv
 <https://arxiv.org/abs/1609.04747>`_]

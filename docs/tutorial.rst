@@ -18,3 +18,4 @@ You will get the message that `Theano` backend is used for `keras`.
    tutorial_topic
    tutorial_wordembed
    tutorial_sumvec
+   tutorial_nnlib

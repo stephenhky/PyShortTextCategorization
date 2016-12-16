@@ -19,27 +19,6 @@ class SumEmbeddedVecClassifier:
 
     A pre-trained Google Word2Vec model can be downloaded `here
     <https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit>`_.
-
-    Examples
-
-    >>> # load the Word2Vec model
-    >>> from shorttext.utils.wordembed import load_word2vec_model
-    >>> wvmodel = load_word2vec_model('GoogleNews-vectors-negative300.bin.gz')
-    >>>
-    >>> # load the training data
-    >>> import shorttext.data.data_retrieval as ret
-    >>> trainclassdict = ret.subjectkeywords()
-    >>>
-    >>> # initialize the classifier and train
-    >>> import shorttext.classifiers.embed.sumvec.SumWord2VecClassification as sumwv
-    >>> classifier = sumwv.SumEmbeddedVecClassifier(wvmodel)
-    >>> classifier.train(trainclassdict)
-    >>>
-    >>> # making predictions
-    >>> classifier.score('artificial intelligence')
-    {'mathematics': 0.34012238902405745,
-     'physics': 0.34134023723026496,
-     'theology': 0.2157201054314255}
     """
 
     def __init__(self, wvmodel, vecsize=300, simfcn=lambda u, v: 1-cosine(u, v)):
@@ -89,7 +68,7 @@ class SumEmbeddedVecClassifier:
         """
         if not self.trained:
             raise e.ModelNotTrainedException()
-        pickle.dump(self.addvec, open(nameprefix+'_embedvecdict.pickle', 'w'))
+        pickle.dump(self.addvec, open(nameprefix+'_embedvecdict.pkl', 'w'))
 
     def loadmodel(self, nameprefix):
         """ Load a trained model from files.
@@ -104,7 +83,7 @@ class SumEmbeddedVecClassifier:
         :return: None
         :type nameprefix: str
         """
-        self.addvec = pickle.load(open(nameprefix+'_embedvecdict.pickle', 'r'))
+        self.addvec = pickle.load(open(nameprefix+'_embedvecdict.pkl', 'r'))
         self.trained = True
 
     def shorttext_to_embedvec(self, shorttext):
@@ -154,3 +133,17 @@ class SumEmbeddedVecClassifier:
             except ValueError:
                 scoredict[classtype] = np.nan
         return scoredict
+
+def load_sumword2vec_classifier(wvmodel, nameprefix):
+    """ Load a SumEmbeddedVecClassifier from file, given the pre-trained Word2Vec model.
+
+    :param wvmodel: Word2Vec model
+    :param nameprefix: prefix of the file path
+    :return: the classifier
+    :type wvmodel: gensim.models.word2vec.Word2Vec
+    :type nameprefix: str
+    :rtype: SumEmbeddedVecClassifier
+    """
+    classifier = SumEmbeddedVecClassifier(wvmodel)
+    classifier.loadmodel(nameprefix)
+    return classifier

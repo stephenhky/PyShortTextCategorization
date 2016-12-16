@@ -80,9 +80,6 @@ Jeffrey Pennington, Richard Socher, Christopher D. Manning, “GloVe: Global Vec
 Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, “Efficient Estimation of Word Representations in Vector Space,” *ICLR* 2013 (2013). [`arXiv
 <https://arxiv.org/abs/1301.3781>`_]
 
-Blog Entries
-------------
-
 Radim Řehůřek, "Making sense of word2vec," RaRe Technologies (2014). [`RaRe
 <https://rare-technologies.com/making-sense-of-word2vec/>`_]
 
