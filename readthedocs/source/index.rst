@@ -12,12 +12,6 @@ Very likely I will add non-word-embedding models.
 Currently, Word2Vec is implemented. This package is still *under development*, and *not stable*.
 Feel free to give suggestions through the Github_ page.
 
-Links:
-
-- Github_ : repository of the package
-- PythonHosted_ : documentation and tutorial of the package
-- PyPI_ : PyPI
-
 Contents:
 
 .. toctree::
@@ -25,9 +19,16 @@ Contents:
 
    install
 
+Links:
+
+- Github_ : repository of the package
+- PythonHosted_ : documentation and tutorial of the package
+- PyPI_ : PyPI
+
+
 .. _Github: https://github.com/stephenhky/PyShortTextCategorization
 .. _PythonHosted: http://pythonhosted.org/shorttext/
-.. _PyPI: https://pypi.python.org/pypi?name=shorttext
+.. _PyPI: https://pypi.python.org/pypi/shorttext
 
 Indices and tables
 ==================
