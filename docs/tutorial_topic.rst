@@ -149,7 +149,9 @@ The default is to weigh. To not weigh, initialize it as:
 Abstract Latent Topic Modeling Class
 ------------------------------------
 
-Both `GensimTopicModeler` and `AutoencodingTopicModeler` extends `LatentTopicModeler`,
+Both :class:`shorttext.classifiers.bow.topic.LatentTopicModeling.GensimTopicModeler` and
+:class:`shorttext.classifiers.bow.topic.LatentTopicModeling.AutoencodingTopicModeler` extends
+:class:`shorttext.classifiers.bow.topic.LatentTopicModeling.LatentTopicModeler`,
 an abstract class virtually. If user wants to develop its own topic model that extends
 this, he has to define the methods `train`, `retrieve_topic_vec`, `loadmodel`, and
 `savemodel`.
@@ -162,8 +164,10 @@ effectively the feature vector. However, to perform supervised classification, t
 needs a classification algorithm. The first one is to calculate the cosine similarities
 between topic vectors of the given short text with those of the texts in all class labels.
 
-If there is already a trained topic modeler, whether it is `GensimTopicModeler` or
-`AutoencodingTopicModeler`, a classifier based on cosine similarities can be initiated
+If there is already a trained topic modeler, whether it is
+:class:`shorttext.classifiers.bow.topic.LatentTopicModeling.GensimTopicModeler` or
+:class:`shorttext.classifiers.bow.topic.LatentTopicModeling.AutoencodingTopicModeler`,
+a classifier based on cosine similarities can be initiated
 immediately without training. Taking the LDA example above, such classifier can be initiated as follow:
 
 >>> from shorttext.classifiers.bow.topic.TopicVectorDistanceClassification import TopicVecCosineDistanceClassifier
