@@ -6,8 +6,8 @@ def readme():
 
 setup(name='shorttext',
       version="0.1.3",
-      description="Short Text Categorization using Embedded Word Vectors",
-      long_description="Supervised learning algorithms for short text categorization using embedded word vectors such as Word2Vec",
+      description="Short Text Categorization",
+      long_description="Supervised learning algorithms for short text categorization using embedded word vectors such as Word2Vec, or immediate feature vectors using topic models",
       classifiers=[
           "Topic :: Scientific/Engineering :: Artificial Intelligence",
           "Natural Language :: English",
