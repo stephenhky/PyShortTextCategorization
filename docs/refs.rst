@@ -40,3 +40,7 @@ WWW '08 Proceedings of the 17th international conference on World Wide Web. (200
 
 Yoon Kim, "Convolutional Neural Networks for Sentence Classification," *EMNLP* 2014, 1746-1751 (arXiv:1408.5882). [`arXiv
 <https://arxiv.org/abs/1408.5882>`_]
+
+Zackary C. Lipton, John Berkowitz, "A Critical Review of Recurrent Neural Networks for Sequence Learning," arXiv:1506.00019 (2015). [`arXiv
+<https://arxiv.org/abs/1506.00019>`_]
+
