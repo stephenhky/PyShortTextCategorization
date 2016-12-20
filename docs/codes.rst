@@ -1,58 +1,90 @@
 Documentation
 =============
 
-Supervised Classification using Word Embedding
-----------------------------------------------
+Training Data Retrieval
+-----------------------
 
-.. automodule:: SumWord2VecClassification
-   :members:
+Module :module:`shorttext.data.data_retrieval`
 
-.. automodule:: VarNNEmbedVecClassification
-   :members:
-
-.. automodule:: CNNEmbedVecClassification
-   :members:
-
-.. automodule:: AutoencoderEmbedVecClassification
-   :members:
-
-Neural Networks
----------------
-
-.. automodule:: frameworks
-   :members:
-
-Topic Models
-------------
-
-.. automodule:: LatentTopicModeling
-   :members:
-
-.. automodule:: TopicVectorDistanceClassification
-   :members:
-
-.. automodule:: SkLearnClassification
+.. automodule:: shorttext.data.data_retrieval
    :members:
 
 Text Preprocessing
 ------------------
 
-This module consists of functions that facilitate text preprocessing. Please refer to
-`this blog entry
-<https://datawarrior.wordpress.com/2015/08/12/codienerd-1-r-or-python-on-text-mining>`_ for examples.
+Module :module:`shorttext.utils.textpreprocessing`
 
-.. automodule:: textpreprocessing
+.. automodule:: shorttext.utils.textpreprocessing
    :members:
 
-Keras Sequential Model I/O
+Topic Models
+------------
+
+Module :module:`shorttext.classifiers.bow.topic.LatentTopicModeling`
+
+.. automodule:: shorttext.classifiers.bow.topic.LatentTopicModeling
+   :members:
+
+Module :module:`shorttext.classifiers.bow.topic.TopicVectorDistanceClassification`
+
+.. automodule:: shorttext.classifiers.bow.topic.TopicVectorDistanceClassification
+   :members:
+
+Module :module:`shorttext.classifiers.bow.topic.SkLearnClassification`
+
+.. automodule:: shorttext.classifiers.bow.topic.SkLearnClassification
+   :members:
+
+Supervised Classification using Word Embedding
+----------------------------------------------
+
+Module :module:`shorttext.classifiers.embed.sumvec.SumEmbedVecClassification`
+
+.. automodule:: shorttext.classifiers.embed.sumvec.SumEmbedVecClassification
+   :members:
+
+Module :module:`shorttext.classifiers.embed.sumvec.VarNNSumEmbedVecClassification`
+
+.. automodule:: shorttext.classifiers.embed.sumvec.VarNNSumEmbedVecClassification
+   :members:
+
+Module :module:`shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification`
+
+.. automodule:: shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification
+   :members:
+
+Module :module:`shorttext.classifiers.embed.nnlib.CNNEmbedVecClassification`
+
+.. automodule:: shorttext.classifiers.embed.nnlib.CNNEmbedVecClassification
+   :members:
+
+Neural Networks
+---------------
+
+Module :module:`shorttext.classifiers.embed.sumvec.frameworks`
+
+.. automodule:: shorttext.classifiers.embed.sumvec.frameworks
+   :members:
+
+Module :module:`shorttext.classifiers.embed.nnlib.frameworks`
+
+.. automodule:: shorttext.classifiers.embed.nnlib.frameworks
+   :members:
+
+Utilities
 --------------------------
 
-.. automodule:: kerasmodel_io
+Module :module:`shorttext.utils.kerasmodel_io`
+
+.. automodule:: shorttext.utils.kerasmodel_io
    :members:
 
-Training Data Retrieval
------------------------
+Module :module:`shorttext.utils.gensim_corpora`
 
-.. automodule:: data_retrieval
+.. automodule:: shorttext.utils.gensim_corpora
    :members:
 
+Module :module:`shorttext.utils.wordembed`
+
+.. automodule:: shorttext.utils.wordembed
+   :members:

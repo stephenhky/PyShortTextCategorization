@@ -72,3 +72,11 @@ Some examples are:
 >>> preprocessor2('Maryland blue crab in Annapolis')  # output: 'MARYLAND-8 BLUE-4 CRAB-4 IN-2 ANNAPOLIS-9'
 >>> preprocessor2('generative adversarial networks')  # output: 'GENERATIVE-10 ADVERSARIAL-11 NETWORK-7'
 
+Reference
+---------
+
+Christopher Manning, Hinrich Schuetze, *Foundations of Statistical Natural Language Processing* (Cambridge, MA: MIT Press, 1999). [`MIT Press
+<https://mitpress.mit.edu/books/foundations-statistical-natural-language-processing>`_]
+
+"R or Python on Text Mining," *Everything About Data Analytics*, WordPress (2015). [`WordPress
+<https://datawarrior.wordpress.com/2015/08/12/codienerd-1-r-or-python-on-text-mining>`_]

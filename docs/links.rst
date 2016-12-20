@@ -27,3 +27,6 @@ Blog Entries
 
 "Probabilistic Theory of Word Embeddings: GloVe," *Everything About Data Analytics*, WordPress (2016). [`WordPress
 <https://datawarrior.wordpress.com/2016/07/25/probabilistic-theory-of-word-embeddings-glove/>`_]
+
+"Word-Embedding Algorithms," *Everything About Data Analytics*, WordPress (2016). [`WordPress
+<https://datawarrior.wordpress.com/2016/05/15/word-embedding-algorithms/>`_]

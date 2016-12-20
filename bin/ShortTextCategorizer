@@ -27,7 +27,7 @@ import shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification as vnn
 from gensim.models import Word2Vec
 
 import shorttext.classifiers.embed.autoencode.AutoencoderEmbedVecClassification as auto
-import shorttext.classifiers.embed.sumvec.SumWord2VecClassification as sumwv
+import shorttext.classifiers.embed.sumvec.SumEmbedVecClassification as sumwv
 from shorttext.classifiers import allowed_algos
 from shorttext.utils.classification_exceptions import Word2VecModelNotExistException, AlgorithmNotExistException
 

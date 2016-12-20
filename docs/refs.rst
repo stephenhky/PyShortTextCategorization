@@ -1,11 +1,16 @@
 References
 ==========
 
-Christopher Manning, Hinrich Schuetze, *Foundations of Statistical Natural Language Processing* (Cambridge, MA: MIT Press, 1999). [`MIT Press
+Christopher Manning, Hinrich Schütze, *Foundations of Statistical Natural Language Processing* (Cambridge, MA: MIT Press, 1999). [`MIT Press
 <https://mitpress.mit.edu/books/foundations-statistical-natural-language-processing>`_]
+
+Christopher D. Manning, Prabhakar Raghavan, Hinrich Schütze, *Introduction to Information Retrieval* (Cambridge, MA: Cambridge University Press, 2008). [`StanfordNLP
+<http://nlp.stanford.edu/IR-book/>`_]
 
 Chunting Zhou, Chonglin Sun, Zhiyuan Liu, Francis Lau, "A C-LSTM Neural Network for Text Classification," (arXiv:1511.08630). [`arXiv
 <https://arxiv.org/abs/1511.08630>`_]
+
+David M. Blei, "Probabilistic Topic Models," *Communications of the ACM* 55(4): 77-84 (2012).
 
 Francois Chollet, "Building Autoencoders in Keras," *The Keras Blog*. [`Keras
 <https://blog.keras.io/building-autoencoders-in-keras.html>`_]

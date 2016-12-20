@@ -1,6 +1,9 @@
 Short Text Categorization Using Word-Embedding and Neural Networks
 ==================================================================
 
+Wrapper for Neural Networks for Word-Embedding Vectors
+------------------------------------------------------
+
 In this package, there is a class that serves a wrapper for various neural network algorithms
 for supervised short text categorization:
 :class:`shorttext.classifiers.embed.nnlib.VarNNEmbeddedVecClassification.VarNNEmbeddedVecClassifier`.

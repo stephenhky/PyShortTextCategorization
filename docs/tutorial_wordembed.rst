@@ -89,6 +89,8 @@ Radim Řehůřek, "Making sense of word2vec," RaRe Technologies (2014). [`RaRe
 "Toying with Word2Vec," *Everything About Data Analytics*, WordPress (2015). [`WordPress
 <https://datawarrior.wordpress.com/2015/10/25/codienerd-2-toying-with-word2vec/>`_]
 
+"Word-Embedding Algorithms," *Everything About Data Analytics*, WordPress (2016). [`WordPress
+<https://datawarrior.wordpress.com/2016/05/15/word-embedding-algorithms/>`_]
 
 .. _Word2Vec: https://code.google.com/archive/p/word2vec/
 .. _GloVe: http://nlp.stanford.edu/projects/glove/

@@ -1,6 +1,9 @@
 Supervised Classification with Topics as Features
 =================================================
 
+Topic Vectors as Intermediate Feature Vectors
+---------------------------------------------
+
 To perform classification using bag-of-words (BOW) model as features,
 `nltk` and `gensim` offered good framework. But the feature vectors
 of short text represented by BOW can be very sparse. And the relationships
@@ -17,8 +20,8 @@ the topics:
 With the topic representations, users can use any supervised learning
 algorithm provided by `scikit-learn` to perform the classification.
 
-LDA, LSI, and Random Projections
---------------------------------
+Topic Models in `gensim`: LDA, LSI, and Random Projections
+----------------------------------------------------------
 
 This package supports three algorithms provided by `gensim`, namely, LDA, LSI, and
 Random Projections, to do the topic modeling.
@@ -240,9 +243,10 @@ text preprocessing step on their own. Unless it is necessary, use the standard p
 
 See more: :doc:`tutorial_textpreprocessing` .
 
-
 Reference
 ---------
+
+David M. Blei, "Probabilistic Topic Models," *Communications of the ACM* 55(4): 77-84 (2012).
 
 Francois Chollet, "Building Autoencoders in Keras," *The Keras Blog*. [`Keras
 <https://blog.keras.io/building-autoencoders-in-keras.html>`_]
