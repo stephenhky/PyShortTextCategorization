@@ -4,7 +4,7 @@ Documentation
 Training Data Retrieval
 -----------------------
 
-Module :module:`shorttext.data.data_retrieval`
+Module `shorttext.data.data_retrieval`
 
 .. automodule:: shorttext.data.data_retrieval
    :members:
@@ -12,7 +12,7 @@ Module :module:`shorttext.data.data_retrieval`
 Text Preprocessing
 ------------------
 
-Module :module:`shorttext.utils.textpreprocessing`
+Module `shorttext.utils.textpreprocessing`
 
 .. automodule:: shorttext.utils.textpreprocessing
    :members:
@@ -20,17 +20,17 @@ Module :module:`shorttext.utils.textpreprocessing`
 Topic Models
 ------------
 
-Module :module:`shorttext.classifiers.bow.topic.LatentTopicModeling`
+Module `shorttext.classifiers.bow.topic.LatentTopicModeling`
 
 .. automodule:: shorttext.classifiers.bow.topic.LatentTopicModeling
    :members:
 
-Module :module:`shorttext.classifiers.bow.topic.TopicVectorDistanceClassification`
+Module `shorttext.classifiers.bow.topic.TopicVectorDistanceClassification`
 
 .. automodule:: shorttext.classifiers.bow.topic.TopicVectorDistanceClassification
    :members:
 
-Module :module:`shorttext.classifiers.bow.topic.SkLearnClassification`
+Module `shorttext.classifiers.bow.topic.SkLearnClassification`
 
 .. automodule:: shorttext.classifiers.bow.topic.SkLearnClassification
    :members:
@@ -38,22 +38,22 @@ Module :module:`shorttext.classifiers.bow.topic.SkLearnClassification`
 Supervised Classification using Word Embedding
 ----------------------------------------------
 
-Module :module:`shorttext.classifiers.embed.sumvec.SumEmbedVecClassification`
+Module `shorttext.classifiers.embed.sumvec.SumEmbedVecClassification`
 
 .. automodule:: shorttext.classifiers.embed.sumvec.SumEmbedVecClassification
    :members:
 
-Module :module:`shorttext.classifiers.embed.sumvec.VarNNSumEmbedVecClassification`
+Module `shorttext.classifiers.embed.sumvec.VarNNSumEmbedVecClassification`
 
 .. automodule:: shorttext.classifiers.embed.sumvec.VarNNSumEmbedVecClassification
    :members:
 
-Module :module:`shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification`
+Module `shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification`
 
 .. automodule:: shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification
    :members:
 
-Module :module:`shorttext.classifiers.embed.nnlib.CNNEmbedVecClassification`
+Module `shorttext.classifiers.embed.nnlib.CNNEmbedVecClassification`
 
 .. automodule:: shorttext.classifiers.embed.nnlib.CNNEmbedVecClassification
    :members:
@@ -61,12 +61,12 @@ Module :module:`shorttext.classifiers.embed.nnlib.CNNEmbedVecClassification`
 Neural Networks
 ---------------
 
-Module :module:`shorttext.classifiers.embed.sumvec.frameworks`
+Module `shorttext.classifiers.embed.sumvec.frameworks`
 
 .. automodule:: shorttext.classifiers.embed.sumvec.frameworks
    :members:
 
-Module :module:`shorttext.classifiers.embed.nnlib.frameworks`
+Module `shorttext.classifiers.embed.nnlib.frameworks`
 
 .. automodule:: shorttext.classifiers.embed.nnlib.frameworks
    :members:
@@ -74,17 +74,17 @@ Module :module:`shorttext.classifiers.embed.nnlib.frameworks`
 Utilities
 --------------------------
 
-Module :module:`shorttext.utils.kerasmodel_io`
+Module `shorttext.utils.kerasmodel_io`
 
 .. automodule:: shorttext.utils.kerasmodel_io
    :members:
 
-Module :module:`shorttext.utils.gensim_corpora`
+Module `shorttext.utils.gensim_corpora`
 
 .. automodule:: shorttext.utils.gensim_corpora
    :members:
 
-Module :module:`shorttext.utils.wordembed`
+Module `shorttext.utils.wordembed`
 
 .. automodule:: shorttext.utils.wordembed
    :members:

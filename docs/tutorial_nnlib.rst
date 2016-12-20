@@ -93,7 +93,7 @@ as demonstrated in Kim's paper.
 
 The function in the frameworks returns a :class:`keras.models.Sequential`.
 
-.. autofunction:: shortext.embed.nnlib.frameworks.CNNWordEmbed
+.. autofunction:: shorttext.classifiers.embed.nnlib.frameworks.CNNWordEmbed
 
 The parameter `maxlen` defines the maximum length of the sentences. If the sentence has less than `maxlen`
 words, then the empty words will be filled with zero vectors.
@@ -105,7 +105,7 @@ Double ConvNet
 
 This neural network is nothing more than two ConvNet layers.
 
-.. autofunction:: shortext.embed.nnlib.frameworks.DoubleCNNWordEmbed
+.. autofunction:: shorttext.classifiers.embed.nnlib.frameworks.DoubleCNNWordEmbed
 
 The parameter `maxlen` defines the maximum length of the sentences. If the sentence has less than `maxlen`
 words, then the empty words will be filled with zero vectors.
@@ -123,7 +123,7 @@ and then followed by LSTM (long short-term memory), a type of recurrent neural n
 
 The function in the frameworks returns a :class:`keras.models.Sequential`.
 
-.. autofunction:: shorttext.embed.nnlib.frameworks.CLSTMWordEmbed
+.. autofunction:: shorttext.classifiers.embed.nnlib.frameworks.CLSTMWordEmbed
 
 The parameter `maxlen` defines the maximum length of the sentences. If the sentence has less than `maxlen`
 words, then the empty words will be filled with zero vectors.
