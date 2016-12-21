@@ -19,3 +19,6 @@ You will get the message that `Theano` backend is used for `keras`.
    tutorial_wordembed
    tutorial_sumvec
    tutorial_nnlib
+
+
+Home: :doc:`index`

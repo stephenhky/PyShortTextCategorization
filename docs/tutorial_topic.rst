@@ -258,3 +258,5 @@ Xuan Hieu Phan, Cam-Tu Nguyen, Dieu-Thu Le, Minh Le Nguyen, Susumu Horiguchi, Qu
 Xuan Hieu Phan, Le-Minh Nguyen, Susumu Horiguchi, "Learning to Classify Short and Sparse Text & Web withHidden Topics from Large-scale Data Collections,"
 WWW '08 Proceedings of the 17th international conference on World Wide Web. (2008) [`ACL
 <http://dl.acm.org/citation.cfm?id=1367510>`_]
+
+Home: :doc:`index`

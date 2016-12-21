@@ -17,3 +17,10 @@ Characteristics:
 - topic model representation supported for supervised learning using `scikit-learn`; (see :doc:`tutorial_topic`)
 - cosine distance classification; (see :doc:`tutorial_topic`, :doc:`tutorial_umvec`) and
 - neural network classification (including ConvNet, and C-LSTM). (see :doc:`tutorial_nnlib`)
+
+Author: Kwan-Yuet Ho (LinkedIn_, ResearchGate_)
+
+Home: :doc:`index`
+
+.. _LinkedIn: https://www.linkedin.com/in/kwan-yuet-ho-19882530
+.. _ResearchGate: https://www.researchgate.net/profile/Kwan-yuet_Ho

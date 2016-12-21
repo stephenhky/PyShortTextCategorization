@@ -49,3 +49,5 @@ Yoon Kim, "Convolutional Neural Networks for Sentence Classification," *EMNLP* 2
 Zackary C. Lipton, John Berkowitz, "A Critical Review of Recurrent Neural Networks for Sequence Learning," arXiv:1506.00019 (2015). [`arXiv
 <https://arxiv.org/abs/1506.00019>`_]
 
+
+Home: :doc:`index`

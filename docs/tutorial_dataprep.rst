@@ -88,4 +88,4 @@ To load this data file, just enter:
 
 >>> trainclassdict = shorttext.data.retrieve_csvdata_as_dict('/path/to/file.csv')
 
-
+Home: :doc:`index`

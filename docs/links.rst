@@ -30,3 +30,6 @@ Blog Entries
 
 "Word-Embedding Algorithms," *Everything About Data Analytics*, WordPress (2016). [`WordPress
 <https://datawarrior.wordpress.com/2016/05/15/word-embedding-algorithms/>`_]
+
+
+Home: :doc:`index`

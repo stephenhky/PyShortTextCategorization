@@ -37,6 +37,8 @@ Required Packages
 - gensim_ (Topic Modeling for Humans)
 - Pandas_ (Python Data Analysis Library)
 
+Home: :doc:`index`
+
 .. _Numpy: http://www.numpy.org/
 .. _SciPy: https://www.scipy.org/
 .. _Scikit-Learn: http://scikit-learn.org/stable/

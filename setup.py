@@ -35,7 +35,7 @@ setup(name='shorttext',
       install_requires=[
           'numpy', 'scipy', 'scikit-learn', 'theano', 'keras', 'nltk', 'gensim', 'pandas',
       ],
-      scripts=['bin/ShortTextCategorizer',
-               'bin/ShortTextCategorizerConsole'],
+      scripts=['bin/ShortTextDNNEvaluator',
+               'bin/ShortTextDNNCategorizerConsole'],
       include_package_data=True,
       zip_safe=False)

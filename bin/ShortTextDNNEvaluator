@@ -5,8 +5,8 @@
 import argparse
 
 def get_argparser():
-    argparser = argparse.ArgumentParser(description='Perform prediction on short text.')
-    argparser.add_argument('input_file', help='Input file for prediction')
+    argparser = argparse.ArgumentParser(description='Perform prediction on short text, and evaluate algorithm performance.')
+    argparser.add_argument('input_file', help='Input file for evaluation')
     argparser.add_argument('output_file', help='Output file')
     argparser.add_argument('input_nameprefix', help='Prefix of the path of input model.')
     argparser.add_argument('algo', help='Algorithm architecture. (Options: sumword2vec (Summed Embedded Vectors), vnn (Neural Network on Embedded Vectors)')

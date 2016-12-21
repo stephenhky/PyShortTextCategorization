@@ -80,3 +80,5 @@ Christopher Manning, Hinrich Schuetze, *Foundations of Statistical Natural Langu
 
 "R or Python on Text Mining," *Everything About Data Analytics*, WordPress (2015). [`WordPress
 <https://datawarrior.wordpress.com/2015/08/12/codienerd-1-r-or-python-on-text-mining>`_]
+
+Home: :doc:`index`

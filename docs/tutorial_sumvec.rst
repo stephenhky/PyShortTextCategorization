@@ -187,3 +187,5 @@ Reference
 
 Michael Czerny, "Modern Methods for Sentiment Analysis," *District Data Labs (2015). [`DistrictDataLabs
 <https://districtdatalabs.silvrback.com/modern-methods-for-sentiment-analysis>`_]
+
+Home: :doc:`index`

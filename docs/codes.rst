@@ -102,3 +102,5 @@ Module `shorttext.utils.wordembed`
 
 .. automodule:: shorttext.utils.wordembed
    :members:
+
+Home: :doc:`index`
