@@ -9,7 +9,7 @@ def get_argparser():
     argparser.add_argument('input_file', help='Input file for prediction')
     argparser.add_argument('output_file', help='Output file')
     argparser.add_argument('input_nameprefix', help='Prefix of the path of input model.')
-    argparser.add_argument('algo', help='Algorithm architecture. (Options: sumword2vec (Summed Embedded Vectors), autoencoder (Autoencoder of Embedded Vectors), vnn (Neural Network on Embedded Vectors)')
+    argparser.add_argument('algo', help='Algorithm architecture. (Options: sumword2vec (Summed Embedded Vectors), vnn (Neural Network on Embedded Vectors)')
     argparser.add_argument('wvmodel_path', help='Path of the pre-trained Word2Vec model.')
     argparser.add_argument('--ngram', type=int, default=2, help='n-gram, used in convolutional neural network only. (Default: 2)')
     argparser.add_argument('--test', action='store_true', default=False, help='Checked if the test input contains the label, and metrics will be output.')
@@ -24,9 +24,7 @@ import csv
 import os
 
 import shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification as vnn
-from gensim.models import Word2Vec
-
-import shorttext.classifiers.embed.autoencode.AutoencoderEmbedVecClassification as auto
+from shorttext.utils.wordembed import load_word2vec_model
 import shorttext.classifiers.embed.sumvec.SumEmbedVecClassification as sumwv
 from shorttext.classifiers import allowed_algos
 from shorttext.utils.classification_exceptions import Word2VecModelNotExistException, AlgorithmNotExistException
@@ -43,7 +41,7 @@ if __name__ == '__main__':
 
     # load models
     print "Loading Word Embedding model..."
-    wvmodel = Word2Vec.load_word2vec_format(args.wvmodel_path, binary=True)
+    wvmodel = load_word2vec_model(args.wvmodel_path)
 
     # initialize instance
     print "Instantiating classifier..."
@@ -51,8 +49,6 @@ if __name__ == '__main__':
         classifier = vnn.VarNNEmbeddedVecClassifier(wvmodel)
     elif args.algo=='sumword2vec':
         classifier = sumwv.SumEmbeddedVecClassifier(wvmodel)
-    elif args.algo=='autoencoder':
-        classifier = auto.AutoEncoderWord2VecClassifier(wvmodel)
     else:
         raise AlgorithmNotExistException(args.algo)
 

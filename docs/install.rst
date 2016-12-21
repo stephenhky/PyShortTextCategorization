@@ -1,6 +1,9 @@
 Installation
 ============
 
+PIP
+---
+
 To install the package in Linux or OS X, enter the following in the console:
 
 ::

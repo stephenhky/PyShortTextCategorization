@@ -22,19 +22,19 @@ Module `shorttext.utils.textpreprocessing`
 Topic Models
 ------------
 
-Module `shorttext.classifiers.bow.topic.LatentTopicModeling`
+Module `shorttext.classifiers.topic.LatentTopicModeling`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: shorttext.classifiers.bow.topic.LatentTopicModeling
    :members:
 
-Module `shorttext.classifiers.bow.topic.TopicVectorDistanceClassification`
+Module `shorttext.classifiers.topic.TopicVectorDistanceClassification`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: shorttext.classifiers.bow.topic.TopicVectorDistanceClassification
    :members:
 
-Module `shorttext.classifiers.bow.topic.SkLearnClassification`
+Module `shorttext.classifiers.topic.SkLearnClassification`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: shorttext.classifiers.bow.topic.SkLearnClassification

@@ -15,8 +15,9 @@ Feel free to give suggestions through the Github_ page.
 Contents:
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
+   intro
    install
    tutorial
    codes

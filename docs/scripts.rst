@@ -21,8 +21,7 @@ ShortTextCategorizer
       output_file       Output file
       input_nameprefix  Prefix of the path of input model.
       algo              Algorithm architecture. (Options: sumword2vec (Summed
-                        Embedded Vectors), autoencoder (Autoencoder of Embedded
-                        Vectors), vnn (Neural Network on Embedded Vectors)
+                        Embedded Vectors), vnn (Neural Network on Embedded Vectors)
       wvmodel_path      Path of the pre-trained Word2Vec model.
 
     optional arguments:
@@ -46,8 +45,7 @@ ShortTextCategorizerConsole
     positional arguments:
       input_nameprefix  Prefix of the path of input model.
       algo              Algorithm architecture. (Options: sumword2vec (Summed
-                        Embedded Vectors), autoencoder (Autoencoder of Embedded
-                        Vectors), vnn (Neural Network on Embedded Vectors)
+                        Embedded Vectors), vnn (Neural Network on Embedded Vectors)
       wvmodel_path      Path of the pre-trained Word2Vec model.
 
     optional arguments:
