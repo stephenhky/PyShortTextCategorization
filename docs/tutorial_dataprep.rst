@@ -41,7 +41,12 @@ The data can be downloaded from its `ExPORTER
 adapted from Thomas Jones' `textMineR
 <https://github.com/TommyJones/textmineR>`_ R package.
 
+Enter:
+
 >>> trainclassdict = shorttext.data.nihreports()
+
+Upon the installation of the package, the NIH RePORT data are still not
+installed. But the first time it was ran, it will be downloaded from the Internet.
 
 This will output a similar dictionary with FUNDING_IC (Institutes and Centers in NIH)
  as the class labels, and PROJECT_TITLE (title of the funded projects)

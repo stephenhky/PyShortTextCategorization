@@ -3,6 +3,8 @@ from collections import defaultdict
 import json
 import os
 import zipfile
+from urllib import urlretrieve
+import sys
 
 import pandas as pd
 import numpy as np
@@ -99,8 +101,11 @@ def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512
     if not (label_col in ['FUNDING_ICs', 'IC_NAME']):
         raise KeyError('Undefined label column: '+label_col+'. Must be FUNDING_ICs or IC_NAME.')
 
-    this_dir, _ = os.path.split(__file__)
-    zfile = zipfile.ZipFile(os.path.join(this_dir, 'nih_full.csv.zip'))
+    # this_dir, _ = os.path.split(__file__)
+    # zfile = zipfile.ZipFile(os.path.join(this_dir, 'nih_full.csv.zip'))
+    zfile = zipfile.ZipFile(get_or_download_data('nih_full.csv.zip',
+                                                 'https://github.com/stephenhky/PyShortTextCategorization/blob/master/shorttext/data/nih_full.csv.zip?raw=true')
+                            )
     nih = pd.read_csv(zfile.open('nih_full.csv'), na_filter=False, usecols=[label_col, txt_col])
     nb_data = len(nih)
     sample_size = nb_data if sample_size==None else min(nb_data, sample_size)
@@ -166,3 +171,26 @@ def yield_crossvalidation_classdicts(classdict, nb_partitions, shuffle=False):
         testdict = crossvaldicts[i]
         traindict = mergedict([crossvaldicts[j] for j in range(nb_partitions) if j != i])
         yield testdict, traindict
+
+def get_or_download_data(filename, origin):
+    # determine path
+    homedir = os.path.expanduser('~')
+    datadir = os.path.join(homedir, '.shorttext')
+    if not os.path.exists(datadir):
+        os.makedirs(datadir)
+
+    targetfilepath = os.path.join(datadir, filename)
+    # download if not exist
+    if not os.path.exists(os.path.join(datadir, filename)):
+        print 'Downloading...'
+        print 'Source: ', origin
+        print 'Target: ', targetfilepath
+        try:
+            urlretrieve(origin, targetfilepath)
+        except:
+            print 'Failure to download file!'
+            print sys.exc_info()
+            os.remove(targetfilepath)
+
+    # return
+    return open(targetfilepath, 'r')
