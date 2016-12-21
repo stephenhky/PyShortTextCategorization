@@ -104,7 +104,7 @@ def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512
     # this_dir, _ = os.path.split(__file__)
     # zfile = zipfile.ZipFile(os.path.join(this_dir, 'nih_full.csv.zip'))
     zfile = zipfile.ZipFile(get_or_download_data('nih_full.csv.zip',
-                                                 'https://github.com/stephenhky/PyShortTextCategorization/blob/master/shorttext/data/nih_full.csv.zip?raw=true')
+                                                 'https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/nih_full.csv.zip?raw=true')
                             )
     nih = pd.read_csv(zfile.open('nih_full.csv'), na_filter=False, usecols=[label_col, txt_col])
     nb_data = len(nih)

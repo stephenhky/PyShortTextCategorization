@@ -37,5 +37,5 @@ setup(name='shorttext',
       ],
       scripts=['bin/ShortTextDNNEvaluator',
                'bin/ShortTextDNNCategorizerConsole'],
-      include_package_data=True,
+      # include_package_data=False,
       zip_safe=False)
