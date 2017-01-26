@@ -16,10 +16,3 @@ def load_word2vec_model(path, binary=True):
     """
     return Word2Vec.load_word2vec_format(path, binary=binary)
 
-# TODO: not working
-def load_glove_as_word2vec(path):
-    tmpwvmodelfile = tempfile.mkstemp(suffix='.txt')
-    glove2word2vec.glove2word2vec(path, tmpwvmodelfile)
-    wvmodel = load_word2vec_model(tmpwvmodelfile, binary=False)
-    os.remove(tmpwvmodelfile)
-    return wvmodel
