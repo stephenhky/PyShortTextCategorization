@@ -8,7 +8,9 @@ To install it, in a console, use `pip`.
 >>> pip install shorttext
 ```
 
-The Word2Vec model is implemented with [`gensim`](https://radimrehurek.com/gensim/), and various neural networks with [`keras`](https://keras.io/), with a [`Theano`](http://deeplearning.net/software/theano/) backend. Certain natural language processing tasks are implemented with [`nltk`](http://www.nltk.org/), and [`gensim`](https://radimrehurek.com/gensim/). This also imported [numpy](http://www.numpy.org/), [scipy](https://www.scipy.org/), and [pandas](http://pandas.pydata.org/). 
+The Word2Vec model is implemented with [`gensim`](https://radimrehurek.com/gensim/), and various neural networks with [`keras`](https://keras.io/), with a [`Theano`](http://deeplearning.net/software/theano/) backend. Certain natural language processing tasks are implemented with [`nltk`](http://www.nltk.org/), and [`gensim`](https://radimrehurek.com/gensim/). This also imported [numpy](http://www.numpy.org/), [scipy](https://www.scipy.org/), and [pandas](http://pandas.pydata.org/).
+ 
+Upcoming changes [here](UPCOMING.md).
 
 # Useful Links
 
