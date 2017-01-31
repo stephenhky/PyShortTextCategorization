@@ -3,3 +3,4 @@ import classification_exceptions
 import gensim_corpora
 import textpreprocessing
 import wordembed
+import compactmodel_io
