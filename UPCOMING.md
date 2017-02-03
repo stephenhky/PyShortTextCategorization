@@ -5,7 +5,7 @@ Confirmed Changes
 -----------------
 
 * Removal attempts of loading GloVe model, as it can be run using `gensim` script;
-* Confirmed compatibility of the package with `tensorflow` (currently not tested);
+* Confirmed compatibility of the package with `tensorflow`;
 * Module packages updated.
  
 Expected Changes
