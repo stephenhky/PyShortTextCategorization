@@ -1,3 +1,1 @@
-import data_retrieval
-
-from data_retrieval import subjectkeywords, nihreports, retrieve_jsondata_as_dict, retrieve_csvdata_as_dict
+from .data_retrieval import subjectkeywords, nihreports, retrieve_jsondata_as_dict, retrieve_csvdata_as_dict

@@ -1,3 +1,3 @@
-import LatentTopicModeling
-import TopicVectorDistanceClassification
-import SkLearnClassification
+from . import LatentTopicModeling
+from . import TopicVectorDistanceClassification
+from . import SkLearnClassification

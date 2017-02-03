@@ -1,1 +1,1 @@
-import topic
+from . import topic

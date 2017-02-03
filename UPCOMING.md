@@ -9,6 +9,7 @@ Confirmed Changes
 Expected Changes
 ----------------
 
+* Simplifying the directory structure;
 * Saving and loading compact models;
 * Confirming compatibility of the package with `tensorflow` (currently not tested);
 * Implementation of author-topic model;

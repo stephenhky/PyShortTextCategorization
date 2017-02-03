@@ -1,3 +1,3 @@
-import VarNNEmbedVecClassification
-import CNNEmbedVecClassification
-import frameworks
+from . import VarNNEmbedVecClassification
+from . import CNNEmbedVecClassification
+from . import frameworks

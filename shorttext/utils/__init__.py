@@ -1,6 +1,6 @@
-import kerasmodel_io
-import classification_exceptions
-import gensim_corpora
-import textpreprocessing
-import wordembed
-import compactmodel_io
+from . import kerasmodel_io
+from . import classification_exceptions
+from . import gensim_corpora
+from . import textpreprocessing
+from . import wordembed
+from . import compactmodel_io

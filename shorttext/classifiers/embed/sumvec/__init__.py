@@ -1,3 +1,3 @@
-import SumEmbedVecClassification
-import VarNNSumEmbedVecClassification
-import frameworks
+from . import SumEmbedVecClassification
+from . import VarNNSumEmbedVecClassification
+from . import frameworks
