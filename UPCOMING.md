@@ -15,4 +15,5 @@ Expected Changes
 * Saving and loading compact models;
 * Implementation of author-topic model;
 * More neural networks;
-* Use of `spacy`, preferred over `nltk`, is possible.
+* Use of `spacy`, preferred over `nltk`, is possible;
+* More available corpus.
