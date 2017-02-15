@@ -7,7 +7,7 @@ from scipy.spatial.distance import cosine
 from gensim.corpora import Dictionary
 from gensim.models import TfidfModel, LdaModel, LsiModel, RpModel
 from gensim.similarities import MatrixSimilarity
-from nltk import word_tokenize
+#from nltk import word_tokenize
 from keras.layers import Input, Dense
 from keras.models import Model
 
@@ -15,6 +15,8 @@ import utils.kerasmodel_io as kerasio
 from utils import textpreprocessing as textpreprocess
 from utils import gensim_corpora as gc
 import utils.classification_exceptions as e
+
+from utils.textpreprocessing import spacy_tokenize
 
 gensim_topic_model_dict = {'lda': LdaModel, 'lsi': LsiModel, 'rp': RpModel}
 
@@ -46,7 +48,7 @@ class LatentTopicModeler:
         :type classdict: dict
         """
         self.dictionary, self.corpus, self.classlabels = gc.generate_gensim_corpora(classdict,
-                                                                                    preprocess_and_tokenize=lambda sent: word_tokenize(self.preprocessor(sent)))
+                                                                                    preprocess_and_tokenize=lambda sent: spacy_tokenize(self.preprocessor(sent)))
 
     def train(self, classdict, nb_topics, *args, **kwargs):
         """ Train the modeler.
@@ -73,7 +75,7 @@ class LatentTopicModeler:
         :type shorttext: str
         :rtype: list
         """
-        return self.dictionary.doc2bow(word_tokenize(self.preprocessor(shorttext)))
+        return self.dictionary.doc2bow(spacy_tokenize(self.preprocessor(shorttext)))
 
     def retrieve_bow_vector(self, shorttext, normalize=True):
         """ Calculate the vector representation of the bag-of-words in terms of numpy.ndarray.

@@ -1,10 +1,11 @@
 import numpy as np
-from nltk import word_tokenize
+#from nltk import word_tokenize
 
 # from ... import kerasmodel_io as kerasio
 # from ... import classification_exceptions as e
 import utils.kerasmodel_io as kerasio
 import utils.classification_exceptions as e
+from utils.textpreprocessing import spacy_tokenize
 
 class VarNNEmbeddedVecClassifier:
     """
@@ -101,7 +102,7 @@ class VarNNEmbeddedVecClassifier:
                 category_bucket = [0]*len(classlabels)
                 category_bucket[lblidx_dict[label]] = 1
                 indices.append(category_bucket)
-                phrases.append(word_tokenize(shorttext))
+                phrases.append(spacy_tokenize(shorttext))
 
         # store embedded vectors
         train_embedvec = np.zeros(shape=(len(phrases), self.maxlen, self.vecsize))
@@ -205,7 +206,7 @@ class VarNNEmbeddedVecClassifier:
         :type shorttext: str
         :rtype: numpy.ndarray
         """
-        tokens = word_tokenize(shorttext)
+        tokens = spacy_tokenize(shorttext)
         matrix = np.zeros((self.maxlen, self.vecsize))
         for i in range(min(self.maxlen, len(tokens))):
             matrix[i] = self.word_to_embedvec(tokens[i])

@@ -1,8 +1,16 @@
 import re
 
+import spacy
+
 from nltk.corpus import stopwords
-from nltk import word_tokenize
 from nltk.stem import PorterStemmer
+
+# load tokenizer
+nlp = spacy.load('en')
+
+def spacy_tokenize(text):
+    tokeniter = nlp(unicode(text))
+    return map(str, [token for token in tokeniter])
 
 def preprocess_text(text, pipeline):
     """ Preprocess the text according to the given pipeline.
@@ -58,7 +66,7 @@ def standard_text_preprocessor_1():
     pipeline = [lambda s: re.sub('[^\w\s]', '', s),
                 lambda s: re.sub('[\d]', '', s),
                 lambda s: s.lower(),
-                lambda s: ' '.join(filter(lambda s: not (s in stopwords.words()), word_tokenize(s))),
-                lambda s: ' '.join(map(lambda t: stemmer.stem(t), word_tokenize(s)))
+                lambda s: ' '.join(filter(lambda s: not (s in stopwords.words()), spacy_tokenize(s))),
+                lambda s: ' '.join(map(lambda t: stemmer.stem(t), spacy_tokenize(s)))
                ]
     return text_preprocessor(pipeline)

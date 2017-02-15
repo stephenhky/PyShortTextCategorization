@@ -1,10 +1,11 @@
 import numpy as np
-from nltk import word_tokenize
+#from nltk import word_tokenize
 
 # from ... import kerasmodel_io as kerasio
 # from ... import classification_exceptions as e
 import utils.kerasmodel_io as kerasio
 import utils.classification_exceptions as e
+from utils.textpreprocessing import spacy_tokenize
 
 class VarNNSumEmbeddedVecClassifier:
     """
@@ -58,7 +59,7 @@ class VarNNSumEmbeddedVecClassifier:
         embedvecs = []
         for classlabel in classlabels:
             for shorttext in classdict[classlabel]:
-                embedvec = np.sum(np.array([self.word_to_embedvec(token) for token in word_tokenize(shorttext)]),
+                embedvec = np.sum(np.array([self.word_to_embedvec(token) for token in spacy_tokenize(shorttext)]),
                                   axis=0)
                 # embedvec = np.reshape(embedvec, embedvec.shape+(1,))
                 embedvec /= np.linalg.norm(embedvec)
@@ -165,8 +166,7 @@ class VarNNSumEmbeddedVecClassifier:
         :rtype: numpy.ndarray
         """
         vec = np.zeros(self.vecsize)
-        tokens = word_tokenize(shorttext)
-        for token in tokens:
+        for token in spacy_tokenize(shorttext):
             if token in self.wvmodel:
                 vec += self.wvmodel[token]
         norm = np.linalg.norm(vec)

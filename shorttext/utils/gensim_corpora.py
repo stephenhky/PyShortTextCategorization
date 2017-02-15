@@ -1,7 +1,7 @@
 import gensim
-from nltk import word_tokenize
+from .textpreprocessing import spacy_tokenize
 
-def generate_gensim_corpora(classdict, preprocess_and_tokenize=word_tokenize):
+def generate_gensim_corpora(classdict, preprocess_and_tokenize=spacy_tokenize):
     """ Generate gensim bag-of-words dictionary and corpus.
 
     Given a text data, a dict with keys being the class labels, and the values

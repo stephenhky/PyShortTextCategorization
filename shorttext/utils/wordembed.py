@@ -1,8 +1,5 @@
-import tempfile
-import os
 
 from gensim.models import Word2Vec
-from gensim.scripts import glove2word2vec
 
 def load_word2vec_model(path, binary=True):
     """ Load a pre-trained Word2Vec model.

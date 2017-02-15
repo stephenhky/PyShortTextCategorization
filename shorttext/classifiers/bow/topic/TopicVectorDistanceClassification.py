@@ -1,4 +1,3 @@
-from collections import defaultdict
 
 from utils import textpreprocessing as textpreprocess
 from classifiers.bow.topic.LatentTopicModeling import LatentTopicModeler, GensimTopicModeler, AutoencodingTopicModeler
