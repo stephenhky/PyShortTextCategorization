@@ -3,7 +3,8 @@ import re
 import spacy
 
 from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
+#from nltk.stem import PorterStemmer
+from stemming.porter import stem
 
 # load tokenizer
 nlp = spacy.load('en')
@@ -62,11 +63,11 @@ def standard_text_preprocessor_1():
     :return: a function that preprocesses text according to the pipeline
     :rtype: function
     """
-    stemmer = PorterStemmer()
+    #stemmer = PorterStemmer()
     pipeline = [lambda s: re.sub('[^\w\s]', '', s),
                 lambda s: re.sub('[\d]', '', s),
                 lambda s: s.lower(),
                 lambda s: ' '.join(filter(lambda s: not (s in stopwords.words()), spacy_tokenize(s))),
-                lambda s: ' '.join(map(lambda t: stemmer.stem(t), spacy_tokenize(s)))
+                lambda s: ' '.join(map(stem, spacy_tokenize(s)))
                ]
     return text_preprocessor(pipeline)
