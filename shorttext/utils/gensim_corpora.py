@@ -9,7 +9,7 @@ def generate_gensim_corpora(classdict, preprocess_and_tokenize=spacy_tokenize):
     return a gensim dictionary and corpus.
 
     :param classdict: text data, a dict with keys being the class labels, and each value is a list of short texts
-    :param proprocess_and_tokenize: preprocessor function, that takes a short sentence, and return a list of tokens (Default: `nltk.word_tokenize`)
+    :param proprocess_and_tokenize: preprocessor function, that takes a short sentence, and return a list of tokens (Default: `shorttext.utils.textpreprocessing.spacy_tokenize`)
     :return: a tuple, consisting of a gensim dictionary, a corpus, and a list of class labels
     :type classdict: dict
     :type proprocess_and_tokenize: function
