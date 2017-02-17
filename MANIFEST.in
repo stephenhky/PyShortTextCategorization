@@ -1,2 +1,3 @@
 include README.md
 include shorttext/data/shorttext_exampledata.csv
+include shorttext/utils/stopwordset.pkl
