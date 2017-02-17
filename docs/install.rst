@@ -33,9 +33,10 @@ Required Packages
 - Scikit-Learn_ (Machine Learning in Python)
 - Theano_ (Symbolic Computing for Deep Learning)
 - keras_ (Deep Learning Library for Theano and Tensorflow)
-- nltk_ (Natural Language Toolkit)
 - gensim_ (Topic Modeling for Humans)
 - Pandas_ (Python Data Analysis Library)
+- spaCy_ (Industrial Strenglth Natural Language Processing in Python)
+- stemming_ (stemming in Python)
 
 Home: :doc:`index`
 
@@ -44,6 +45,7 @@ Home: :doc:`index`
 .. _Scikit-Learn: http://scikit-learn.org/stable/
 .. _Theano: http://deeplearning.net/software/theano/
 .. _keras: https://keras.io/
-.. _nltk: http://www.nltk.org/
 .. _gensim: https://radimrehurek.com/gensim/
 .. _Pandas: http://pandas.pydata.org/
+.. _spaCy: https://spacy.io/
+.. _stemming: https://pypi.python.org/pypi/stemming/
