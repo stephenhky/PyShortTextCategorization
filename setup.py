@@ -33,7 +33,7 @@ setup(name='shorttext',
       package_data={'shorttext': ['data/*.csv']},
       setup_requires=['numpy', 'theano'],
       install_requires=[
-          'numpy', 'scipy', 'scikit-learn', 'theano', 'keras', 'nltk', 'gensim', 'pandas', 'spacy', 'stemming',
+          'numpy', 'scipy', 'scikit-learn', 'theano', 'keras', 'gensim', 'pandas', 'spacy', 'stemming',
       ],
       scripts=['bin/ShortTextDNNEvaluator',
                'bin/ShortTextDNNCategorizerConsole'],

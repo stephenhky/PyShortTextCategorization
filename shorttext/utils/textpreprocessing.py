@@ -1,10 +1,15 @@
 import re
+import pickle
+import os
 
 import spacy
-
-from nltk.corpus import stopwords
-#from nltk.stem import PorterStemmer
 from stemming.porter import stem
+#from nltk.corpus import stopwords
+#from nltk.stem import PorterStemmer
+
+# load stop words
+this_dir, _ = os.path.split(__file__)
+stopwordset = pickle.load(open(os.path.join(this_dir, 'stopwordset.pkl'), 'r'))
 
 # load tokenizer
 nlp = spacy.load('en')
@@ -67,7 +72,7 @@ def standard_text_preprocessor_1():
     pipeline = [lambda s: re.sub('[^\w\s]', '', s),
                 lambda s: re.sub('[\d]', '', s),
                 lambda s: s.lower(),
-                lambda s: ' '.join(filter(lambda s: not (s in stopwords.words()), spacy_tokenize(s))),
+                lambda s: ' '.join(filter(lambda s: not (s in stopwordset), spacy_tokenize(s))),
                 lambda s: ' '.join(map(stem, spacy_tokenize(s)))
                ]
     return text_preprocessor(pipeline)
