@@ -15,6 +15,16 @@ stopwordset = pickle.load(open(os.path.join(this_dir, 'stopwordset.pkl'), 'r'))
 nlp = spacy.load('en')
 
 def spacy_tokenize(text):
+    """ Tokenize a sentence with spaCy.
+
+    This works like `nltk.tokenize` which tokenize a sentence, but this runs faster.
+    This returns the strings of tokens.
+
+    :param text: sentence to tokenize
+    :return: list of tokens
+    :type text: str
+    :rtype: list
+    """
     tokeniter = nlp(unicode(text))
     return map(str, [token for token in tokeniter])
 

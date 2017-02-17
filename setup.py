@@ -30,7 +30,7 @@ setup(name='shorttext',
                 'shorttext.classifiers.bow.topic',
                 'shorttext.data',],
       package_dir={'shorttext': 'shorttext'},
-      package_data={'shorttext': ['data/*.csv']},
+      package_data={'shorttext': ['data/*.csv', 'utils/*.pkl']},
       setup_requires=['numpy', 'theano'],
       install_requires=[
           'numpy', 'scipy', 'scikit-learn', 'theano', 'keras', 'gensim', 'pandas', 'spacy', 'stemming',
