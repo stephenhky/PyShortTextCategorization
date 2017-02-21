@@ -6,7 +6,7 @@ Wrapper for Neural Networks for Word-Embedding Vectors
 
 In this package, there is a class that serves a wrapper for various neural network algorithms
 for supervised short text categorization:
-:class:`shorttext.classifiers.embed.nnlib.VarNNEmbeddedVecClassification.VarNNEmbeddedVecClassifier`.
+:class:`shorttext.classifiers.VarNNEmbeddedVecClassifier`.
 Each class label has a few short sentences, where each token is converted
 to an embedded vector, given by a pre-trained word-embedding model (e.g., Google Word2Vec model).
 The sentences are represented by a matrix, or rank-2 array.
@@ -31,7 +31,7 @@ Import the package:
 
 To load the Word2Vec model,
 
->>> from shorttext.utils.wordembed import load_word2vec_model
+>>> from shorttext.utils import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
 
 Then load the training data
@@ -39,13 +39,13 @@ Then load the training data
 
 Then we choose a neural network. We choose ConvNet:
 
->>> import shorttext.classifiers.embed.nnlib.frameworks as fr
+>>> import shorttext.classifiers.frameworks as fr
 >>> kmodel = fr.CNNWordEmbed(len(trainclassdict.keys()))
 
 Initialize the classifier:
 
->>> import shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification as vnn
->>> classifier = vnn.VarNNEmbeddedVecClassifier(wvmodel)
+>>> from shorttext.classifiers import VarNNEmbeddedVecClassifier
+>>> classifier = VarNNEmbeddedVecClassifier(wvmodel)
 
 Then train the classifier:
 
@@ -80,8 +80,8 @@ Provided Neural Networks
 ------------------------
 
 There are three neural networks available in this package for the use in
-:class:`shorttext.classifiers.embed.nnlib.VarNNEmbeddedVecClassification.VarNNEmbeddedVecClassifier`,
-and they are available in the module `shorttext.classifiers.embed.nnlib.frameworks`.
+:class:`shorttext.classifiers.VarNNEmbeddedVecClassifier`,
+and they are available in the module `shorttext.classifiers.frameworks`.
 
 ConvNet (Convolutional Neural Network)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -134,7 +134,7 @@ User-Defined Neural Network
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Users can define their own neural network for use in the classifier wrapped by
-:class:`shorttext.classifiers.embed.nnlib.VarNNEmbeddedVecClassification.VarNNEmbeddedVecClassifier`
+:class:`shorttext.classifiers.VarNNEmbeddedVecClassifier`
 as long as the following criteria are met:
 
 - the input matrix is :class:`numpy.ndarray`, and of shape `(maxlen, vecsize)`, where

@@ -11,7 +11,8 @@ from stemming.porter import stem
 this_dir, _ = os.path.split(__file__)
 stopwordset = pickle.load(open(os.path.join(this_dir, 'stopwordset.pkl'), 'r'))
 
-# load tokenizer
+# initialize spacy
+# TODO: implement lazy loading for overall fast import
 nlp = spacy.load('en')
 
 def spacy_tokenize(text):
@@ -25,6 +26,7 @@ def spacy_tokenize(text):
     :type text: str
     :rtype: list
     """
+    nlp = spacy.load('en')   # lazy loading
     tokeniter = nlp(unicode(text))
     return map(str, [token for token in tokeniter])
 

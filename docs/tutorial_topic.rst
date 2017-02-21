@@ -14,7 +14,7 @@ the topics:
 
 - LDA (Latent Dirichlet Allocation)
 - LSI (Latent Semantic Indexing)
-- Random Projections
+- RP (Random Projections)
 - Autoencoder
 
 With the topic representations, users can use any supervised learning
@@ -27,7 +27,6 @@ This package supports three algorithms provided by `gensim`, namely, LDA, LSI, a
 Random Projections, to do the topic modeling.
 
 >>> import shorttext
->>> import shorttext.classifiers.topic.LatentTopicModeling as ltm
 
 First, load a set of training data (all NIH data in this example):
 
@@ -35,7 +34,7 @@ First, load a set of training data (all NIH data in this example):
 
 Initialize an instance of topic modeler, and use LDA as an example:
 
->>> topicmodeler = ltm.GensimTopicModeler(algorithm='lda')
+>>> topicmodeler = shorttext.classifiers.GensimTopicModeler(algorithm='lda')
 
 For the algorithms, user can use `lsi` and `rp` in addition to `lda` in the example.
 To train with 128 topics, enter:
@@ -97,7 +96,7 @@ For faster demonstration, use the subject keywords as the example dataset:
 
 To train such a model, we perform in a similar way with the LDA model (or LSI and random projections above):
 
->>> autoencoder = ltm.AutoencodingTopicModeler()
+>>> autoencoder = shorttext.classifiers.AutoencodingTopicModeler()
 >>> autoencoder.train(subdict, 8)
 
 After the training is done, the user can retrieve the encoded vector representation
@@ -152,8 +151,8 @@ The default is to weigh. To not weigh, initialize it as:
 Abstract Latent Topic Modeling Class
 ------------------------------------
 
-Both :class:`shorttext.classifiers.bow.topic.LatentTopicModeling.GensimTopicModeler` and
-:class:`shorttext.classifiers.bow.topic.LatentTopicModeling.AutoencodingTopicModeler` extends
+Both :class:`shorttext.classifiers.GensimTopicModeler` and
+:class:`shorttext.classifiers.AutoencodingTopicModeler` extends
 :class:`shorttext.classifiers.bow.topic.LatentTopicModeling.LatentTopicModeler`,
 an abstract class virtually. If user wants to develop its own topic model that extends
 this, he has to define the methods `train`, `retrieve_topic_vec`, `loadmodel`, and
@@ -168,19 +167,17 @@ needs a classification algorithm. The first one is to calculate the cosine simil
 between topic vectors of the given short text with those of the texts in all class labels.
 
 If there is already a trained topic modeler, whether it is
-:class:`shorttext.classifiers.bow.topic.LatentTopicModeling.GensimTopicModeler` or
-:class:`shorttext.classifiers.bow.topic.LatentTopicModeling.AutoencodingTopicModeler`,
+:class:`shorttext.classifiers.GensimTopicModeler` or
+:class:`shorttext.classifiers.AutoencodingTopicModeler`,
 a classifier based on cosine similarities can be initiated
 immediately without training. Taking the LDA example above, such classifier can be initiated as follow:
 
->>> from shorttext.classifiers.topic.TopicVectorDistanceClassification import TopicVecCosineDistanceClassifier
->>> cos_classifier = TopicVecCosineDistanceClassifier(topicmodeler)
+>>> cos_classifier = shorttext.classifiers.TopicVectorCosineDistanceClassifier(topicmodeler)
 
 Or if the user already saved the topic modeler, one can initiate the same classifier by
 loading the topic modeler:
 
->>> from shorttext.classifiers.topic.TopicVectorDistanceClassification import load_gensimtopicvec_cosineClassifier
->>> cos_classifier = load_gensimtopicvec_cosineClassifier('/path/to/nihlda128')
+>>> cos_classifier = shorttext.classifiers.load_gensimtopicvec_cosineClassifier('/path/to/nihlda128')
 
 To perform prediction, enter:
 
@@ -190,8 +187,7 @@ which outputs a dictionary with labels and the corresponding scores.
 
 The same thing for autoencoder, but the classifier based on autoencoder can be loaded by another function:
 
->>> from shorttext.classifiers.topic.TopicVectorDistanceClassification import load_autoencoder_cosineClassifier
->>> cos_classifier = load_autoencoder_cosineClassifier('/path/to/sub_autoencoder8')
+>>> cos_classifier = shorttext.classifiers.load_autoencoder_cosineClassifier('/path/to/sub_autoencoder8')
 
 Classification Using Scikit-Learn Classifiers
 ---------------------------------------------
@@ -201,7 +197,7 @@ algorithms. We can take any supervised learning algorithms in `scikit-learn` her
 We use Gaussian naive Bayes as an example. For faster demonstration, use the subject
 keywords as the example dataset.
 
->>> subtopicmodeler = ltm.GensimTopicModeler()
+>>> subtopicmodeler = shorttext.classifiers.GensimTopicModeler()
 >>> subtopicmodeler.train(subdict, 8)
 
 We first import the class:
@@ -210,8 +206,7 @@ We first import the class:
 
 And we train the classifier:
 
->>> from shorttext.classifiers.topic.SkLearnClassification import TopicVectorSkLearnClassifier
->>> classifier = TopicVectorSkLearnClassifier(subtopicmodeler, GaussianNB())
+>>> classifier = shorttext.classifiers.TopicVectorSkLearnClassifier(subtopicmodeler, GaussianNB())
 >>> classifier.train(subdict)
 
 Predictions can be performed like the following example:
@@ -227,12 +222,12 @@ You can save the model by:
 where the argument specifies the prefix of the path of the model files, including the topic
 models, and the scikit-learn model files. The classifier can be loaded by calling:
 
->>> classifier2 = shorttext.classifiers.topic.SkLearnClassification.load_gensim_topicvec_sklearnclassifier('/path/to/sublda8nb')
+>>> classifier2 = shorttext.classifiers.load_gensim_topicvec_sklearnclassifier('/path/to/sublda8nb')
 
 The topic modeler here can also be an autoencoder, by putting `subtopicmodeler` as the autoencoder
 will still do the work. However, to load the saved classifier with an autoencoder model, do
 
->>> classifier2 = shorttext.classifiers.topic.SkLearnClassification.load_autoencoder_topic_sklearnclassifier('/path/to/someprefix')
+>>> classifier2 = shorttext.classifiers.load_autoencoder_topic_sklearnclassifier('/path/to/someprefix')
 
 Notes about Text Preprocessing
 ------------------------------

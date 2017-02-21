@@ -19,7 +19,7 @@ following steps:
 
 To do this, load the preprocesser generator:
 
->>> from shorttext.utils.textpreprocessing import standard_text_preprocessor_1
+>>> from shorttext.utils import standard_text_preprocessor_1
 
 Then define the preprocessor, a function, by just calling:
 
@@ -45,7 +45,7 @@ let's develop a preprocessor that 1) convert it to base form if it is a verb, or
 
 Load the function that generates the preprocessor function:
 
->>> from shorttext.utils.textpreprocessing import text_preprocessor
+>>> from shorttext.utils import text_preprocessor
 
 Initialize a WordNet lemmatizer using `nltk`:
 
@@ -71,6 +71,14 @@ Some examples are:
 
 >>> preprocessor2('Maryland blue crab in Annapolis')  # output: 'MARYLAND-8 BLUE-4 CRAB-4 IN-2 ANNAPOLIS-9'
 >>> preprocessor2('generative adversarial networks')  # output: 'GENERATIVE-10 ADVERSARIAL-11 NETWORK-7'
+
+Tokenization
+------------
+
+Users are free to choose any tokenizer they wish. In `shorttext`, the tokenizer is
+implemented with `spaCy`, and can be called:
+
+>>> shorttext.utils.tokenize('Maryland blue crab')   # output: ['Maryland', 'blue', 'crab']
 
 Reference
 ---------

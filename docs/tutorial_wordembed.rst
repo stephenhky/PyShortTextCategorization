@@ -8,7 +8,7 @@ The most commonly used word-embedding model is Word2Vec. Its model can be downlo
 their page. To load the model, call:
 
 >>> import shorttext
->>> wvmodel = shorttext.utils.wordembed.load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
+>>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
 
 It is a binary file, and the default is set to be `binary=True`. In fact, it is equivalent to calling:
 

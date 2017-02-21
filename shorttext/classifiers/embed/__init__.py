@@ -1,6 +1,7 @@
 from . import nnlib
 from . import sumvec
 
+from .nnlib import frameworks
 from .nnlib.VarNNEmbedVecClassification import VarNNEmbeddedVecClassifier
 from .nnlib.frameworks import CNNWordEmbed, DoubleCNNWordEmbed, CLSTMWordEmbed
 from .sumvec.frameworks import DenseWordEmbed
