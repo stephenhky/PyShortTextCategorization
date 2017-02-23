@@ -4,8 +4,6 @@ import os
 
 import spacy
 from stemming.porter import stem
-#from nltk.corpus import stopwords
-#from nltk.stem import PorterStemmer
 
 # load stop words
 this_dir, _ = os.path.split(__file__)
@@ -80,7 +78,6 @@ def standard_text_preprocessor_1():
     :return: a function that preprocesses text according to the pipeline
     :rtype: function
     """
-    #stemmer = PorterStemmer()
     pipeline = [lambda s: re.sub('[^\w\s]', '', s),
                 lambda s: re.sub('[\d]', '', s),
                 lambda s: s.lower(),
