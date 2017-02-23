@@ -12,6 +12,13 @@ The Word2Vec model is implemented with [`gensim`](https://radimrehurek.com/gensi
  
 Upcoming changes [here](UPCOMING.md).
 
+# News
+
+* 02/23/2016: `shorttext` 0.2.1 released.
+* 12/21/2016: `shorttext` 0.2.0 released.
+* 11/25/2016: `shorttext` 0.1.2 released.
+* 11/21/2016: `shorttext` 0.1.1 released.
+
 # Useful Links
 
 * Documentation : [https://pythonhosted.org/shorttext/](https://pythonhosted.org/shorttext/)

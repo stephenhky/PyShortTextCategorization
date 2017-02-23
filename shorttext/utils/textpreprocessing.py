@@ -10,8 +10,16 @@ this_dir, _ = os.path.split(__file__)
 stopwordset = pickle.load(open(os.path.join(this_dir, 'stopwordset.pkl'), 'r'))
 
 # initialize spacy
-# TODO: implement lazy loading for overall fast import
-nlp = spacy.load('en')
+class SpaCyNLPHolder:
+    def __init__(self):
+        self.nlp = None
+
+    def getNLPInstance(self):
+        if self.nlp==None:
+            self.nlp = spacy.load('en')
+        return self.nlp
+# prepare the singleton
+spaCyNLPHolder = SpaCyNLPHolder()
 
 def spacy_tokenize(text):
     """ Tokenize a sentence with spaCy.
@@ -24,7 +32,7 @@ def spacy_tokenize(text):
     :type text: str
     :rtype: list
     """
-    nlp = spacy.load('en')   # lazy loading
+    nlp = spaCyNLPHolder.getNLPInstance()   # lazy loading
     tokeniter = nlp(unicode(text))
     return map(str, [token for token in tokeniter])
 

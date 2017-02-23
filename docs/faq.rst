@@ -12,4 +12,9 @@ by Keras. Refer to `Keras Backend
 Ans: Currently only Word2Vec is directly supported. However, you can
 convert GloVe models into Word2Vec models. See: :doc:`tutorial_wordembed` .
 
+3. Can this package work on Python 3?
+
+Ans: This package is written in Python 2.7. It is not guaranteed that the package works perfectly
+well in Python 3.
+
 Home: :doc:`index`
