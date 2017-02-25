@@ -33,8 +33,8 @@ def spacy_tokenize(text):
     :rtype: list
     """
     nlp = spaCyNLPHolder.getNLPInstance()   # lazy loading
-    tokeniter = nlp(unicode(text))
-    return map(str, [token for token in tokeniter])
+    tokenizer = nlp(unicode(text))
+    return map(str, [token for token in tokenizer])
 
 def preprocess_text(text, pipeline):
     """ Preprocess the text according to the given pipeline.
