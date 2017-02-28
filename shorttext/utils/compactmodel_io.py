@@ -45,3 +45,16 @@ def load_compact_model(filename, loadfunc, prefix):
     removedir(tempdir)
 
     return returnobj
+
+# decorator that adds compact model methods to classifier dynamically
+# TODO: finish the details
+def CompactIOClassifier(Classifier, infodict, filenamelist):
+    # define the inherit class
+    class DressedClassifier(Classifier):
+        def save_compact_model(self, filename):
+            pass
+
+        def load_compact_model(self, filename):
+            pass
+
+    return DressedClassifier

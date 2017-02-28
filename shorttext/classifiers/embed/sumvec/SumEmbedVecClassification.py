@@ -2,12 +2,10 @@ import pickle
 from collections import defaultdict
 
 import numpy as np
-#from nltk import word_tokenize
 from scipy.spatial.distance import cosine
 
-# from ... import classification_exceptions as e
 import utils.classification_exceptions as e
-from utils.textpreprocessing import spacy_tokenize
+from utils import tokenize
 
 class SumEmbeddedVecClassifier:
     """
@@ -101,7 +99,7 @@ class SumEmbeddedVecClassifier:
         :rtype: numpy.ndarray
         """
         vec = np.zeros(self.vecsize)
-        for token in spacy_tokenize(shorttext):
+        for token in tokenize(shorttext):
             if token in self.wvmodel:
                 vec += self.wvmodel[token]
         norm = np.linalg.norm(vec)
