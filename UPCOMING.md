@@ -1,6 +1,9 @@
 Upcoming Changes to `shorttext`
 ===============================
- 
+
+Confirmed Changes
+-----------------
+
 Expected Changes
 ----------------
 
