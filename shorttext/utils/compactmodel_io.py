@@ -4,6 +4,8 @@ import json
 import os
 from functools import partial
 
+import utils.classification_exceptions as e
+
 def removedir(dir):
     for filename in os.listdir(dir):
         if os.path.isdir(filename):
@@ -14,7 +16,7 @@ def removedir(dir):
     os.rmdir(dir)
 
 
-def save_compact_model(filename, savefunc, prefix, suffices, infodict={}):
+def save_compact_model(filename, savefunc, prefix, suffices, infodict):
     # create temporary directory
     tempdir = mkdtemp()
     savefunc(tempdir+'/'+prefix)
@@ -29,15 +31,20 @@ def save_compact_model(filename, savefunc, prefix, suffices, infodict={}):
     # delete temporary files
     removedir(tempdir)
 
-def load_compact_model(filename, loadfunc, prefix):
+def load_compact_model(filename, loadfunc, prefix, infodict):
     # create temporary directory
     tempdir = mkdtemp()
 
     # unzipping
     inputfile = zipfile.ZipFile(filename, mode='r')
     inputfile.extractall(tempdir)
-    # filenames = inputfile.namelist()
     inputfile.close()
+
+    # check model config
+    readinfodict = json.load(tempdir+'/modelconfig.json')
+    if readinfodict['classifier'] != infodict['classifier']:
+        raise e.IncorrectClassificationModelFileException(infodict['classifier'],
+                                                          readinfodict['classifier'])
 
     # load the model
     returnobj = loadfunc(tempdir+'/'+prefix)
@@ -52,11 +59,12 @@ def CompactIOClassifier(Classifier, infodict, prefix, suffices):
     # define the inherit class
     class DressedClassifier(Classifier):
         def save_compact_model(self, filename):
-            save_compact_model(filename, self.savemodel, prefix, suffices, infodict=infodict)
+            save_compact_model(filename, self.savemodel, prefix, suffices, infodict)
 
         def load_compact_model(self, filename):
-            return load_compact_model(filename, self.loadmodel, prefix)
+            return load_compact_model(filename, self.loadmodel, prefix, infodict)
 
+    # return decorated classifier
     return DressedClassifier
 
 # decorator for use

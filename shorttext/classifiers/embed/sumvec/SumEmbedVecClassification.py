@@ -8,7 +8,7 @@ import utils.classification_exceptions as e
 from utils import tokenize
 import utils.compactmodel_io as cio
 
-@cio.compactio({'classifier': 'sumvec'}, 'sumvec_', ['_embedvecdict.pkl'])
+@cio.compactio({'classifier': 'sumvec'}, 'sumvec', ['_embedvecdict.pkl'])
 class SumEmbeddedVecClassifier:
     """
     This is a supervised classification algorithm for short text categorization.
@@ -134,16 +134,21 @@ class SumEmbeddedVecClassifier:
                 scoredict[classtype] = np.nan
         return scoredict
 
-def load_sumword2vec_classifier(wvmodel, nameprefix):
+def load_sumword2vec_classifier(wvmodel, name, compact=True):
     """ Load a SumEmbeddedVecClassifier from file, given the pre-trained Word2Vec model.
 
     :param wvmodel: Word2Vec model
-    :param nameprefix: prefix of the file path
+    :param name: name (if compact=True) or prefix (if compact=False) of the file path
+    :param compact whether model file is compact (Default: True)
     :return: the classifier
     :type wvmodel: gensim.models.word2vec.Word2Vec
-    :type nameprefix: str
+    :type name: str
+    :type compact: bool
     :rtype: SumEmbeddedVecClassifier
     """
     classifier = SumEmbeddedVecClassifier(wvmodel)
-    classifier.loadmodel(nameprefix)
+    if compact:
+        classifier.load_compact_model(name)
+    else:
+        classifier.loadmodel(name)
     return classifier

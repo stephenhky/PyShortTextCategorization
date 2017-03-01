@@ -18,3 +18,7 @@ class UnequalArrayLengthsException(Exception):
 class NotImplementedException(Exception):
     def __init__(self):
         self.message = 'Method not implemented.'
+
+class IncorrectClassificationModelFileException(Exception):
+    def __init__(self, expectedname, actualname):
+        self.message = 'Incorrect model (expected: '+expectedname+' ; actual: '+actualname+')'

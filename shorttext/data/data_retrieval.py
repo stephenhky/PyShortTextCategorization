@@ -101,8 +101,6 @@ def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512
     if not (label_col in ['FUNDING_ICs', 'IC_NAME']):
         raise KeyError('Undefined label column: '+label_col+'. Must be FUNDING_ICs or IC_NAME.')
 
-    # this_dir, _ = os.path.split(__file__)
-    # zfile = zipfile.ZipFile(os.path.join(this_dir, 'nih_full.csv.zip'))
     zfile = zipfile.ZipFile(get_or_download_data('nih_full.csv.zip',
                                                  'https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/nih_full.csv.zip?raw=true')
                             )
