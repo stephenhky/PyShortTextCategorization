@@ -2,6 +2,7 @@ from tempfile import mkdtemp
 import zipfile
 import json
 import os
+from functools import partial
 
 def removedir(dir):
     for filename in os.listdir(dir):
@@ -21,7 +22,7 @@ def save_compact_model(filename, savefunc, prefix, suffices, infodict={}):
     # zipping
     outputfile = zipfile.ZipFile(filename, mode='w')
     for suffix in suffices:
-        outputfile.write(tempdir+'/'+prefix+suffix)
+        outputfile.write(tempdir+'/'+prefix+suffix, prefix+suffix)
     outputfile.writestr('modelconfig.json', json.dumps(infodict))
     outputfile.close()
 
@@ -47,14 +48,17 @@ def load_compact_model(filename, loadfunc, prefix):
     return returnobj
 
 # decorator that adds compact model methods to classifier dynamically
-# TODO: finish the details
-def CompactIOClassifier(Classifier, infodict, filenamelist):
+def CompactIOClassifier(Classifier, infodict, prefix, suffices):
     # define the inherit class
     class DressedClassifier(Classifier):
         def save_compact_model(self, filename):
-            pass
+            save_compact_model(filename, self.savemodel, prefix, suffices, infodict=infodict)
 
         def load_compact_model(self, filename):
-            pass
+            return load_compact_model(filename, self.loadmodel, prefix)
 
     return DressedClassifier
+
+# decorator for use
+def compactio(infodict, prefix, suffices):
+    return partial(CompactIOClassifier, infodict=infodict, prefix=prefix, suffices=suffices)

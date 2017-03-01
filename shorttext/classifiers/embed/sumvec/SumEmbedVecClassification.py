@@ -6,7 +6,9 @@ from scipy.spatial.distance import cosine
 
 import utils.classification_exceptions as e
 from utils import tokenize
+import utils.compactmodel_io as cio
 
+@cio.compactio({'classifier': 'sumvec'}, 'sumvec_', ['_embedvecdict.pkl'])
 class SumEmbeddedVecClassifier:
     """
     This is a supervised classification algorithm for short text categorization.
