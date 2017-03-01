@@ -10,10 +10,17 @@ their page. To load the model, call:
 >>> import shorttext
 >>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
 
-It is a binary file, and the default is set to be `binary=True`. In fact, it is equivalent to calling:
+It is a binary file, and the default is set to be `binary=True`. In fact, it is equivalent to calling,
+if you have `gensim` version before 1.0.0:
 
->>> from gensim.models import Word2Vec
->>> wvmodel = Word2Vec.load_word2vec_format('/path/to/GoogleNews-vectors-negative300.bin.gz', binary=True)
+>>> import gensim
+>>> wvmodel = gensim.models.Word2Vec.load_word2vec_format('/path/to/GoogleNews-vectors-negative300.bin.gz', binary=True)
+
+Or beyond version 1.0.0,
+
+>>> import gensim
+>>> wvmodel = gensim.models.KeyedVectors.load_word2vec_format('/path/to/GoogleNews-vectors-negative300.bin.gz', binary=True)
+
 
 Word2Vec is a neural network model that embeds words into semantic vectors that carry semantic meaning.
 It is easy to extract the vector of a word, like for the word 'coffee':
