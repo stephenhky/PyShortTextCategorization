@@ -135,13 +135,13 @@ class SumEmbeddedVecClassifier:
         return scoredict
 
 def load_sumword2vec_classifier(wvmodel, name, compact=True):
-    """ Load a SumEmbeddedVecClassifier from file, given the pre-trained Word2Vec model.
+    """ Load a :class:`shorttext.classifiers.SumEmbeddedVecClassifier` instance from file, given the pre-trained Word2Vec model.
 
     :param wvmodel: Word2Vec model
     :param name: name (if compact=True) or prefix (if compact=False) of the file path
     :param compact whether model file is compact (Default: True)
     :return: the classifier
-    :type wvmodel: gensim.models.word2vec.Word2Vec
+    :type wvmodel: gensim.models.keyedvectors.KeyedVectors
     :type name: str
     :type compact: bool
     :rtype: SumEmbeddedVecClassifier

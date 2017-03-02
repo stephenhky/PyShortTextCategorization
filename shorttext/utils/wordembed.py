@@ -8,10 +8,10 @@ def load_word2vec_model(path, binary=True):
     :return: a pre-trained Word2Vec model
     :type path: str
     :type binary: bool
-    :rtype: gensim.models.Word2Vec
+    :rtype: gensim.models.Word2Vec or gensim.models.keyedvectors.KeyedVectors
     """
     if gensim.__version__ >= '1.0.0':
-        return gensim.models.Word2Vec.load_word2vec_format(path, binary=binary)
-    else:
         return gensim.models.KeyedVectors.load_word2vec_format(path, binary=binary)
+    else:
+        return gensim.models.Word2Vec.load_word2vec_format(path, binary=binary)
 

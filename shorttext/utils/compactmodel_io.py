@@ -41,7 +41,7 @@ def load_compact_model(filename, loadfunc, prefix, infodict):
     inputfile.close()
 
     # check model config
-    readinfodict = json.load(tempdir+'/modelconfig.json')
+    readinfodict = json.load(open(tempdir+'/modelconfig.json', 'r'))
     if readinfodict['classifier'] != infodict['classifier']:
         raise e.IncorrectClassificationModelFileException(infodict['classifier'],
                                                           readinfodict['classifier'])

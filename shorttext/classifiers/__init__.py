@@ -1,6 +1,6 @@
 from .embed import *
 from .embed import SumEmbeddedVecClassifier, load_sumword2vec_classifier
-from .embed import VarNNEmbeddedVecClassifier
+from .embed import VarNNEmbeddedVecClassifier, load_varnnlibvec_classifier
 from .embed import frameworks
 from .embed.sumvec import frameworks as sumvecframeworks
 

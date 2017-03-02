@@ -31,21 +31,19 @@ Import the package:
 
 To load the Word2Vec model,
 
->>> from shorttext.utils import load_word2vec_model
->>> wvmodel = load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
+>>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
 
 Then load the training data
+
 >>> trainclassdict = shorttext.data.subjectkeywords()
 
 Then we choose a neural network. We choose ConvNet:
 
->>> import shorttext.classifiers.frameworks as fr
->>> kmodel = fr.CNNWordEmbed(len(trainclassdict.keys()))
+>>> kmodel = shorttext.classifiers.frameworks.CNNWordEmbed(len(trainclassdict.keys()))
 
 Initialize the classifier:
 
->>> from shorttext.classifiers import VarNNEmbeddedVecClassifier
->>> classifier = VarNNEmbeddedVecClassifier(wvmodel)
+>>> classifier = shorttext.classifiers.VarNNEmbeddedVecClassifier(wvmodel)
 
 Then train the classifier:
 
@@ -76,12 +74,20 @@ Then the model is ready for classification, like:
 >>> classifier.score('artificial intelligence')
 {'mathematics': 0.57749695, 'physics': 0.33749574, 'theology': 0.085007325}
 
+The trained model can be saved:
+
+>>> classifier.save_compact_model('/path/to/nnlibvec_convnet_subdata.bin')
+
+To load it, enter:
+
+>>> classifier2 = shorttext.classifiers.load_varnnlibvec_classifier(wvmodel, '/path/to/nnlibvec_convnet_subdata.bin')
+
 Provided Neural Networks
 ------------------------
 
 There are three neural networks available in this package for the use in
 :class:`shorttext.classifiers.VarNNEmbeddedVecClassifier`,
-and they are available in the module `shorttext.classifiers.frameworks`.
+and they are available in the module :module:`shorttext.classifiers.frameworks`.
 
 ConvNet (Convolutional Neural Network)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

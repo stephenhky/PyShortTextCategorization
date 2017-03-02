@@ -63,6 +63,18 @@ Or the result can be sorted and only the five top-scored results are displayed:
 
 The trained model can be saved:
 
+>>> classifier.save_compact_model('/path/to/sumvec_nihdata_model.bin')
+
+And with the same pre-trained Word2Vec model, this classifier can be loaded:
+
+>>> classifier2 = shorttext.classifiers.load_sumword2vec_classifier(wvmodel, '/path/to/sumvec_nihdata_model.bin')
+
+Appendix: Model I/O in Previous Versions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In previous versions of `shorttext`, :class:`shorttext.classifiers.SumEmbeddedVecClassifier` has a `savemodel` method,
+which runs as follow:
+
 >>> classifier.savemodel('/path/to/nihdata')
 
 This produces the following file for this model:
@@ -71,9 +83,9 @@ This produces the following file for this model:
 
     /path/to/nihdata_embedvecdict.pkl
 
-And with the same pre-trained Word2Vec model, this classifier can be loaded:
+It can be loaded by:
 
->>> classifier2 = shorttext.classifiers.load_sumword2vec_classifier(wvmodel, '/path/to/nihdata')
+>>> classifier2 = shorttext.classifiers.load_sumword2vec_classifier(wvmodel, '/path/to/nihdata', compact=False)
 
 Reference
 ---------

@@ -1,12 +1,13 @@
 import numpy as np
-#from nltk import word_tokenize
 
 # from ... import kerasmodel_io as kerasio
 # from ... import classification_exceptions as e
 import utils.kerasmodel_io as kerasio
 import utils.classification_exceptions as e
-from utils.textpreprocessing import spacy_tokenize
+from utils import tokenize
+import utils.compactmodel_io as cio
 
+@cio.compactio({'classifier': 'nnlibvec'}, 'nnlibvec', ['_classlabels.txt', '.json', '.h5'])
 class VarNNEmbeddedVecClassifier:
     """
     This is a wrapper for various neural network algorithms
@@ -27,19 +28,16 @@ class VarNNEmbeddedVecClassifier:
 
         Examples
 
+    >>> import shorttext
     >>> # load the Word2Vec model
-    >>> from gensim.models import Word2Vec
-    >>> wvmodel = Word2Vec.load_word2vec_format('GoogleNews-vectors-negative300.bin.gz', binary=True)
+    >>> wvmodel = shorttext.utils.load_word2vec_model('GoogleNews-vectors-negative300.bin.gz', binary=True)
     >>>
     >>> # load the training data
-    >>> import shorttext.data.data_retrieval as ret
-    >>> trainclassdict = ret.subjectkeywords()
+    >>> trainclassdict = shorttext.data.subjectkeywords()
     >>>
     >>> # initialize the classifier and train
-    >>> import shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification as vnn
-    >>> import shorttext.classifiers.embed.nnlib.frameworks as fr
-    >>> kmodel = fr.CNNWordEmbed(len(classdict.keys()))    # using convolutional neural network model
-    >>> classifier = vnn.VarNNEmbeddedVecClassifier(wvmodel)
+    >>> kmodel = shorttext.classifiers.frameworks.CNNWordEmbed(len(classdict.keys()))    # using convolutional neural network model
+    >>> classifier = shorttext.classifiers.VarNNEmbeddedVecClassifier(wvmodel)
     >>> classifier.train(trainclassdict, kmodel)
     Epoch 1/10
     45/45 [==============================] - 0s - loss: 1.0578
@@ -102,7 +100,7 @@ class VarNNEmbeddedVecClassifier:
                 category_bucket = [0]*len(classlabels)
                 category_bucket[lblidx_dict[label]] = 1
                 indices.append(category_bucket)
-                phrases.append(spacy_tokenize(shorttext))
+                phrases.append(tokenize(shorttext))
 
         # store embedded vectors
         train_embedvec = np.zeros(shape=(len(phrases), self.maxlen, self.vecsize))
@@ -206,7 +204,7 @@ class VarNNEmbeddedVecClassifier:
         :type shorttext: str
         :rtype: numpy.ndarray
         """
-        tokens = spacy_tokenize(shorttext)
+        tokens = tokenize(shorttext)
         matrix = np.zeros((self.maxlen, self.vecsize))
         for i in range(min(self.maxlen, len(tokens))):
             matrix[i] = self.word_to_embedvec(tokens[i])
@@ -240,3 +238,22 @@ class VarNNEmbeddedVecClassifier:
         for idx, classlabel in zip(range(len(self.classlabels)), self.classlabels):
             scoredict[classlabel] = predictions[0][idx]
         return scoredict
+
+def load_varnnlibvec_classifier(wvmodel, name, compact=True):
+    """ Load a :class:`shorttext.classifiers.VarNNEmbeddedVecClassifier` instance from file, given the pre-trained Word2Vec model.
+
+    :param wvmodel: Word2Vec model
+    :param name: name (if compact=True) or prefix (if compact=False) of the file path
+    :param compact whether model file is compact (Default: True)
+    :return: the classifier
+    :type wvmodel: gensim.models.keyedvectors.KeyedVectors
+    :type name: str
+    :type compact: bool
+    :rtype: VarNNEmbeddedVecClassifier
+    """
+    classifier = VarNNEmbeddedVecClassifier(wvmodel)
+    if compact:
+        classifier.load_compact_model(name)
+    else:
+        classifier.loadmodel(name)
+    return classifier
