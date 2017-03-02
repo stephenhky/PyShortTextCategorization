@@ -11,4 +11,5 @@ Expected Changes
 * Saving and loading compact models;
 * Implementation of author-topic model;
 * More neural networks;
-* More available corpus.
+* More available corpus;
+* Generative models.
