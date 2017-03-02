@@ -58,7 +58,24 @@ representation is as follow:
 In the training and the retrieval above, the same preprocessing process is applied.
 Users can provide their own preprocessor while initiating the topic modeler.
 
-Users can save the trained models, by calling:
+Users can save the trained model by calling:
+
+>>> topicmodeler.save_compact_model('/path/to/nihlda128.bin')
+
+And the topic model can be retrieved by calling:
+
+>>> topicmodeler2 = shorttext.classifiers.load_gensimtopicmodel('/path/to/nihlda128.bin')
+
+While initialize the instance of the topic modeler, the user can also specify
+whether to weigh the terms using tf-idf (term frequency - inverse document frequency).
+The default is to weigh. To not weigh, initialize it as
+
+>>> topicmodeler3 = shorttext.classifiers.GensimTopicModeler(toweight=False)
+
+Appendix: Model I/O in Previous Versions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For previous versions of `shorttext`, the trained models are saved by calling:
 
 >>> topicmodeler.savemodel('/path/to/nihlda128')
 
@@ -72,17 +89,16 @@ The following files for the topic model are produced:
     /path/to/nihlda128.gensimtfidf
     /path/to/nihlda128.gensimmodel
     /path/to/nihlda128.gensimmat
+    /path/to/nihlda128.gensimmodel.expElogbeta.npy
+    /path/to/nihlda128.gensimmodel.id2word
+
+
+Note: the last two files are generated only for gensim with version >= 1.0.0.
 
 All of them have to be present in order to be loaded. Note that the preprocessor is
 not saved. To load the model, enter:
 
->>> topicmodeler2 = ltm.load_gensimtopicmodel('/path/to/nihlda128')
-
-While initialize the instance of the topic modeler, the user can also specify
-whether to weigh the terms using tf-idf (term frequency - inverse document frequency).
-The default is to weigh. To not weigh, initialize it as
-
->>> topicmodeler3 = ltm.GensimTopicModeler(toweight=False)
+>>> topicmodeler2 = shorttext.classifiers.load_gensimtopicmodel('/path/to/nihlda128', compact=False)
 
 AutoEncoder
 -----------

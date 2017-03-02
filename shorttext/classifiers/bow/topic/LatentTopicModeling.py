@@ -4,10 +4,10 @@ import pickle
 
 import numpy as np
 from scipy.spatial.distance import cosine
+import gensim
 from gensim.corpora import Dictionary
 from gensim.models import TfidfModel, LdaModel, LsiModel, RpModel
 from gensim.similarities import MatrixSimilarity
-#from nltk import word_tokenize
 from keras.layers import Input, Dense
 from keras.models import Model
 
@@ -15,8 +15,8 @@ import utils.kerasmodel_io as kerasio
 from utils import textpreprocessing as textpreprocess
 from utils import gensim_corpora as gc
 import utils.classification_exceptions as e
-
-from utils.textpreprocessing import spacy_tokenize
+from utils import tokenize
+import utils.compactmodel_io as cio
 
 gensim_topic_model_dict = {'lda': LdaModel, 'lsi': LsiModel, 'rp': RpModel}
 
@@ -48,7 +48,7 @@ class LatentTopicModeler:
         :type classdict: dict
         """
         self.dictionary, self.corpus, self.classlabels = gc.generate_gensim_corpora(classdict,
-                                                                                    preprocess_and_tokenize=lambda sent: spacy_tokenize(self.preprocessor(sent)))
+                                                                                    preprocess_and_tokenize=lambda sent: tokenize(self.preprocessor(sent)))
 
     def train(self, classdict, nb_topics, *args, **kwargs):
         """ Train the modeler.
@@ -75,7 +75,7 @@ class LatentTopicModeler:
         :type shorttext: str
         :rtype: list
         """
-        return self.dictionary.doc2bow(spacy_tokenize(self.preprocessor(shorttext)))
+        return self.dictionary.doc2bow(tokenize(self.preprocessor(shorttext)))
 
     def retrieve_bow_vector(self, shorttext, normalize=True):
         """ Calculate the vector representation of the bag-of-words in terms of numpy.ndarray.
@@ -153,6 +153,12 @@ class LatentTopicModeler:
         """
         raise e.NotImplementedException()
 
+gensimsuffices =  ['.json', '.gensimdict', '.gensimmodel.state',
+                   '.gensimtfidf', '.gensimmodel', '.gensimmat']
+if gensim.__version__ >= '1.0.0':
+    gensimsuffices += ['.gensimmodel.expElogbeta.npy', '.gensimmodel.id2word']
+
+@cio.compactio({'classifier': 'gensimtopic'}, 'gensimtopic', gensimsuffices)
 class GensimTopicModeler(LatentTopicModeler):
     """
     This class facilitates the creation of topic models (options: LDA (latent Dirichlet Allocation),
@@ -497,19 +503,25 @@ class AutoencodingTopicModeler(LatentTopicModeler):
         self.classtopicvecs = pickle.load(open(nameprefix+'_classtopicvecs.pkl', 'r'))
         self.trained = True
 
-def load_gensimtopicmodel(nameprefix,
-                          preprocessor=textpreprocess.standard_text_preprocessor_1()):
+def load_gensimtopicmodel(name,
+                          preprocessor=textpreprocess.standard_text_preprocessor_1(),
+                          compact=True):
     """ Load the gensim topic modeler from files.
 
-    :param nameprefix: prefix of the paths of the model files
+    :param name: name (if compact=True) or prefix (if compact=False) of the file path
     :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
+    :param compact: whether model file is compact (Default: True)
     :return: a topic modeler
-    :type nameprefix: str
+    :type name: str
     :type preprocessor: function
+    :type compact: bool
     :rtype: GensimTopicModeler
     """
     topicmodeler = GensimTopicModeler(preprocessor=preprocessor)
-    topicmodeler.loadmodel(nameprefix)
+    if compact:
+        topicmodeler.load_compact_model(name)
+    else:
+        topicmodeler.loadmodel(name)
     return topicmodeler
 
 def load_autoencoder_topic(nameprefix,
