@@ -153,12 +153,12 @@ class LatentTopicModeler:
         """
         raise e.NotImplementedException()
 
-gensimsuffices =  ['.json', '.gensimdict', '.gensimmodel.state',
+gensim_suffices =  ['.json', '.gensimdict', '.gensimmodel.state',
                    '.gensimtfidf', '.gensimmodel', '.gensimmat']
 if gensim.__version__ >= '1.0.0':
-    gensimsuffices += ['.gensimmodel.expElogbeta.npy', '.gensimmodel.id2word']
+    gensim_suffices += ['.gensimmodel.expElogbeta.npy', '.gensimmodel.id2word']
 
-@cio.compactio({'classifier': 'gensimtopic'}, 'gensimtopic', gensimsuffices)
+@cio.compactio({'classifier': 'gensimtopic'}, 'gensimtopic', gensim_suffices)
 class GensimTopicModeler(LatentTopicModeler):
     """
     This class facilitates the creation of topic models (options: LDA (latent Dirichlet Allocation),
@@ -338,6 +338,10 @@ class GensimTopicModeler(LatentTopicModeler):
         if self.toweigh:
             self.tfidf.save(nameprefix+'.gensimtfidf')
 
+autoencoder_suffices = ['.gensimdict', '_encoder.json', '_encoder.h5', '_classtopicvecs.pkl',
+                        '_decoder.json', '_decoder.h5', '_autoencoder.json', '_autoencoder.h5']
+
+@cio.compactio({'classifier': 'kerasautoencoder'}, 'kerasautoencoder', autoencoder_suffices)
 class AutoencodingTopicModeler(LatentTopicModeler):
     """
     This class facilitates the topic modeling of input training data using the autoencoder.
@@ -459,7 +463,7 @@ class AutoencodingTopicModeler(LatentTopicModeler):
             simdict[label] = 1 - cosine(self.classtopicvecs[label], self.retrieve_topicvec(shorttext))
         return simdict
 
-    def savemodel(self, nameprefix, save_complete_autoencoder=False):
+    def savemodel(self, nameprefix, save_complete_autoencoder=True):
         """ Save the model with names according to the prefix.
 
         Given the prefix of the file paths, save the model into files, with name given by the prefix.
@@ -472,7 +476,7 @@ class AutoencodingTopicModeler(LatentTopicModeler):
         If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
 
         :param nameprefix: prefix of the paths of the file
-        :param save_complete_autoencoder: whether to store the decoder and the complete autoencoder (Default: False)
+        :param save_complete_autoencoder: whether to store the decoder and the complete autoencoder (Default: True; but False for version <= 0.2.1)
         :return: None
         :type nameprefix: str
         :type save_complete_autoencoder: bool
@@ -486,7 +490,7 @@ class AutoencodingTopicModeler(LatentTopicModeler):
             kerasio.save_model(nameprefix+'_autoencoder', self.autoencoder)
         pickle.dump(self.classtopicvecs, open(nameprefix+'_classtopicvecs.pkl', 'w'))
 
-    def loadmodel(self, nameprefix):
+    def loadmodel(self, nameprefix, load_incomplete=False):
         """ Save the model with names according to the prefix.
 
         Given the prefix of the file paths, load the model into files, with name given by the prefix.
@@ -495,12 +499,17 @@ class AutoencodingTopicModeler(LatentTopicModeler):
         They also include a gensim dictionary (.gensimdict).
 
         :param nameprefix: prefix of the paths of the file
+        :param load_incomplete: load encoder only, not decoder and autoencoder file (Default: False; put True for model built in version <= 0.2.1)
         :return: None
         :type nameprefix: str
+        :type load_incomplete: bool
         """
         self.dictionary = Dictionary.load(nameprefix + '.gensimdict')
         self.encoder = kerasio.load_model(nameprefix+'_encoder')
         self.classtopicvecs = pickle.load(open(nameprefix+'_classtopicvecs.pkl', 'r'))
+        if not load_incomplete:
+            self.decoder = kerasio.load_model(nameprefix+'_decoder')
+            self.autoencoder = kerasio.load_model(nameprefix+'_autoencoder')
         self.trained = True
 
 def load_gensimtopicmodel(name,
@@ -524,17 +533,23 @@ def load_gensimtopicmodel(name,
         topicmodeler.loadmodel(name)
     return topicmodeler
 
-def load_autoencoder_topic(nameprefix,
-                           preprocessor=textpreprocess.standard_text_preprocessor_1()):
+def load_autoencoder_topic(name,
+                           preprocessor=textpreprocess.standard_text_preprocessor_1(),
+                           compact=True):
     """ Load the autoencoding topic model from files.
 
-    :param nameprefix: prefix of the paths of the model files
+    :param name: prefix of the paths of the model files
     :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
+    :param compact: whether model file is compact (Default: True)
     :return: an autoencoder as a topic modeler
-    :type nameprefix: str
+    :type name: str
     :type preprocessor: function
+    :type compact: bool
     :rtype: AutoencodingTopicModeler
     """
     autoencoder = AutoencodingTopicModeler(preprocessor=preprocessor)
-    autoencoder.loadmodel(nameprefix)
+    if compact:
+        autoencoder.load_compact_model(name)
+    else:
+        autoencoder.loadmodel(name)
     return autoencoder

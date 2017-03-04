@@ -66,6 +66,12 @@ class TopicVecCosineDistanceClassifier:
         """
         self.topicmodeler.savemodel(nameprefix)
 
+    def load_compact_model(self, name):
+        self.topicmodeler.load_compact_model(name)
+
+    def save_compact_model(self, name):
+        self.topicmodeler.save_compact_model(name)
+
 def train_gensimtopicvec_cosineClassifier(classdict,
                                           nb_topics,
                                           preprocessor=textpreprocess.standard_text_preprocessor_1(),
@@ -103,8 +109,9 @@ def train_gensimtopicvec_cosineClassifier(classdict,
     # cosine distance classifier
     return TopicVecCosineDistanceClassifier(topicmodeler)
 
-def load_gensimtopicvec_cosineClassifier(nameprefix,
-                                         preprocessor=textpreprocess.standard_text_preprocessor_1()):
+def load_gensimtopicvec_cosineClassifier(name,
+                                         preprocessor=textpreprocess.standard_text_preprocessor_1(),
+                                         compact=True):
     """ Load a gensim topic model from files and return a cosine distance classifier.
 
     Given the prefix of the files of the topic model, return a cosine distance classifier
@@ -113,14 +120,16 @@ def load_gensimtopicvec_cosineClassifier(nameprefix,
     The files include a JSON (.json) file that specifies various parameters, a gensim dictionary (.gensimdict),
     and a topic model (.gensimmodel). If weighing is applied, load also the tf-idf model (.gensimtfidf).
 
-    :param nameprefix: prefix of the file paths
+    :param name: name (if compact=True) or prefix (if compact=False) of the file paths
     :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
+    :param compact: whether model file is compact (Default: True)
     :return: a classifier that scores the short text based on the topic model
-    :type nameprefix: str
+    :type name: str
     :type preprocessor: function
+    :type compact: bool
     :rtype: TopicVecCosineDistanceClassifier
     """
-    topicmodeler = load_gensimtopicmodel(nameprefix, preprocessor=preprocessor)
+    topicmodeler = load_gensimtopicmodel(name, preprocessor=preprocessor, compact=compact)
     return TopicVecCosineDistanceClassifier(topicmodeler)
 
 def train_autoencoder_cosineClassifier(classdict,
@@ -151,8 +160,9 @@ def train_autoencoder_cosineClassifier(classdict,
     # cosine distance classifier
     return TopicVecCosineDistanceClassifier(autoencoder)
 
-def load_autoencoder_cosineClassifier(nameprefix,
-                                      preprocessor=textpreprocess.standard_text_preprocessor_1()):
+def load_autoencoder_cosineClassifier(name,
+                                      preprocessor=textpreprocess.standard_text_preprocessor_1(),
+                                      compact=True):
     """ Load an autoencoder from files for topic modeling, and return a cosine classifier.
 
     Given the prefix of the file paths, load the model into files, with name given by the prefix.
@@ -160,12 +170,14 @@ def load_autoencoder_cosineClassifier(nameprefix,
     the JSON and HDF5 files for the encoder respectively.
     They also include a gensim dictionary (.gensimdict).
 
-    :param nameprefix: prefix of the paths of the model files
+    :param name: name (if compact=True) or prefix (if compact=False) of the file paths
     :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
+    :param compact: whether model file is compact (Default: True)
     :return: a classifier that scores the short text based on the autoencoder
-    :type nameprefix: str
+    :type name: str
     :type preprocessor: function
+    :type compact: bool
     :rtype: TopicVecCosineDistanceClassifier
     """
-    autoencoder = load_autoencoder_topic(nameprefix, preprocessor=preprocessor)
+    autoencoder = load_autoencoder_topic(name, preprocessor=preprocessor, compact=compact)
     return TopicVecCosineDistanceClassifier(autoencoder)
