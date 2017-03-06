@@ -6,6 +6,7 @@ from utils import textpreprocessing as textpreprocess
 from classifiers.bow.topic.LatentTopicModeling import GensimTopicModeler, AutoencodingTopicModeler
 from classifiers.bow.topic.LatentTopicModeling import load_gensimtopicmodel, load_autoencoder_topic
 import utils.classification_exceptions as e
+import utils.compactmodel_io as cio
 
 class TopicVectorSkLearnClassifier:
     """
@@ -142,6 +143,18 @@ class TopicVectorSkLearnClassifier:
         self.topicmodeler.loadmodel(nameprefix)
         self.classifier = joblib.load(nameprefix+'.pkl')
         self.classlabels = self.topicmodeler.classlabels
+
+    def save_compact_model(self, name):
+        topicmodel_info = self.topicmodeler.get_info()
+        cio.save_compact_model(name, self.savemodel, 'topic_sklearn',
+                               topicmodel_info['suffices']+['.pkl'],
+                               {'classifier': 'topic_skilearn', 'topicmodel': topicmodel_info['classifier']})
+
+    def load_compact_model(self, name):
+        # TODO: refine
+        topicmodel_info = self.topicmodeler.get_info()
+        cio.load_compact_model(name, self.loadmodel, 'topic_sklearn',
+                               {'classifier': 'topic_sklearn', 'topicmodel': None})
 
 def train_gensim_topicvec_sklearnclassifier(classdict,
                                             nb_topics,

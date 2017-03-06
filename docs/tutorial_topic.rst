@@ -134,6 +134,23 @@ Users can provide their own preprocessor while initiating the topic modeler.
 
 Users can save the trained models, by calling:
 
+>>> autoencoder.save_compact_model('/path/to/sub_autoencoder8.bin')
+
+And the model can be retrieved by calling:
+
+>>> autoencoder2 = shorttext.classifiers.load_autoencoder_topic('/path/to/sub_autoencoder8.bin')
+
+Like other topic models, while initialize the instance of the topic modeler, the user can also specify
+whether to weigh the terms using tf-idf (term frequency - inverse document frequency).
+The default is to weigh. To not weigh, initialize it as:
+
+>>> autoencoder3 = ltm.AutoencodingTopicModeler(toweight=False)
+
+Appendix: Model I/O in Previous Versions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+For previous versions of `shorttext`, the trained models are saved by calling:
+
 >>> autoencoder.savemodel('/path/to/sub_autoencoder8')
 
 The following files are produced for the autoencoder:
@@ -156,13 +173,8 @@ If specifying `save_complete_autoencoder=True`, then four more files are found:
 
 Users can load the same model later by entering:
 
->>> autoencoder2 = ltm.load_autoencoder_topic('/path/to/sub_autoencoder8')
+>>> autoencoder2 = shorttext.classifiers.load_autoencoder_topic('/path/to/sub_autoencoder8', compact=False)
 
-Like other topic models, while initialize the instance of the topic modeler, the user can also specify
-whether to weigh the terms using tf-idf (term frequency - inverse document frequency).
-The default is to weigh. To not weigh, initialize it as:
-
->>> autoencoder3 = ltm.AutoencodingTopicModeler(toweight=False)
 
 Abstract Latent Topic Modeling Class
 ------------------------------------
@@ -193,7 +205,7 @@ immediately without training. Taking the LDA example above, such classifier can 
 Or if the user already saved the topic modeler, one can initiate the same classifier by
 loading the topic modeler:
 
->>> cos_classifier = shorttext.classifiers.load_gensimtopicvec_cosineClassifier('/path/to/nihlda128')
+>>> cos_classifier = shorttext.classifiers.load_gensimtopicvec_cosineClassifier('/path/to/nihlda128.bin')
 
 To perform prediction, enter:
 
@@ -203,7 +215,7 @@ which outputs a dictionary with labels and the corresponding scores.
 
 The same thing for autoencoder, but the classifier based on autoencoder can be loaded by another function:
 
->>> cos_classifier = shorttext.classifiers.load_autoencoder_cosineClassifier('/path/to/sub_autoencoder8')
+>>> cos_classifier = shorttext.classifiers.load_autoencoder_cosineClassifier('/path/to/sub_autoencoder8.bin')
 
 Classification Using Scikit-Learn Classifiers
 ---------------------------------------------

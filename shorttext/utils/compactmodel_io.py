@@ -64,6 +64,11 @@ def CompactIOClassifier(Classifier, infodict, prefix, suffices):
         def load_compact_model(self, filename):
             return load_compact_model(filename, self.loadmodel, prefix, infodict)
 
+        def get_info(self):
+            return {'classifier': infodict['classifier'],
+                    'prefix': prefix,
+                    'suffices': suffices}
+
     # return decorated classifier
     return DressedClassifier
 
