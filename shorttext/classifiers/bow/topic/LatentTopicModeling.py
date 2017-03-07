@@ -339,7 +339,8 @@ class GensimTopicModeler(LatentTopicModeler):
             self.tfidf.save(nameprefix+'.gensimtfidf')
 
 autoencoder_suffices = ['.gensimdict', '_encoder.json', '_encoder.h5', '_classtopicvecs.pkl',
-                        '_decoder.json', '_decoder.h5', '_autoencoder.json', '_autoencoder.h5']
+                        '_decoder.json', '_decoder.h5', '_autoencoder.json', '_autoencoder.h5',
+                        '.json']
 
 @cio.compactio({'classifier': 'kerasautoencoder'}, 'kerasautoencoder', autoencoder_suffices)
 class AutoencodingTopicModeler(LatentTopicModeler):
@@ -483,6 +484,12 @@ class AutoencodingTopicModeler(LatentTopicModeler):
         """
         if not self.trained:
             raise e.ModelNotTrainedException()
+
+        parameters = {}
+        parameters['nb_topics'] = self.nb_topics
+        parameters['classlabels'] = self.classlabels
+        json.dump(parameters, open(nameprefix+'.json', 'wb'))
+
         self.dictionary.save(nameprefix+'.gensimdict')
         kerasio.save_model(nameprefix+'_encoder', self.encoder)
         if save_complete_autoencoder:
@@ -504,6 +511,11 @@ class AutoencodingTopicModeler(LatentTopicModeler):
         :type nameprefix: str
         :type load_incomplete: bool
         """
+        # load the JSON file (parameters)
+        parameters = json.load(open(nameprefix+'.json', 'rb'))
+        self.nb_topics = parameters['nb_topics']
+        self.classlabels = parameters['classlabels']
+
         self.dictionary = Dictionary.load(nameprefix + '.gensimdict')
         self.encoder = kerasio.load_model(nameprefix+'_encoder')
         self.classtopicvecs = pickle.load(open(nameprefix+'_classtopicvecs.pkl', 'r'))
@@ -538,7 +550,7 @@ def load_autoencoder_topic(name,
                            compact=True):
     """ Load the autoencoding topic model from files.
 
-    :param name: prefix of the paths of the model files
+    :param name: name (if compact=True) or prefix (if compact=False) of the paths of the model files
     :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
     :param compact: whether model file is compact (Default: True)
     :return: an autoencoder as a topic modeler

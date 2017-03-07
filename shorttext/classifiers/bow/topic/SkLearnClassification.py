@@ -148,13 +148,12 @@ class TopicVectorSkLearnClassifier:
         topicmodel_info = self.topicmodeler.get_info()
         cio.save_compact_model(name, self.savemodel, 'topic_sklearn',
                                topicmodel_info['suffices']+['.pkl'],
-                               {'classifier': 'topic_skilearn', 'topicmodel': topicmodel_info['classifier']})
+                               {'classifier': 'topic_sklearn', 'topicmodel': topicmodel_info['classifier']})
 
     def load_compact_model(self, name):
-        # TODO: refine
-        topicmodel_info = self.topicmodeler.get_info()
         cio.load_compact_model(name, self.loadmodel, 'topic_sklearn',
                                {'classifier': 'topic_sklearn', 'topicmodel': None})
+        self.trained = True
 
 def train_gensim_topicvec_sklearnclassifier(classdict,
                                             nb_topics,
@@ -215,8 +214,9 @@ def train_gensim_topicvec_sklearnclassifier(classdict,
 
     return classifier
 
-def load_gensim_topicvec_sklearnclassifier(nameprefix,
-                                           preprocessor=textpreprocess.standard_text_preprocessor_1()):
+def load_gensim_topicvec_sklearnclassifier(name,
+                                           preprocessor=textpreprocess.standard_text_preprocessor_1(),
+                                           compact=True):
     """ Load the classifier, a wrapper that uses scikit-learn classifier, with
      feature vectors given by a topic model, from files.
 
@@ -230,24 +230,36 @@ def load_gensim_topicvec_sklearnclassifier(nameprefix,
     WWW '08 Proceedings of the 17th international conference on World Wide Web. (2008) [`ACL
     <http://dl.acm.org/citation.cfm?id=1367510>`_]
 
-    :param nameprefix: prefix of the paths of model files
+    :param name: name (if compact==True) or prefix (if compact==False) of the paths of model files
     :param preprocessor: function that preprocesses the text (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
+    :param compact: whether model file is compact (Default: True)
     :return: a trained classifier
-    :type nameprefix: str
+    :type name: str
     :type preprocessor: function
+    :type compact: bool
     :rtype: TopicVectorSkLearnClassifier
     """
-    # loading topic model
-    topicmodeler = load_gensimtopicmodel(nameprefix, preprocessor=preprocessor)
+    if compact:
+        # load the compact model
+        classifier = TopicVectorSkLearnClassifier(GensimTopicModeler(preprocessor=preprocessor), None)
+        classifier.load_compact_model(name)
+        classifier.trained = True
 
-    # loading intermediate model
-    sklearn_classifier = joblib.load(nameprefix+'.pkl')
+        # return the instance
+        return classifier
+    else:
+        # loading topic model
+        topicmodeler = load_gensimtopicmodel(name, preprocessor=preprocessor)
 
-    # the wrapped classifier
-    classifier = TopicVectorSkLearnClassifier(topicmodeler, sklearn_classifier)
-    classifier.trained = True
+        # loading intermediate model
+        sklearn_classifier = joblib.load(name + '.pkl')
 
-    return classifier
+        # the wrapped classifier
+        classifier = TopicVectorSkLearnClassifier(topicmodeler, sklearn_classifier)
+        classifier.trained = True
+
+        # return the instance
+        return classifier
 
 def train_autoencoder_topic_sklearnclassifier(classdict,
                                              nb_topics,
@@ -297,8 +309,9 @@ def train_autoencoder_topic_sklearnclassifier(classdict,
 
     return classifier
 
-def load_autoencoder_topic_sklearnclassifier(nameprefix,
-                                             preprocessor=textpreprocess.standard_text_preprocessor_1()):
+def load_autoencoder_topic_sklearnclassifier(name,
+                                             preprocessor=textpreprocess.standard_text_preprocessor_1(),
+                                             compact=True):
     """ Load the classifier, a wrapper that uses scikit-learn classifier, with
      feature vectors given by an autocoder topic model, from files.
 
@@ -312,21 +325,33 @@ def load_autoencoder_topic_sklearnclassifier(nameprefix,
     WWW '08 Proceedings of the 17th international conference on World Wide Web. (2008) [`ACL
     <http://dl.acm.org/citation.cfm?id=1367510>`_]
 
-    :param nameprefix: prefoix of the paths of model files
+    :param name: name (if compact==True) or prefix (if compact==False) of the paths of model files
     :param preprocessor: function that preprocesses the text (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
+    :param compact: whether model file is compact (Default: True)
     :return: a trained classifier
-    :type nameprefix: str
+    :type name: str
     :type preprocessor: function
+    :type compact: bool
     :rtype: TopicVectorSkLearnClassifier
     """
-    # load the autoencoder
-    autoencoder = load_autoencoder_topic(nameprefix, preprocessor=preprocessor)
+    if compact:
+        # load the compact model
+        classifier = TopicVectorSkLearnClassifier(AutoencodingTopicModeler(preprocessor=preprocessor), None)
+        classifier.load_compact_model(name)
+        classifier.trained = True
 
-    # load intermediate model
-    sklearn_classifier = joblib.load(nameprefix+'.pkl')
+        # return the instance
+        return classifier
+    else:
+        # load the autoencoder
+        autoencoder = load_autoencoder_topic(name, preprocessor=preprocessor)
 
-    # the wrapper classifier
-    classifier = TopicVectorSkLearnClassifier(autoencoder, sklearn_classifier)
-    classifier.trained = True
+        # load intermediate model
+        sklearn_classifier = joblib.load(name + '.pkl')
 
-    return classifier
+        # the wrapper classifier
+        classifier = TopicVectorSkLearnClassifier(autoencoder, sklearn_classifier)
+        classifier.trained = True
+
+        # return the instance
+        return classifier

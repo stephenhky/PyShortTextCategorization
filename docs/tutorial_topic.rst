@@ -103,6 +103,9 @@ not saved. To load the model, enter:
 AutoEncoder
 -----------
 
+Note: Previous version (<=0.2.1) of this autoencoder has a serious bug. Current version is
+incompatible with the autoencoder of version <=0.2.1 .
+
 Another way to find a new topic vector representation is to use the autoencoder, a neural network model
 which compresses a vector representation into another one of a shorter (or longer, rarely though)
 representation, by minimizing the difference between the input layer and the decoding layer.
@@ -146,8 +149,8 @@ The default is to weigh. To not weigh, initialize it as:
 
 >>> autoencoder3 = ltm.AutoencodingTopicModeler(toweight=False)
 
-Appendix: Model I/O in Previous Versions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Appendix: Unzipping Model I/O
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 For previous versions of `shorttext`, the trained models are saved by calling:
 
@@ -157,6 +160,7 @@ The following files are produced for the autoencoder:
 
 ::
 
+    /path/to/sub_autoencoder.json
     /path/to/sub_autoencoder.gensimdict
     /path/to/sub_autoencoder_encoder.json
     /path/to/sub_autoencoder_encoder.h5
@@ -245,17 +249,17 @@ which outputs a dictionary with labels and the corresponding scores.
 
 You can save the model by:
 
->>> classifier.savemodel('/path/to/sublda8nb')
+>>> classifier.save_compact_model('/path/to/sublda8nb.bin')
 
 where the argument specifies the prefix of the path of the model files, including the topic
 models, and the scikit-learn model files. The classifier can be loaded by calling:
 
->>> classifier2 = shorttext.classifiers.load_gensim_topicvec_sklearnclassifier('/path/to/sublda8nb')
+>>> classifier2 = shorttext.classifiers.load_gensim_topicvec_sklearnclassifier('/path/to/sublda8nb.bin')
 
 The topic modeler here can also be an autoencoder, by putting `subtopicmodeler` as the autoencoder
 will still do the work. However, to load the saved classifier with an autoencoder model, do
 
->>> classifier2 = shorttext.classifiers.load_autoencoder_topic_sklearnclassifier('/path/to/someprefix')
+>>> classifier2 = shorttext.classifiers.load_autoencoder_topic_sklearnclassifier('/path/to/filename.bin')
 
 Notes about Text Preprocessing
 ------------------------------
