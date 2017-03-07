@@ -7,3 +7,4 @@ sys.path.append(thisdir)
 import utils
 import data
 import classifiers
+import stack
