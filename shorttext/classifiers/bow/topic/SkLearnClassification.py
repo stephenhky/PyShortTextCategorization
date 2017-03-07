@@ -145,12 +145,29 @@ class TopicVectorSkLearnClassifier:
         self.classlabels = self.topicmodeler.classlabels
 
     def save_compact_model(self, name):
+        """ Save the model.
+
+        Save the topic model and the trained scikit-learn classification model in one compact model file.
+
+        If neither :func:`~train` nor :func:`~loadmodel` was run, or if the
+        topic model was not trained, it will raise `ModelNotTrainedException`.
+
+        :param name: name of the compact model file
+        :return: None
+        :type name: str
+        """
         topicmodel_info = self.topicmodeler.get_info()
         cio.save_compact_model(name, self.savemodel, 'topic_sklearn',
                                topicmodel_info['suffices']+['.pkl'],
                                {'classifier': 'topic_sklearn', 'topicmodel': topicmodel_info['classifier']})
 
     def load_compact_model(self, name):
+        """ Load the classification model together with the topic model from a compact file.
+
+        :param name: name of the compact model file
+        :return: None
+        :type name: str
+        """
         cio.load_compact_model(name, self.loadmodel, 'topic_sklearn',
                                {'classifier': 'topic_sklearn', 'topicmodel': None})
         self.trained = True

@@ -103,4 +103,10 @@ Module `shorttext.utils.wordembed`
 .. automodule:: shorttext.utils.wordembed
    :members:
 
+Module `shorttext.utils.compactmodel_io`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: shorttext.utils.compactmodel_io
+   :members:
+
 Home: :doc:`index`
