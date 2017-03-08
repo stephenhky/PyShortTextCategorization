@@ -7,6 +7,7 @@ import utils.classification_exceptions as e
 class StackedGeneralization:
     def __init__(self, intermediate_classifiers={}):
         self.classifiers = intermediate_classifiers
+        self.classlabels = []
 
     def register_classifiers(self):
         self.classifier2idx = {}
@@ -28,6 +29,21 @@ class StackedGeneralization:
         for key in self.classifier2idx:
             feature_vec[self.classifier2idx[key]] = self.classifiers[key].score(shorttext)
         return feature_vec
+
+    def convert_traindata_vectors(self, classdict):
+        self.classlabels = list(classdict.keys())
+        self.labels2idx = {}
+        for idx, classlabel in enumerate(self.classlabels):
+            self.labels2idx[classlabel] = idx
+
+        X = []
+        y = []
+        for label in classdict:
+            topicvecs = map(self.translate_shorttext_intfeatures, classdict[label])
+            X += topicvecs
+            y += [self.labels2idx[label]]*len(topicvecs)
+
+        return X, y
 
     def train(self, classdict):
         raise e.NotImplementedException()
