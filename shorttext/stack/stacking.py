@@ -16,6 +16,12 @@ class StackedGeneralization:
             self.classifier2idx[key] = idx
             self.idx2classifier[idx] = key
 
+    def register_classlabels(self, labels):
+        self.classlabels = list(labels)
+        self.labels2idx = {}
+        for idx, classlabel in enumerate(self.classlabels):
+            self.labels2idx[classlabel] = idx
+
     def add_classifier(self, name, classifier):
         self.classifiers[name] = classifier
         self.register_classifiers()
@@ -25,16 +31,14 @@ class StackedGeneralization:
         self.register_classifiers()
 
     def translate_shorttext_intfeatures(self, shorttext):
+        # TODO: correct this to output the appropriate vectors
         feature_vec = np.zeros(len(self.classifier2idx))
         for key in self.classifier2idx:
             feature_vec[self.classifier2idx[key]] = self.classifiers[key].score(shorttext)
         return feature_vec
 
     def convert_traindata_vectors(self, classdict):
-        self.classlabels = list(classdict.keys())
-        self.labels2idx = {}
-        for idx, classlabel in enumerate(self.classlabels):
-            self.labels2idx[classlabel] = idx
+        #  self.register_classlabels(classdict.keys())
 
         X = []
         y = []
