@@ -200,6 +200,6 @@ class VarNNSumEmbeddedVecClassifier:
 
         # wrangle output result
         scoredict = {}
-        for idx, classlabel in zip(range(len(self.classlabels)), self.classlabels):
+        for idx, classlabel in enumerate(self.classlabels):
             scoredict[classlabel] = predictions[0][idx]
         return scoredict
