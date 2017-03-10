@@ -30,24 +30,18 @@ class StackedGeneralization:
         del self.classifiers[name]
         self.register_classifiers()
 
-    def translate_shorttext_intfeatures(self, shorttext):
-        # TODO: correct this to output the appropriate vectors
-        feature_vec = np.zeros(len(self.classifier2idx))
+    def translate_shorttext_intfeature_matrix(self, shorttext):
+        feature_matrix = np.zeros((len(self.classifier2idx), len(self.labels2idx)))
         for key in self.classifier2idx:
-            feature_vec[self.classifier2idx[key]] = self.classifiers[key].score(shorttext)
-        return feature_vec
+            scoredict = self.classifiers[key].score(shorttext)
+            for label in scoredict:
+                feature_matrix[self.classifier2idx[key], self.labels2idx[label]] = scoredict[label]
+        return feature_matrix
 
-    def convert_traindata_vectors(self, classdict):
-        #  self.register_classlabels(classdict.keys())
-
-        X = []
-        y = []
-        for label in classdict:
-            topicvecs = map(self.translate_shorttext_intfeatures, classdict[label])
-            X += topicvecs
-            y += [self.labels2idx[label]]*len(topicvecs)
-
-        return X, y
+    def convert_label_to_buckets(self, label):
+        buckets = np.zeros(len(self.labels2idx), dtype=np.int)
+        buckets[self.labels2idx[label]] = 1
+        return buckets
 
     def train(self, classdict):
         raise e.NotImplementedException()
