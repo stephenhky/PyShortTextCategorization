@@ -20,6 +20,7 @@ You will get the message that `Theano` or `Tensorflow` backend is used for `kera
    tutorial_wordembed
    tutorial_sumvec
    tutorial_nnlib
+   tutorial_stacking
 
 
 Home: :doc:`index`

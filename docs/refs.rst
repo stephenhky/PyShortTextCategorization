@@ -10,6 +10,8 @@ Christopher D. Manning, Prabhakar Raghavan, Hinrich Schütze, *Introduction to I
 Chunting Zhou, Chonglin Sun, Zhiyuan Liu, Francis Lau, "A C-LSTM Neural Network for Text Classification," (arXiv:1511.08630). [`arXiv
 <https://arxiv.org/abs/1511.08630>`_]
 
+David H. Wolpert, "Stacked Generalization," *Neural Netw* 5: 241-259 (1992).
+
 David M. Blei, "Probabilistic Topic Models," *Communications of the ACM* 55(4): 77-84 (2012).
 
 Francois Chollet, "Building Autoencoders in Keras," *The Keras Blog*. [`Keras
@@ -23,6 +25,9 @@ Jeffrey Pennington, Richard Socher, Christopher D. Manning, “GloVe: Global Vec
 
 Michael Czerny, "Modern Methods for Sentiment Analysis," *District Data Labs (2015). [`DistrictDataLabs
 <https://districtdatalabs.silvrback.com/modern-methods-for-sentiment-analysis>`_]
+
+M. Paz Sesmero, Agapito I. Ledezma, Araceli Sanchis, "Generating ensembles of heterogeneous classifiers using Stacked Generalization,"
+*WIREs Data Mining and Knowledge Discovery* 5: 21-34 (2015).
 
 Sebastian Ruder, "An overview of gradient descent optimization algorithms," blog of Sebastian Ruder, arXiv:1609.04747 (2016). [`Ruder
 <http://sebastianruder.com/optimizing-gradient-descent/>`_ or `arXiv
