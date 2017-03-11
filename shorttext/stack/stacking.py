@@ -54,14 +54,14 @@ class StackedGeneralization:
                 X = self.translate_shorttext_intfeature_matrix(shorttext)
                 yield X, y
 
-    def train(self, classdict):
+    def train(self, classdict, *args, **kwargs):
         raise e.NotImplementedException()
 
-    def score(self, shorttext):
+    def score(self, shorttext, *args, **kwargs):
         raise e.NotImplementedException()
 
 class LogisticStackedGeneralization(StackedGeneralization):
-    def train(self, classdict, optimizer='adam', l2reg=0.01, nb_epoch=100):
+    def train(self, classdict, optimizer='adam', l2reg=0.01, nb_epoch=1000):
         kmodel = Sequential()
         kmodel.add(Reshape((len(self.classifier2idx) * len(self.labels2idx),),
                            input_shape=(len(self.classifier2idx), len(self.labels2idx))))
