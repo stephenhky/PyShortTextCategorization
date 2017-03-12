@@ -4,12 +4,13 @@ Upcoming Changes to `shorttext`
 Confirmed Changes
 -----------------
 
-* Saving and loading compact models.
+* Saving and loading compact models;
+* Stacking.
 
 Expected Changes
 ----------------
 
-* Stacking;
+* I/O of Stacked Generalization;
 * Implementation of author-topic model;
 * More neural networks;
 * More available corpus;

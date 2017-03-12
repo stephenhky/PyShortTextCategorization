@@ -109,4 +109,13 @@ Module `shorttext.utils.compactmodel_io`
 .. automodule:: shorttext.utils.compactmodel_io
    :members:
 
+Stacked Generalization
+----------------------
+
+Module `shorttext.stack`
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: shorttext.stack.stacking
+   :members:
+
 Home: :doc:`index`

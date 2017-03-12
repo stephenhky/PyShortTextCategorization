@@ -190,6 +190,10 @@ class LogisticStackedGeneralization(StackedGeneralization):
         :type l2reg: float
         :type nb_epoch: int
         """
+        # register
+        self.register_classifiers()
+        self.register_classlabels(classdict.keys())
+
         kmodel = Sequential()
         kmodel.add(Reshape((len(self.classifier2idx) * len(self.labels2idx),),
                            input_shape=(len(self.classifier2idx), len(self.labels2idx))))
@@ -201,8 +205,6 @@ class LogisticStackedGeneralization(StackedGeneralization):
         Xy = [(xone, yone) for xone, yone in self.convert_traindata_matrix(classdict, tobucket=True)]
         X = np.array(map(lambda item: item[0], Xy))
         y = np.array(map(lambda item: item[1], Xy))
-
-        print X.shape, y.shape
 
         kmodel.fit(X, y, nb_epoch=nb_epoch)
 
@@ -233,3 +235,4 @@ class LogisticStackedGeneralization(StackedGeneralization):
             scoredict[label] = prediction[0][idx]
 
         return scoredict
+
