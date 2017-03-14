@@ -223,6 +223,7 @@ class LogisticStackedGeneralization(StackedGeneralization):
         Given a short sentence, calculate the classification scores for all class labels,
         returned as a dictionary with key being the class labels, and values being the scores.
         If the short sentence is empty, or if other numerical errors occur, the score will be `numpy.nan`.
+
         If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
 
         :param shorttext: a short sentence
@@ -243,6 +244,18 @@ class LogisticStackedGeneralization(StackedGeneralization):
         return scoredict
 
     def savemodel(self, nameprefix):
+        """ Save the logistic stacked model into files.
+
+        Save the stacked model into files. Note that the intermediate classifiers
+        are not saved. Users are advised to save those classifiers separately.
+
+        If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
+
+        :param nameprefix: prefix of the files
+        :return: None
+        :raise: ModelNotTrainedException
+        :type nameprefix: str
+        """
         if not self.trained:
             raise e.ModelNotTrainedException()
 
@@ -252,6 +265,15 @@ class LogisticStackedGeneralization(StackedGeneralization):
         kerasio.save_model(nameprefix+'_stackedlogistics', self.model)
 
     def loadmodel(self, nameprefix):
+        """ Load the model with the given prefix.
+
+        Load the model with the given prefix of their paths. Note that the intermediate
+        classifiers are not loaded, and users are required to load them separately.
+
+        :param nameprefix: prefix of the model files
+        :return: None
+        :type nameprefix: str
+        """
         stackedmodeldict = pickle.load(open(nameprefix+'_stackedlogistics.pkl', 'r'))
         self.register_classlabels(stackedmodeldict['classlabels'])
         self.classifier2idx = stackedmodeldict['classifiers']
