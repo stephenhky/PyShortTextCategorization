@@ -1,3 +1,4 @@
+import pickle
 
 import numpy as np
 from keras.layers import Dense, Reshape
@@ -5,6 +6,8 @@ from keras.models import Sequential
 from keras.regularizers import l2
 
 import utils.classification_exceptions as e
+import utils.kerasmodel_io as kerasio
+import utils.compactmodel_io as cio
 
 # abstract class
 class StackedGeneralization:
@@ -167,13 +170,16 @@ class StackedGeneralization:
         """
         raise e.NotImplementedException()
 
+@cio.compactio({'classifier': 'stacked_logistics'}, 'stacked_logistics',
+               ['_stackedlogistics.pkl', '_stackedlogistics.h5', '_stackedlogistics.json'])
 class LogisticStackedGeneralization(StackedGeneralization):
     """
-
     This class implements logistic regression as the stacked generalizer.
 
     It is an intermediate model
     that takes the results of other classifiers as the input features, and perform another classification.
+
+    This class saves the stacked logistic model, but not the information of the primary model.
 
     The classifiers must have the :func:`~score` method that takes a string as an input argument.
     """
@@ -235,4 +241,28 @@ class LogisticStackedGeneralization(StackedGeneralization):
             scoredict[label] = prediction[0][idx]
 
         return scoredict
+
+    def savemodel(self, nameprefix):
+        if not self.trained:
+            raise e.ModelNotTrainedException()
+
+        stackedmodeldict = {'classifiers': self.classifier2idx,
+                            'classlabels': self.classlabels}
+        pickle.dump(stackedmodeldict, open(nameprefix+'_stackedlogistics.pkl', 'w'))
+        kerasio.save_model(nameprefix+'_stackedlogistics', self.model)
+
+    def loadmodel(self, nameprefix):
+        stackedmodeldict = pickle.load(open(nameprefix+'_stackedlogistics.pkl', 'r'))
+        self.register_classlabels(stackedmodeldict['classlabels'])
+        self.classifier2idx = stackedmodeldict['classifiers']
+        self.idx2classifier = {}
+        for key, val in self.classifier2idx.items():
+            self.idx2classifier[val] = key
+
+        self.model = kerasio.load_model(nameprefix+'_stackedlogistics')
+
+        self.trained = True
+
+
+
 
