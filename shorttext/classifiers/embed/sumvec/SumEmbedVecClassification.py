@@ -41,7 +41,8 @@ class SumEmbeddedVecClassifier:
         """ Train the classifier.
 
         If this has not been run, or a model was not loaded by :func:`~loadmodel`,
-        a `ModelNotTrainedException` will be raised.
+        a `ModelNotTrainedException` will be raised while performing prediction or saving
+        the model.
 
         :param classdict: training data
         :return: None
@@ -78,7 +79,7 @@ class SumEmbeddedVecClassifier:
         followed by "_embedvecdict.pickle".
 
         If this has not been run, or a model was not trained by :func:`~train`,
-        a `ModelNotTrainedException` will be raised.
+        a `ModelNotTrainedException` will be raised while performing prediction and saving the model.
 
         :param nameprefix: prefix of the file path
         :return: None
@@ -115,6 +116,7 @@ class SumEmbeddedVecClassifier:
         Given a short sentence, calculate the classification scores for all class labels,
         returned as a dictionary with key being the class labels, and values being the scores.
         If the short sentence is empty, or if other numerical errors occur, the score will be `numpy.nan`.
+
         If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
 
         :param shorttext: a short sentence

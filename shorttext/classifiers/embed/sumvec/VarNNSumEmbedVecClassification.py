@@ -78,7 +78,7 @@ class VarNNSumEmbeddedVecClassifier:
         The training data and the corresponding keras model have to be given.
 
         If this has not been run, or a model was not loaded by :func:`~loadmodel`,
-        a `ModelNotTrainedException` will be raised.
+        a `ModelNotTrainedException` will be raised while performing prediction and saving the model.
 
         :param classdict: training data
         :param kerasmodel: keras sequential model
@@ -125,7 +125,7 @@ class VarNNSumEmbeddedVecClassifier:
         followed by "_classlabels.txt", ".json", and ".h5".
 
         If this has not been run, or a model was not trained by :func:`~train`,
-        a `ModelNotTrainedException` will be raised.
+        a `ModelNotTrainedException` will be raised while performing prediction and saving the model.
 
         :param nameprefix: prefix of the file path
         :return: None
@@ -180,6 +180,7 @@ class VarNNSumEmbeddedVecClassifier:
         Given a short sentence, calculate the classification scores for all class labels,
         returned as a dictionary with key being the class labels, and values being the scores.
         If the short sentence is empty, or if other numerical errors occur, the score will be `numpy.nan`.
+
         If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
 
         :param shorttext: a short sentence

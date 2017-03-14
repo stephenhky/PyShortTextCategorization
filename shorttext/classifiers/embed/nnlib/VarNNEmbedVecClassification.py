@@ -144,6 +144,7 @@ class VarNNEmbeddedVecClassifier:
         Given the prefix of the file paths, save the model into files, with name given by the prefix.
         There will be three files produced, one name ending with "_classlabels.txt", one name
         ending with ".json", and one name ending with ".h5".
+
         If there is no trained model, a `ModelNotTrainedException` will be thrown.
 
         :param nameprefix: prefix of the file path
@@ -165,7 +166,7 @@ class VarNNEmbeddedVecClassifier:
         followed by "_classlabels.txt", ".json", and ".h5".
 
         If this has not been run, or a model was not trained by :func:`~train`,
-        a `ModelNotTrainedException` will be raised.
+        a `ModelNotTrainedException` will be raised while performing prediction or saving the model.
 
         :param nameprefix: prefix of the file path
         :return: None

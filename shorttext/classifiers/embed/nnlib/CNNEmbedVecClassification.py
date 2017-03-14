@@ -1,5 +1,5 @@
-import VarNNEmbedVecClassification as vnn
-import frameworks as fr
+import classifiers.embed.nnlib.VarNNEmbedVecClassification as vnn
+import classifiers.embed.nnlib.frameworks as fr
 
 
 # wrapper for VarNNEmbedVecClassification for using CNN only
