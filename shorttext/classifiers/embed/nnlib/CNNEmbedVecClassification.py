@@ -1,6 +1,5 @@
-import classifiers.embed.nnlib.VarNNEmbedVecClassification as vnn
-import classifiers.embed.nnlib.frameworks as fr
-
+from . VarNNEmbedVecClassification import VarNNEmbeddedVecClassifier
+from . import frameworks as fr
 
 # wrapper for VarNNEmbedVecClassification for using CNN only
 # backward compatible with the previous version of this class
@@ -24,9 +23,9 @@ class CNNEmbeddedVecClassifier:
         self.vecsize = vecsize
         self.maxlen = maxlen
         self.trained = False
-        self.wrapped_classifier = vnn.VarNNEmbeddedVecClassifier(self.wvmodel,
-                                                                 vecsize=self.vecsize,
-                                                                 maxlen=self.maxlen)
+        self.wrapped_classifier = VarNNEmbeddedVecClassifier(self.wvmodel,
+                                                             vecsize=self.vecsize,
+                                                             maxlen=self.maxlen)
 
         self.classdict = classdict
 
