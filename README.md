@@ -14,7 +14,7 @@ Upcoming changes [here](UPCOMING.md).
 
 # News
 
-* 03/14/2017: `shorttext` 0.3.0 released.
+* 03/14/2017: `shorttext` 0.3.1 released.
 * 02/23/2017: `shorttext` 0.2.1 released.
 * 12/21/2016: `shorttext` 0.2.0 released.
 * 11/25/2016: `shorttext` 0.1.2 released.

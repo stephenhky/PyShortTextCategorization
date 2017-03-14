@@ -1,7 +1,7 @@
 News
 ====
 
-* 03/14/2017: `shorttext` 0.3.0 released.
+* 03/14/2017: `shorttext` 0.3.1 released.
 * 02/23/2017: `shorttext` 0.2.1 released.
 * 12/21/2016: `shorttext` 0.2.0 released.
 * 11/25/2016: `shorttext` 0.1.2 released.
@@ -10,7 +10,7 @@ News
 What's New
 ==========
 
-Version 0.3.0 (Mar 14, 2017)
+Version 0.3.1 (Mar 14, 2017)
 ----------------------------
 
 * Compact model I/O: all models are in single files;
