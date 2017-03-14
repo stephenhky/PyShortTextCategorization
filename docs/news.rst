@@ -1,6 +1,7 @@
 News
 ====
 
+* 03/14/2017: `shorttext` 0.3.0 released.
 * 02/23/2017: `shorttext` 0.2.1 released.
 * 12/21/2016: `shorttext` 0.2.0 released.
 * 11/25/2016: `shorttext` 0.1.2 released.
@@ -8,6 +9,12 @@ News
 
 What's New
 ==========
+
+Version 0.3.0 (Mar 14, 2017)
+----------------------------
+
+* Compact model I/O: all models are in single files;
+* Implementation of stacked generalization using logistic regression.
 
 Version 0.2.1 (Feb 23, 2017)
 ----------------------------
@@ -19,6 +26,9 @@ Version 0.2.1 (Feb 23, 2017)
 * Removal of `nltk` dependencies;
 * Simplifying the directory and module structures;
 * Module packages updated.
+
+`More Info
+<https://datawarrior.wordpress.com/2017/02/24/release-of-shorttext-0-2-1/>`_
 
 Version 0.2.0 (Dec 21, 2016)
 ----------------------------

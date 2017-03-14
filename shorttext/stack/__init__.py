@@ -1,1 +1,1 @@
-from stacking import *
+from stacking import StackedGeneralization, LogisticStackedGeneralization

@@ -1,12 +1,6 @@
 Upcoming Changes to `shorttext`
 ===============================
 
-Confirmed Changes
------------------
-
-* Saving and loading compact models;
-* Stacking.
-
 Expected Changes
 ----------------
 
