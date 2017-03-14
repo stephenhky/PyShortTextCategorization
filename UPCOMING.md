@@ -10,7 +10,6 @@ Confirmed Changes
 Expected Changes
 ----------------
 
-* I/O of Stacked Generalization;
 * Implementation of author-topic model;
 * More neural networks;
 * More available corpus;

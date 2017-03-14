@@ -65,6 +65,18 @@ Now the model is ready. As a result, we can do the stacked classification:
 >>> stacker.score('christology')
  {'mathematics': 0.094574735, 'physics': 0.053406414, 'theology': 0.3797417}
 
+The stacked generalization can be saved by calling:
+
+>>> stacker.save_compact_model('/path/to/logitmodel.bin')
+
+This only saves the stacked generalization model, but not the intermediate classifiers.
+The reason for this is for allowing flexibility for users to supply their own algorithms,
+as long as they have the `score` functions which output the same way as the classifiers
+offered in this package. To load them, initialize it in the same way:
+
+>>> stacker2 = shorttext.stack.LogisticStackedGeneralization(intermediate_classifiers={'clstm': clstm_classifier, 'lda128': lda128_svm_classifier})
+>>> stacker2.load_compact_model('/path/to/logitmodel.bin')
+
 Reference
 ---------
 
