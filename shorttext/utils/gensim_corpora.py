@@ -20,3 +20,29 @@ def generate_gensim_corpora(classdict, preprocess_and_tokenize=tokenize):
     dictionary = gensim.corpora.Dictionary(doc)
     corpus = [dictionary.doc2bow(doctokens) for doctokens in doc]
     return dictionary, corpus, classlabels
+
+def save_corpus(dictionary, corpus, prefix):
+    """ Save gensim corpus and dictionary.
+
+    :param dictionary: dictionary to save
+    :param corpus: corpus to save
+    :param prefix: prefix of the files to save
+    :return: None
+    :type dictionary: gensim.corpora.Dictionary
+    :type corpus: list
+    :type prefix: str
+    """
+    dictionary.save(prefix+'_dictionary.dict')
+    gensim.corpora.MmCorpus.serialize(prefix+'_corpus.mm', corpus)
+
+def load_corpus(prefix):
+    """ Load gensim corpus and dictionary.
+
+    :param prefix: prefix of the file to load
+    :return: corpus and dictionary
+    :type prefix: str
+    :rtype: tuple
+    """
+    corpus = gensim.corpora.MmCorpus(prefix+'_corpus.mm')
+    dictionary = gensim.corpora.Dictionary.load(prefix+'_dictionary.dict')
+    return corpus, dictionary
