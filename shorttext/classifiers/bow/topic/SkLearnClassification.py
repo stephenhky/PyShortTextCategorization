@@ -4,6 +4,7 @@ from sklearn.externals import joblib
 
 from utils import textpreprocessing as textpreprocess
 from classifiers.bow.topic.LatentTopicModeling import GensimTopicModeler, AutoencodingTopicModeler
+from classifiers.bow.topic.LatentTopicModeling import LDAModeler, LSIModeler, RPModeler
 from classifiers.bow.topic.LatentTopicModeling import load_gensimtopicmodel, load_autoencoder_topic
 import utils.classification_exceptions as e
 import utils.compactmodel_io as cio
@@ -258,7 +259,9 @@ def load_gensim_topicvec_sklearnclassifier(name,
     """
     if compact:
         # load the compact model
-        classifier = TopicVectorSkLearnClassifier(GensimTopicModeler(preprocessor=preprocessor), None)
+        modelerdict = {'ldatopic': LDAModeler, 'lsitopic': LSIModeler, 'rptopic': RPModeler}
+        topicmodel_name = cio.get_model_config_field(name, 'topicmodel')
+        classifier = TopicVectorSkLearnClassifier(modelerdict[topicmodel_name](preprocessor=preprocessor), None)
         classifier.load_compact_model(name)
         classifier.trained = True
 
@@ -279,12 +282,12 @@ def load_gensim_topicvec_sklearnclassifier(name,
         return classifier
 
 def train_autoencoder_topic_sklearnclassifier(classdict,
-                                             nb_topics,
-                                             sklearn_classifier,
-                                             preprocessor=textpreprocess.standard_text_preprocessor_1(),
-                                             normalize=True,
-                                             keras_paramdict={},
-                                             sklearn_paramdict={}):
+                                              nb_topics,
+                                              sklearn_classifier,
+                                              preprocessor=textpreprocess.standard_text_preprocessor_1(),
+                                              normalize=True,
+                                              keras_paramdict={},
+                                              sklearn_paramdict={}):
     """ Train the supervised learning classifier, with features given by topic vectors.
 
     It trains an autoencoder topic model, and with its encoded vector representation, train a supervised

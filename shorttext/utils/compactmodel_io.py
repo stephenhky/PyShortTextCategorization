@@ -141,3 +141,33 @@ def compactio(infodict, prefix, suffices):
     :rtype: function
     """
     return partial(CompactIOClassifier, infodict=infodict, prefix=prefix, suffices=suffices)
+
+def get_model_config_field(filename, parameter):
+    """ Return the configuration parameter of a model file.
+
+    Read the file `modelconfig.json` in the compact model file, and return
+    the value of a particular parameter.
+
+    :param filename: path of the model file
+    :param parameter: parameter to look in
+    :return: value of the parameter of this model
+    :type filename: str
+    :type parameter: str
+    :rtype: str
+    """
+    inputfile = zipfile.ZipFile(filename, mode='r')
+    readinfodict = json.load(inputfile.open('modelconfig.json', 'r'))
+    return readinfodict[parameter]
+
+def get_model_classifier_name(filename):
+    """ Return the name of the classifier from a model file.
+
+    Read the file `modelconfig.json` in the compact model file, and return
+    the name of the classifier.
+
+    :param filename: path of the model file
+    :return: name of the classifier
+    :type filename: str
+    :rtype: str
+    """
+    return get_model_config_field(filename, 'classifier')

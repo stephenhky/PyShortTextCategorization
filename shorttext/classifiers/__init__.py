@@ -4,7 +4,7 @@ from .embed import VarNNEmbeddedVecClassifier, load_varnnlibvec_classifier
 from .embed import frameworks
 from .embed.sumvec import frameworks as sumvecframeworks
 
-from .bow.topic.LatentTopicModeling import GensimTopicModeler, AutoencodingTopicModeler
+from .bow.topic.LatentTopicModeling import GensimTopicModeler, LDAModeler, LSIModeler, RPModeler, AutoencodingTopicModeler
 from .bow.topic.LatentTopicModeling import load_gensimtopicmodel, load_autoencoder_topic
 
 from .bow.topic.TopicVectorDistanceClassification import TopicVecCosineDistanceClassifier as TopicVectorCosineDistanceClassifier

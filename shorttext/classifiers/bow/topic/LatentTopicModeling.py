@@ -30,7 +30,7 @@ class LatentTopicModeler:
                  normalize=True):
         """ Initialize the modeler.
 
-        :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
+        :param preprocessor: function that preprocesses the text. (Default: `shorttext.utils.textpreprocess.standard_text_preprocessor_1`)
         :param normalize: whether the retrieved topic vectors are normalized. (Default: True)
         :type preprocessor: function
         :type normalize: bool
@@ -153,18 +153,15 @@ class LatentTopicModeler:
         """
         raise e.NotImplementedException()
 
-gensim_suffices =  ['.json', '.gensimdict', '.gensimmodel.state',
-                   '.gensimtfidf', '.gensimmodel', '.gensimmat']
-if gensim.__version__ >= '1.0.0':
-    gensim_suffices += ['.gensimmodel.expElogbeta.npy', '.gensimmodel.id2word']
-
-@cio.compactio({'classifier': 'gensimtopic'}, 'gensimtopic', gensim_suffices)
 class GensimTopicModeler(LatentTopicModeler):
     """
     This class facilitates the creation of topic models (options: LDA (latent Dirichlet Allocation),
     LSI (latent semantic indexing), and Random Projections
     with the given short text training data, and convert future
     short text into topic vectors using the trained topic model.
+
+    No compact model I/O available for this class. Refer to
+    :class:`LDAModeler` and :class:`LSIModeler`.
 
     This class extends :class:`LatentTopicModeler`.
     """
@@ -337,6 +334,74 @@ class GensimTopicModeler(LatentTopicModeler):
         self.matsim.save(nameprefix+'.gensimmat')
         if self.toweigh:
             self.tfidf.save(nameprefix+'.gensimtfidf')
+
+lda_suffices =  ['.json', '.gensimdict', '.gensimmodel.state',
+                   '.gensimtfidf', '.gensimmodel', '.gensimmat']
+if gensim.__version__ >= '1.0.0':
+    lda_suffices += ['.gensimmodel.expElogbeta.npy', '.gensimmodel.id2word']
+
+@cio.compactio({'classifier': 'ldatopic'}, 'ldatopic', lda_suffices)
+class LDAModeler(GensimTopicModeler):
+    """
+    This class facilitates the creation of LDA (latent Dirichlet Allocation) topic models,
+    with the given short text training data, and convert future
+    short text into topic vectors using the trained topic model.
+
+    This class extends :class:`GensimTopicModeler`.
+    """
+    def __init__(self,
+                 preprocessor=textpreprocess.standard_text_preprocessor_1(),
+                 toweigh=True,
+                 normalize=True):
+        GensimTopicModeler.__init__(self,
+                                    preprocessor=preprocessor,
+                                    algorithm='lda',
+                                    toweigh=toweigh,
+                                    normalize=normalize)
+
+lsi_suffices = ['.json', '.gensimdict', '.gensimtfidf', '.gensimmodel.projection',
+                '.gensimmodel', '.gensimmat', ]
+
+@cio.compactio({'classifier': 'lsitopic'}, 'lsitopic', lsi_suffices)
+class LSIModeler(GensimTopicModeler):
+    """
+    This class facilitates the creation of LSI (latent semantic indexing) topic models,
+    with the given short text training data, and convert future
+    short text into topic vectors using the trained topic model.
+
+    This class extends :class:`GensimTopicModeler`.
+    """
+    def __init__(self,
+                 preprocessor=textpreprocess.standard_text_preprocessor_1(),
+                 toweigh=True,
+                 normalize=True):
+        GensimTopicModeler.__init__(self,
+                                    preprocessor=preprocessor,
+                                    algorithm='lsi',
+                                    toweigh=toweigh,
+                                    normalize=normalize)
+
+rp_suffices = ['.json', '.gensimtfidf', '.gensimmodel', '.gensimmat', '.gensimdict']
+
+@cio.compactio({'classifier': 'rptopic'}, 'rptopic', rp_suffices)
+class RPModeler(GensimTopicModeler):
+    """
+    This class facilitates the creation of RP (random projection) topic models,
+    with the given short text training data, and convert future
+    short text into topic vectors using the trained topic model.
+
+    This class extends :class:`GensimTopicModeler`.
+    """
+    def __init__(self,
+                 preprocessor=textpreprocess.standard_text_preprocessor_1(),
+                 toweigh=True,
+                 normalize=True):
+        GensimTopicModeler.__init__(self,
+                                    preprocessor=preprocessor,
+                                    algorithm='rp',
+                                    toweigh=toweigh,
+                                    normalize=normalize)
+
 
 autoencoder_suffices = ['.gensimdict', '_encoder.json', '_encoder.h5', '_classtopicvecs.pkl',
                         '_decoder.json', '_decoder.h5', '_autoencoder.json', '_autoencoder.h5',
@@ -530,7 +595,7 @@ def load_gensimtopicmodel(name,
     """ Load the gensim topic modeler from files.
 
     :param name: name (if compact=True) or prefix (if compact=False) of the file path
-    :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
+    :param preprocessor: function that preprocesses the text. (Default: `shorttext.utils.textpreprocess.standard_text_preprocessor_1`)
     :param compact: whether model file is compact (Default: True)
     :return: a topic modeler
     :type name: str
@@ -538,12 +603,16 @@ def load_gensimtopicmodel(name,
     :type compact: bool
     :rtype: GensimTopicModeler
     """
-    topicmodeler = GensimTopicModeler(preprocessor=preprocessor)
     if compact:
+        modelerdict = {'ldatopic': LDAModeler, 'lsitopic': LSIModeler, 'rptopic': RPModeler}
+        classifier_name = str(cio.get_model_classifier_name(name))
+
+        topicmodeler = modelerdict[classifier_name](preprocessor=preprocessor)
         topicmodeler.load_compact_model(name)
     else:
+        topicmodeler = GensimTopicModeler(preprocessor=preprocessor)
         topicmodeler.loadmodel(name)
-    return topicmodeler
+        return topicmodeler
 
 def load_autoencoder_topic(name,
                            preprocessor=textpreprocess.standard_text_preprocessor_1(),
@@ -551,7 +620,7 @@ def load_autoencoder_topic(name,
     """ Load the autoencoding topic model from files.
 
     :param name: name (if compact=True) or prefix (if compact=False) of the paths of the model files
-    :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
+    :param preprocessor: function that preprocesses the text. (Default: `shorttext.utils.textpreprocess.standard_text_preprocessor_1`)
     :param compact: whether model file is compact (Default: True)
     :return: an autoencoder as a topic modeler
     :type name: str

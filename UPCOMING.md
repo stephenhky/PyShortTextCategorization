@@ -1,6 +1,11 @@
 Upcoming Changes to `shorttext`
 ===============================
 
+Confirmed Changes
+-----------------
+
+* Bug fixed for gensim model I/O.
+
 Expected Changes
 ----------------
 

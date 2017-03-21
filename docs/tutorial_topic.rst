@@ -34,9 +34,10 @@ First, load a set of training data (all NIH data in this example):
 
 Initialize an instance of topic modeler, and use LDA as an example:
 
->>> topicmodeler = shorttext.classifiers.GensimTopicModeler(algorithm='lda')
+>>> topicmodeler = shorttext.classifiers.LDAModeler()
 
-For the algorithms, user can use `lsi` and `rp` in addition to `lda` in the example.
+For other algorithms, user can use :class:`LSIModeler` for LSI or :class:`RPModeler`
+for RP. Everything else is the same.
 To train with 128 topics, enter:
 
 >>> topicmodeler.train(trainclassdict, 128)
@@ -79,21 +80,8 @@ For previous versions of `shorttext`, the trained models are saved by calling:
 
 >>> topicmodeler.savemodel('/path/to/nihlda128')
 
-The following files for the topic model are produced:
-
-::
-
-    /path/to/nihlda128.json
-    /path/to/nihlda128.gensimdict
-    /path/to/nihlda128.gensimmodel.state
-    /path/to/nihlda128.gensimtfidf
-    /path/to/nihlda128.gensimmodel
-    /path/to/nihlda128.gensimmat
-    /path/to/nihlda128.gensimmodel.expElogbeta.npy
-    /path/to/nihlda128.gensimmodel.id2word
-
-
-Note: the last two files are generated only for gensim with version >= 1.0.0.
+However, we discourage users using this anymore, because the model I/O for various models
+in gensim have been different. It produces errors.
 
 All of them have to be present in order to be loaded. Note that the preprocessor is
 not saved. To load the model, enter:
