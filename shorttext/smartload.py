@@ -14,6 +14,7 @@ def smartload_compact_model(filename, wvmodel, preprocessor=standard_text_prepro
     :param wvmodel: Word2Vec model
     :param preprocessor: text preprocessor (Default: `shorttext.utils.textpreprocess.standard_text_preprocessor_1`)
     :return: appropriate classifier or model
+    :raise: AlgorithmNotExistException
     :type filename: str
     :type wvmodel: gensim.models.keyedvectors.KeyedVectors
     :type preprocessor: function

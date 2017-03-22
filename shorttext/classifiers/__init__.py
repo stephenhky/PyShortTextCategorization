@@ -14,6 +14,3 @@ from .bow.topic.TopicVectorDistanceClassification import load_autoencoder_cosine
 from .bow.topic.SkLearnClassification import TopicVectorSkLearnClassifier
 from .bow.topic.SkLearnClassification import train_gensim_topicvec_sklearnclassifier, train_autoencoder_topic_sklearnclassifier
 from .bow.topic.SkLearnClassification import load_gensim_topicvec_sklearnclassifier, load_autoencoder_topic_sklearnclassifier
-
-# allowed algorithms
-allowed_algos = {'sumword2vec', 'vnn'}

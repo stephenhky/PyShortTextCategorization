@@ -36,6 +36,6 @@ setup(name='shorttext',
       install_requires=[
           'numpy', 'scipy', 'scikit-learn', 'theano', 'keras', 'gensim', 'pandas', 'spacy', 'stemming',
       ],
-      scripts=['bin/ShortTextDNNCategorizerConsole'],
+      scripts=['bin/ShortTextCategorizerConsole'],
       # include_package_data=False,
       zip_safe=False)

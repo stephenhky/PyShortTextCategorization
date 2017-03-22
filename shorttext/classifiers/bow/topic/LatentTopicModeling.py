@@ -609,6 +609,7 @@ def load_gensimtopicmodel(name,
 
         topicmodeler = modelerdict[classifier_name](preprocessor=preprocessor)
         topicmodeler.load_compact_model(name)
+        return topicmodeler
     else:
         topicmodeler = GensimTopicModeler(preprocessor=preprocessor)
         topicmodeler.loadmodel(name)
