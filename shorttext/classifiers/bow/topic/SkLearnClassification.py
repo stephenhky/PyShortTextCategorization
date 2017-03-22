@@ -220,10 +220,10 @@ def train_gensim_topicvec_sklearnclassifier(classdict,
     :rtype: TopicVectorSkLearnClassifier
     """
     # topic model training
-    topicmodeler = GensimTopicModeler(preprocessor=preprocessor,
-                                      algorithm=topicmodel_algorithm,
-                                      toweigh=toweigh,
-                                      normalize=normalize)
+    modelerdict = {'lda': LDAModeler, 'lsi': LSIModeler, 'rp': RPModeler}
+    topicmodeler = modelerdict[topicmodel_algorithm](preprocessor=preprocessor,
+                                                     toweigh=toweigh,
+                                                     normalize=normalize)
     topicmodeler.train(classdict, nb_topics, **gensim_paramdict)
 
     # intermediate classification training
