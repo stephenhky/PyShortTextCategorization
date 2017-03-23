@@ -1,7 +1,7 @@
 News
 ====
 
-*
+* TBD: `shorttext` 0.3.2 released.
 * 03/14/2017: `shorttext` 0.3.1 released.
 * 02/23/2017: `shorttext` 0.2.1 released.
 * 12/21/2016: `shorttext` 0.2.0 released.
@@ -11,8 +11,8 @@ News
 What's New
 ==========
 
-Version 0.3.2 ()
-----------------
+Version 0.3.2 (TBD)
+-------------------
 
 * Bug fixed for `gensim` model I/O;
 * Console scripts update.

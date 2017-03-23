@@ -10,6 +10,7 @@ Confirmed Changes
 Expected Changes
 ----------------
 
+* Neural networks up to Keras 2 standard;
 * Implementation of author-topic model;
 * More neural networks;
 * More available corpus;
