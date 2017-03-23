@@ -1,37 +1,28 @@
 Console Scripts
 ===============
 
-This package provides two scripts. If the user gives a trained model,
+This package provides two scripts. If the user gives a trained compact model,
 and a pre-trained word-embedding model, one can perform classification
-on a file of short texts, or run a command-line console.
+on short texts on a simple console.
 
 The scripts are *not stable* yet, and more scripts will be added.
 
-ShortTextDNNCategorizerConsole
-------------------------------
+ShortTextCategorizerConsole
+---------------------------
 
 ::
 
-    usage: ShortTextDNNCategorizerConsole [-h] [--ngram NGRAM] [--test]
-                                          [--topn TOPN]
-                                          input_nameprefix algo wvmodel_path
+    usage: ShortTextCategorizerConsole [-h] [--wv WV] [--topn TOPN] model_filepath
 
-    Perform prediction on short text.with a given trained model.
+    Perform prediction on short text with a given trained model.
 
     positional arguments:
-      input_nameprefix  Prefix of the path of input model.
-      algo              Algorithm architecture. (Options: sumword2vec (Summed
-                        Embedded Vectors), vnn (Neural Network on Embedded
-                        Vectors)
-      wvmodel_path      Path of the pre-trained Word2Vec model.
+      model_filepath  Path of the trained (compact) model.
 
     optional arguments:
-      -h, --help        show this help message and exit
-      --ngram NGRAM     n-gram, used in convolutional neural network only.
-                        (Default: 2)
-      --test            Checked if the test input contains the label, and metrics
-                        will be output. (Default: False)
-      --topn TOPN       Number of top-scored results displayed. (Default: 10)
+      -h, --help      show this help message and exit
+      --wv WV         Path of the pre-trained Word2Vec model. (None if not needed)
+      --topn TOPN     Number of top-scored results displayed. (Default: 10)
 
 
 Home: :doc:`index`
