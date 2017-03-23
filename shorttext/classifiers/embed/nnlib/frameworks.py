@@ -2,6 +2,7 @@ from keras.layers import Convolution1D, MaxPooling1D, Flatten, Dense, Dropout, L
 from keras.models import Sequential
 from keras.regularizers import l2
 
+# TODO: change to Keras 2 standard
 
 # Paper: Yoon Kim, "Convolutional Neural Networks for Sentence Classification," arXiv:1408.5882 (2014).
 # ref: https://gist.github.com/entron/b9bc61a74e7cadeb1fec
