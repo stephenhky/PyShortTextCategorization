@@ -3,7 +3,7 @@ Frequently Asked Questions (FAQ)
 
 1. Can we use Tensorflow backend?
 
-Ans: Yes, users can use tensorflow backened instead of theano backend, as both as supported
+Ans: Yes, users can use tensorflow backend instead of theano backend, as both as supported
 by Keras. Refer to `Keras Backend
 <https://keras.io/backend/>`_ for information about switching backends.
 
