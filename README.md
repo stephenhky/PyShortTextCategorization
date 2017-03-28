@@ -8,6 +8,8 @@ To install it, in a console, use `pip`.
 >>> pip install -U shorttext
 ```
 
+Developers are advised to make sure `Keras` >=2 be installed.
+
 # Useful Links
 
 * Documentation : [https://pythonhosted.org/shorttext/](https://pythonhosted.org/shorttext/)

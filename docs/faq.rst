@@ -37,4 +37,8 @@ Then run the following command in your terminal or console:
 
 Refer to `<https://spacy.io/docs/usage/models`_ for more information.
 
+5. Warning or messages pop up when running models involving neural networks. What is the problem?
+
+Make sure your `keras` have version >= 2.
+
 Home: :doc:`index`

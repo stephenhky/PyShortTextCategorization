@@ -92,7 +92,7 @@ class VarNNSumEmbeddedVecClassifier:
         self.classlabels, train_embedvec, indices = self.convert_traindata_embedvecs(classdict)
 
         # train the model
-        kerasmodel.fit(train_embedvec, indices, nb_epoch=nb_epoch)
+        kerasmodel.fit(train_embedvec, indices, epochs=nb_epoch)
 
         # flag switch
         self.model = kerasmodel
