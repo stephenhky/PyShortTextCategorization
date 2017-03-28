@@ -1,7 +1,7 @@
 News
 ====
 
-* TBD: `shorttext` 0.3.2 released.
+* 03/28/2017: `shorttext` 0.3.2 released.
 * 03/14/2017: `shorttext` 0.3.1 released.
 * 02/23/2017: `shorttext` 0.2.1 released.
 * 12/21/2016: `shorttext` 0.2.0 released.
@@ -11,11 +11,13 @@ News
 What's New
 ==========
 
-Version 0.3.2 (TBD)
--------------------
+Version 0.3.2 (Mar 28, 2017)
+----------------------------
 
 * Bug fixed for `gensim` model I/O;
-* Console scripts update.
+* Console scripts update;
+* Neural networks up to Keras 2 standard (refer to `this
+<https://github.com/fchollet/keras/wiki/Keras-2.0-release-notes>`_).
 
 Version 0.3.1 (Mar 14, 2017)
 ----------------------------

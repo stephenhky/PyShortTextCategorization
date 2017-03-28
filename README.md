@@ -20,6 +20,7 @@ Developers are advised to make sure `Keras` >=2 be installed.
 
 # News
 
+* 03/28/2017: `shorttext` 0.3.2 released.
 * 03/14/2017: `shorttext` 0.3.1 released.
 * 02/23/2017: `shorttext` 0.2.1 released.
 * 12/21/2016: `shorttext` 0.2.0 released.
