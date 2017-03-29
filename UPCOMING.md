@@ -1,6 +1,11 @@
 Upcoming Changes to `shorttext`
 ===============================
 
+Confirmed Changes
+-----------------
+
+* Deleted `CNNEmbedVecClassifier`.
+
 Expected Changes
 ----------------
 
