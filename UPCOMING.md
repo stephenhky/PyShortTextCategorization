@@ -5,6 +5,7 @@ Confirmed Changes
 -----------------
 
 * Deleted `CNNEmbedVecClassifier`.
+* Added script `ShortTextWord2VecSimilarity`.
 
 Expected Changes
 ----------------

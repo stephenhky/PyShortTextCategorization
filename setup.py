@@ -36,6 +36,7 @@ setup(name='shorttext',
       install_requires=[
           'numpy', 'scipy', 'scikit-learn', 'keras', 'gensim', 'pandas', 'spacy', 'stemming',
       ],
-      scripts=['bin/ShortTextCategorizerConsole'],
+      scripts=['bin/ShortTextCategorizerConsole',
+               'bin/ShortTextWord2VecSimilarity'],
       # include_package_data=False,
       zip_safe=False)
