@@ -2,10 +2,7 @@ Upcoming Changes to `shorttext`
 ===============================
 
 Confirmed Changes
------------------
-
-* Deleted `CNNEmbedVecClassifier`.
-* Added script `ShortTextWord2VecSimilarity`.
+-------------------
 
 Expected Changes
 ----------------

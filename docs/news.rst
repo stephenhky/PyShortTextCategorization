@@ -1,6 +1,7 @@
 News
 ====
 
+* 04/19/2017: `shorttext` 0.3.3 released.
 * 03/28/2017: `shorttext` 0.3.2 released.
 * 03/14/2017: `shorttext` 0.3.1 released.
 * 02/23/2017: `shorttext` 0.2.1 released.
@@ -10,6 +11,12 @@ News
 
 What's New
 ==========
+
+Version 0.3.3 (Apr 19, 2017)
+----------------------------
+
+* Deleted `CNNEmbedVecClassifier`.
+* Added script `ShortTextWord2VecSimilarity`.
 
 Version 0.3.2 (Mar 28, 2017)
 ----------------------------
