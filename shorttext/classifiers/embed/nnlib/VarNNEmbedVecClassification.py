@@ -1,7 +1,9 @@
 import numpy as np
 
-# from ... import kerasmodel_io as kerasio
-# from ... import classification_exceptions as e
+#from ....utils import kerasmodel_io as kerasio
+#from ....utils import classification_exceptions as e
+#from ....utils import tokenize
+#from ....utils import compactmodel_io as cio
 import utils.kerasmodel_io as kerasio
 import utils.classification_exceptions as e
 from utils import tokenize
