@@ -2,7 +2,9 @@ Upcoming Changes to `shorttext`
 ===============================
 
 Confirmed Changes
--------------------
+-----------------
+
+* Fixed relative path loading problems.
 
 Expected Changes
 ----------------
