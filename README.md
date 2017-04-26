@@ -8,6 +8,12 @@ To install it, in a console, use `pip`.
 >>> pip install -U shorttext
 ```
 
+or, if you want the most updated code that is not released on PyPI yet, type
+
+```
+>>> pip install -U git+https://github.com/stephenhky/PyShortTextCategorization@master
+```
+
 Developers are advised to make sure `Keras` >=2 be installed.
 
 # Useful Links
