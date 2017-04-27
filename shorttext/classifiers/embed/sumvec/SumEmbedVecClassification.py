@@ -4,9 +4,9 @@ from collections import defaultdict
 import numpy as np
 from scipy.spatial.distance import cosine
 
-import utils.classification_exceptions as e
-from utils import tokenize
-import utils.compactmodel_io as cio
+import shorttext.utils.classification_exceptions as e
+from shorttext.utils import tokenize
+import shorttext.utils.compactmodel_io as cio
 
 @cio.compactio({'classifier': 'sumvec'}, 'sumvec', ['_embedvecdict.pkl'])
 class SumEmbeddedVecClassifier:

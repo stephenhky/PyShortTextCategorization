@@ -1,7 +1,7 @@
 
 from utils import textpreprocessing as textpreprocess
-from classifiers.bow.topic.LatentTopicModeling import LatentTopicModeler, GensimTopicModeler, AutoencodingTopicModeler
-from classifiers.bow.topic.LatentTopicModeling import load_gensimtopicmodel, load_autoencoder_topic
+from .LatentTopicModeling import LatentTopicModeler, GensimTopicModeler, AutoencodingTopicModeler
+from .LatentTopicModeling import load_gensimtopicmodel, load_autoencoder_topic
 
 class TopicVecCosineDistanceClassifier:
     """

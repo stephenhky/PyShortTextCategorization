@@ -11,12 +11,12 @@ from gensim.similarities import MatrixSimilarity
 from keras.layers import Input, Dense
 from keras.models import Model
 
-import utils.kerasmodel_io as kerasio
-from utils import textpreprocessing as textpreprocess
-from utils import gensim_corpora as gc
-import utils.classification_exceptions as e
-from utils import tokenize
-import utils.compactmodel_io as cio
+import shorttext.utils.kerasmodel_io as kerasio
+from shorttext.utils import textpreprocessing as textpreprocess
+from shorttext.utils import gensim_corpora as gc
+import shorttext.utils.classification_exceptions as e
+from shorttext.utils import tokenize
+import shorttext.utils.compactmodel_io as cio
 
 gensim_topic_model_dict = {'lda': LdaModel, 'lsi': LsiModel, 'rp': RpModel}
 

@@ -2,7 +2,7 @@ from keras.layers import Dense
 from keras.models import Sequential
 from keras.regularizers import l2
 
-from utils.classification_exceptions import UnequalArrayLengthsException
+from shorttext.utils.classification_exceptions import UnequalArrayLengthsException
 
 
 def DenseWordEmbed(nb_labels,

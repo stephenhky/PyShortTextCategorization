@@ -2,12 +2,13 @@ from collections import defaultdict
 
 from sklearn.externals import joblib
 
-from utils import textpreprocessing as textpreprocess
-from classifiers.bow.topic.LatentTopicModeling import GensimTopicModeler, AutoencodingTopicModeler
-from classifiers.bow.topic.LatentTopicModeling import LDAModeler, LSIModeler, RPModeler
-from classifiers.bow.topic.LatentTopicModeling import load_gensimtopicmodel, load_autoencoder_topic
-import utils.classification_exceptions as e
-import utils.compactmodel_io as cio
+from shorttext.utils import textpreprocessing as textpreprocess
+from .LatentTopicModeling import GensimTopicModeler, AutoencodingTopicModeler
+from .LatentTopicModeling import LDAModeler, LSIModeler, RPModeler
+from .LatentTopicModeling import load_gensimtopicmodel, load_autoencoder_topic
+import shorttext.utils.classification_exceptions as e
+import shorttext.utils.compactmodel_io as cio
+
 
 class TopicVectorSkLearnClassifier:
     """

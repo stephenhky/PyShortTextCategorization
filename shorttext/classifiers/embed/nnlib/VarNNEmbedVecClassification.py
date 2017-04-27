@@ -1,13 +1,9 @@
 import numpy as np
 
-#from ....utils import kerasmodel_io as kerasio
-#from ....utils import classification_exceptions as e
-#from ....utils import tokenize
-#from ....utils import compactmodel_io as cio
-import utils.kerasmodel_io as kerasio
-import utils.classification_exceptions as e
-from utils import tokenize
-import utils.compactmodel_io as cio
+import shorttext.utils.kerasmodel_io as kerasio
+import shorttext.utils.classification_exceptions as e
+from shorttext.utils import tokenize
+import shorttext.utils.compactmodel_io as cio
 
 @cio.compactio({'classifier': 'nnlibvec'}, 'nnlibvec', ['_classlabels.txt', '.json', '.h5'])
 class VarNNEmbeddedVecClassifier:

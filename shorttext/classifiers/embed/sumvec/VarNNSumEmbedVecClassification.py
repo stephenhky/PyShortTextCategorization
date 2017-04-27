@@ -1,11 +1,8 @@
 import numpy as np
-#from nltk import word_tokenize
 
-# from ... import kerasmodel_io as kerasio
-# from ... import classification_exceptions as e
-import utils.kerasmodel_io as kerasio
-import utils.classification_exceptions as e
-from utils.textpreprocessing import spacy_tokenize
+import shorttext.utils.kerasmodel_io as kerasio
+import shorttext.utils.classification_exceptions as e
+from shorttext.utils.textpreprocessing import spacy_tokenize
 
 class VarNNSumEmbeddedVecClassifier:
     """
