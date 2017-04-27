@@ -4,6 +4,7 @@ import shorttext.utils.kerasmodel_io as kerasio
 import shorttext.utils.classification_exceptions as e
 from shorttext.utils.textpreprocessing import spacy_tokenize
 
+
 class VarNNSumEmbeddedVecClassifier:
     """
     This is a wrapper for various neural network algorithms

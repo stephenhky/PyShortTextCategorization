@@ -1,5 +1,5 @@
 
-from utils import textpreprocessing as textpreprocess
+from shorttext.utils import textpreprocessing as textpreprocess
 from .LatentTopicModeling import LatentTopicModeler, GensimTopicModeler, AutoencodingTopicModeler
 from .LatentTopicModeling import load_gensimtopicmodel, load_autoencoder_topic
 

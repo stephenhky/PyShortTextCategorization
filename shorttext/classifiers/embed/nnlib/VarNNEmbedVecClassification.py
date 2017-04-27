@@ -5,6 +5,7 @@ import shorttext.utils.classification_exceptions as e
 from shorttext.utils import tokenize
 import shorttext.utils.compactmodel_io as cio
 
+
 @cio.compactio({'classifier': 'nnlibvec'}, 'nnlibvec', ['_classlabels.txt', '.json', '.h5'])
 class VarNNEmbeddedVecClassifier:
     """

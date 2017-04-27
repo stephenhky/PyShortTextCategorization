@@ -8,6 +8,7 @@ import shorttext.utils.classification_exceptions as e
 from shorttext.utils import tokenize
 import shorttext.utils.compactmodel_io as cio
 
+
 @cio.compactio({'classifier': 'sumvec'}, 'sumvec', ['_embedvecdict.pkl'])
 class SumEmbeddedVecClassifier:
     """
