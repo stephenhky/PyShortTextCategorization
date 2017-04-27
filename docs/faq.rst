@@ -35,10 +35,25 @@ Then run the following command in your terminal or console:
 
     python -m spacy download en
 
-Refer to `<https://spacy.io/docs/usage/models`_ for more information.
+Refer to `spaCy webpage
+<https://spacy.io/docs/usage/models>`_ for more information.
 
 5. Warning or messages pop up when running models involving neural networks. What is the problem?
 
 Make sure your `keras` have version >= 2.
+
+6. The following error message appears while loading shorttext:
+
+::
+
+    ImportError: dlopen: cannot load any more object with static TLS
+
+How do I deal with it?
+
+If you use Tensorflow as your backend, you may experience this problem. This has been pointed
+out by Yeung in the community: `issue
+<https://github.com/stephenhky/PyShortTextCategorization/issues/3>`_ . You should either reload tensorflow,
+or reinstall, or try to workaround by importing `spaCy` before `shorttext`.
+
 
 Home: :doc:`index`

@@ -7,8 +7,8 @@ Welcome to shorttext's documentation!
 =====================================
 
 This repository is a collection of algorithms for multi-class classification to short texts using Python.
-This package is still *under development*. Modules are backward compatible unless otherwise specified.
-Feel free to give suggestions through the Github_ page.
+Modules are backward compatible unless otherwise specified. Feel free to give suggestions or report
+issues through the Github_ page.
 
 Contents:
 

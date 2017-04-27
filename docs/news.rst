@@ -1,6 +1,7 @@
 News
 ====
 
+* 04/27/2017: `shorttext` 0.3.4 released.
 * 04/19/2017: `shorttext` 0.3.3 released.
 * 03/28/2017: `shorttext` 0.3.2 released.
 * 03/14/2017: `shorttext` 0.3.1 released.
@@ -11,6 +12,11 @@ News
 
 What's New
 ==========
+
+Version 0.3.4 (Apr 27, 2017)
+----------------------------
+
+* Fixed relative path loading problems.
 
 Version 0.3.3 (Apr 19, 2017)
 ----------------------------
