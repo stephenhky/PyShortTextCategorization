@@ -5,9 +5,9 @@ from keras.layers import Dense, Reshape
 from keras.models import Sequential
 from keras.regularizers import l2
 
-import utils.classification_exceptions as e
-import utils.kerasmodel_io as kerasio
-import utils.compactmodel_io as cio
+import shorttext.utils.classification_exceptions as e
+import shorttext.utils.kerasmodel_io as kerasio
+import shorttext.utils.compactmodel_io as cio
 
 # abstract class
 class StackedGeneralization:
