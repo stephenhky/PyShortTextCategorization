@@ -23,6 +23,9 @@ Hsiang-Fu Yu, Chia-Hua Ho, Yu-Chin Juan, and Chih-Jen Lin, "LibShortText: A Libr
 Jeffrey Pennington, Richard Socher, Christopher D. Manning, “GloVe: Global Vectors for Word Representation,” *Empirical Methods in Natural Language Processing (EMNLP)*, pp. 1532-1543 (2014). [`PDF
 <http://www.aclweb.org/anthology/D14-1162>`_]
 
+"Keras 2.0 Release Notes." (2017) [`Github
+<https://github.com/fchollet/keras/wiki/Keras-2.0-release-notes/>`_]
+
 Michael Czerny, "Modern Methods for Sentiment Analysis," *District Data Labs (2015). [`DistrictDataLabs
 <https://districtdatalabs.silvrback.com/modern-methods-for-sentiment-analysis>`_]
 
@@ -34,7 +37,7 @@ Sebastian Ruder, "An overview of gradient descent optimization algorithms," blog
 <https://arxiv.org/abs/1609.04747>`_]
 
 Thomas W. Jones, "textmineR: Functions for Text Mining and Topic Modeling," CRAN Project. [`CRAN
-<https://cran.r-project.org/web/packages/textmineR/index.html>`_ or `Github_
+<https://cran.r-project.org/web/packages/textmineR/index.html>`_ or `Github
 <https://github.com/TommyJones/textmineR>`_]
 
 Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, “Efficient Estimation of Word Representations in Vector Space,” *ICLR* 2013 (2013). [`arXiv

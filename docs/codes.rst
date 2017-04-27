@@ -61,12 +61,6 @@ Module `shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification`
 .. automodule:: shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification
    :members:
 
-Module `shorttext.classifiers.embed.nnlib.CNNEmbedVecClassification`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: shorttext.classifiers.embed.nnlib.CNNEmbedVecClassification
-   :members:
-
 Neural Networks
 ---------------
 
