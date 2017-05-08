@@ -16,6 +16,8 @@ or, if you want the most updated code that is not released on PyPI yet, type
 
 Developers are advised to make sure `Keras` >=2 be installed.
 
+See [tutorial](http://pythonhosted.org/shorttext/tutorial.html) for how to use the package.
+
 # Useful Links
 
 * Documentation : [https://pythonhosted.org/shorttext/](https://pythonhosted.org/shorttext/)

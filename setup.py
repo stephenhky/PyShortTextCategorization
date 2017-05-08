@@ -5,7 +5,7 @@ def readme():
         return f.read()
 
 setup(name='shorttext',
-      version="0.3.4",
+      version="0.3.5",
       description="Short Text Categorization",
       long_description="Supervised learning algorithms for short text categorization using embedded word vectors such as Word2Vec, or immediate feature vectors using topic models",
       classifiers=[
@@ -37,6 +37,7 @@ setup(name='shorttext',
           'numpy', 'scipy', 'scikit-learn', 'keras', 'gensim', 'pandas', 'spacy', 'stemming',
       ],
       scripts=['bin/ShortTextCategorizerConsole',
-               'bin/ShortTextWord2VecSimilarity'],
+               'bin/ShortTextWord2VecSimilarity',
+               'bin/switch_kerasbackend'],
       # include_package_data=False,
       zip_safe=False)
