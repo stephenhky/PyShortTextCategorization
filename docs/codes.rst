@@ -22,10 +22,10 @@ Module `shorttext.utils.textpreprocessing`
 Topic Models
 ------------
 
-Module `shorttext.classifiers.topic.LatentTopicModeling`
+Module `shorttext.generators.bow.LatentTopicModeling`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: shorttext.classifiers.bow.topic.LatentTopicModeling
+.. automodule:: shorttext.generators.bow.LatentTopicModeling
    :members:
 
 Module `shorttext.classifiers.topic.TopicVectorDistanceClassification`

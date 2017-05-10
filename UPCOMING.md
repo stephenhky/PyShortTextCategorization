@@ -4,6 +4,8 @@ Upcoming Changes to `shorttext`
 Confirmed Changes
 -----------------
 
+* Refactoring topic modeling to generators subpackage, but keeping package backward compatible.
+
 Expected Changes
 ----------------
 
