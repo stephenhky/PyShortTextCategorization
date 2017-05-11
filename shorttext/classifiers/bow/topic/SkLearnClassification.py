@@ -3,9 +3,9 @@ from collections import defaultdict
 from sklearn.externals import joblib
 
 from shorttext.utils import textpreprocessing as textpreprocess
-from .LatentTopicModeling import AutoencodingTopicModeler
+from generators.bow.AutoEncodingTopicModeling import AutoencodingTopicModeler, load_autoencoder_topicmodel
 from .LatentTopicModeling import LDAModeler, LSIModeler, RPModeler
-from .LatentTopicModeling import load_gensimtopicmodel, load_autoencoder_topic
+from .LatentTopicModeling import load_gensimtopicmodel
 import shorttext.utils.classification_exceptions as e
 import shorttext.utils.compactmodel_io as cio
 
@@ -365,7 +365,7 @@ def load_autoencoder_topic_sklearnclassifier(name,
         return classifier
     else:
         # load the autoencoder
-        autoencoder = load_autoencoder_topic(name, preprocessor=preprocessor)
+        autoencoder = load_autoencoder_topicmodel(name, preprocessor=preprocessor)
 
         # load intermediate model
         sklearn_classifier = joblib.load(name + '.pkl')

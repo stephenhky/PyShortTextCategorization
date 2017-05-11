@@ -1,28 +1,9 @@
-from operator import add
-import json
-import pickle
-
-import numpy as np
-from scipy.spatial.distance import cosine
-import gensim
-from gensim.corpora import Dictionary
-from gensim.models import TfidfModel, LdaModel, LsiModel, RpModel
-from gensim.similarities import MatrixSimilarity
-from keras.layers import Input, Dense
-from keras.models import Model
-
-import shorttext.utils.kerasmodel_io as kerasio
-from shorttext.utils import textpreprocessing as textpreprocess
-from shorttext.utils import gensim_corpora as gc
-import shorttext.utils.classification_exceptions as e
-from shorttext.utils import tokenize
-import shorttext.utils.compactmodel_io as cio
 
 #gensim_topic_model_dict = {'lda': LdaModel, 'lsi': LsiModel, 'rp': RpModel}
-from shorttext.generators.bow.LatentTopicModeling import gensim_topic_model_dict
+from shorttext.generators.bow.GensimTopicModeling import gensim_topic_model_dict
 
 # abstract class
-from shorttext.generators.bow.LatentTopicModeling import LatentTopicModeler
+from generators.bow.LatentTopicModeling import LatentTopicModeler
 # class LatentTopicModeler:
 #     """
 #     Abstract class for various topic modeler.
@@ -156,7 +137,7 @@ from shorttext.generators.bow.LatentTopicModeling import LatentTopicModeler
 #         raise e.NotImplementedException()
 
 
-from shorttext.generators.bow.LatentTopicModeling import GensimTopicModeler
+from shorttext.generators.bow.GensimTopicModeling import GensimTopicModeler
 # class GensimTopicModeler(LatentTopicModeler):
 #     """
 #     This class facilitates the creation of topic models (options: LDA (latent Dirichlet Allocation),
@@ -345,7 +326,7 @@ from shorttext.generators.bow.LatentTopicModeling import GensimTopicModeler
 # if gensim.__version__ >= '1.0.0':
 #     lda_suffices += ['.gensimmodel.expElogbeta.npy', '.gensimmodel.id2word']
 
-from shorttext.generators.bow.LatentTopicModeling import LDAModeler
+from shorttext.generators.bow.GensimTopicModeling import LDAModeler
 # @cio.compactio({'classifier': 'ldatopic'}, 'ldatopic', lda_suffices)
 # class LDAModeler(GensimTopicModeler):
 #     """
@@ -368,7 +349,7 @@ from shorttext.generators.bow.LatentTopicModeling import LDAModeler
 # lsi_suffices = ['.json', '.gensimdict', '.gensimtfidf', '.gensimmodel.projection',
 #                 '.gensimmodel', '.gensimmat', ]
 
-from shorttext.generators.bow.LatentTopicModeling import LSIModeler
+from shorttext.generators.bow.GensimTopicModeling import LSIModeler
 # @cio.compactio({'classifier': 'lsitopic'}, 'lsitopic', lsi_suffices)
 # class LSIModeler(GensimTopicModeler):
 #     """
@@ -390,7 +371,7 @@ from shorttext.generators.bow.LatentTopicModeling import LSIModeler
 
 # rp_suffices = ['.json', '.gensimtfidf', '.gensimmodel', '.gensimmat', '.gensimdict']
 
-from shorttext.generators.bow.LatentTopicModeling import RPModeler
+from shorttext.generators.bow.GensimTopicModeling import RPModeler
 # @cio.compactio({'classifier': 'rptopic'}, 'rptopic', rp_suffices)
 # class RPModeler(GensimTopicModeler):
 #     """
@@ -415,7 +396,7 @@ from shorttext.generators.bow.LatentTopicModeling import RPModeler
 #                         '_decoder.json', '_decoder.h5', '_autoencoder.json', '_autoencoder.h5',
 #                         '.json']
 
-from shorttext.generators.bow.LatentTopicModeling import AutoencodingTopicModeler
+from generators.bow.AutoEncodingTopicModeling import AutoencodingTopicModeler, load_autoencoder_topicmodel
 # @cio.compactio({'classifier': 'kerasautoencoder'}, 'kerasautoencoder', autoencoder_suffices)
 # class AutoencodingTopicModeler(LatentTopicModeler):
 #     """
@@ -598,7 +579,7 @@ from shorttext.generators.bow.LatentTopicModeling import AutoencodingTopicModele
 #             self.autoencoder = kerasio.load_model(nameprefix+'_autoencoder')
 #         self.trained = True
 
-from shorttext.generators.bow.LatentTopicModeling import load_gensimtopicmodel, load_autoencoder_topic
+from shorttext.generators import load_gensimtopicmodel
 # def load_gensimtopicmodel(name,
 #                           preprocessor=textpreprocess.standard_text_preprocessor_1(),
 #                           compact=True):
@@ -625,6 +606,7 @@ from shorttext.generators.bow.LatentTopicModeling import load_gensimtopicmodel, 
 #         topicmodeler.loadmodel(name)
 #         return topicmodeler
 
+from shorttext.generators import load_autoencoder_topicmodel as load_autoencoder_topic
 # def load_autoencoder_topic(name,
 #                            preprocessor=textpreprocess.standard_text_preprocessor_1(),
 #                            compact=True):

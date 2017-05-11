@@ -34,7 +34,7 @@ First, load a set of training data (all NIH data in this example):
 
 Initialize an instance of topic modeler, and use LDA as an example:
 
->>> topicmodeler = shorttext.classifiers.LDAModeler()
+>>> topicmodeler = shorttext.generators.LDAModeler()
 
 For other algorithms, user can use :class:`LSIModeler` for LSI or :class:`RPModeler`
 for RP. Everything else is the same.
@@ -65,13 +65,13 @@ Users can save the trained model by calling:
 
 And the topic model can be retrieved by calling:
 
->>> topicmodeler2 = shorttext.classifiers.load_gensimtopicmodel('/path/to/nihlda128.bin')
+>>> topicmodeler2 = shorttext.generators.load_gensimtopicmodel('/path/to/nihlda128.bin')
 
 While initialize the instance of the topic modeler, the user can also specify
 whether to weigh the terms using tf-idf (term frequency - inverse document frequency).
 The default is to weigh. To not weigh, initialize it as
 
->>> topicmodeler3 = shorttext.classifiers.GensimTopicModeler(toweight=False)
+>>> topicmodeler3 = shorttext.generators.GensimTopicModeler(toweight=False)
 
 Appendix: Model I/O in Previous Versions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -103,7 +103,7 @@ For faster demonstration, use the subject keywords as the example dataset:
 
 To train such a model, we perform in a similar way with the LDA model (or LSI and random projections above):
 
->>> autoencoder = shorttext.classifiers.AutoencodingTopicModeler()
+>>> autoencoder = shorttext.generators.AutoencodingTopicModeler()
 >>> autoencoder.train(subdict, 8)
 
 After the training is done, the user can retrieve the encoded vector representation
@@ -129,13 +129,13 @@ Users can save the trained models, by calling:
 
 And the model can be retrieved by calling:
 
->>> autoencoder2 = shorttext.classifiers.load_autoencoder_topic('/path/to/sub_autoencoder8.bin')
+>>> autoencoder2 = shorttext.generators.load_autoencoder_topicmodel('/path/to/sub_autoencoder8.bin')
 
 Like other topic models, while initialize the instance of the topic modeler, the user can also specify
 whether to weigh the terms using tf-idf (term frequency - inverse document frequency).
 The default is to weigh. To not weigh, initialize it as:
 
->>> autoencoder3 = ltm.AutoencodingTopicModeler(toweight=False)
+>>> autoencoder3 = shorttext.generators.AutoencodingTopicModeler(toweight=False)
 
 Appendix: Unzipping Model I/O
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -171,12 +171,34 @@ Users can load the same model later by entering:
 Abstract Latent Topic Modeling Class
 ------------------------------------
 
-Both :class:`shorttext.classifiers.GensimTopicModeler` and
-:class:`shorttext.classifiers.AutoencodingTopicModeler` extends
-:class:`shorttext.classifiers.bow.topic.LatentTopicModeling.LatentTopicModeler`,
+Both :class:`shorttext.generators.GensimTopicModeler` and
+:class:`shorttext.generators.AutoencodingTopicModeler` extends
+:class:`shorttext.generators.bow.LatentTopicModeling.LatentTopicModeler`,
 an abstract class virtually. If user wants to develop its own topic model that extends
 this, he has to define the methods `train`, `retrieve_topic_vec`, `loadmodel`, and
 `savemodel`.
+
+Appendix: Namespaces for Topic Modeler in Previous Versions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+All generative topic modeling algorithms were placed under the package `shorttext.classifiers` for version <=0.3.4.
+In current version (>= 0.3.5), however, all generative models will be moved to `shorttext.generators`,
+while any classifiers making use of these topic models are still kept under `shorttext.classifiers`.
+A list include:
+
+::
+
+    shorttext.classifiers.GensimTopicModeler  ->  shorttext.generators.GensimTopicModeler
+    shorttext.classifiers.LDAModeler  ->  shorttext.generators.LDAModeler
+    shorttext.classifiers.LSIModeler  ->  shorttext.generators.LSIModeler
+    shorttext.classifiers.RPModeler  ->  shorttext.generators.RPModeler
+    shorttext.classifiers.AutoencodingTopicModeler  ->  shorttext.generators.AutoencodingTopicModeler
+    shorttext.classifiers.load_gensimtopicmodel  ->  shorttext.generators.load_gensimtopicmodel
+    shorttext.classifiers.load_autoencoder_topic  ->  shorttext.generators.load_autoencoder_topicmodel
+
+
+For backward compatibility, developers can still call the topic models as if there were no such changes,
+although they are advised to make this change.
 
 Classification Using Cosine Similarity
 --------------------------------------
@@ -187,8 +209,8 @@ needs a classification algorithm. The first one is to calculate the cosine simil
 between topic vectors of the given short text with those of the texts in all class labels.
 
 If there is already a trained topic modeler, whether it is
-:class:`shorttext.classifiers.GensimTopicModeler` or
-:class:`shorttext.classifiers.AutoencodingTopicModeler`,
+:class:`shorttext.generators.GensimTopicModeler` or
+:class:`shorttext.generators.AutoencodingTopicModeler`,
 a classifier based on cosine similarities can be initiated
 immediately without training. Taking the LDA example above, such classifier can be initiated as follow:
 
@@ -217,7 +239,7 @@ algorithms. We can take any supervised learning algorithms in `scikit-learn` her
 We use Gaussian naive Bayes as an example. For faster demonstration, use the subject
 keywords as the example dataset.
 
->>> subtopicmodeler = shorttext.classifiers.GensimTopicModeler()
+>>> subtopicmodeler = shorttext.generators.GensimTopicModeler()
 >>> subtopicmodeler.train(subdict, 8)
 
 We first import the class:

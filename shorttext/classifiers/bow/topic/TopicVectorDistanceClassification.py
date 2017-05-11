@@ -1,7 +1,10 @@
 
 from shorttext.utils import textpreprocessing as textpreprocess
-from .LatentTopicModeling import LatentTopicModeler, GensimTopicModeler, AutoencodingTopicModeler
-from .LatentTopicModeling import load_gensimtopicmodel, load_autoencoder_topic
+from .LatentTopicModeling import GensimTopicModeler
+from generators.bow.LatentTopicModeling import LatentTopicModeler
+from generators.bow.AutoEncodingTopicModeling import AutoencodingTopicModeler, load_autoencoder_topicmodel
+from .LatentTopicModeling import load_gensimtopicmodel
+
 
 class TopicVecCosineDistanceClassifier:
     """
@@ -179,5 +182,5 @@ def load_autoencoder_cosineClassifier(name,
     :type compact: bool
     :rtype: TopicVecCosineDistanceClassifier
     """
-    autoencoder = load_autoencoder_topic(name, preprocessor=preprocessor, compact=compact)
+    autoencoder = load_autoencoder_topicmodel(name, preprocessor=preprocessor, compact=compact)
     return TopicVecCosineDistanceClassifier(autoencoder)
