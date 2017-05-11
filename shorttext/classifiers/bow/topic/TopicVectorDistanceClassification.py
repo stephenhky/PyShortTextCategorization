@@ -1,8 +1,7 @@
 
 from shorttext.utils import textpreprocessing as textpreprocess
-from .LatentTopicModeling import GensimTopicModeler
-from generators.bow.LatentTopicModeling import LatentTopicModeler
-from generators.bow.AutoEncodingTopicModeling import AutoencodingTopicModeler, load_autoencoder_topicmodel
+from .LatentTopicModeling import LatentTopicModeler, GensimTopicModeler
+from .LatentTopicModeling import AutoencodingTopicModeler, load_autoencoder_topicmodel
 from .LatentTopicModeling import load_gensimtopicmodel
 
 
