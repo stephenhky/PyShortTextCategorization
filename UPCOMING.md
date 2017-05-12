@@ -10,6 +10,7 @@ Expected Changes
 ----------------
 
 * Implementation of author-topic model;
+* Python 3 compatibility;
 * More neural networks;
 * More available corpus;
 * Maximum entropy models;
