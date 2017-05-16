@@ -55,6 +55,9 @@ if __name__ == '__main__':
     else:
         classifier = shorttext.smartload_compact_model(args.model_filepath, wvmodel)
 
+    # Initializing the SpaCy kernel
+    shorttext.utils.textpreprocessing.spaCyNLPHolder.getNLPInstance()
+
     # Console
     run = True
     while run:
