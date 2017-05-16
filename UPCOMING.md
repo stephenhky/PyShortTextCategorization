@@ -1,14 +1,10 @@
-Upcoming Changes to `shorttext`
+Upcoming Updates to `shorttext`
 ===============================
 
-Confirmed Changes
+Confirmed Updates
 -----------------
 
-* Refactoring topic modeling to generators subpackage, but keeping package backward compatible.
-* Added Inaugural Addresses as an example training data;
-* Fixed bugs about package paths.
-
-Expected Changes
+Expected Updates
 ----------------
 
 * Implementation of author-topic model;
@@ -18,4 +14,5 @@ Expected Changes
 * Maximum entropy models;
 * Generative models;
 * Support of seq2seq models;
-* Gradual fading-out dependence on `Theano`, and lesser `keras` but more fundamental `Tensorflow`.
+* Gradual fading-out dependence on `Theano`, and lesser `keras` but more fundamental `Tensorflow`;
+* Other word-embedding models.
