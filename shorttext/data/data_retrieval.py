@@ -69,6 +69,20 @@ def subjectkeywords():
     this_dir, _ = os.path.split(__file__)
     return retrieve_csvdata_as_dict(os.path.join(this_dir, 'shorttext_exampledata.csv'))
 
+def inaugual():
+    """ Return an example dataset, which is the Inaugural Addresses of all Presidents of 
+    the United States from George Washington to Barack Obama.
+    
+    Each key is the year, a dash, and the last name of the president. The content is
+    the list of all the sentences
+    
+    :return: example data set
+    :rtype: dict
+    """
+    zfile = zipfile.ZipFile(get_or_download_data("USInaugural.zip",
+                                                 "https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/USInaugural.zip?raw=true"))
+    return json.loads(zfile.open("addresses.json").read())
+
 def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512):
     """ Return an example data set, sampled from NIH RePORT (Research Portfolio
     Online Reporting Tools).

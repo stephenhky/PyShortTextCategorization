@@ -5,6 +5,8 @@ Confirmed Changes
 -----------------
 
 * Refactoring topic modeling to generators subpackage, but keeping package backward compatible.
+* Added Inaugural Addresses as an example training data;
+* Fixed bugs about package paths.
 
 Expected Changes
 ----------------
