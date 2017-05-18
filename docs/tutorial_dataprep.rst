@@ -59,6 +59,23 @@ However, there are other configurations:
 
 If `sample_size` is specified to be `None`, all the data will be retrieved without sampling.
 
+Example Training Data 3: Inaugural Addresses
+--------------------------------------------
+
+This contains all the Inaugural Addresses of all the Presidents of the United States, from
+George Washington to Barack Obama. Upon the installation of the package, the Inaugural Addresses
+data are still not installed. But the first time it was ran, it will be downloaded from the Internet.
+
+The addresses are available publicly, and I extracted them from `nltk
+<http://www.nltk.org/>`_ package.
+
+Enter:
+
+>>> trainclassdict = shorttext.data.inaugural()
+
+.. autfunction:: shorttext.data.inaugural
+
+
 User-Provided Training Data
 ---------------------------
 

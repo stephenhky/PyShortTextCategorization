@@ -1,11 +1,9 @@
 import numpy as np
-#from nltk import word_tokenize
 
-# from ... import kerasmodel_io as kerasio
-# from ... import classification_exceptions as e
-import utils.kerasmodel_io as kerasio
-import utils.classification_exceptions as e
-from utils.textpreprocessing import spacy_tokenize
+import shorttext.utils.kerasmodel_io as kerasio
+import shorttext.utils.classification_exceptions as e
+from shorttext.utils.textpreprocessing import spacy_tokenize
+
 
 class VarNNSumEmbeddedVecClassifier:
     """
@@ -92,7 +90,7 @@ class VarNNSumEmbeddedVecClassifier:
         self.classlabels, train_embedvec, indices = self.convert_traindata_embedvecs(classdict)
 
         # train the model
-        kerasmodel.fit(train_embedvec, indices, nb_epoch=nb_epoch)
+        kerasmodel.fit(train_embedvec, indices, epochs=nb_epoch)
 
         # flag switch
         self.model = kerasmodel

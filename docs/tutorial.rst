@@ -1,7 +1,7 @@
 Tutorial
 ========
 
-After installation, you are ready to start tasting the convenience and power
+After installation, you are ready to start testing the convenience and power
 of the package.
 
 Before using, type

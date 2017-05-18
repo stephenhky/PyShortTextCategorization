@@ -1,0 +1,26 @@
+#!/usr/bin/env python
+
+# Secret code. Welcome for those who find this code.
+
+# argument parsing
+import argparse
+
+def getargparser():
+    parser = argparse.ArgumentParser(description='Switch Keras backend')
+    parser.add_argument('backend', help="Backend ('theano' or 'tensorflow')")
+    return parser
+
+parser = getargparser()
+args = parser.parse_args()
+
+import os
+import json
+
+homedir = os.path.expanduser('~')
+kerasconfigfile = os.path.join(homedir, '.keras/keras.json')
+
+if __name__ == '__main__':
+    kerasconfig = json.load(open(kerasconfigfile, 'r'))
+    kerasconfig['backend'] = args.backend
+    json.dump(kerasconfig, open(kerasconfigfile, 'w'))
+    print 'Keras backend set to ', args.backend

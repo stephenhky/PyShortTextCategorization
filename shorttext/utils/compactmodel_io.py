@@ -12,7 +12,7 @@ import json
 import os
 from functools import partial
 
-import utils.classification_exceptions as e
+from . import classification_exceptions as e
 
 def removedir(dir):
     """ Remove all subdirectories and files under the specified path.

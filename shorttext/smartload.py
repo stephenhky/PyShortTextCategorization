@@ -1,9 +1,11 @@
 
-from utils import standard_text_preprocessor_1
-import utils.compactmodel_io as cio
-import utils.classification_exceptions as e
-from classifiers import load_gensimtopicmodel, load_autoencoder_topic, load_varnnlibvec_classifier, load_sumword2vec_classifier
-from classifiers import load_autoencoder_topic_sklearnclassifier, load_gensim_topicvec_sklearnclassifier
+from .utils import standard_text_preprocessor_1
+from .utils import compactmodel_io as cio
+from .utils import classification_exceptions as e
+from .classifiers import  load_varnnlibvec_classifier, load_sumword2vec_classifier
+from .generators import load_autoencoder_topicmodel, load_gensimtopicmodel
+from .classifiers import load_autoencoder_topic_sklearnclassifier, load_gensim_topicvec_sklearnclassifier
+
 
 def smartload_compact_model(filename, wvmodel, preprocessor=standard_text_preprocessor_1()):
     """ Load appropriate classifier or model from the binary model.
@@ -23,7 +25,7 @@ def smartload_compact_model(filename, wvmodel, preprocessor=standard_text_prepro
     if classifier_name in ['ldatopic', 'lsitopic', 'rptopic']:
         return load_gensimtopicmodel(filename, preprocessor=preprocessor, compact=True)
     elif classifier_name in ['kerasautoencoder']:
-        return load_autoencoder_topic(filename, preprocessor=preprocessor, compact=True)
+        return load_autoencoder_topicmodel(filename, preprocessor=preprocessor, compact=True)
     elif classifier_name in ['topic_sklearn']:
         topicmodel = cio.get_model_config_field(filename, 'topicmodel')
         if topicmodel in ['ldatopic', 'lsitopic', 'rptopic']:

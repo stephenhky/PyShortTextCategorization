@@ -1,17 +1,18 @@
-Upcoming Changes to `shorttext`
+Upcoming Updates to `shorttext`
 ===============================
 
-Confirmed Changes
+Confirmed Updates
 -----------------
 
-* Bug fixed for `gensim` model I/O;
-* Console scripts update.
-
-Expected Changes
+Expected Updates
 ----------------
 
-* Neural networks up to Keras 2 standard;
 * Implementation of author-topic model;
+* Python 3 compatibility;
 * More neural networks;
 * More available corpus;
-* Generative models.
+* Maximum entropy models;
+* Generative models;
+* Support of seq2seq models;
+* Gradual fading-out dependence on `Theano`, and lesser `keras` but more fundamental `Tensorflow`;
+* Other word-embedding models.

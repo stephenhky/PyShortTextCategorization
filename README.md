@@ -8,6 +8,22 @@ To install it, in a console, use `pip`.
 >>> pip install -U shorttext
 ```
 
+or, if you want the most updated code that is not released on PyPI yet, type
+
+```
+>>> pip install -U git+https://github.com/stephenhky/PyShortTextCategorization@master
+```
+
+Developers are advised to make sure `Keras` >=2 be installed. Users are advised to install the backend `Tensorflow` (preferred) or `Theano` in advance.
+
+See [tutorial](http://pythonhosted.org/shorttext/tutorial.html) for how to use the package.
+
+# Issues
+
+To report any issues, go to the [Issues](https://github.com/stephenhky/PyShortTextCategorization/issues) tab of the Github page and start a thread.
+It is welcome for developers to submit pull requests on their own
+to fix any errors.
+
 # Useful Links
 
 * Documentation : [https://pythonhosted.org/shorttext/](https://pythonhosted.org/shorttext/)
@@ -18,9 +34,16 @@ To install it, in a console, use `pip`.
 
 # News
 
+* 05/16/2017: `shorttext` 0.3.5 released.
+* 04/27/2017: `shorttext` 0.3.4 released.
+* 04/19/2017: `shorttext` 0.3.3 released.
+* 03/28/2017: `shorttext` 0.3.2 released.
 * 03/14/2017: `shorttext` 0.3.1 released.
 * 02/23/2017: `shorttext` 0.2.1 released.
 * 12/21/2016: `shorttext` 0.2.0 released.
 * 11/25/2016: `shorttext` 0.1.2 released.
 * 11/21/2016: `shorttext` 0.1.1 released.
 
+# Possible Future Updates
+
+Refer to [UPCOMING.md](UPCOMING.md).

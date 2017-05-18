@@ -35,7 +35,7 @@ A test of its classification:
 And we train an SVM, with topic vectors as the input vectors. The topic model is LDA with 128 topics.
 
 >>> # train the LDA topic model
->>> lda128 = shorttext.classifiers.GensimTopicModeler()
+>>> lda128 = shorttext.classifiers.LDAModeler()
 >>> lda128.train(subdict, 128)
 >>> # train the SVM classifier
 >>> from sklearn.svm import SVC

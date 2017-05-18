@@ -1,11 +1,10 @@
 import numpy as np
 
-# from ... import kerasmodel_io as kerasio
-# from ... import classification_exceptions as e
-import utils.kerasmodel_io as kerasio
-import utils.classification_exceptions as e
-from utils import tokenize
-import utils.compactmodel_io as cio
+import shorttext.utils.kerasmodel_io as kerasio
+import shorttext.utils.classification_exceptions as e
+from shorttext.utils import tokenize
+import shorttext.utils.compactmodel_io as cio
+
 
 @cio.compactio({'classifier': 'nnlibvec'}, 'nnlibvec', ['_classlabels.txt', '.json', '.h5'])
 class VarNNEmbeddedVecClassifier:
@@ -36,7 +35,7 @@ class VarNNEmbeddedVecClassifier:
     >>> trainclassdict = shorttext.data.subjectkeywords()
     >>>
     >>> # initialize the classifier and train
-    >>> kmodel = shorttext.classifiers.frameworks.CNNWordEmbed(len(classdict.keys()))    # using convolutional neural network model
+    >>> kmodel = shorttext.classifiers.frameworks.CNNWordEmbed(len(trainclassdict.keys()))    # using convolutional neural network model
     >>> classifier = shorttext.classifiers.VarNNEmbeddedVecClassifier(wvmodel)
     >>> classifier.train(trainclassdict, kmodel)
     Epoch 1/10
@@ -132,7 +131,7 @@ class VarNNEmbeddedVecClassifier:
         self.classlabels, train_embedvec, indices = self.convert_trainingdata_matrix(classdict)
 
         # train the model
-        kerasmodel.fit(train_embedvec, indices, nb_epoch=nb_epoch)
+        kerasmodel.fit(train_embedvec, indices, epochs=nb_epoch)
 
         # flag switch
         self.model = kerasmodel

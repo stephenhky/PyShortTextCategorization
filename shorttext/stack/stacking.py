@@ -5,9 +5,9 @@ from keras.layers import Dense, Reshape
 from keras.models import Sequential
 from keras.regularizers import l2
 
-import utils.classification_exceptions as e
-import utils.kerasmodel_io as kerasio
-import utils.compactmodel_io as cio
+import shorttext.utils.classification_exceptions as e
+import shorttext.utils.kerasmodel_io as kerasio
+import shorttext.utils.compactmodel_io as cio
 
 # abstract class
 class StackedGeneralization:
@@ -183,17 +183,19 @@ class LogisticStackedGeneralization(StackedGeneralization):
 
     The classifiers must have the :func:`~score` method that takes a string as an input argument.
     """
-    def train(self, classdict, optimizer='adam', l2reg=0.01, nb_epoch=1000):
+    def train(self, classdict, optimizer='adam', l2reg=0.01, bias_l2reg=0.01, nb_epoch=1000):
         """ Train the stacked generalization.
 
         :param classdict: training data
         :param optimizer: optimizer to use Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: 'adam', for adam optimizer)
         :param l2reg: coefficients for L2-regularization (Default: 0.01)
+        :param bias_l2reg: coefficients for L2-regularization for bias (Default: 0.01)
         :param nb_epoch: number of epochs for training (Default: 1000)
         :return: None
         :type classdict: dict
         :type optimizer: str
         :type l2reg: float
+        :type bias_l2reg: float
         :type nb_epoch: int
         """
         # register
@@ -203,16 +205,18 @@ class LogisticStackedGeneralization(StackedGeneralization):
         kmodel = Sequential()
         kmodel.add(Reshape((len(self.classifier2idx) * len(self.labels2idx),),
                            input_shape=(len(self.classifier2idx), len(self.labels2idx))))
-        kmodel.add(Dense(output_dim=len(classdict),
+        kmodel.add(Dense(units=len(classdict),
                          activation='sigmoid',
-                         W_regularizer=l2(l2reg)))
+                         kernel_regularizer=l2(l2reg),
+                         bias_regularizer=l2(bias_l2reg))
+                   )
         kmodel.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
         Xy = [(xone, yone) for xone, yone in self.convert_traindata_matrix(classdict, tobucket=True)]
         X = np.array(map(lambda item: item[0], Xy))
         y = np.array(map(lambda item: item[1], Xy))
 
-        kmodel.fit(X, y, nb_epoch=nb_epoch)
+        kmodel.fit(X, y, epochs=nb_epoch)
 
         self.model = kmodel
         self.trained = True

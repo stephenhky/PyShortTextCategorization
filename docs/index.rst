@@ -7,13 +7,13 @@ Homepage of `shorttext`
 =======================
 
 This repository is a collection of algorithms for multi-class classification to short texts using Python.
-This package is still *under development*. Modules are backward compatible unless otherwise specified.
-Feel free to give suggestions through the Github_ page.
+Modules are backward compatible unless otherwise specified. Feel free to give suggestions or report
+issues through the Issue_ tab of the Github_ page.
 
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    intro
    install
@@ -26,6 +26,7 @@ Contents:
    news
 
 .. _Github: https://github.com/stephenhky/PyShortTextCategorization
+.. _Issue: https://github.com/stephenhky/PyShortTextCategorization/issues
 
 Indices and tables
 ==================

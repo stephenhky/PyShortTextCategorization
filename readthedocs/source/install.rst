@@ -15,7 +15,7 @@ the most updated (not official) version, you can install from Github_:
 
 ::
 
-    pip install -U git+https://github.com/stephenhky/PyShortTextCategorization
+    pip install -U git+https://github.com/stephenhky/PyShortTextCategorization@master
 
 By adding ``-U`` in the command, it automatically installs the required packages. If not,
 you have to install these packages on your own.
