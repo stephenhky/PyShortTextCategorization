@@ -35,7 +35,7 @@ class VarNNEmbeddedVecClassifier:
     >>> trainclassdict = shorttext.data.subjectkeywords()
     >>>
     >>> # initialize the classifier and train
-    >>> kmodel = shorttext.classifiers.frameworks.CNNWordEmbed(len(classdict.keys()))    # using convolutional neural network model
+    >>> kmodel = shorttext.classifiers.frameworks.CNNWordEmbed(len(trainclassdict.keys()))    # using convolutional neural network model
     >>> classifier = shorttext.classifiers.VarNNEmbeddedVecClassifier(wvmodel)
     >>> classifier.train(trainclassdict, kmodel)
     Epoch 1/10
