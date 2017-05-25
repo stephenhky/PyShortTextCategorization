@@ -7,3 +7,5 @@ from . import compactmodel_io
 
 from .textpreprocessing import spacy_tokenize as tokenize
 from .textpreprocessing import text_preprocessor, standard_text_preprocessor_1
+
+from .deprecation import deprecated

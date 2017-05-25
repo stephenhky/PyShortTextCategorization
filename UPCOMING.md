@@ -4,6 +4,8 @@ Upcoming Updates to `shorttext`
 Confirmed Updates
 -----------------
 
+* Deprecation decorator.
+
 Expected Updates
 ----------------
 
@@ -15,4 +17,5 @@ Expected Updates
 * Generative models;
 * Support of seq2seq models;
 * Gradual fading-out dependence on `Theano`, and lesser `keras` but more fundamental `Tensorflow`;
-* Other word-embedding models.
+* Other word-embedding models;
+* Instant update of topic models.
