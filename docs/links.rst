@@ -11,6 +11,19 @@ Project Codes and Package
 
 .. _PyPI: https://pypi.python.org/pypi/shorttext
 
+Gensim Incubator
+----------------
+
+Chinmaya Pancholi, a student in Indian Institute of Technology, Kharagpur, is supported
+by Google Summer of Code (GSoC) project to support the open-source project for `gensim`.
+Part of his project is to employ the wrapping ideas in `shorttext` to integrate `keras`,
+`scikit-learn` and `gensim`.
+
+Chinmaya's blog post:
+
+* `Google Summer of Code 2017 – Week 1 on Integrating Gensim with scikit-learn and Keras
+  <https://rare-technologies.com/google-summer-of-code-2017-week-1-on-integrating-gensim-with-scikit-learn-and-keras/>`_
+
 Blog Entries
 ------------
 

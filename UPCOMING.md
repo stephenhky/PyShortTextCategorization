@@ -4,7 +4,8 @@ Upcoming Updates to `shorttext`
 Confirmed Updates
 -----------------
 
-* Deprecation decorator.
+* Added deprecation decorator;
+* Fixed path configurations.
 
 Expected Updates
 ----------------
