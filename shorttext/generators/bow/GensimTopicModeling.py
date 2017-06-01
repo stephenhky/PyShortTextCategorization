@@ -8,8 +8,10 @@ from gensim.similarities import MatrixSimilarity
 
 import shorttext.utils.classification_exceptions as e
 import shorttext.utils.compactmodel_io as cio
+from shorttext.utils import gensim_corpora as gc
 from .LatentTopicModeling import LatentTopicModeler
 from shorttext.utils import textpreprocessing as textpreprocess
+from shorttext.utils.textpreprocessing import spacy_tokenize as tokenize
 
 gensim_topic_model_dict = {'lda': LdaModel, 'lsi': LsiModel, 'rp': RpModel}
 
@@ -73,6 +75,26 @@ class GensimTopicModeler(LatentTopicModeler):
 
         # change the flag
         self.trained = True
+
+    # TODO: working on this
+    def update(self, additional_classdict):
+        """ Update the model with additional data.
+        
+        It updates the topic model with additional data.
+        It does not allow adding additional words and class labels.
+        
+        However, if you want a comprehensive model, it is recommended to retrain.
+        
+        :param additional_classdict: additional training data
+        :return: None
+        :type additional_classdict: dict
+        """
+        # cannot use this way, as we want to update the corpus with existing words
+        dictionary, corpus, classlabels = gc.generate_gensim_corpora(additional_classdict,
+                                                                     preprocess_and_tokenize=lambda sent: tokenize(self.preprocessor(sent)))
+        self.topicmodel.update(corpus)
+
+
 
     def retrieve_corpus_topicdist(self, shorttext):
         """ Calculate the topic vector representation of the short text, in the corpus form.

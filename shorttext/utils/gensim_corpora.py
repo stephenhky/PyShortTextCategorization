@@ -46,3 +46,5 @@ def load_corpus(prefix):
     corpus = gensim.corpora.MmCorpus(prefix+'_corpus.mm')
     dictionary = gensim.corpora.Dictionary.load(prefix+'_dictionary.dict')
     return corpus, dictionary
+
+# TODO: write routine that adds data if there is an existing dictionary and corpus
