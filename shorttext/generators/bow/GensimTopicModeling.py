@@ -76,25 +76,29 @@ class GensimTopicModeler(LatentTopicModeler):
         # change the flag
         self.trained = True
 
-    # TODO: working on this
     def update(self, additional_classdict):
         """ Update the model with additional data.
         
         It updates the topic model with additional data.
-        It does not allow adding additional words and class labels.
         
-        However, if you want a comprehensive model, it is recommended to retrain.
+        Warning: It does not allow adding class labels, and new words.
+        The dictionary is not changed. Therefore, such an update will alter the
+        topic model only. It affects the topic vector representation. While the corpus
+        is changed, the words pumped into calculating the similarity matrix is not changed.
+        
+        Therefore, this function means for a fast update.
+        But if you want a comprehensive model, it is recommended to retrain.
         
         :param additional_classdict: additional training data
         :return: None
         :type additional_classdict: dict
         """
         # cannot use this way, as we want to update the corpus with existing words
-        dictionary, corpus, classlabels = gc.generate_gensim_corpora(additional_classdict,
-                                                                     preprocess_and_tokenize=lambda sent: tokenize(self.preprocessor(sent)))
-        self.topicmodel.update(corpus)
-
-
+        self.corpus, newcorpus = gc.update_corpus_labels(self.dictionary,
+                                                         self.corpus,
+                                                         additional_classdict,
+                                                         preprocess_and_tokenize=lambda sent: tokenize(self.preprocessor(sent)))
+        self.topicmodel.update(newcorpus)
 
     def retrieve_corpus_topicdist(self, shorttext):
         """ Calculate the topic vector representation of the short text, in the corpus form.

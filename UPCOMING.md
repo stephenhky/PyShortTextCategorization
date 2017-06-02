@@ -5,7 +5,8 @@ Confirmed Updates
 -----------------
 
 * Added deprecation decorator;
-* Fixed path configurations.
+* Fixed path configurations;
+* Added "update" corpus capability to `gensim` models.
 
 Expected Updates
 ----------------
@@ -18,5 +19,4 @@ Expected Updates
 * Generative models;
 * Support of seq2seq models;
 * Gradual fading-out dependence on `Theano`, and lesser `keras` but more fundamental `Tensorflow`;
-* Other word-embedding models;
-* Instant update of topic models.
+* Other word-embedding models.
