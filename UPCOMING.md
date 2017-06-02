@@ -4,9 +4,6 @@ Upcoming Updates to `shorttext`
 Confirmed Updates
 -----------------
 
-* Added deprecation decorator;
-* Fixed path configurations;
-* Added "update" corpus capability to `gensim` models.
 
 Expected Updates
 ----------------

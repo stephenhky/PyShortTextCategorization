@@ -1,6 +1,9 @@
 News
 ====
 
+* 06/02/2017: `shorttext` 0.3.6 released.
+* 05/30/2017: GSoC project (`Chinmaya Pancholi
+  <https://rare-technologies.com/google-summer-of-code-2017-week-1-on-integrating-gensim-with-scikit-learn-and-keras/>`_ ).
 * 05/16/2017: `shorttext` 0.3.5 released.
 * 04/27/2017: `shorttext` 0.3.4 released.
 * 04/19/2017: `shorttext` 0.3.3 released.
@@ -13,6 +16,21 @@ News
 
 What's New
 ==========
+
+Release 0.3.6 (June 2, 2017)
+----------------------------
+
+* Added deprecation decorator;
+* Fixed path configurations;
+* Added "update" corpus capability to `gensim` models.
+
+Google Summer of Code (May 30, 2017)
+-----------------------------------------
+
+Chinamaya Pancholi, a Google Summer of Code (GSoC) student, is involved in
+the open-source development of `gensim`, that his project will be very related
+to the `shorttext` package. More information can be found in his first `blog entry
+ <https://rare-technologies.com/google-summer-of-code-2017-week-1-on-integrating-gensim-with-scikit-learn-and-keras/>`_ .
 
 Release 0.3.5 (May 16, 2017)
 ----------------------------
