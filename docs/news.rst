@@ -30,7 +30,7 @@ Google Summer of Code (May 30, 2017)
 Chinamaya Pancholi, a Google Summer of Code (GSoC) student, is involved in
 the open-source development of `gensim`, that his project will be very related
 to the `shorttext` package. More information can be found in his first `blog entry
- <https://rare-technologies.com/google-summer-of-code-2017-week-1-on-integrating-gensim-with-scikit-learn-and-keras/>`_ .
+<https://rare-technologies.com/google-summer-of-code-2017-week-1-on-integrating-gensim-with-scikit-learn-and-keras/>`_ .
 
 Release 0.3.5 (May 16, 2017)
 ----------------------------
