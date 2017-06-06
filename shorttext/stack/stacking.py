@@ -60,9 +60,7 @@ class StackedGeneralization:
         :type labels: list
         """
         self.classlabels = list(labels)
-        self.labels2idx = {}
-        for idx, classlabel in enumerate(self.classlabels):
-            self.labels2idx[classlabel] = idx
+        self.labels2idx = {classlabel: idx for idx, classlabel in enumerate(self.classlabels)}
 
     def add_classifier(self, name, classifier):
         """ Add a classifier.
