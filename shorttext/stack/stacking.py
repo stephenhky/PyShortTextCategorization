@@ -239,9 +239,7 @@ class LogisticStackedGeneralization(StackedGeneralization):
         input_matrix = self.translate_shorttext_intfeature_matrix(shorttext)
         prediction = self.model.predict(np.array([input_matrix]))
 
-        scoredict = {}
-        for idx, label in enumerate(self.classlabels):
-            scoredict[label] = prediction[0][idx]
+        scoredict = {label: prediction[0][idx] for idx, label in enumerate(self.classlabels)}
 
         return scoredict
 
