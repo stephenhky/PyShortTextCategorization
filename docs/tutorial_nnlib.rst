@@ -16,7 +16,7 @@ the number of class labels in the training data.
 To perform prediction, the input short sentences is converted to a unit vector
 in the same way. The score is calculated according to the trained neural network model.
 
-Some of the neural networks can be found within the module `shorttext.classifiers.embed.nnlib.frameworks`
+Some of the neural networks can be found within the module :module:`shorttext.classifiers.embed.nnlib.frameworks`
 and they are good for short text or document classification. Of course, users can supply their
 own neural networks, written in `keras`.
 

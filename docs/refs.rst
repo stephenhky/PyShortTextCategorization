@@ -1,6 +1,8 @@
 References
 ==========
 
+Adam L. Berger, Stephen A. Della Pietra, Vincent J. Della Pietra, "A Maximum Entropy Approach to Natural Language Processing," *Computational Linguistics* 22(1): 39-72 (1996).
+
 Christopher Manning, Hinrich Schütze, *Foundations of Statistical Natural Language Processing* (Cambridge, MA: MIT Press, 1999). [`MIT Press
 <https://mitpress.mit.edu/books/foundations-statistical-natural-language-processing>`_]
 
