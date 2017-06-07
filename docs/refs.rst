@@ -36,6 +36,9 @@ Sebastian Ruder, "An overview of gradient descent optimization algorithms," blog
 <http://sebastianruder.com/optimizing-gradient-descent/>`_ or `arXiv
 <https://arxiv.org/abs/1609.04747>`_]
 
+Tal Perry, "Convolutional Methods for Text," *Medium* (2017). [`Medium
+<https://medium.com/@TalPerry/convolutional-methods-for-text-d5260fd5675f>`_]
+
 Thomas W. Jones, "textmineR: Functions for Text Mining and Topic Modeling," CRAN Project. [`CRAN
 <https://cran.r-project.org/web/packages/textmineR/index.html>`_ or `Github
 <https://github.com/TommyJones/textmineR>`_]
