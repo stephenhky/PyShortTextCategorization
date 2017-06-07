@@ -14,7 +14,7 @@ argparser = get_argparser()
 args = argparser.parse_args()
 
 allowed_classifiers = ['ldatopic', 'lsitopic', 'rptopic', 'kerasautoencoder', 'topic_sklearn',
-                       'nnlibvec', 'sumvec']
+                       'nnlibvec', 'sumvec', 'maxent']
 needembedded_classifiers = ['nnlibvec', 'sumvec']
 topicmodels = ['ldatopic', 'lsitopic', 'rptopic', 'kerasautoencoder']
 

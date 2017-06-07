@@ -1,25 +1,32 @@
 
-from scipy.sparse import dok_matrix
+import pickle
 
+from scipy.sparse import dok_matrix
+from gensim.corpora import Dictionary
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.regularizers import l2
 
+import shorttext.utils.kerasmodel_io as kerasio
 from shorttext.utils import tokenize
 from shorttext.utils import gensim_corpora as gc
 from shorttext.utils import classification_exceptions as e
+import shorttext.utils.compactmodel_io as cio
+
 
 def logistic_framework(nb_inputs, nb_outputs, l2reg=0.01, bias_l2reg=0.01, optimizer='adam'):
     kmodel = Sequential()
     kmodel.add(Dense(units=nb_outputs,
                      activation='softmax',
-                     input_shape=(1, nb_inputs),
+                     input_shape=(nb_inputs,),
                      kernel_regularizer=l2(l2reg),
                      bias_regularizer=l2(bias_l2reg))
                )
     kmodel.compile(loss='categorical_crossentropy', optimizer=optimizer)
     return kmodel
 
+
+@cio.compactio({'classifier': 'maxent'}, 'nnlibvec', ['_classlabels.txt', '.json', '.h5', '_labelidx.pkl', '_dictionary.dict'])
 class MaxEntClassifier:
     def __init__(self, preprocessor=lambda s: s.lower()):
         self.preprocessor = preprocessor
@@ -59,7 +66,7 @@ class MaxEntClassifier:
 
         return X, y
 
-    def train(self, classdict, nb_epoch=100, l2reg=0.01, bias_l2reg=0.01, optimizer='adam'):
+    def train(self, classdict, nb_epochs=5000, l2reg=0.01, bias_l2reg=0.01, optimizer='adam'):
         self.dictionary, self.corpus, self.classlabels = gc.generate_gensim_corpora(classdict,
                                                                                     preprocess_and_tokenize=lambda s: tokenize(self.preprocessor(s)))
         self.index_classlabels()
@@ -68,10 +75,57 @@ class MaxEntClassifier:
 
         kmodel = logistic_framework(len(self.dictionary),
                                     len(self.classlabels),
-                                    l2=l2reg,
+                                    l2reg=l2reg,
                                     bias_l2reg=bias_l2reg,
                                     optimizer=optimizer)
-        kmodel.fit(X, y, nb_epoch=nb_epoch)
+        kmodel.fit(X.toarray(), y.toarray(), epochs=nb_epochs)
 
         self.model = kmodel
         self.trained = True
+
+    def savemodel(self, nameprefix):
+        if not self.trained:
+            raise e.ModelNotTrainedException()
+
+        kerasio.save_model(nameprefix, self.model)
+
+        self.dictionary.save(nameprefix+'_dictionary.dict')
+
+        labelfile = open(nameprefix+'_classlabels.txt', 'w')
+        labelfile.write('\n'.join(self.classlabels))
+        labelfile.close()
+
+        pickle.dump(self.labels2idx, open(nameprefix+'_labelidx.pkl', 'w'))
+
+    def loadmodel(self, nameprefix):
+        self.model = kerasio.load_model(nameprefix)
+
+        self.dictionary = Dictionary.load(nameprefix+'_dictionary.dict')
+
+        labelfile = open(nameprefix+'_classlabels.txt', 'r')
+        self.classlabels = labelfile.readlines()
+        labelfile.close()
+        self.classlabels = map(lambda s: s.strip(), self.classlabels)
+
+        self.labels2idx = pickle.load(open(nameprefix+'_labelidx.pkl', 'r'))
+
+        self.trained = True
+
+    def score(self, shorttext):
+        if not self.trained:
+            raise e.ModelNotTrainedException()
+
+        vec = self.shorttext_to_vec(shorttext)
+        predictions = self.model.predict(vec.toarray())
+
+        # wrangle output result
+        scoredict = {classlabel: predictions[0][idx] for idx, classlabel in enumerate(self.classlabels)}
+        return scoredict
+
+def load_maxent_classifier(name, compact=True):
+    classifier = MaxEntClassifier()
+    if compact:
+        classifier.load_compact_model(name)
+    else:
+        classifier.loadmodel(name)
+    return classifier
