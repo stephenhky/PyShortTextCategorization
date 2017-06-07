@@ -198,7 +198,5 @@ class VarNNSumEmbeddedVecClassifier:
         predictions = self.model.predict(embedvec)
 
         # wrangle output result
-        scoredict = {}
-        for idx, classlabel in enumerate(self.classlabels):
-            scoredict[classlabel] = predictions[0][idx]
+        scoredict = {classlabel: predictions[0][idx] for idx, classlabel in enumerate(self.classlabels)}
         return scoredict
