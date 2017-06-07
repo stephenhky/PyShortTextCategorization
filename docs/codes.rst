@@ -74,6 +74,15 @@ Module `shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification`
 .. automodule:: shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification
    :members:
 
+Maximum Entropy Classifiers
+---------------------------
+
+Module `shorttext.classifiers.bow.maxent.MaxEntClassification
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: shorttext.classifiers.bow.maxent.MaxEntClassification
+   :members:
+
 Neural Networks
 ---------------
 

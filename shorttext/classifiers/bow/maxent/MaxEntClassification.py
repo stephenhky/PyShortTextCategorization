@@ -12,13 +12,32 @@ from shorttext.utils import tokenize
 from shorttext.utils import gensim_corpora as gc
 from shorttext.utils import classification_exceptions as e
 import shorttext.utils.compactmodel_io as cio
+from shorttext.utils import deprecated
 
 
-def logistic_framework(nb_inputs, nb_outputs, l2reg=0.01, bias_l2reg=0.01, optimizer='adam'):
+def logistic_framework(nb_features, nb_outputs, l2reg=0.01, bias_l2reg=0.01, optimizer='adam'):
+    """ Construct the neural network of maximum entropy classifier.
+
+    Given the numbers of features and the output labels, return a keras neural network
+     for implementing maximum entropy (multinomial) classifier.
+
+    :param nb_features: number of features
+    :param nb_outputs: number of output labels
+    :param l2reg: L2 regularization coefficient (Default: 0.01)
+    :param bias_l2reg: L2 regularization coefficient for bias (Default: 0.01)
+    :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: adam)
+    :return: keras sequential model for maximum entropy classifier
+    :type nb_features: int
+    :type nb_outputs: int
+    :type l2reg: float
+    :type bias_l2reg: float
+    :type optimizer: str
+    :rtype: keras.model.Sequential
+    """
     kmodel = Sequential()
     kmodel.add(Dense(units=nb_outputs,
                      activation='softmax',
-                     input_shape=(nb_inputs,),
+                     input_shape=(nb_features,),
                      kernel_regularizer=l2(l2reg),
                      bias_regularizer=l2(bias_l2reg))
                )
@@ -26,13 +45,15 @@ def logistic_framework(nb_inputs, nb_outputs, l2reg=0.01, bias_l2reg=0.01, optim
     return kmodel
 
 
-@cio.compactio({'classifier': 'maxent'}, 'nnlibvec', ['_classlabels.txt', '.json', '.h5', '_labelidx.pkl', '_dictionary.dict'])
+@cio.compactio({'classifier': 'maxent'}, 'maxent', ['_classlabels.txt', '.json', '.h5', '_labelidx.pkl', '_dictionary.dict'])
 class MaxEntClassifier:
     def __init__(self, preprocessor=lambda s: s.lower()):
         self.preprocessor = preprocessor
         self.trained = False
 
+    @deprecated
     def shorttext_to_vec(self, shorttext):
+        # too slow, deprecated
         tokens = tokenize(self.preprocessor(shorttext))
 
         vec = dok_matrix((1, len(self.dictionary)))
@@ -41,7 +62,9 @@ class MaxEntClassifier:
 
         return vec[0, :]
 
+    @deprecated
     def gensimcorpus_to_matrix(self, corpus):
+        # not used, deprecated
         matrix = dok_matrix((len(corpus), len(self.dictionary)))
         for docid, doc in enumerate(corpus):
             for tokenid, count in doc:
@@ -60,13 +83,16 @@ class MaxEntClassifier:
         for label in classdict:
             if label in self.labels2idx.keys():
                 for shorttext in classdict[label]:
-                    X[rowid, :] = self.shorttext_to_vec(shorttext)
+                    tokens = tokenize(self.preprocessor(shorttext))
+                    #X[rowid, :] = self.shorttext_to_vec(shorttext)
+                    for token in tokens:
+                        X[rowid, self.dictionary.token2id[token]] += 1.0
                     y[rowid, self.labels2idx[label]] = 1.
                     rowid += 1
 
         return X, y
 
-    def train(self, classdict, nb_epochs=5000, l2reg=0.01, bias_l2reg=0.01, optimizer='adam'):
+    def train(self, classdict, nb_epochs=500, l2reg=0.01, bias_l2reg=0.01, optimizer='adam'):
         self.dictionary, self.corpus, self.classlabels = gc.generate_gensim_corpora(classdict,
                                                                                     preprocess_and_tokenize=lambda s: tokenize(self.preprocessor(s)))
         self.index_classlabels()
