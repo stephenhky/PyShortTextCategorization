@@ -1,6 +1,7 @@
 from keras.layers import Conv1D, MaxPooling1D, Flatten, Dense, Dropout, LSTM
-from keras.models import Sequential
+from keras.models import Sequential, Model
 from keras.regularizers import l2
+from keras.engine import Input
 
 # Codes were changed because of Keras.
 # Keras 1 --> Keras 2: https://github.com/fchollet/keras/wiki/Keras-2.0-release-notes
@@ -62,6 +63,40 @@ def CNNWordEmbed(nb_labels,
                     kernel_regularizer=l2(dense_wl2reg),
                     bias_regularizer=l2(dense_bl2reg))
               )
+    model.compile(loss='categorical_crossentropy', optimizer=optimizer)
+
+    return model
+
+def CNNWord2Vec(nb_labels,
+                 wvmodel,
+                 nb_filters=1200,
+                 n_gram=2,
+                 maxlen=15,
+                 vecsize=300,
+                 cnn_dropout=0.0,
+                 final_activation='softmax',
+                 dense_wl2reg=0.0,
+                 dense_bl2reg=0.0,
+                 optimizer='adam'):
+    embedding_layer = wvmodel.get_embedding_layer()
+    sequence_input = Input(shape=(maxlen,),
+                                           dtype='int32')
+    x = embedding_layer(sequence_input)
+    x = Conv1D(filters=nb_filters,
+                     kernel_size=n_gram,
+                     padding='valid',
+                     activation='relu',
+                     input_shape=(maxlen, vecsize))(x)
+    if cnn_dropout > 0.0:
+        x = Dropout(cnn_dropout)(x)
+    x = MaxPooling1D(pool_size=maxlen - n_gram + 1)(x)
+    x = Flatten()(x)
+    x = Dense(nb_labels,
+                    activation=final_activation,
+                    kernel_regularizer=l2(dense_wl2reg),
+                    bias_regularizer=l2(dense_bl2reg))(x)
+
+    model = Model(sequence_input, x)
     model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
     return model
