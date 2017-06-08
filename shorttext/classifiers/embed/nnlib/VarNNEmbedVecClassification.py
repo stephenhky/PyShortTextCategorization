@@ -67,7 +67,7 @@ class VarNNEmbeddedVecClassifier:
         :param wvmodel: Word2Vec model
         :param vecsize: length of the embedded vectors in the model (Default: 300)
         :param maxlen: maximum number of words in a sentence (Default: 15)
-        :type wvmodel: gensim.models.word2vec.Word2Vec
+        :type wvmodel: gensim.models.keyedvectors.KeyedVectors
         :type vecsize: int
         :type maxlen: int
         """
