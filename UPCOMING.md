@@ -9,6 +9,7 @@ Confirmed Updates
 Expected Updates
 ----------------
 
+* Incorporating new features from `gensim`;
 * Implementation of author-topic model;
 * Python 3 compatibility;
 * More neural networks;
