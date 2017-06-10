@@ -60,7 +60,10 @@ class VarNNSumEmbeddedVecClassifier:
                 embedvec = np.sum(np.array([self.word_to_embedvec(token) for token in spacy_tokenize(shorttext)]),
                                   axis=0)
                 # embedvec = np.reshape(embedvec, embedvec.shape+(1,))
-                embedvec /= np.linalg.norm(embedvec)
+                norm = np.linalg.norm(embedvec)
+                if norm == 0:
+                    continue
+                embedvec /= norm
                 embedvecs.append(embedvec)
                 category_bucket = [0]*len(classlabels)
                 category_bucket[lblidx_dict[classlabel]] = 1
@@ -191,11 +194,10 @@ class VarNNSumEmbeddedVecClassifier:
             raise e.ModelNotTrainedException()
 
         # retrieve vector
-        embedvec = np.array([self.shorttext_to_embedvec(shorttext)])
-        embedvec = np.reshape(embedvec, embedvec.shape+(1,))
+        embedvec = np.array(self.shorttext_to_embedvec(shorttext))
 
         # classification using the neural network
-        predictions = self.model.predict(embedvec)
+        predictions = self.model.predict(np.array([embedvec]))
 
         # wrangle output result
         scoredict = {classlabel: predictions[0][idx] for idx, classlabel in enumerate(self.classlabels)}

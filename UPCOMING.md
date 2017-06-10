@@ -4,7 +4,8 @@ Upcoming Updates to `shorttext`
 Confirmed Updates
 -----------------
 
-* Maximum entropy models.
+* Maximum entropy models;
+* Bug fixed on VarNNSumEmbedVecClassifier.
 
 Expected Updates
 ----------------
