@@ -193,9 +193,8 @@ class VarNNSumEmbeddedVecClassifier:
         if not self.trained:
             raise e.ModelNotTrainedException()
 
-        # retrieve vector
-        embedvec = np.array([self.shorttext_to_embedvec(shorttext)])
-        embedvec = np.reshape(embedvec, embedvec.shape+(1,))
+            # retrieve vector
+        embedvec = np.array(self.shorttext_to_embedvec(shorttext))
 
         # classification using the neural network
         predictions = self.model.predict(np.array([embedvec]))
