@@ -1,6 +1,7 @@
 News
 ====
 
+* 06/12/2017: `shorttext` 0.3.7 released.
 * 06/02/2017: `shorttext` 0.3.6 released.
 * 05/30/2017: GSoC project (`Chinmaya Pancholi
   <https://rare-technologies.com/google-summer-of-code-2017-week-1-on-integrating-gensim-with-scikit-learn-and-keras/>`_ ).
@@ -16,6 +17,11 @@ News
 
 What's New
 ==========
+
+Release 0.3.7 (June 12, 2017)
+-----------------------------
+
+* Bug fixed on VarNNSumEmbedVecClassifier.
 
 Release 0.3.6 (June 2, 2017)
 ----------------------------

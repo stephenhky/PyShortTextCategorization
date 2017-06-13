@@ -5,7 +5,7 @@ def readme():
         return f.read()
 
 setup(name='shorttext',
-      version="0.4.0",
+      version="0.3.7",
       description="Short Text Categorization",
       long_description="Supervised learning algorithms for short text categorization using embedded word vectors such as Word2Vec, or immediate feature vectors using topic models",
       classifiers=[
@@ -28,7 +28,7 @@ setup(name='shorttext',
                 'shorttext.classifiers.embed.sumvec',
                 'shorttext.classifiers.bow',
                 'shorttext.classifiers.bow.topic',
-                'shorttext.classifiers.bow.maxent',
+                # 'shorttext.classifiers.bow.maxent',
                 'shorttext.data',
                 'shorttext.stack',
                 'shorttext.generators',

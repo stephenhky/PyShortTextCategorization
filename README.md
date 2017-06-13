@@ -34,6 +34,7 @@ to fix any errors.
 
 # News
 
+* 06/12/2017: `shorttext` 0.3.7 released.
 * 06/02/2017: `shorttext` 0.3.6 released.
 * 05/30/2017: GSoC project ([Chinmaya Pancholi](https://rare-technologies.com/google-summer-of-code-2017-week-1-on-integrating-gensim-with-scikit-learn-and-keras/), with [gensim](https://radimrehurek.com/gensim/))
 * 05/16/2017: `shorttext` 0.3.5 released.

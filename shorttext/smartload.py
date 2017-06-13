@@ -5,7 +5,7 @@ from .utils import classification_exceptions as e
 from .classifiers import  load_varnnlibvec_classifier, load_sumword2vec_classifier
 from .generators import load_autoencoder_topicmodel, load_gensimtopicmodel
 from .classifiers import load_autoencoder_topic_sklearnclassifier, load_gensim_topicvec_sklearnclassifier
-from .classifiers import load_maxent_classifier
+# from .classifiers import load_maxent_classifier
 
 
 def smartload_compact_model(filename, wvmodel, preprocessor=standard_text_preprocessor_1()):
@@ -39,7 +39,7 @@ def smartload_compact_model(filename, wvmodel, preprocessor=standard_text_prepro
         return load_varnnlibvec_classifier(wvmodel, filename, compact=True)
     elif classifier_name in ['sumvec']:
         return load_sumword2vec_classifier(wvmodel, filename, compact=True)
-    elif classifier_name in ['maxent']:
-        return load_maxent_classifier(filename, compact=True)
+    # elif classifier_name in ['maxent']:
+    #     return load_maxent_classifier(filename, compact=True)
     else:
         raise e.AlgorithmNotExistException(classifier_name)
