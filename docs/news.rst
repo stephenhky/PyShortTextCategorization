@@ -1,6 +1,7 @@
 News
 ====
 
+* 06/16/2017: `shorttext` 0.3.8 released.
 * 06/12/2017: `shorttext` 0.3.7 released.
 * 06/02/2017: `shorttext` 0.3.6 released.
 * 05/30/2017: GSoC project (`Chinmaya Pancholi
