@@ -44,9 +44,20 @@ def DenseWordEmbed(nb_labels,
                         activation=final_activiation,
                         kernel_regularizer=l2(reg_coef)))
     else:
-        for nb_nodes, activation in zip(dense_nb_nodes, dense_actfcn):
-            model.add(Dense(nb_nodes, activation=activation, kernel_regularizer=l2(reg_coef)))
-        model.add(Dense(nb_labels, activation=final_activiation, kernel_regularizer=l2(reg_coef)))
+        model.add(Dense(dense_nb_nodes[0],
+                        input_shape=(vecsize,),
+                        activation=dense_actfcn[0],
+                        kernel_regularizer=l2(reg_coef))
+                  )
+        for nb_nodes, activation in zip(dense_nb_nodes[1:], dense_actfcn[1:]):
+            model.add(Dense(nb_nodes,
+                            activation=activation,
+                            kernel_regularizer=l2(reg_coef))
+                      )
+        model.add(Dense(nb_labels,
+                        activation=final_activiation,
+                        kernel_regularizer=l2(reg_coef))
+                  )
     model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
     return model
