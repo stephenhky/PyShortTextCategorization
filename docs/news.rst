@@ -18,10 +18,16 @@ News
 What's New
 ==========
 
+Release 0.3.8 (June 16, 2017)
+-----------------------------
+
+* Bug fixed on `sumvecframeworks`.
+
+
 Release 0.3.7 (June 12, 2017)
 -----------------------------
 
-* Bug fixed on VarNNSumEmbedVecClassifier.
+* Bug fixed on `VarNNSumEmbedVecClassifier`.
 
 Release 0.3.6 (June 2, 2017)
 ----------------------------
