@@ -1,2 +1,2 @@
-from . import VarNNEmbedVecClassification, VarNNWord2VecClassification
+from . import VarNNEmbedVecClassification
 from . import frameworks

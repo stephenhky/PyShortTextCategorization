@@ -3,7 +3,6 @@ from . import sumvec
 
 from .nnlib import frameworks
 from .nnlib.VarNNEmbedVecClassification import VarNNEmbeddedVecClassifier
-from .nnlib.VarNNWord2VecClassification import VarNNWord2VecClassifier
 from .nnlib.VarNNEmbedVecClassification import load_varnnlibvec_classifier
 from .nnlib.frameworks import CNNWordEmbed, DoubleCNNWordEmbed, CLSTMWordEmbed
 from .sumvec.frameworks import DenseWordEmbed
