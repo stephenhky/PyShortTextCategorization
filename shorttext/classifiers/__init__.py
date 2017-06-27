@@ -16,4 +16,4 @@ from .bow.topic.SkLearnClassification import TopicVectorSkLearnClassifier
 from .bow.topic.SkLearnClassification import train_gensim_topicvec_sklearnclassifier, train_autoencoder_topic_sklearnclassifier
 from .bow.topic.SkLearnClassification import load_gensim_topicvec_sklearnclassifier, load_autoencoder_topic_sklearnclassifier
 
-# from .bow.maxent.MaxEntClassification import MaxEntClassifier, load_maxent_classifier
+from .bow.maxent.MaxEntClassification import MaxEntClassifier, load_maxent_classifier
