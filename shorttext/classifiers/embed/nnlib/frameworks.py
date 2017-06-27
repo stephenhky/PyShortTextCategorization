@@ -1,6 +1,7 @@
 from keras.layers import Conv1D, MaxPooling1D, Flatten, Dense, Dropout, LSTM
-from keras.models import Sequential
+from keras.models import Sequential, Model
 from keras.regularizers import l2
+from keras.engine import Input
 
 # Codes were changed because of Keras.
 # Keras 1 --> Keras 2: https://github.com/fchollet/keras/wiki/Keras-2.0-release-notes
@@ -9,6 +10,7 @@ from keras.regularizers import l2
 # ref: https://gist.github.com/entron/b9bc61a74e7cadeb1fec
 # ref: http://cs231n.github.io/convolutional-networks/
 def CNNWordEmbed(nb_labels,
+                wvmodel=None,
                  nb_filters=1200,
                  n_gram=2,
                  maxlen=15,
@@ -17,7 +19,8 @@ def CNNWordEmbed(nb_labels,
                  final_activation='softmax',
                  dense_wl2reg=0.0,
                  dense_bl2reg=0.0,
-                 optimizer='adam'):
+                 optimizer='adam',
+                 with_gensim=True):
     """ Returns the convolutional neural network (CNN/ConvNet) for word-embedded vectors.
 
     Reference: Yoon Kim, "Convolutional Neural Networks for Sentence Classification,"
@@ -25,6 +28,7 @@ def CNNWordEmbed(nb_labels,
     <https://arxiv.org/abs/1408.5882>`_]
 
     :param nb_labels: number of class labels
+    :param wvmodel: pre-trained Gensim word2vec model
     :param nb_filters: number of filters (Default: 1200)
     :param n_gram: n-gram, or window size of CNN/ConvNet (Default: 2)
     :param maxlen: maximum number of words in a sentence (Default: 15)
@@ -34,7 +38,8 @@ def CNNWordEmbed(nb_labels,
     :param dense_wl2reg: L2 regularization coefficient (Default: 0.0)
     :param dense_bl2reg: L2 regularization coefficient for bias (Default: 0.0)
     :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: adam)
-    :return: keras sequantial model for CNN/ConvNet for Word-Embeddings
+    :param with_gensim: boolean variable to indicate if the word-embeddings being used derived from a Gensim's Word2Vec model. (Default: True)
+    :return: keras model (`Sequential` or`Model`) for CNN/ConvNet for Word-Embeddings
     :type nb_labels: int
     :type nb_filters: int
     :type n_gram: int
@@ -45,24 +50,46 @@ def CNNWordEmbed(nb_labels,
     :type dense_wl2reg: float
     :type dense_bl2reg: float
     :type optimizer: str
-    :rtype: keras.model.Sequential
+    :rtype: keras.models.Sequential or keras.models.Model
     """
-    model = Sequential()
-    model.add(Conv1D(filters=nb_filters,
-                     kernel_size=n_gram,
-                     padding='valid',
-                     activation='relu',
-                     input_shape=(maxlen, vecsize)))
-    if cnn_dropout > 0.0:
-        model.add(Dropout(cnn_dropout))
-    model.add(MaxPooling1D(pool_size=maxlen - n_gram + 1))
-    model.add(Flatten())
-    model.add(Dense(nb_labels,
-                    activation=final_activation,
-                    kernel_regularizer=l2(dense_wl2reg),
-                    bias_regularizer=l2(dense_bl2reg))
-              )
-    model.compile(loss='categorical_crossentropy', optimizer=optimizer)
+    if with_gensim == True:
+        embedding_layer = wvmodel.get_embedding_layer()
+        sequence_input = Input(shape=(maxlen,),
+                                               dtype='int32')
+        x = embedding_layer(sequence_input)
+        x = Conv1D(filters=nb_filters,
+                         kernel_size=n_gram,
+                         padding='valid',
+                         activation='relu',
+                         input_shape=(maxlen, vecsize))(x)
+        if cnn_dropout > 0.0:
+            x = Dropout(cnn_dropout)(x)
+        x = MaxPooling1D(pool_size=maxlen - n_gram + 1)(x)
+        x = Flatten()(x)
+        x = Dense(nb_labels,
+                        activation=final_activation,
+                        kernel_regularizer=l2(dense_wl2reg),
+                        bias_regularizer=l2(dense_bl2reg))(x)
+
+        model = Model(sequence_input, x)
+        model.compile(loss='categorical_crossentropy', optimizer=optimizer)
+    else:
+        model = Sequential()
+        model.add(Conv1D(filters=nb_filters,
+                         kernel_size=n_gram,
+                         padding='valid',
+                         activation='relu',
+                         input_shape=(maxlen, vecsize)))
+        if cnn_dropout > 0.0:
+            model.add(Dropout(cnn_dropout))
+        model.add(MaxPooling1D(pool_size=maxlen - n_gram + 1))
+        model.add(Flatten())
+        model.add(Dense(nb_labels,
+                        activation=final_activation,
+                        kernel_regularizer=l2(dense_wl2reg),
+                        bias_regularizer=l2(dense_bl2reg))
+                  )
+        model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
     return model
 
@@ -207,5 +234,3 @@ def CLSTMWordEmbed(nb_labels,
     model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
     return model
-
-
