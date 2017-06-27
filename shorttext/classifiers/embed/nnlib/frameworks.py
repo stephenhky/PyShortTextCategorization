@@ -10,7 +10,7 @@ from keras.engine import Input
 # ref: https://gist.github.com/entron/b9bc61a74e7cadeb1fec
 # ref: http://cs231n.github.io/convolutional-networks/
 def CNNWordEmbed(nb_labels,
-                wvmodel=None,
+                 wvmodel=None,
                  nb_filters=1200,
                  n_gram=2,
                  maxlen=15,
@@ -54,22 +54,21 @@ def CNNWordEmbed(nb_labels,
     """
     if with_gensim == True:
         embedding_layer = wvmodel.get_embedding_layer()
-        sequence_input = Input(shape=(maxlen,),
-                                               dtype='int32')
+        sequence_input = Input(shape=(maxlen,), dtype='int32')
         x = embedding_layer(sequence_input)
         x = Conv1D(filters=nb_filters,
-                         kernel_size=n_gram,
-                         padding='valid',
-                         activation='relu',
-                         input_shape=(maxlen, vecsize))(x)
+                   kernel_size=n_gram,
+                   padding='valid',
+                   activation='relu',
+                   input_shape=(maxlen, vecsize))(x)
         if cnn_dropout > 0.0:
             x = Dropout(cnn_dropout)(x)
         x = MaxPooling1D(pool_size=maxlen - n_gram + 1)(x)
         x = Flatten()(x)
         x = Dense(nb_labels,
-                        activation=final_activation,
-                        kernel_regularizer=l2(dense_wl2reg),
-                        bias_regularizer=l2(dense_bl2reg))(x)
+                  activation=final_activation,
+                  kernel_regularizer=l2(dense_wl2reg),
+                  bias_regularizer=l2(dense_bl2reg))(x)
 
         model = Model(sequence_input, x)
         model.compile(loss='categorical_crossentropy', optimizer=optimizer)
