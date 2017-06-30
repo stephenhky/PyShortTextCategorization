@@ -1,2 +1,2 @@
 from . import topic
-# from . import maxent
+from . import maxent
