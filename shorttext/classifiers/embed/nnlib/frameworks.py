@@ -20,7 +20,7 @@ def CNNWordEmbed(nb_labels,
                  dense_wl2reg=0.0,
                  dense_bl2reg=0.0,
                  optimizer='adam',
-                 with_gensim=True):
+                 with_gensim=False):
     """ Returns the convolutional neural network (CNN/ConvNet) for word-embedded vectors.
 
     Reference: Yoon Kim, "Convolutional Neural Networks for Sentence Classification,"

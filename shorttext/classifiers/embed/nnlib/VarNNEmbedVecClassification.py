@@ -63,7 +63,7 @@ class VarNNEmbeddedVecClassifier:
     >>> classifier.score('artificial intelligence')
     {'mathematics': 0.57749695, 'physics': 0.33749574, 'theology': 0.085007325}
     """
-    def __init__(self, wvmodel, vecsize=300, maxlen=15, with_gensim=True):
+    def __init__(self, wvmodel, vecsize=300, maxlen=15, with_gensim=False):
         """ Initialize the classifier.
 
         :param wvmodel: Word2Vec model
