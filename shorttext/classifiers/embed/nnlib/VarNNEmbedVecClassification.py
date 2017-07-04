@@ -1,3 +1,7 @@
+
+import json
+import os
+
 import numpy as np
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
@@ -8,7 +12,7 @@ from shorttext.utils import tokenize
 import shorttext.utils.compactmodel_io as cio
 
 
-@cio.compactio({'classifier': 'nnlibvec'}, 'nnlibvec', ['_classlabels.txt', '.json', '.h5'])
+@cio.compactio({'classifier': 'nnlibvec'}, 'nnlibvec', ['_classlabels.txt', '.json', '.h5', '_config.json'])
 class VarNNEmbeddedVecClassifier:
     """
     This is a wrapper for various neural network algorithms
@@ -177,6 +181,7 @@ class VarNNEmbeddedVecClassifier:
         labelfile = open(nameprefix+'_classlabels.txt', 'w')
         labelfile.write('\n'.join(self.classlabels))
         labelfile.close()
+        json.dump({'with_gensim': self.with_gensim}, open(nameprefix+'_config.json', 'w'))
 
     def loadmodel(self, nameprefix):
         """ Load a trained model from files.
@@ -196,6 +201,12 @@ class VarNNEmbeddedVecClassifier:
         self.classlabels = labelfile.readlines()
         labelfile.close()
         self.classlabels = map(lambda s: s.strip(), self.classlabels)
+        # check if _config.json exists.
+        # This file does not exist if the model was created with shorttext<0.4.0
+        if os.path.exists(nameprefix+'_config.json'):
+            self.with_gensim = json.load(open(nameprefix+'_config.json', 'r'))
+        else:
+            self.with_gensim = False
         self.trained = True
 
     def word_to_embedvec(self, word):

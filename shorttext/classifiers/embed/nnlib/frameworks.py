@@ -41,6 +41,7 @@ def CNNWordEmbed(nb_labels,
     :param with_gensim: boolean variable to indicate if the word-embeddings being used derived from a Gensim's Word2Vec model. (Default: True)
     :return: keras model (`Sequential` or`Model`) for CNN/ConvNet for Word-Embeddings
     :type nb_labels: int
+    :type wvmodel: gensim.models.keyedvectors.KeyedVectors
     :type nb_filters: int
     :type n_gram: int
     :type maxlen: int
@@ -50,6 +51,7 @@ def CNNWordEmbed(nb_labels,
     :type dense_wl2reg: float
     :type dense_bl2reg: float
     :type optimizer: str
+    :type with_gensim: bool
     :rtype: keras.models.Sequential or keras.models.Model
     """
     if with_gensim == True:
