@@ -23,4 +23,4 @@ if __name__ == '__main__':
     kerasconfig = json.load(open(kerasconfigfile, 'r'))
     kerasconfig['backend'] = args.backend
     json.dump(kerasconfig, open(kerasconfigfile, 'w'))
-    print 'Keras backend set to ', args.backend
+    print 'Keras backend set to', args.backend
