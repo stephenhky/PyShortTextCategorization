@@ -204,7 +204,7 @@ class VarNNEmbeddedVecClassifier:
         # check if _config.json exists.
         # This file does not exist if the model was created with shorttext<0.4.0
         if os.path.exists(nameprefix+'_config.json'):
-            self.with_gensim = json.load(open(nameprefix+'_config.json', 'r'))
+            self.with_gensim = json.load(open(nameprefix+'_config.json', 'r'))['with_gensim']
         else:
             self.with_gensim = False
         self.trained = True
