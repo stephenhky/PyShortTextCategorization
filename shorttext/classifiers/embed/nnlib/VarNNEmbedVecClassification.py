@@ -166,7 +166,8 @@ class VarNNEmbeddedVecClassifier:
 
         Given the prefix of the file paths, save the model into files, with name given by the prefix.
         There will be three files produced, one name ending with "_classlabels.txt", one name
-        ending with ".json", and one name ending with ".h5".
+        ending with ".json", and one name ending with ".h5". For shorttext>=0.4.0, another file
+        with extension "_config.json" would be created.
 
         If there is no trained model, a `ModelNotTrainedException` will be thrown.
 
@@ -187,7 +188,8 @@ class VarNNEmbeddedVecClassifier:
         """ Load a trained model from files.
 
         Given the prefix of the file paths, load the model from files with name given by the prefix
-        followed by "_classlabels.txt", ".json", and ".h5".
+        followed by "_classlabels.txt", ".json" and ".h5". For shorttext>=0.4.0, a file with
+        extension "_config.json" would also be used.
 
         If this has not been run, or a model was not trained by :func:`~train`,
         a `ModelNotTrainedException` will be raised while performing prediction or saving the model.
@@ -204,7 +206,7 @@ class VarNNEmbeddedVecClassifier:
         # check if _config.json exists.
         # This file does not exist if the model was created with shorttext<0.4.0
         if os.path.exists(nameprefix+'_config.json'):
-            self.with_gensim = json.load(open(nameprefix+'_config.json', 'r'))
+            self.with_gensim = json.load(open(nameprefix+'_config.json', 'r'))['with_gensim']
         else:
             self.with_gensim = False
         self.trained = True
