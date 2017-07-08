@@ -67,11 +67,11 @@ class VarNNEmbeddedVecClassifier:
     >>> classifier.score('artificial intelligence')
     {'mathematics': 0.57749695, 'physics': 0.33749574, 'theology': 0.085007325}
     """
-    def __init__(self, wvmodel, vecsize=300, maxlen=15, with_gensim=False):
+    def __init__(self, wvmodel, vecsize=100, maxlen=15, with_gensim=False):
         """ Initialize the classifier.
 
         :param wvmodel: Word2Vec model
-        :param vecsize: length of the embedded vectors in the model (Default: 300)
+        :param vecsize: length of the embedded vectors in the model (Default: 100)
         :param maxlen: maximum number of words in a sentence (Default: 15)
         :type wvmodel: gensim.models.keyedvectors.KeyedVectors
         :type vecsize: int
