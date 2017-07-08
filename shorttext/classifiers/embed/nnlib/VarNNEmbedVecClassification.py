@@ -106,12 +106,12 @@ class VarNNEmbeddedVecClassifier:
                 category_bucket = [0]*len(classlabels)
                 category_bucket[lblidx_dict[label]] = 1
                 indices.append(category_bucket)
-                if self.with_gensim == True:
+                if self.with_gensim:
                     phrases.append(shorttext)
                 else:
                     phrases.append(tokenize(shorttext))
 
-        if self.with_gensim == True:
+        if self.with_gensim:
             return classlabels, phrases, indices
 
         # store embedded vectors
@@ -272,7 +272,7 @@ class VarNNEmbeddedVecClassifier:
         if not self.trained:
             raise e.ModelNotTrainedException()
 
-        if self.with_gensim == True:
+        if self.with_gensim:
             # tokenize and pad input text
             matrix = self.process_text(shorttext)
         else:
