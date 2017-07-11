@@ -128,6 +128,7 @@ def DoubleCNNWordEmbed(nb_labels,
     :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: adam)
     :return: keras sequantial model for CNN/ConvNet for Word-Embeddings
     :type nb_labels: int
+    :type wvmodel: gensim.models.keyedvectors.KeyedVectors
     :type nb_filters_1: int
     :type nb_filters_2: int
     :type n_gram: int
@@ -234,6 +235,7 @@ def CLSTMWordEmbed(nb_labels,
     :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: adam)
     :return: keras sequantial model for CNN/ConvNet for Word-Embeddings
     :type nb_labels: int
+    :type wvmodel: gensim.models.keyedvectors.KeyedVectors
     :type nb_filters: int
     :type n_gram: int
     :type maxlen: int
