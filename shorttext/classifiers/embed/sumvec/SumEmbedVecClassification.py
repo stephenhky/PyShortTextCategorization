@@ -23,11 +23,11 @@ class SumEmbeddedVecClassifier:
     <https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit>`_.
     """
 
-    def __init__(self, wvmodel, vecsize=300, simfcn=lambda u, v: 1-cosine(u, v)):
+    def __init__(self, wvmodel, vecsize=100, simfcn=lambda u, v: 1-cosine(u, v)):
         """ Initialize the classifier.
 
         :param wvmodel: Word2Vec model
-        :param vecsize: length of the embedded vectors in the model (Default: 300)
+        :param vecsize: length of the embedded vectors in the model (Default: 100)
         :param simfcn: similarity function (Default: cosine similarity)
         :type wvmodel: gensim.models.word2vec.Word2Vec
         :type vecsize: int
