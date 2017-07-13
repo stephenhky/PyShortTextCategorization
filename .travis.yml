@@ -1,0 +1,11 @@
+language: python
+python:
+  - "2.7"
+  # PyPy versions
+  - "pypy"  # PyPy2 2.5.0
+# command to install dependencies
+install:
+  - pip install -U .
+# command to run tests
+script: pytest
+YAML
