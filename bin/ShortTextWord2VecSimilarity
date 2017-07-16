@@ -65,4 +65,4 @@ if __name__ == '__main__':
             end = True
         else:
             sent2 = raw_input('sent2> ')
-            print "Word2Vec Jaccard Score Similarity = ", calculator.jaccardscore_sents(sent1, sent2)
+            print("Word2Vec Jaccard Score Similarity = ", calculator.jaccardscore_sents(sent1, sent2))

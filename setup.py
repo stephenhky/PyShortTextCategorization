@@ -5,14 +5,14 @@ def readme():
         return f.read()
 
 setup(name='shorttext',
-      version="0.4.0",
+      version="0.5.0",
       description="Short Text Categorization",
       long_description="Supervised learning algorithms for short text categorization using embedded word vectors such as Word2Vec, or immediate feature vectors using topic models",
       classifiers=[
           "Topic :: Scientific/Engineering :: Artificial Intelligence",
           "Natural Language :: English",
           "Topic :: Scientific/Engineering :: Mathematics",
-          "Programming Language :: Python :: 2.7",
+          "Programming Language :: Python :: 3.6",
           "License :: OSI Approved :: MIT License",
       ],
       keywords="short text natural language processing text mining",

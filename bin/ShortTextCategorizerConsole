@@ -31,7 +31,7 @@ if __name__ == '__main__':
         raise IOError('Model file '+args.model_filepath+' not found!')
 
     # get the name of the classifier
-    print 'Retrieving classifier name...'
+    print('Retrieving classifier name...')
     classifier_name = shorttext.utils.compactmodel_io.get_model_classifier_name(args.model_filepath)
     if not (classifier_name in allowed_classifiers):
         raise AlgorithmNotExistException(classifier_name)
@@ -43,11 +43,11 @@ if __name__ == '__main__':
         if not os.path.exists(args.wv):
             raise Word2VecModelNotExistException(args.wv)
         # if there, load it
-        print 'Loading word-embedding model...', args.wv
+        print('Loading word-embedding model...', args.wv)
         wvmodel = shorttext.utils.load_word2vec_model(args.wv)
 
     # load the classifier
-    print 'Initializing the classifier...'
+    print('Initializing the classifier...')
     classifier = None
     if classifier_name in topicmodels:
         topicmodel = shorttext.smartload_compact_model(args.model_filepath, wvmodel)
@@ -65,8 +65,8 @@ if __name__ == '__main__':
         if len(shorttext) > 0:
             scoredict = classifier.score(shorttext)
             for label, score in sorted(scoredict.items(), key=lambda s: s[1], reverse=True)[:args.topn]:
-                print label, ' : ', score
+                print(label, ' : ', score)
         else:
             run = False
 
-    print 'Done.'
+    print('Done.')
