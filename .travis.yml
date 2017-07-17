@@ -12,5 +12,6 @@ install:
   - source activate shorttext-test
   - pip install unittest2
   - pip install pytest
+  - pip install tensorflow
   - pip install -U .
 script: python shorttext_tests.py
