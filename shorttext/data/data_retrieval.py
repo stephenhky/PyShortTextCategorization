@@ -1,10 +1,17 @@
 from __future__ import print_function
+from __future__ import division
+from future import standard_library
+standard_library.install_aliases()
+from builtins import zip
+from builtins import map
+from builtins import range
+from past.utils import old_div
 import random
 from collections import defaultdict
 import json
 import os
 import zipfile
-from urllib import urlretrieve
+from urllib.request import urlretrieve
 import sys
 
 import pandas as pd
@@ -174,11 +181,11 @@ def yield_crossvalidation_classdicts(classdict, nb_partitions, shuffle=False):
 
     for label in classdict:
         nb_data = len(classdict[label])
-        partsize = nb_data / nb_partitions
+        partsize = old_div(nb_data, nb_partitions)
         sentences = classdict[label] if not shuffle else random.shuffle(sentences)
         for i in range(nb_partitions):
             crossvaldicts[i][label] += sentences[i * partsize:min(nb_data, (i + 1) * partsize)]
-    crossvaldicts = map(dict, crossvaldicts)
+    crossvaldicts = list(map(dict, crossvaldicts))
 
     for i in range(nb_partitions):
         testdict = crossvaldicts[i]

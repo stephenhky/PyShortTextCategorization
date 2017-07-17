@@ -1,3 +1,4 @@
+from builtins import object
 import pickle
 
 import numpy as np
@@ -10,7 +11,7 @@ import shorttext.utils.kerasmodel_io as kerasio
 import shorttext.utils.compactmodel_io as cio
 
 # abstract class
-class StackedGeneralization:
+class StackedGeneralization(object):
     """
     This is an abstract class for any stacked generalization method. It is an intermediate model
     that takes the results of other classifiers as the input features, and perform another classification.
@@ -198,7 +199,7 @@ class LogisticStackedGeneralization(StackedGeneralization):
         """
         # register
         self.register_classifiers()
-        self.register_classlabels(classdict.keys())
+        self.register_classlabels(list(classdict.keys()))
 
         kmodel = Sequential()
         kmodel.add(Reshape((len(self.classifier2idx) * len(self.labels2idx),),
@@ -211,8 +212,8 @@ class LogisticStackedGeneralization(StackedGeneralization):
         kmodel.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
         Xy = [(xone, yone) for xone, yone in self.convert_traindata_matrix(classdict, tobucket=True)]
-        X = np.array(map(lambda item: item[0], Xy))
-        y = np.array(map(lambda item: item[1], Xy))
+        X = np.array([item[0] for item in Xy])
+        y = np.array([item[1] for item in Xy])
 
         kmodel.fit(X, y, epochs=nb_epoch)
 
@@ -278,7 +279,7 @@ class LogisticStackedGeneralization(StackedGeneralization):
         self.register_classlabels(stackedmodeldict['classlabels'])
         self.classifier2idx = stackedmodeldict['classifiers']
         self.idx2classifier = {}
-        for key, val in self.classifier2idx.items():
+        for key, val in list(self.classifier2idx.items()):
             self.idx2classifier[val] = key
 
         self.model = kerasio.load_model(nameprefix+'_stackedlogistics')

@@ -1,3 +1,6 @@
+from builtins import str
+from builtins import map
+from builtins import object
 import re
 import pickle
 import os
@@ -10,7 +13,7 @@ this_dir, _ = os.path.split(__file__)
 stopwordset = pickle.load(open(os.path.join(this_dir, 'stopwordset.pkl'), 'r'))
 
 # initialize spacy
-class SpaCyNLPHolder:
+class SpaCyNLPHolder(object):
     def __init__(self):
         self.nlp = None
 
@@ -33,8 +36,8 @@ def spacy_tokenize(text):
     :rtype: list
     """
     nlp = spaCyNLPHolder.getNLPInstance()   # lazy loading
-    tokenizer = nlp(unicode(text))
-    return map(str, [token for token in tokenizer])
+    tokenizer = nlp(str(text))
+    return list(map(str, [token for token in tokenizer]))
 
 def preprocess_text(text, pipeline):
     """ Preprocess the text according to the given pipeline.
@@ -89,7 +92,7 @@ def standard_text_preprocessor_1():
     pipeline = [lambda s: re.sub('[^\w\s]', '', s),
                 lambda s: re.sub('[\d]', '', s),
                 lambda s: s.lower(),
-                lambda s: ' '.join(filter(lambda s: not (s in stopwordset), spacy_tokenize(s))),
+                lambda s: ' '.join([s for s in spacy_tokenize(s) if not (s in stopwordset)]),
                 lambda s: ' '.join(map(stem, spacy_tokenize(s)))
                ]
     return text_preprocessor(pipeline)
