@@ -7,7 +7,8 @@ before_install:
   - ./miniconda.sh -b
   - export PATH=/home/travis/miniconda2/bin:$PATH
   - conda update --yes conda
-  - apt-get install libc6
+  - sudo apt-get update
+  - sudo apt-get install libc6
 install:
   - conda create --yes -n shorttext-test python=$TRAVIS_PYTHON_VERSION pip numpy scipy
   - source activate shorttext-test
