@@ -17,6 +17,7 @@ install:
   - source activate shorttext-test
   - pip install unittest2
   - pip install pytest
+  - pip install google-compute-engine
   - pip install tensorflow==1.1.0
   - pip install -U .
 script: python shorttext_tests.py
