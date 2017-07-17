@@ -1,10 +1,20 @@
+import os
 import unittest
+
 import shorttext
+
 
 class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
     def setUp(self):
-		self.w2v_model = shorttext.utils.load_word2vec_model('data/text8_1000000_wordvectors', binary=False)  # load word2vec model
-		self.trainclass_dict = shorttext.data.subjectkeywords()  # load training data    	
+		if not os.path.isfile("test_w2v_model"):
+			os.system("wget https://raw.githubusercontent.com/chinmayapancholi13/shorttext_test_data/master/test_w2v_model")  # download w2v model 
+
+		self.w2v_model = shorttext.utils.load_word2vec_model("test_w2v_model", binary=False)  # load word2vec model
+		self.trainclass_dict = shorttext.data.subjectkeywords()  # load training data
+
+    def tearDown(self):
+		if os.path.isfile("test_w2v_model"):
+			os.remove("test_w2v_model")  # delete downloaded w2v model
 
     def testCNNWordEmbedWithoutGensim(self):
   		# create keras model using `CNNWordEmbed` class
