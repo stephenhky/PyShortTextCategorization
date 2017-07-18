@@ -69,7 +69,7 @@ def subjectkeywords():
     this_dir, _ = os.path.split(__file__)
     return retrieve_csvdata_as_dict(os.path.join(this_dir, 'shorttext_exampledata.csv'))
 
-def inaugual():
+def inaugural():
     """ Return an example dataset, which is the Inaugural Addresses of all Presidents of 
     the United States from George Washington to Barack Obama.
     
