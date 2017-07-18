@@ -39,11 +39,11 @@ Then load the training data
 
 Then we choose a neural network. We choose ConvNet:
 
->>> kmodel = shorttext.classifiers.frameworks.CNNWordEmbed(len(trainclassdict.keys()))
+>>> kmodel = shorttext.classifiers.frameworks.CNNWordEmbed(len(trainclassdict.keys()), vecsize=300)
 
 Initialize the classifier:
 
->>> classifier = shorttext.classifiers.VarNNEmbeddedVecClassifier(wvmodel)
+>>> classifier = shorttext.classifiers.VarNNEmbeddedVecClassifier(wvmodel, vecsize=300)
 
 Then train the classifier:
 
@@ -82,6 +82,14 @@ To load it, enter:
 
 >>> classifier2 = shorttext.classifiers.load_varnnlibvec_classifier(wvmodel, '/path/to/nnlibvec_convnet_subdata.bin')
 
+Putting Word2Vec Model As an Input Keras Layer
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Since release 0.4.0, `shorttext` allows developers to exploit the new features in `gensim`
+to include a word-embedding model as a `keras` layer in defining the `keras` network.
+
+[add demonstration code here]
+
 Provided Neural Networks
 ------------------------
 
@@ -106,6 +114,10 @@ words, then the empty words will be filled with zero vectors.
 
 >>> kmodel = fr.CNNWordEmbed(len(trainclassdict.keys()))
 
+Or if you want to include word-embedding layer, do this: (`shorttext` >= 0.4.0)
+
+[add demonstration code here]
+
 Double ConvNet
 ^^^^^^^^^^^^^^
 
@@ -117,6 +129,10 @@ The parameter `maxlen` defines the maximum length of the sentences. If the sente
 words, then the empty words will be filled with zero vectors.
 
 >>> kmodel = fr.DoubleCNNWordEmbed(len(trainclassdict.keys()))
+
+Or if you want to include word-embedding layer, do this: (`shorttext` >= 0.4.0)
+
+[add demonstration code here]
 
 C-LSTM (Convolutional Long Short-Term Memory)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -135,6 +151,10 @@ The parameter `maxlen` defines the maximum length of the sentences. If the sente
 words, then the empty words will be filled with zero vectors.
 
 >>> kmodel = fr.CLSTMWordEmbed(len(trainclassdict.keys()))
+
+Or if you want to include word-embedding layer, do this: (`shorttext` >= 0.4.0)
+
+[add demonstration code here]
 
 User-Defined Neural Network
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
