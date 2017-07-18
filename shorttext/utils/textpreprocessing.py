@@ -10,7 +10,8 @@ from stemming.porter import stem
 
 # load stop words
 this_dir, _ = os.path.split(__file__)
-stopwordset = pickle.load(open(os.path.join(this_dir, 'stopwordset.pkl'), 'r'))
+from io import open
+stopwordset = pickle.load(open(os.path.join(this_dir, 'stopwordset.pkl'), 'rb')) #PYTHON 3 FIX: 'r' to 'rb'
 
 # initialize spacy
 class SpaCyNLPHolder(object):
