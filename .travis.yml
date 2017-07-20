@@ -20,4 +20,5 @@ install:
   - pip install google-compute-engine
   - pip install tensorflow==1.1.0
   - pip install -U .
-script: python shorttext_tests.py
+script:
+  - python setup.py test
