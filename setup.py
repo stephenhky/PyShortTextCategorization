@@ -37,7 +37,7 @@ setup(name='shorttext',
       package_data={'shorttext': ['data/*.csv', 'utils/*.pkl']},
       setup_requires=['numpy'],
       install_requires=[
-          'numpy', 'scipy', 'scikit-learn', 'keras>=2.0.0', 'gensim>=2.2.0', 'pandas', 'spacy>=1.7.0', 'stemming',
+          'numpy', 'scipy>=0.18.1', 'scikit-learn', 'keras>=2.0.0', 'gensim>=2.2.0', 'pandas', 'spacy>=1.7.0', 'stemming',
       ],
       tests_require=[
           'unittest2', 'keras>=2.0.0', 'gensim>=2.2.0',

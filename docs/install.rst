@@ -33,7 +33,7 @@ Required Packages
 -----------------
 
 - Numpy_ (Numerical Python)
-- SciPy_ (Scientific Python)
+- SciPy_ (Scientific Python, version >= 0.18.1)
 - Scikit-Learn_ (Machine Learning in Python)
 - keras_ (Deep Learning Library for Theano and Tensorflow, version >= 2.0.0)
 - gensim_ (Topic Modeling for Humans, version >= 2.2.0)
