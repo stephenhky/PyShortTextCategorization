@@ -72,17 +72,26 @@ One can convert a text-format GloVe model into a text-format Word2Vec model. Mor
 in the documentation of `gensim`: `Converting GloVe to Word2Vec
 <https://radimrehurek.com/gensim/scripts/glove2word2vec.html>`_
 
+FastText
+--------
+
+FastText is a similar word-embedding model from Facebook.
+
 Links
 -----
 
 - Word2Vec_
 - GloVe_
+- FastText_
 
 Reference
 ---------
 
 Jeffrey Pennington, Richard Socher, Christopher D. Manning, “GloVe: Global Vectors for Word Representation,” *Empirical Methods in Natural Language Processing (EMNLP)*, pp. 1532-1543 (2014). [`PDF
 <http://www.aclweb.org/anthology/D14-1162>`_]
+
+Piotr Bojanowski, Edouard Grave, Armand Joulin, Tomas Mikolov, "Enriching Word Vectors with Subword Information," arXiv:1607.04606 (2016). [`arXiv
+<https://arxiv.org/abs/1607.04606>`_]
 
 Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, “Efficient Estimation of Word Representations in Vector Space,” *ICLR* 2013 (2013). [`arXiv
 <https://arxiv.org/abs/1301.3781>`_]
@@ -103,3 +112,4 @@ Home: :doc:`index`
 
 .. _Word2Vec: https://code.google.com/archive/p/word2vec/
 .. _GloVe: http://nlp.stanford.edu/projects/glove/
+.. _FastText: https://github.com/facebookresearch/fastText

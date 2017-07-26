@@ -1,6 +1,9 @@
 Maximum Entropy (MaxEnt) Classifier
 ===================================
 
+Maxent
+------
+
 Maximum entropy (maxent) classifier has been a popular text classifier, by parameterizing the model
 to achieve maximum categorical entropy, with the constraint that the resulting probability
 on the training data with the model being equal to the real distribution.
@@ -40,3 +43,15 @@ To save the model,
 To load the model to be a classifier, enter:
 
 >>> classifier2 = shorttext.classifiers.load_maxent_classifier('/path/to/filename.bin')
+
+Reference
+---------
+
+Adam L. Berger, Stephen A. Della Pietra, Vincent J. Della Pietra, "A Maximum Entropy Approach to Natural Language Processing," *Computational Linguistics* 22(1): 39-72 (1996).
+
+Daniel E. Russ, Kwan-Yuet Ho, Joanne S. Colt, Karla R. Armenti, Dalsu Baris, Wong-Ho Chow, Faith Davis, Alison Johnson, Mark P. Purdue, Margaret R. Karagas, Kendra Schwartz, Molly Schwenn, Debra T. Silverman, Patricia A. Stewart, Calvin A. Johnson, Melissa C. Friesen, “Computer-based coding of free-text job descriptions to efficiently and reliably incorporate occupational risk factors into large-scale epidemiological studies”, *Occup. Environ. Med.* 73, 417-424 (2016).
+
+Daniel Russ, Kwan-yuet Ho, Melissa Friesen, "It Takes a Village To Solve A Problem in Data Science," Data Science Maryland, presentation at Applied Physics Laboratory (APL), Johns Hopkins University, on June 19, 2017. (2017) [`Slideshare
+<https://www.slideshare.net/DataScienceMD/it-takes-a-village-to-solve-a-problem-in-data-science>`_]
+
+Home: :doc:`index`

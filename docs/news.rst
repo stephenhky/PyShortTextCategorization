@@ -1,6 +1,7 @@
 News
 ====
 
+* 07/26/2017: `shorttext` 0.4.0 released.
 * 06/16/2017: `shorttext` 0.3.8 released.
 * 06/12/2017: `shorttext` 0.3.7 released.
 * 06/02/2017: `shorttext` 0.3.6 released.
@@ -18,6 +19,14 @@ News
 
 What's New
 ==========
+
+Release 0.4.0 (July 26, 2017)
+-----------------------------
+
+* Maximum entropy models;
+* Use of `gensim` Word2Vec `keras` layers;
+* Incorporating new features from `gensim`.
+
 
 Release 0.3.8 (June 16, 2017)
 -----------------------------

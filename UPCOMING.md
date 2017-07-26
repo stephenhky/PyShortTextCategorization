@@ -4,10 +4,6 @@ Upcoming Updates to `shorttext`
 Confirmed Updates
 -----------------
 
-* Maximum entropy models;
-* Use of `gensim` Word2Vec `keras` layers;
-* Incorporating new features from `gensim`.
-
 Expected Updates
 ----------------
 

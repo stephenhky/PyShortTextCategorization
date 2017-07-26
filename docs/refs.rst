@@ -12,6 +12,11 @@ Christopher D. Manning, Prabhakar Raghavan, Hinrich Schütze, *Introduction to I
 Chunting Zhou, Chonglin Sun, Zhiyuan Liu, Francis Lau, "A C-LSTM Neural Network for Text Classification," (arXiv:1511.08630). [`arXiv
 <https://arxiv.org/abs/1511.08630>`_]
 
+Daniel E. Russ, Kwan-Yuet Ho, Joanne S. Colt, Karla R. Armenti, Dalsu Baris, Wong-Ho Chow, Faith Davis, Alison Johnson, Mark P. Purdue, Margaret R. Karagas, Kendra Schwartz, Molly Schwenn, Debra T. Silverman, Patricia A. Stewart, Calvin A. Johnson, Melissa C. Friesen, “Computer-based coding of free-text job descriptions to efficiently and reliably incorporate occupational risk factors into large-scale epidemiological studies”, *Occup. Environ. Med.* 73, 417-424 (2016).
+
+Daniel Russ, Kwan-yuet Ho, Melissa Friesen, "It Takes a Village To Solve A Problem in Data Science," Data Science Maryland, presentation at Applied Physics Laboratory (APL), Johns Hopkins University, on June 19, 2017. (2017) [`Slideshare
+<https://www.slideshare.net/DataScienceMD/it-takes-a-village-to-solve-a-problem-in-data-science>`_]
+
 David H. Wolpert, "Stacked Generalization," *Neural Netw* 5: 241-259 (1992).
 
 David M. Blei, "Probabilistic Topic Models," *Communications of the ACM* 55(4): 77-84 (2012).
@@ -33,6 +38,9 @@ Michael Czerny, "Modern Methods for Sentiment Analysis," *District Data Labs (20
 
 M. Paz Sesmero, Agapito I. Ledezma, Araceli Sanchis, "Generating ensembles of heterogeneous classifiers using Stacked Generalization,"
 *WIREs Data Mining and Knowledge Discovery* 5: 21-34 (2015).
+
+Piotr Bojanowski, Edouard Grave, Armand Joulin, Tomas Mikolov, "Enriching Word Vectors with Subword Information," arXiv:1607.04606 (2016). [`arXiv
+<https://arxiv.org/abs/1607.04606>`_]
 
 Sebastian Ruder, "An overview of gradient descent optimization algorithms," blog of Sebastian Ruder, arXiv:1609.04747 (2016). [`Ruder
 <http://sebastianruder.com/optimizing-gradient-descent/>`_ or `arXiv

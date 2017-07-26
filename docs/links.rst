@@ -19,10 +19,12 @@ by Google Summer of Code (GSoC) project to support the open-source project for `
 Part of his project is to employ the wrapping ideas in `shorttext` to integrate `keras`,
 `scikit-learn` and `gensim`.
 
-Chinmaya's blog post:
+Chinmaya's blog posts: `https://rare-technologies.com/author/chinmaya/
+<https://rare-technologies.com/author/chinmaya/>`_
 
-* `Google Summer of Code 2017 – Week 1 on Integrating Gensim with scikit-learn and Keras
-  <https://rare-technologies.com/google-summer-of-code-2017-week-1-on-integrating-gensim-with-scikit-learn-and-keras/>`_
+Chinmaya's proposal for GSoC: `https://github.com/numfocus/gsoc/blob/master/2017/proposals/Chinmaya_Pancholi.md
+<https://github.com/numfocus/gsoc/blob/master/2017/proposals/Chinmaya_Pancholi.md>`_
+
 
 Blog Entries
 ------------
@@ -43,6 +45,9 @@ Blog Entries
 
 "Word-Embedding Algorithms," *Everything About Data Analytics*, WordPress (2016). [`WordPress
 <https://datawarrior.wordpress.com/2016/05/15/word-embedding-algorithms/>`_]
+
+"Python Package for Short Text Mining," *Everything About Data Analytics*, WordPress (2016). [`WordPress
+<https://datawarrior.wordpress.com/2016/12/22/python-package-for-short-text-mining/>`_]
 
 
 Home: :doc:`index`

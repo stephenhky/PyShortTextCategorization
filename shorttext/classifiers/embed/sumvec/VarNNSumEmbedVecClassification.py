@@ -42,7 +42,7 @@ class VarNNSumEmbeddedVecClassifier:
     def convert_traindata_embedvecs(self, classdict):
         """ Convert the training text data into embedded matrix.
 
-        COnvert the training text data into embedded matrix, where each short sentence
+        Convert the training text data into embedded matrix, where each short sentence
         is a normalized summed embedded vectors for all words.
 
         :param classdict: training data

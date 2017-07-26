@@ -15,12 +15,14 @@ Characteristics:
 - pre-trained word-embedding support; (see :doc:`tutorial_wordembed`)
 - `gensim` topic models (LDA, LSI, Random Projections) and autoencoder; (see :doc:`tutorial_topic`)
 - topic model representation supported for supervised learning using `scikit-learn`; (see :doc:`tutorial_topic`)
-- cosine distance classification; (see :doc:`tutorial_topic`, :doc:`tutorial_umvec`) and
-- neural network classification (including ConvNet, and C-LSTM). (see :doc:`tutorial_nnlib`)
+- cosine distance classification; (see :doc:`tutorial_topic`, :doc:`tutorial_umvec`)
+- neural network classification (including ConvNet, and C-LSTM); (see :doc:`tutorial_nnlib`) and
+- maximum entropy classification. (see :doc:`tutorial_maxent`)
 
-Author: Kwan-Yuet Ho (LinkedIn_, ResearchGate_)
+Author: Kwan-Yuet Ho (LinkedIn_, ResearchGate_, Twitter_)
 
 Home: :doc:`index`
 
 .. _LinkedIn: https://www.linkedin.com/in/kwan-yuet-ho-19882530
 .. _ResearchGate: https://www.researchgate.net/profile/Kwan-yuet_Ho
+.. _Twitter: https://twitter.com/stephenhky
