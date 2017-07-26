@@ -34,6 +34,7 @@ to fix any errors.
 
 # News
 
+* 07/26/2017: `shorttext` 0.4.0 released.
 * 06/16/2017: `shorttext` 0.3.8 released.
 * 06/12/2017: `shorttext` 0.3.7 released.
 * 06/02/2017: `shorttext` 0.3.6 released.
