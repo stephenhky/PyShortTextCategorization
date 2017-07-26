@@ -28,9 +28,9 @@ class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
 		score_vals = main_classifier.score('artificial intelligence')
 		self.assertTrue(score_vals['mathematics']>0.0 and score_vals['physics']>0.0 and score_vals['theology']>0.0)
 
-    def testDoubleCNNWordEmbedWithGensim(self):
-  		# create keras model using `DoubleCNNWordEmbed` class
-  		keras_model = shorttext.classifiers.frameworks.DoubleCNNWordEmbed(wvmodel=self.w2v_model, nb_labels=len(self.trainclass_dict.keys()), vecsize=100, with_gensim=True)
+    def testCNNWordEmbedWithGensim(self):
+		# create keras model using `CNNWordEmbed` class
+		keras_model = shorttext.classifiers.frameworks.CNNWordEmbed(wvmodel=self.w2v_model, nb_labels=len(self.trainclass_dict.keys()), vecsize=100, with_gensim=True)
 
     	# create and train classifier using keras model constructed above
 		main_classifier = shorttext.classifiers.VarNNEmbeddedVecClassifier(self.w2v_model, with_gensim=True, vecsize=100)
@@ -52,9 +52,9 @@ class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
 		score_vals = main_classifier.score('artificial intelligence')
 		self.assertTrue(score_vals['mathematics']>0.0 and score_vals['physics']>0.0 and score_vals['theology']>0.0)
 
-    def testCNNWordEmbedWithGensim(self):
-  		# create keras model using `CNNWordEmbed` class
-  		keras_model = shorttext.classifiers.frameworks.CNNWordEmbed(wvmodel=self.w2v_model, nb_labels=len(self.trainclass_dict.keys()), vecsize=100, with_gensim=True)
+    def testDoubleCNNWordEmbedWithGensim(self):
+		# create keras model using `DoubleCNNWordEmbed` class
+		keras_model = shorttext.classifiers.frameworks.DoubleCNNWordEmbed(wvmodel=self.w2v_model, nb_labels=len(self.trainclass_dict.keys()), vecsize=100, with_gensim=True)
 
     	# create and train classifier using keras model constructed above
 		main_classifier = shorttext.classifiers.VarNNEmbeddedVecClassifier(self.w2v_model, with_gensim=True, vecsize=100)

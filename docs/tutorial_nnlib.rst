@@ -87,8 +87,52 @@ Putting Word2Vec Model As an Input Keras Layer
 
 Since release 0.4.0, `shorttext` allows developers to exploit the new features in `gensim`
 to include a word-embedding model as a `keras` layer in defining the `keras` network.
+This can be done by setting the `with_gensim` argument to `True` while creating your models as follows.
 
-[add demonstration code here]
+To load the Word2Vec model,
+
+>>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/gensim/w2vmodel')
+
+Then load the training data
+
+>>> trainclassdict = shorttext.data.subjectkeywords()
+
+Then we choose a neural network. We choose ConvNet and set `with_gensim` as `True`:
+
+>>> keras_model = shorttext.classifiers.frameworks.CNNWordEmbed(wvmodel=wvmodel, nb_labels=len(trainclassdict.keys()), vecsize=100, with_gensim=True)
+
+Initialize the classifier and set `with_gensim` as `True`:
+
+>>> classifier = shorttext.classifiers.VarNNEmbeddedVecClassifier(wvmodel, with_gensim=True, vecsize=100)
+
+Then train the classifier:
+
+>>> classifier.train(trainclassdict, kmodel)
+Epoch 1/10
+45/45 [==============================] - 0s - loss: 1.3947
+Epoch 2/10
+45/45 [==============================] - 0s - loss: 1.1783
+Epoch 3/10
+45/45 [==============================] - 0s - loss: 1.3061
+Epoch 4/10
+45/45 [==============================] - 0s - loss: 1.0365
+Epoch 5/10
+45/45 [==============================] - 0s - loss: 0.9559
+Epoch 6/10
+45/45 [==============================] - 0s - loss: 1.0104
+Epoch 7/10
+45/45 [==============================] - 0s - loss: 0.7878
+Epoch 8/10
+45/45 [==============================] - 0s - loss: 0.8632
+Epoch 9/10
+45/45 [==============================] - 0s - loss: 0.7900
+Epoch 10/10
+45/45 [==============================] - 0s - loss: 0.7726
+
+Then the model is ready for classification, like:
+
+>>> classifier.score('artificial intelligence')
+{'mathematics': 0.22767314, 'physics': 0.14130114, 'theology': 0.63102573}
 
 Provided Neural Networks
 ------------------------
@@ -116,7 +160,8 @@ words, then the empty words will be filled with zero vectors.
 
 Or if you want to include word-embedding layer, do this: (`shorttext` >= 0.4.0)
 
-[add demonstration code here]
+>>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/gensim/w2vmodel')
+>>> kmodel = fr.CNNWordEmbed(wvmodel=wvmodel, nb_labels=len(trainclassdict.keys()), vecsize=100, with_gensim=True)
 
 Double ConvNet
 ^^^^^^^^^^^^^^
@@ -132,7 +177,8 @@ words, then the empty words will be filled with zero vectors.
 
 Or if you want to include word-embedding layer, do this: (`shorttext` >= 0.4.0)
 
-[add demonstration code here]
+>>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/gensim/w2vmodel')
+>>> kmodel = fr.DoubleCNNWordEmbed(wvmodel=wvmodel, nb_labels=len(trainclassdict.keys()), vecsize=100, with_gensim=True)
 
 C-LSTM (Convolutional Long Short-Term Memory)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -154,7 +200,8 @@ words, then the empty words will be filled with zero vectors.
 
 Or if you want to include word-embedding layer, do this: (`shorttext` >= 0.4.0)
 
-[add demonstration code here]
+>>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/gensim/w2vmodel')
+>>> kmodel = fr.CLSTMWordEmbed(wvmodel=wvmodel, nb_labels=len(trainclassdict.keys()), vecsize=100, with_gensim=True)
 
 User-Defined Neural Network
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
