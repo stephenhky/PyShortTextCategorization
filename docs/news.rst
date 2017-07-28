@@ -1,6 +1,7 @@
 News
 ====
 
+* 07/28/2017: `shorttext` 0.4.1 released.
 * 07/26/2017: `shorttext` 0.4.0 released.
 * 06/16/2017: `shorttext` 0.3.8 released.
 * 06/12/2017: `shorttext` 0.3.7 released.
@@ -19,6 +20,14 @@ News
 
 What's New
 ==========
+
+Release 0.4.1 (July 28, 2017)
+-----------------------------
+
+* Further Travis.CI update tests;
+* Model file I/O updated (for huge models);
+* Migrating documentation to [readthedocs.org](readthedocs.org); previous documentation at `Pythonhosted.org` destroyed.
+
 
 Release 0.4.0 (July 26, 2017)
 -----------------------------

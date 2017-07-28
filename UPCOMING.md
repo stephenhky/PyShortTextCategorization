@@ -4,9 +4,6 @@ Upcoming Updates to `shorttext`
 Confirmed Updates
 -----------------
 
-* Further Travis.CI update tests;
-* Model file I/O updated;
-* Migrating documentation to [readthedocs.org](readthedocs.org).
 
 Expected Updates
 ----------------

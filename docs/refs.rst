@@ -1,7 +1,11 @@
 References
 ==========
 
-Adam L. Berger, Stephen A. Della Pietra, Vincent J. Della Pietra, "A Maximum Entropy Approach to Natural Language Processing," *Computational Linguistics* 22(1): 39-72 (1996).
+Adam L. Berger, Stephen A. Della Pietra, Vincent J. Della Pietra, "A Maximum Entropy Approach to Natural Language Processing," *Computational Linguistics* 22(1): 39-72 (1996). [`ACM
+<http://dl.acm.org/citation.cfm?id=234289>`_]
+
+Chinmaya Pancholi, "Gensim integration with scikit-learn and Keras," *Google Summer of Codes* (GSoC) proposal (2017). [`Github
+<https://github.com/numfocus/gsoc/blob/master/2017/proposals/Chinmaya_Pancholi.md>`_]
 
 Christopher Manning, Hinrich Schütze, *Foundations of Statistical Natural Language Processing* (Cambridge, MA: MIT Press, 1999). [`MIT Press
 <https://mitpress.mit.edu/books/foundations-statistical-natural-language-processing>`_]
@@ -12,14 +16,16 @@ Christopher D. Manning, Prabhakar Raghavan, Hinrich Schütze, *Introduction to I
 Chunting Zhou, Chonglin Sun, Zhiyuan Liu, Francis Lau, "A C-LSTM Neural Network for Text Classification," (arXiv:1511.08630). [`arXiv
 <https://arxiv.org/abs/1511.08630>`_]
 
-Daniel E. Russ, Kwan-Yuet Ho, Joanne S. Colt, Karla R. Armenti, Dalsu Baris, Wong-Ho Chow, Faith Davis, Alison Johnson, Mark P. Purdue, Margaret R. Karagas, Kendra Schwartz, Molly Schwenn, Debra T. Silverman, Patricia A. Stewart, Calvin A. Johnson, Melissa C. Friesen, “Computer-based coding of free-text job descriptions to efficiently and reliably incorporate occupational risk factors into large-scale epidemiological studies”, *Occup. Environ. Med.* 73, 417-424 (2016).
+Daniel E. Russ, Kwan-Yuet Ho, Joanne S. Colt, Karla R. Armenti, Dalsu Baris, Wong-Ho Chow, Faith Davis, Alison Johnson, Mark P. Purdue, Margaret R. Karagas, Kendra Schwartz, Molly Schwenn, Debra T. Silverman, Patricia A. Stewart, Calvin A. Johnson, Melissa C. Friesen, “Computer-based coding of free-text job descriptions to efficiently and reliably incorporate occupational risk factors into large-scale epidemiological studies”, *Occup. Environ. Med.* 73, 417-424 (2016). [`BMJ
+<http://oem.bmj.com/content/73/6/417.long>`_]
 
 Daniel Russ, Kwan-yuet Ho, Melissa Friesen, "It Takes a Village To Solve A Problem in Data Science," Data Science Maryland, presentation at Applied Physics Laboratory (APL), Johns Hopkins University, on June 19, 2017. (2017) [`Slideshare
 <https://www.slideshare.net/DataScienceMD/it-takes-a-village-to-solve-a-problem-in-data-science>`_]
 
 David H. Wolpert, "Stacked Generalization," *Neural Netw* 5: 241-259 (1992).
 
-David M. Blei, "Probabilistic Topic Models," *Communications of the ACM* 55(4): 77-84 (2012).
+David M. Blei, "Probabilistic Topic Models," *Communications of the ACM* 55(4): 77-84 (2012). [`ACM
+<http://dl.acm.org/citation.cfm?id=2133826>`_]
 
 Francois Chollet, "Building Autoencoders in Keras," *The Keras Blog*. [`Keras
 <https://blog.keras.io/building-autoencoders-in-keras.html>`_]
