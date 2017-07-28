@@ -18,7 +18,6 @@ Contents:
    intro
    install
    tutorial
-   codes
    scripts
    faq
    refs
