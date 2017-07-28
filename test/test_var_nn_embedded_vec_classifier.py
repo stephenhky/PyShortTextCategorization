@@ -26,7 +26,7 @@ class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
 
 		# compute classification score
 		score_vals = main_classifier.score('artificial intelligence')
-		self.assertTrue(score_vals['mathematics']>0.0 and score_vals['physics']>0.0 and score_vals['theology']>0.0)
+		self.assertAlmostEqual(score_vals['mathematics'] + score_vals['physics'] + score_vals['theology'], 1.0, 1)
 
     def testCNNWordEmbedWithGensim(self):
 		# create keras model using `CNNWordEmbed` class
@@ -38,7 +38,7 @@ class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
 
 		# compute classification score
 		score_vals = main_classifier.score('artificial intelligence')
-		self.assertTrue(score_vals['mathematics']>0.0 and score_vals['physics']>0.0 and score_vals['theology']>0.0)
+		self.assertAlmostEqual(score_vals['mathematics'] + score_vals['physics'] + score_vals['theology'], 1.0, 1)
 
     def testDoubleCNNWordEmbedWithoutGensim(self):
   		# create keras model using `DoubleCNNWordEmbed` class
@@ -50,7 +50,7 @@ class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
 
 		# compute classification score
 		score_vals = main_classifier.score('artificial intelligence')
-		self.assertTrue(score_vals['mathematics']>0.0 and score_vals['physics']>0.0 and score_vals['theology']>0.0)
+		self.assertAlmostEqual(score_vals['mathematics'] + score_vals['physics'] + score_vals['theology'], 1.0, 1)
 
     def testDoubleCNNWordEmbedWithGensim(self):
 		# create keras model using `DoubleCNNWordEmbed` class
@@ -62,7 +62,7 @@ class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
 
 		# compute classification score
 		score_vals = main_classifier.score('artificial intelligence')
-		self.assertTrue(score_vals['mathematics']>0.0 and score_vals['physics']>0.0 and score_vals['theology']>0.0)
+		self.assertAlmostEqual(score_vals['mathematics'] + score_vals['physics'] + score_vals['theology'], 1.0, 1)
 
     def testCLSTMWordEmbedWithoutGensim(self):
   		# create keras model using `CLSTMWordEmbed` class
@@ -74,7 +74,7 @@ class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
 
 		# compute classification score
 		score_vals = main_classifier.score('artificial intelligence')
-		self.assertTrue(score_vals['mathematics']>0.0 and score_vals['physics']>0.0 and score_vals['theology']>0.0)
+		self.assertAlmostEqual(score_vals['mathematics'] + score_vals['physics'] + score_vals['theology'], 1.0, 1)
 
     def testCLSTMWordEmbedWithGensim(self):
   		# create keras model using `CLSTMWordEmbed` class
@@ -86,7 +86,7 @@ class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
 
 		# compute classification score
 		score_vals = main_classifier.score('artificial intelligence')
-		self.assertTrue(score_vals['mathematics']>0.0 and score_vals['physics']>0.0 and score_vals['theology']>0.0)
+		self.assertAlmostEqual(score_vals['mathematics'] + score_vals['physics'] + score_vals['theology'], 1.0, 1)
 
 if __name__ == '__main__':
     unittest.main()
