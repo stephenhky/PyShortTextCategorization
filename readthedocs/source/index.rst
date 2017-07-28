@@ -17,17 +17,16 @@ Contents:
 
    install
    doclink
+   codes
 
 Links:
 
 - Github_ : repository of the package
-- PythonHosted_ : documentation and tutorial of the package
 - PyPI_ : PyPI
 
 
 .. _Github: https://github.com/stephenhky/PyShortTextCategorization
-.. _PythonHosted: http://pythonhosted.org/shorttext/
-.. _PyPI: https://pypi.python.org/pypi/shorttext
+.. _PyPI: https://pypi.org/project/shorttext/
 
 Indices and tables
 ==================

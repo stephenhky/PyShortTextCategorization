@@ -9,7 +9,7 @@ Project Codes and Package
 
 .. _Github: https://github.com/stephenhky/PyShortTextCategorization
 
-.. _PyPI: https://pypi.python.org/pypi/shorttext
+.. _PyPI: https://pypi.org/project/shorttext/
 
 Gensim Incubator
 ----------------

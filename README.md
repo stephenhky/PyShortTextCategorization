@@ -16,7 +16,7 @@ or, if you want the most updated code that is not released on PyPI yet, type
 
 Developers are advised to make sure `Keras` >=2 be installed. Users are advised to install the backend `Tensorflow` (preferred) or `Theano` in advance.
 
-See [tutorial]() for how to use the package.
+See [tutorial](http://shorttext.readthedocs.io/en/latest/tutorial.html) for how to use the package.
 
 # Issues
 
@@ -26,9 +26,9 @@ to fix any errors.
 
 # Useful Links
 
-* Documentation : Pending
+* Documentation: [http://shorttext.readthedocs.io](http://shorttext.readthedocs.io/)
 * Github: [https://github.com/stephenhky/PyShortTextCategorization](https://github.com/stephenhky/PyShortTextCategorization)
-* PyPI: [https://pypi.python.org/pypi/shorttext](https://pypi.python.org/pypi/shorttext)
+* PyPI: [https://pypi.org/project/shorttext/](https://pypi.org/project/shorttext/)
 * "Python Package for Short Text Mining", [WordPress](https://datawarrior.wordpress.com/2016/12/22/python-package-for-short-text-mining/)
 * An [earlier version](https://github.com/stephenhky/PyShortTextCategorization/tree/b298d3ce7d06a9b4e0f7d32f27bab66064ba7afa) of this repository is a demonstration of the following blog post: [Short Text Categorization using Deep Neural Networks and Word-Embedding Models](https://datawarrior.wordpress.com/2016/10/12/short-text-categorization-using-deep-neural-networks-and-word-embedding-models/)
 
