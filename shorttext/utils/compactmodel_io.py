@@ -49,7 +49,7 @@ def save_compact_model(filename, savefunc, prefix, suffices, infodict):
     savefunc(tempdir+'/'+prefix)
 
     # zipping
-    outputfile = zipfile.ZipFile(filename, mode='w')
+    outputfile = zipfile.ZipFile(filename, mode='w', allowZip64 = True)
     for suffix in suffices:
         outputfile.write(tempdir+'/'+prefix+suffix, prefix+suffix)
     outputfile.writestr('modelconfig.json', json.dumps(infodict))
