@@ -16,7 +16,7 @@ or, if you want the most updated code that is not released on PyPI yet, type
 
 Developers are advised to make sure `Keras` >=2 be installed. Users are advised to install the backend `Tensorflow` (preferred) or `Theano` in advance.
 
-See [tutorial](http://pythonhosted.org/shorttext/tutorial.html) for how to use the package.
+See [tutorial]() for how to use the package.
 
 # Issues
 
@@ -26,7 +26,7 @@ to fix any errors.
 
 # Useful Links
 
-* Documentation : [https://pythonhosted.org/shorttext/](https://pythonhosted.org/shorttext/)
+* Documentation : Pending
 * Github: [https://github.com/stephenhky/PyShortTextCategorization](https://github.com/stephenhky/PyShortTextCategorization)
 * PyPI: [https://pypi.python.org/pypi/shorttext](https://pypi.python.org/pypi/shorttext)
 * "Python Package for Short Text Mining", [WordPress](https://datawarrior.wordpress.com/2016/12/22/python-package-for-short-text-mining/)

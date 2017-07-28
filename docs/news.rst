@@ -25,14 +25,13 @@ Release 0.4.0 (July 26, 2017)
 
 * Maximum entropy models;
 * Use of `gensim` Word2Vec `keras` layers;
-* Incorporating new features from `gensim`.
-
+* Incorporating new features from `gensim`;
+* Use of Travis.CI for pull request testing.
 
 Release 0.3.8 (June 16, 2017)
 -----------------------------
 
 * Bug fixed on `sumvecframeworks`.
-
 
 Release 0.3.7 (June 12, 2017)
 -----------------------------

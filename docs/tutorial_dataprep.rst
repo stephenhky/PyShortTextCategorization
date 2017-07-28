@@ -55,7 +55,7 @@ randomly drawn from the original data.
 
 However, there are other configurations:
 
-*nihreports*(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512)
+nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512)
     Return an example data set, sampled from NIH RePORT (Research Portfolio
     Online Reporting Tools).
 

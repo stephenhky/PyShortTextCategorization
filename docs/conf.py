@@ -21,16 +21,6 @@ import os
 sys.path.append(os.path.abspath('.'))
 sys.path.append(os.path.abspath('..'))
 sys.path.append(os.path.abspath('../shorttext'))
-# sys.path.append(os.path.abspath('../shorttext/data'))
-# sys.path.append(os.path.abspath('../shorttext/utils'))
-# sys.path.append(os.path.abspath('../shorttext/classifiers'))
-# sys.path.append(os.path.abspath('../shorttext/classifiers/embed'))
-# sys.path.append(os.path.abspath('../shorttext/classifiers/embed/autoencode'))
-# sys.path.append(os.path.abspath('../shorttext/classifiers/embed/sumvec'))
-# sys.path.append(os.path.abspath('../shorttext/classifiers/embed/nnlib'))
-# sys.path.append(os.path.abspath('../shorttext/classifiers/bow'))
-# sys.path.append(os.path.abspath('../shorttext/classifiers/bow/topic'))
-# sys.path.append(os.path.abspath('../bin'))
 
 # -- General configuration ------------------------------------------------
 
