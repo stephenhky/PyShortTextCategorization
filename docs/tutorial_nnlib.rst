@@ -99,7 +99,7 @@ Then load the training data
 
 Then we choose a neural network. We choose ConvNet and set `with_gensim` as `True`:
 
->>> keras_model = shorttext.classifiers.frameworks.CNNWordEmbed(wvmodel=wvmodel, nb_labels=len(trainclassdict.keys()), vecsize=100, with_gensim=True)
+>>> kmodel = shorttext.classifiers.frameworks.CNNWordEmbed(wvmodel=wvmodel, nb_labels=len(trainclassdict.keys()), vecsize=100, with_gensim=True)
 
 Initialize the classifier and set `with_gensim` as `True`:
 
