@@ -49,5 +49,7 @@ Blog Entries
 "Python Package for Short Text Mining," *Everything About Data Analytics*, WordPress (2016). [`WordPress
 <https://datawarrior.wordpress.com/2016/12/22/python-package-for-short-text-mining/>`_]
 
+"Short Text Mining using Advanced Keras Layers and Maxent: shorttext 0.4.1," *Everything About Data Analytics*, WordPress (2017). [`WordPress
+<https://datawarrior.wordpress.com/2017/07/30/short-text-mining-using-advanced-keras-layers-and-maxent-shorttext-0-4-1/>`_]
 
 Home: :doc:`index`

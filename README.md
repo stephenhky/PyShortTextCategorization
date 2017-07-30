@@ -29,6 +29,7 @@ to fix any errors.
 * Documentation: [http://shorttext.readthedocs.io](http://shorttext.readthedocs.io/)
 * Github: [https://github.com/stephenhky/PyShortTextCategorization](https://github.com/stephenhky/PyShortTextCategorization)
 * PyPI: [https://pypi.org/project/shorttext/](https://pypi.org/project/shorttext/)
+* "Short Text Mining using Advanced Keras Layers and Maxent: shorttext 0.4.1," [WordPress](https://datawarrior.wordpress.com/2017/07/30/short-text-mining-using-advanced-keras-layers-and-maxent-shorttext-0-4-1/)
 * "Python Package for Short Text Mining", [WordPress](https://datawarrior.wordpress.com/2016/12/22/python-package-for-short-text-mining/)
 * An [earlier version](https://github.com/stephenhky/PyShortTextCategorization/tree/b298d3ce7d06a9b4e0f7d32f27bab66064ba7afa) of this repository is a demonstration of the following blog post: [Short Text Categorization using Deep Neural Networks and Word-Embedding Models](https://datawarrior.wordpress.com/2016/10/12/short-text-categorization-using-deep-neural-networks-and-word-embedding-models/)
 
