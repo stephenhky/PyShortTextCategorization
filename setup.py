@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, Extension
 
 def readme():
     with open('README.md') as f:
@@ -50,4 +50,6 @@ setup(name='shorttext',
                'bin/switch_kerasbackend'],
       # include_package_data=False,
       test_suite="test",
+      ext_modules = [Extension( '_dldist', sources=['shorttext/metrics/dynprog/dldist_wrap.c',
+                                                    'shorttext/metrics/dynprog/dldist.c'])],
       zip_safe=False)
