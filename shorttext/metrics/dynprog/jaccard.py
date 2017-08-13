@@ -1,12 +1,13 @@
 
 from itertools import product
 
-from .dldist import damerau_levenshtein
+from .dldist import damerau_levenshtein, longest_common_prefix
 
 def similarity(word1, word2):
     maxlen = max(len(word1), len(word2))
     editdistance = damerau_levenshtein(word1, word2)
-    return 1. - float(editdistance)/maxlen
+    lcp = longest_common_prefix(word1, word2)
+    return max(1. - float(editdistance)/maxlen, float(lcp)/maxlen)
 
 def soft_intersection_list(tokens1, tokens2):
     intersected_list = [((token1, token2), similarity(token1, token2)) for token1, token2 in product(tokens1, tokens2)]

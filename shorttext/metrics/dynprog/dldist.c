@@ -38,3 +38,15 @@ int damerau_levenshtein(char *word1, char *word2)
   return(matrix[len1][len2]);
 }
 
+int longest_common_prefix(char *word1, char *word2) {
+  int len1 = strlen(word1);
+  int len2 = strlen(word2);
+
+  int lcp = 0;
+
+  for (int i=0; i<MIN(len1, len2); i++) {
+    if (word1[i]==word2[i]) lcp++; else break;
+  }
+
+  return lcp;
+}

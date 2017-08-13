@@ -99,6 +99,10 @@ except __builtin__.Exception:
 def damerau_levenshtein(word1, word2):
     return _dldist.damerau_levenshtein(word1, word2)
 damerau_levenshtein = _dldist.damerau_levenshtein
+
+def longest_common_prefix(word1, word2):
+    return _dldist.longest_common_prefix(word1, word2)
+longest_common_prefix = _dldist.longest_common_prefix
 # This file is compatible with both classic and new-style classes.
 
 
