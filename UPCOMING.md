@@ -4,6 +4,7 @@ Upcoming Updates to `shorttext`
 Confirmed Updates
 -----------------
 
+* Implementation of Damerau-Levenshtein distance and soft Jaccard score.
 
 Expected Updates
 ----------------
