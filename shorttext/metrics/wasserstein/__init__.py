@@ -1,2 +1,0 @@
-
-from .wordmoverdist import word_mover_distance_probspec, word_mover_distance

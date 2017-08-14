@@ -1,11 +1,11 @@
-from setuptools import setup, Extension
+from setuptools import setup
 
 def readme():
     with open('README.md') as f:
         return f.read()
 
 setup(name='shorttext',
-      version="0.5.0",
+      version="0.4.1",
       description="Short Text Categorization",
       long_description="Supervised learning algorithms for short text categorization using embedded word vectors such as Word2Vec, or immediate feature vectors using topic models",
       classifiers=[
@@ -32,16 +32,12 @@ setup(name='shorttext',
                 'shorttext.data',
                 'shorttext.stack',
                 'shorttext.generators',
-                'shorttext.generators.bow',
-                'shorttext.metrics',
-                'shorttext.metrics.dynprog',
-                'shorttext.metrics.wasserstein',
-                'shorttext.metrics.readability'],
+                'shorttext.generators.bow'],
       package_dir={'shorttext': 'shorttext'},
       package_data={'shorttext': ['data/*.csv', 'utils/*.pkl']},
       setup_requires=['numpy'],
       install_requires=[
-          'numpy>=1.11.3', 'scipy>=0.18.1', 'scikit-learn', 'keras>=2.0.0', 'gensim>=2.2.0', 'pandas', 'spacy>=1.7.0', 'stemming', 'pulp',
+          'numpy>=1.11.3', 'scipy>=0.18.1', 'scikit-learn', 'keras>=2.0.0', 'gensim>=2.2.0', 'pandas', 'spacy>=1.7.0', 'stemming',
       ],
       tests_require=[
           'unittest2', 'keras>=2.0.0', 'gensim>=2.2.0',
@@ -51,6 +47,4 @@ setup(name='shorttext',
                'bin/switch_kerasbackend'],
       # include_package_data=False,
       test_suite="test",
-      ext_modules = [Extension('_dldist', sources=['shorttext/metrics/dynprog/dldist_wrap.c',
-                                                   'shorttext/metrics/dynprog/dldist.c'])],
       zip_safe=False)
