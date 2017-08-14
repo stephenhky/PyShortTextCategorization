@@ -10,13 +10,14 @@ int damerau_levenshtein(char *word1, char *word2)
 {
   int len1 = strlen(word1);
   int len2 = strlen(word2);
+  int i, j;
 
   int matrix[len1+1][len2+1];
-  for (int i=0; i<=len1; i++) matrix[i][0] = i;
-  for (int j=0; j<=len2; j++) matrix[0][j] = j;
+  for (i=0; i<=len1; i++) matrix[i][0] = i;
+  for (j=0; j<=len2; j++) matrix[0][j] = j;
 
-  for (int i=1; i<=len1; i++) {
-    for (int j=1; j<=len2; j++) {
+  for (i=1; i<=len1; i++) {
+    for (j=1; j<=len2; j++) {
       int cost = 0;
       if (word1[i]!=word2[j]) cost = 1;
       int delcost = matrix[i-1][j] + 1;
@@ -43,8 +44,9 @@ int longest_common_prefix(char *word1, char *word2) {
   int len2 = strlen(word2);
 
   int lcp = 0;
+  int i;
 
-  for (int i=0; i<MIN(len1, len2); i++) {
+  for (i=0; i<MIN(len1, len2); i++) {
     if (word1[i]==word2[i]) lcp++; else break;
   }
 
