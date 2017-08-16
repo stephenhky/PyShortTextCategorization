@@ -16,7 +16,7 @@ def tokens_to_fracdict(tokens):
 
 
 # use PuLP
-def word_mover_distance_probspec(first_sent_tokens, second_sent_tokens, wvmodel, lpFile=None):
+def word_mover_distance_probspec(first_sent_tokens, second_sent_tokens, wvmodel, distancefunc=euclidean, lpFile=None):
     all_tokens = list(set(first_sent_tokens+second_sent_tokens))
     wordvecs = {token: wvmodel[token] for token in all_tokens}
 
@@ -26,7 +26,7 @@ def word_mover_distance_probspec(first_sent_tokens, second_sent_tokens, wvmodel,
     T = pulp.LpVariable.dicts('T_matrix', list(product(all_tokens, all_tokens)), lowBound=0)
 
     prob = pulp.LpProblem('WMD', sense=pulp.LpMinimize)
-    prob += pulp.lpSum([T[token1, token2]*euclidean(wordvecs[token1], wordvecs[token2])
+    prob += pulp.lpSum([T[token1, token2]*distancefunc(wordvecs[token1], wordvecs[token2])
                         for token1, token2 in product(all_tokens, all_tokens)])
     for token2 in second_sent_buckets:
         prob += pulp.lpSum([T[token1, token2] for token1 in first_sent_buckets])==second_sent_buckets[token2]
@@ -41,6 +41,7 @@ def word_mover_distance_probspec(first_sent_tokens, second_sent_tokens, wvmodel,
     return prob
 
 
-def word_mover_distance(first_sent_tokens, second_sent_tokens, wvmodel, lpFile=None):
-    prob = word_mover_distance_probspec(first_sent_tokens, second_sent_tokens, wvmodel, lpFile=lpFile)
+def word_mover_distance(first_sent_tokens, second_sent_tokens, wvmodel, distancefunc=euclidean, lpFile=None):
+    prob = word_mover_distance_probspec(first_sent_tokens, second_sent_tokens, wvmodel,
+                                        distancefunc=distancefunc, lpFile=lpFile)
     return pulp.value(prob.objective)
