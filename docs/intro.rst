@@ -16,8 +16,9 @@ Characteristics:
 - `gensim` topic models (LDA, LSI, Random Projections) and autoencoder; (see :doc:`tutorial_topic`)
 - topic model representation supported for supervised learning using `scikit-learn`; (see :doc:`tutorial_topic`)
 - cosine distance classification; (see :doc:`tutorial_topic`, :doc:`tutorial_umvec`)
-- neural network classification (including ConvNet, and C-LSTM); (see :doc:`tutorial_nnlib`) and
-- maximum entropy classification. (see :doc:`tutorial_maxent`)
+- neural network classification (including ConvNet, and C-LSTM); (see :doc:`tutorial_nnlib`)
+- maximum entropy classification; (see :doc:`tutorial_maxent`) and
+- metrics of phrases differences, including soft Jaccard score (using Damerau-Levenshtein distance), and Word Mover's distance (WMD).
 
 Author: Kwan-Yuet Ho (LinkedIn_, ResearchGate_, Twitter_)
 
