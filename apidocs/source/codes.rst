@@ -134,4 +134,24 @@ Module `shorttext.stack`
 .. automodule:: shorttext.stack.stacking
    :members:
 
+Metrics
+-------
+
+Module `shorttext.metrics.dynprog`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: shorttext.metrics.dynprog.dldist
+   :members:
+
+.. automodule:: shorttext.metrics.dynprog.jaccard
+   :members:
+
+Module `shorttext.metrics.wassersterin`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: shorttext.metrics.wasserstein.wordmoverdist
+   :members:
+
+
+
 Home: :doc:`index`

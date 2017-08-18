@@ -17,5 +17,4 @@ Expected Updates
 * More generative models;
 * Support of seq2seq models (character-based);
 * Gradual fading-out dependence on `Theano`, and lesser `keras` but more fundamental `Tensorflow`;
-* Spelling corrections and fuzzy logic;
-* Metrics.
+* Spelling corrections and fuzzy logic.

@@ -22,6 +22,7 @@ You will get the message that `Theano` or `Tensorflow` backend is used for `kera
    tutorial_nnlib
    tutorial_maxent
    tutorial_stacking
+   tutorial_metrics
 
 
 Home: :doc:`index`
