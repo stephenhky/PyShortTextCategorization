@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 import gensim
 from .textpreprocessing import spacy_tokenize as tokenize
 
@@ -71,3 +73,18 @@ def update_corpus_labels(dictionary, corpus, newclassdict, preprocess_and_tokeni
     corpus += newcorpus
 
     return corpus, newcorpus
+
+
+def tokens_to_fracdict(tokens):
+    """ Return normalized bag-of-words (BOW) vectors.
+
+    :param tokens: list of tokens.
+    :type tokens: list
+    :return: normalized vectors of counts of tokens as a `dict`
+    :rtype: dict
+    """
+    cntdict = defaultdict(lambda : 0)
+    for token in tokens:
+        cntdict[token] += 1
+    totalcnt = sum(cntdict.values())
+    return {token: float(cnt)/totalcnt for token, cnt in cntdict.items()}

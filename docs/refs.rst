@@ -16,6 +16,9 @@ Christopher D. Manning, Prabhakar Raghavan, Hinrich Schütze, *Introduction to I
 Chunting Zhou, Chonglin Sun, Zhiyuan Liu, Francis Lau, "A C-LSTM Neural Network for Text Classification," (arXiv:1511.08630). [`arXiv
 <https://arxiv.org/abs/1511.08630>`_]
 
+Daniel E. Russ, Kwan-Yuet Ho, Calvin A. Johnson, Melissa C. Friesen, "Computer-Based Coding of Occupation Codes for Epidemiological Analyses," *2014 IEEE 27th International Symposium on Computer-Based Medical Systems* (CBMS), pp. 347-350. (2014) [`IEEE
+<http://ieeexplore.ieee.org/abstract/document/6881904/>`_]
+
 Daniel E. Russ, Kwan-Yuet Ho, Joanne S. Colt, Karla R. Armenti, Dalsu Baris, Wong-Ho Chow, Faith Davis, Alison Johnson, Mark P. Purdue, Margaret R. Karagas, Kendra Schwartz, Molly Schwenn, Debra T. Silverman, Patricia A. Stewart, Calvin A. Johnson, Melissa C. Friesen, “Computer-based coding of free-text job descriptions to efficiently and reliably incorporate occupational risk factors into large-scale epidemiological studies”, *Occup. Environ. Med.* 73, 417-424 (2016). [`BMJ
 <http://oem.bmj.com/content/73/6/417.long>`_]
 
@@ -38,6 +41,8 @@ Jeffrey Pennington, Richard Socher, Christopher D. Manning, “GloVe: Global Vec
 
 "Keras 2.0 Release Notes." (2017) [`Github
 <https://github.com/fchollet/keras/wiki/Keras-2.0-release-notes/>`_]
+
+Matt J. Kusner, Yu Sun, Nicholas I. Kolkin, Kilian Q. Weinberger, "From Word Embeddings to Document Distances," *ICML* (2015).
 
 Michael Czerny, "Modern Methods for Sentiment Analysis," *District Data Labs (2015). [`DistrictDataLabs
 <https://districtdatalabs.silvrback.com/modern-methods-for-sentiment-analysis>`_]

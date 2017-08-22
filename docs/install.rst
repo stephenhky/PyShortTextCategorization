@@ -40,6 +40,7 @@ Required Packages
 - Pandas_ (Python Data Analysis Library)
 - spaCy_ (Industrial Strenglth Natural Language Processing in Python, version >= 1.7.0)
 - stemming_ (stemming in Python)
+- PuLP_ (Optimization with PuLP)
 
 Home: :doc:`index`
 
@@ -53,3 +54,4 @@ Home: :doc:`index`
 .. _Pandas: http://pandas.pydata.org/
 .. _spaCy: https://spacy.io/
 .. _stemming: https://pypi.python.org/pypi/stemming/
+.. _PuLP: https://pythonhosted.org/PuLP/
