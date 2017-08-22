@@ -1,7 +1,7 @@
 News
 ====
 
-* 08/22/2017: `shorttext` 0.5.0 released.
+* 08/22/2017: `shorttext` 0.5.1 released.
 * 07/28/2017: `shorttext` 0.4.1 released.
 * 07/26/2017: `shorttext` 0.4.0 released.
 * 06/16/2017: `shorttext` 0.3.8 released.
@@ -22,7 +22,7 @@ News
 What's New
 ----------
 
-Release 0.5.0 (August 22, 2017)
+Release 0.5.1 (August 22, 2017)
 -------------------------------
 
 * Implementation of Damerau-Levenshtein distance and soft Jaccard score;
