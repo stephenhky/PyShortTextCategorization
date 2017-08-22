@@ -20,6 +20,8 @@ Characteristics:
 - maximum entropy classification; (see :doc:`tutorial_maxent`) and
 - metrics of phrases differences, including soft Jaccard score (using Damerau-Levenshtein distance), and Word Mover's distance (WMD).
 
+Part of the package was implemented using C, and it is interfaced to Python using SWIG_ (Simplified Wrapper and Interface Generator).
+
 Author: Kwan-Yuet Ho (LinkedIn_, ResearchGate_, Twitter_)
 
 Home: :doc:`index`
@@ -27,3 +29,4 @@ Home: :doc:`index`
 .. _LinkedIn: https://www.linkedin.com/in/kwan-yuet-ho-19882530
 .. _ResearchGate: https://www.researchgate.net/profile/Kwan-yuet_Ho
 .. _Twitter: https://twitter.com/stephenhky
+.. _SWIG: http://www.swig.org/
