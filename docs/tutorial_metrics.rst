@@ -93,6 +93,10 @@ Ofir Pele, Michael Werman, "A linear time histogram metric for improved SIFT mat
 Ofir Pele, Michael Werman, "Fast and robust earth mover's distances," *Proc. 2009 IEEE 12th Int. Conf. on Computer Vision*, 460-467 (2009). [`IEEE
 <http://ieeexplore.ieee.org/document/5459199/>`_]
 
+"Word Mover’s Distance as a Linear Programming Problem," *Everything About Data Analytics*, WordPress (2017). [`WordPress
+<https://datawarrior.wordpress.com/2017/08/16/word-movers-distance-as-a-linear-programming-problem/>`_]
+
+
 Home: :doc:`index`
 
 .. _SWIG: http://www.swig.org/
