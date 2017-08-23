@@ -68,9 +68,12 @@ Examples:
 More examples can be found in this `IPython Notebook
 <https://github.com/stephenhky/PyWMD/blob/master/WordMoverDistanceDemo.ipynb>`_ .
 
-In `gensim`, the Word2Vec model allows the calculation of WMD if user installed the package PyEMD_. For more details,
+In `gensim`, the Word2Vec model allows the calculation of WMD if user installed the package PyEMD_. It is based on the
+scale invariant feature transform (SIFT), an algorithm for EMD based on L1-distance (Manhattan distance).
+For more details,
 please refer to their `tutorial
-<https://radimrehurek.com/gensim/models/keyedvectors.html>`_ , and cite the two papers by Ofir Pele and Michael Werman.
+<https://radimrehurek.com/gensim/models/keyedvectors.html>`_ , and cite the two papers by Ofir Pele and Michael Werman
+if it is used.
 
 
 Reference
