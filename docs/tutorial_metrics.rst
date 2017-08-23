@@ -62,6 +62,7 @@ Import the modules, and load the word-embedding models:
 >>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
 
 Examples:
+
 >>> word_mover_distance(['police', 'station'], ['policeman'], wvmodel)                      # gives 3.060708999633789
 >>> word_mover_distance(['physician', 'assistant'], ['doctor', 'assistants'], wvmodel)      # gives 2.276337146759033
 
