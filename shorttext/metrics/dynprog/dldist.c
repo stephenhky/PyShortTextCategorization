@@ -30,12 +30,7 @@ int damerau_levenshtein(char *word1, char *word2)
       matrix[i][j] = score;
     }
   }
-//  for (int i=0; i<=len1; i++) {
-//    for (int j=0; j<=len2; j++) {
-//      printf("%i ", matrix[i][j]);
-//    }
-//    printf("\n");
-//  }
+
   return(matrix[len1][len2]);
 }
 
