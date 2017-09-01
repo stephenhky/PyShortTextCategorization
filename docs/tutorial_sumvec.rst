@@ -32,7 +32,7 @@ Then we load a set of data:
 
 Then initialize the classifier:
 
->>> classifier = shorttext.classifiers.SumEmbeddedVecClassifier(wvmodel)
+>>> classifier = shorttext.classifiers.SumEmbeddedVecClassifier(wvmodel, vecsize=300)   # for Google model, the vector size is 300 (default: 100)
 >>> classifier.train(nihtraindata)
 
 This classifier takes relatively little time to train compared with others
