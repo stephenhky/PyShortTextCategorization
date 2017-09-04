@@ -7,6 +7,9 @@ Adam L. Berger, Stephen A. Della Pietra, Vincent J. Della Pietra, "A Maximum Ent
 Chinmaya Pancholi, "Gensim integration with scikit-learn and Keras," *Google Summer of Codes* (GSoC) proposal (2017). [`Github
 <https://github.com/numfocus/gsoc/blob/master/2017/proposals/Chinmaya_Pancholi.md>`_]
 
+Chinmaya Pancholi, "Chinmaya’s GSoC 2017 Summary: Integration with sklearn & Keras and implementing fastText," *RaRe Incubator* (September 2, 2017). [`RaRe
+<https://rare-technologies.com/chinmayas-gsoc-2017-summary-integration-with-sklearn-keras-and-implementing-fasttext/>`_]
+
 Christopher Manning, Hinrich Schütze, *Foundations of Statistical Natural Language Processing* (Cambridge, MA: MIT Press, 1999). [`MIT Press
 <https://mitpress.mit.edu/books/foundations-statistical-natural-language-processing>`_]
 

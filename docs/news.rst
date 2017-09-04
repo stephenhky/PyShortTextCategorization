@@ -22,6 +22,13 @@ News
 What's New
 ----------
 
+End of GSoC Program (September 2, 2017)
+---------------------------------------
+
+Chinmaya summarized his GSoC program in his blog post posted in `RaRe Incubator
+<https://rare-technologies.com/chinmayas-gsoc-2017-summary-integration-with-sklearn-keras-and-implementing-fasttext/>`_.
+
+
 Release 0.5.1 (August 22, 2017)
 -------------------------------
 
