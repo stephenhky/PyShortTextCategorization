@@ -29,7 +29,7 @@ class SumEmbeddedVecClassifier:
         :param wvmodel: Word2Vec model
         :param vecsize: length of the embedded vectors in the model (Default: 100)
         :param simfcn: similarity function (Default: cosine similarity)
-        :type wvmodel: gensim.models.word2vec.Word2Vec
+        :type wvmodel: gensim.models.keyedvectors.KeyedVectors
         :type vecsize: int
         :type simfcn: function
         """
@@ -137,19 +137,21 @@ class SumEmbeddedVecClassifier:
                 scoredict[classtype] = np.nan
         return scoredict
 
-def load_sumword2vec_classifier(wvmodel, name, compact=True):
+def load_sumword2vec_classifier(wvmodel, name, compact=True, vecsize=100):
     """ Load a :class:`shorttext.classifiers.SumEmbeddedVecClassifier` instance from file, given the pre-trained Word2Vec model.
 
     :param wvmodel: Word2Vec model
     :param name: name (if compact=True) or prefix (if compact=False) of the file path
     :param compact whether model file is compact (Default: True)
+    :param vecsize: length of embedded vectors in the model (Default: 100)
     :return: the classifier
     :type wvmodel: gensim.models.keyedvectors.KeyedVectors
     :type name: str
     :type compact: bool
+    :type vecsize: int
     :rtype: SumEmbeddedVecClassifier
     """
-    classifier = SumEmbeddedVecClassifier(wvmodel)
+    classifier = SumEmbeddedVecClassifier(wvmodel, vecsize=vecsize)
     if compact:
         classifier.load_compact_model(name)
     else:

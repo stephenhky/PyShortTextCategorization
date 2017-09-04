@@ -8,7 +8,7 @@ from .classifiers import load_autoencoder_topic_sklearnclassifier, load_gensim_t
 from .classifiers import load_maxent_classifier
 
 
-def smartload_compact_model(filename, wvmodel, preprocessor=standard_text_preprocessor_1()):
+def smartload_compact_model(filename, wvmodel, preprocessor=standard_text_preprocessor_1(), vecsize=100):
     """ Load appropriate classifier or model from the binary model.
 
     The second parameter, `wvmodel`, can be set to `None` if no Word2Vec model is needed.
@@ -36,9 +36,9 @@ def smartload_compact_model(filename, wvmodel, preprocessor=standard_text_prepro
         else:
             raise e.AlgorithmNotExistException(topicmodel)
     elif classifier_name in ['nnlibvec']:
-        return load_varnnlibvec_classifier(wvmodel, filename, compact=True)
+        return load_varnnlibvec_classifier(wvmodel, filename, compact=True, vecsize=vecsize)
     elif classifier_name in ['sumvec']:
-        return load_sumword2vec_classifier(wvmodel, filename, compact=True)
+        return load_sumword2vec_classifier(wvmodel, filename, compact=True, vecsize=vecsize)
     elif classifier_name in ['maxent']:
         return load_maxent_classifier(filename, compact=True)
     else:

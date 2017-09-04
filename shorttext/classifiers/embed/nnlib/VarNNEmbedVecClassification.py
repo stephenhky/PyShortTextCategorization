@@ -289,19 +289,21 @@ class VarNNEmbeddedVecClassifier:
 
         return scoredict
 
-def load_varnnlibvec_classifier(wvmodel, name, compact=True):
+def load_varnnlibvec_classifier(wvmodel, name, compact=True, vecsize=100):
     """ Load a :class:`shorttext.classifiers.VarNNEmbeddedVecClassifier` instance from file, given the pre-trained Word2Vec model.
 
     :param wvmodel: Word2Vec model
     :param name: name (if compact=True) or prefix (if compact=False) of the file path
     :param compact whether model file is compact (Default: True)
+    :param vecsize: length of embedded vectors in the model (Default: 100)
     :return: the classifier
     :type wvmodel: gensim.models.keyedvectors.KeyedVectors
     :type name: str
     :type compact: bool
+    :type vecsize: int
     :rtype: VarNNEmbeddedVecClassifier
     """
-    classifier = VarNNEmbeddedVecClassifier(wvmodel)
+    classifier = VarNNEmbeddedVecClassifier(wvmodel, vecsize=vecsize)
     if compact:
         classifier.load_compact_model(name)
     else:
