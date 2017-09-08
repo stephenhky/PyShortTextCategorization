@@ -24,7 +24,7 @@ News
 What's New
 ----------
 
-Release 0.5.2 (September 8, 2017)
+Release 0.5.4 (September 8, 2017)
 ---------------------------------
 
 * Bug fixed;
