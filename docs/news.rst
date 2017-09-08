@@ -1,6 +1,7 @@
 News
 ====
 
+* 09/08/2017: `shorttext` 0.5.2 released.
 * 09/02/2017: end of GSoC project.
 * 08/22/2017: `shorttext` 0.5.1 released.
 * 07/28/2017: `shorttext` 0.4.1 released.
@@ -22,6 +23,13 @@ News
 
 What's New
 ----------
+
+Release 0.5.2 (September 8, 2017)
+---------------------------------
+
+* Bug fixed;
+* New scripts for finding distances between sentences;
+* Finding similarity between two sentences using Jaccard index.
 
 End of GSoC Program (September 2, 2017)
 ---------------------------------------

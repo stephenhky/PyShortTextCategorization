@@ -4,10 +4,6 @@ Upcoming Updates to `shorttext`
 Confirmed Updates
 -----------------
 
-* Bug fixed;
-* New scripts for finding distances between sentences;
-* Finding similarity between two sentences using Jaccard index.
-
 Expected Updates
 ----------------
 

@@ -76,6 +76,26 @@ please refer to their `tutorial
 <https://radimrehurek.com/gensim/models/keyedvectors.html>`_ , and cite the two papers by Ofir Pele and Michael Werman
 if it is used.
 
+Jaccard Index Due to Cosine Distances
+-------------------------------------
+
+In the above section of edit distance, the Jaccard score was calculated by considering soft membership
+using spelling. However, we can also compute the soft membership by cosine similarity with
+
+>>> from shorttext.utils import load_word2vec_model
+>>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
+>>> from shorttext.metrics.embedfuzzy import jaccardscore_sents
+
+For example, the number of words between the set containing 'doctor' and that containing 'physician'
+is 0.78060223420956831 (according to Google model), and therefore the Jaccard score is
+
+:math:`0.78060223420956831 / (2-0.78060223420956831) = 0.6401538990056869`
+
+And it can be seen by running it:
+
+>>> jaccardscore_sents('doctor', 'physician', wvmodel)   # gives 0.6401538990056869
+>>> jaccardscore_sents('chief executive', 'computer cluster', wvmodel)   # gives 0.0022515450768836143
+>>> jaccardscore_sents('topological data', 'data of topology', wvmodel)   # gives 0.67588977344632573
 
 Reference
 ---------
