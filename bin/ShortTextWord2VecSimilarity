@@ -4,7 +4,7 @@
 import argparse
 
 def getargparser():
-    parser = argparse.ArgumentParser(description='Find the similarity between two short sentences using Word2Vec.')
+    parser = argparse.ArgumentParser(description='Find the similarities between two short sentences using Word2Vec.')
     parser.add_argument('--vecsize', default=100, type=int, help='Vector dimensions. (Default: 100)')
     parser.add_argument('word2vec_modelpath', help='Path of the Word2Vec model')
     return parser
