@@ -2,11 +2,11 @@
 from itertools import product
 
 import numpy as np
-from scipy.spatial import distance
+from scipy.spatial.distance import cosine
 
 from shorttext.utils import tokenize
 
-def jaccardscore_sents(sent1, sent2, wvmodel, sim_words=lambda vec1, vec2: 1-distance.cosine(vec1, vec2)):
+def jaccardscore_sents(sent1, sent2, wvmodel, sim_words=lambda vec1, vec2: 1-cosine(vec1, vec2)):
     tokens1 = tokenize(sent1)
     tokens2 = tokenize(sent2)
     tokens1 = filter(lambda w: w in wvmodel, tokens1)
@@ -14,9 +14,6 @@ def jaccardscore_sents(sent1, sent2, wvmodel, sim_words=lambda vec1, vec2: 1-dis
     allowable1 = [True] * len(tokens1)
     allowable2 = [True] * len(tokens2)
 
-    # simdict = dict()
-    # for i, j in product(range(len(tokens1)), range(len(tokens2))):
-    #     simdict[(i, j)] = sim_words(wvmodel[tokens1[i]], wvmodel[tokens2[j]])
     simdict = {(i, j): sim_words(wvmodel[tokens1[i]], wvmodel[tokens2[j]])
                for i, j in product(range(len(tokens1)), range(len(tokens2)))}
 

@@ -6,6 +6,7 @@ from scipy.spatial.distance import cosine
 
 import shorttext.utils.classification_exceptions as e
 from shorttext.utils import tokenize
+from shorttext.utils import shorttext_to_avgembedvec
 import shorttext.utils.compactmodel_io as cio
 
 
@@ -102,14 +103,7 @@ class SumEmbeddedVecClassifier:
         :type shorttext: str
         :rtype: numpy.ndarray
         """
-        vec = np.zeros(self.vecsize)
-        for token in tokenize(shorttext):
-            if token in self.wvmodel:
-                vec += self.wvmodel[token]
-        norm = np.linalg.norm(vec)
-        if norm != 0:
-            vec /= np.linalg.norm(vec)
-        return vec
+        return shorttext_to_avgembedvec(shorttext, self.wvmodel, self.vecsize)
 
     def score(self, shorttext):
         """ Calculate the scores for all the class labels for the given short sentence.
