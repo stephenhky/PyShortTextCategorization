@@ -1,7 +1,7 @@
 News
 ====
 
-* 09/08/2017: `shorttext` 0.5.2 released.
+* 09/08/2017: `shorttext` 0.5.4 released.
 * 09/02/2017: end of GSoC project.
 * 08/22/2017: `shorttext` 0.5.1 released.
 * 07/28/2017: `shorttext` 0.4.1 released.

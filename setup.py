@@ -5,7 +5,7 @@ def readme():
         return f.read()
 
 setup(name='shorttext',
-      version="0.5.2",
+      version="0.5.4",
       description="Short Text Categorization",
       long_description="Supervised learning algorithms for short text categorization using embedded word vectors such as Word2Vec, or immediate feature vectors using topic models",
       classifiers=[
@@ -38,7 +38,7 @@ setup(name='shorttext',
                 'shorttext.metrics.wasserstein',
                 'shorttext.metrics.embedfuzzy'],
       package_dir={'shorttext': 'shorttext'},
-      package_data={'shorttext': ['data/*.csv', 'utils/*.pkl']},
+      package_data={'shorttext': ['data/*.csv', 'utils/*.pkl', 'metrics/dynprog/*.c', 'metric/dynprog/*.h']},
       setup_requires=['numpy'],
       install_requires=[
           'numpy>=1.11.3', 'scipy>=0.18.1', 'scikit-learn', 'keras>=2.0.0', 'gensim>=2.2.0', 'pandas', 'spacy>=1.7.0', 'stemming', 'pulp',
