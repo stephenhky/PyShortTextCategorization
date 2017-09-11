@@ -55,4 +55,7 @@ Blog Entries
 "Word Mover’s Distance as a Linear Programming Problem," *Everything About Data Analytics*, WordPress (2017). [`WordPress
 <https://datawarrior.wordpress.com/2017/08/16/word-movers-distance-as-a-linear-programming-problem/>`_]
 
+"Release of shorttext 0.5.4," *Everything About Data Analytics*, WordPress (2017). [`WordPress
+<https://datawarrior.wordpress.com/2017/09/08/release-of-shorttext-0-5-4/>`_]
+
 Home: :doc:`index`
