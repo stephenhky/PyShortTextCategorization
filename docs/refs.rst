@@ -56,6 +56,9 @@ M. Paz Sesmero, Agapito I. Ledezma, Araceli Sanchis, "Generating ensembles of he
 Piotr Bojanowski, Edouard Grave, Armand Joulin, Tomas Mikolov, "Enriching Word Vectors with Subword Information," arXiv:1607.04606 (2016). [`arXiv
 <https://arxiv.org/abs/1607.04606>`_]
 
+Radim Rehurek, Petr Sojka, "Software Framework for Topic Modelling with Large Corpora," In Proceedings of LREC 2010 workshop New Challenges for NLP Frameworks (2010). [`ResearchFate
+<https://www.researchgate.net/publication/255820377_Software_Framework_for_Topic_Modelling_with_Large_Corpora>`_]
+
 Sebastian Ruder, "An overview of gradient descent optimization algorithms," blog of Sebastian Ruder, arXiv:1609.04747 (2016). [`Ruder
 <http://sebastianruder.com/optimizing-gradient-descent/>`_ or `arXiv
 <https://arxiv.org/abs/1609.04747>`_]
