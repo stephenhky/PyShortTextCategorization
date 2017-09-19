@@ -53,10 +53,13 @@ Michael Czerny, "Modern Methods for Sentiment Analysis," *District Data Labs (20
 M. Paz Sesmero, Agapito I. Ledezma, Araceli Sanchis, "Generating ensembles of heterogeneous classifiers using Stacked Generalization,"
 *WIREs Data Mining and Knowledge Discovery* 5: 21-34 (2015).
 
+Nal Kalchbrenner, Edward Grefenstette, Phil Blunsom, "A Convolutional Neural Network for Modelling Sentences," *Proceedings of the 52nd Annual Meeting of the Association for Computational Linguistics*, pp. 655-665 (2014). [`arXiv
+<https://arxiv.org/abs/1404.2188>`_]
+
 Piotr Bojanowski, Edouard Grave, Armand Joulin, Tomas Mikolov, "Enriching Word Vectors with Subword Information," arXiv:1607.04606 (2016). [`arXiv
 <https://arxiv.org/abs/1607.04606>`_]
 
-Radim Rehurek, Petr Sojka, "Software Framework for Topic Modelling with Large Corpora," In Proceedings of LREC 2010 workshop New Challenges for NLP Frameworks (2010). [`ResearchFate
+Radim Rehurek, Petr Sojka, "Software Framework for Topic Modelling with Large Corpora," In Proceedings of LREC 2010 workshop New Challenges for NLP Frameworks (2010). [`ResearchGate
 <https://www.researchgate.net/publication/255820377_Software_Framework_for_Topic_Modelling_with_Large_Corpora>`_]
 
 Sebastian Ruder, "An overview of gradient descent optimization algorithms," blog of Sebastian Ruder, arXiv:1609.04747 (2016). [`Ruder

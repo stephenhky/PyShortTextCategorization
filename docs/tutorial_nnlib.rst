@@ -267,6 +267,9 @@ Chunting Zhou, Chonglin Sun, Zhiyuan Liu, Francis Lau, "A C-LSTM Neural Network 
 "CS231n Convolutional Neural Networks for Visual Recognition," Stanford Online Course. [`link
 <http://cs231n.github.io/convolutional-networks/>`_]
 
+Nal Kalchbrenner, Edward Grefenstette, Phil Blunsom, "A Convolutional Neural Network for Modelling Sentences," *Proceedings of the 52nd Annual Meeting of the Association for Computational Linguistics*, pp. 655-665 (2014). [`arXiv
+<https://arxiv.org/abs/1404.2188>`_]
+
 Tal Perry, "Convolutional Methods for Text," *Medium* (2017). [`Medium
 <https://medium.com/@TalPerry/convolutional-methods-for-text-d5260fd5675f>`_]
 
