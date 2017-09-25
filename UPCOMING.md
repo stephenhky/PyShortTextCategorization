@@ -4,6 +4,8 @@ Upcoming Updates to `shorttext`
 Confirmed Updates
 -----------------
 
+* Script `ShortTextCategorizerConsole` updated.
+
 Expected Updates
 ----------------
 
