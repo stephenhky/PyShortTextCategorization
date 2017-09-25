@@ -9,6 +9,7 @@ def get_argparser():
     argparser.add_argument('--wv', default='', help='Path of the pre-trained Word2Vec model. (None if not needed)')
     argparser.add_argument('--vecsize', default=100, type=int, help='Vector dimensions. (Default: 100)')
     argparser.add_argument('--topn', type=int, default=10, help='Number of top-scored results displayed. (Default: 10)')
+    argparser.add_argument('--inputtext', default=None, help='single input text for classification. Run console if set to None. (Default: None)')
     return argparser
 
 argparser = get_argparser()
@@ -59,15 +60,23 @@ if __name__ == '__main__':
     # Initializing the SpaCy kernel
     shorttext.utils.textpreprocessing.spaCyNLPHolder.getNLPInstance()
 
-    # Console
-    run = True
-    while run:
-        shorttext = raw_input('text> ')
-        if len(shorttext) > 0:
-            scoredict = classifier.score(shorttext)
+    if args.inputtext != None:
+        if len(args.inputtext) > 0:
+            scoredict = classifier.score(args.inputtext)
             for label, score in sorted(scoredict.items(), key=lambda s: s[1], reverse=True)[:args.topn]:
                 print label, ' : ', score
         else:
-            run = False
+            print 'No input text available!'
+    else:
+        # Console
+        run = True
+        while run:
+            shorttext = raw_input('text> ')
+            if len(shorttext) > 0:
+                scoredict = classifier.score(shorttext)
+                for label, score in sorted(scoredict.items(), key=lambda s: s[1], reverse=True)[:args.topn]:
+                    print label, ' : ', score
+            else:
+                run = False
 
-    print 'Done.'
+        print 'Done.'
