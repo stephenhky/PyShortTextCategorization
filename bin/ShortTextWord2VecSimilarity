@@ -19,6 +19,7 @@ from shorttext.metrics.embedfuzzy import jaccardscore_sents
 from shorttext.utils import tokenize, load_word2vec_model
 from shorttext.utils import shorttext_to_avgembedvec
 from shorttext.metrics.wasserstein import word_mover_distance
+from shorttext.metrics.dynprog import soft_jaccard_score
 
 
 if __name__ == '__main__':
@@ -36,6 +37,7 @@ if __name__ == '__main__':
             # output results
             print "Cosine Similarity = ", 1 - cosine(shorttext_to_avgembedvec(sent1, wvmodel, args.vecsize),
                                                      shorttext_to_avgembedvec(sent2, wvmodel, args.vecsize))
-            print "Jaccard Score Similarity = ", jaccardscore_sents(sent1, sent2, wvmodel)
+            print "Word-embedding Jaccard Score Similarity = ", jaccardscore_sents(sent1, sent2, wvmodel)
             print "Word Mover's Distance = ", word_mover_distance(tokenize(sent1), tokenize(sent2), wvmodel)
+            print "Soft Jaccard Score (edit distance) = ", soft_jaccard_score(tokenize(sent1), tokenize(sent2))
 
