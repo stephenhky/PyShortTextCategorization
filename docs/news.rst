@@ -1,6 +1,7 @@
 News
 ====
 
+* 09/28/2017: `shorttext` 0.5.5 released.
 * 09/08/2017: `shorttext` 0.5.4 released.
 * 09/02/2017: end of GSoC project.
 * 08/22/2017: `shorttext` 0.5.1 released.
@@ -23,6 +24,11 @@ News
 
 What's New
 ----------
+
+Release 0.5.5 (September 28, 2017)
+---------------------------------
+
+* Script `ShortTextCategorizerConsole` updated.
 
 Release 0.5.4 (September 8, 2017)
 ---------------------------------

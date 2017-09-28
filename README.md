@@ -35,6 +35,7 @@ to fix any errors.
 
 # News
 
+* 09/28/2017: `shorttext` 0.5.5 released.
 * 09/08/2017: `shorttext` 0.5.4 released.
 * 09/02/2017: end of GSoC project. ([Report](https://rare-technologies.com/chinmayas-gsoc-2017-summary-integration-with-sklearn-keras-and-implementing-fasttext/))
 * 08/22/2017: `shorttext` 0.5.1 released.
