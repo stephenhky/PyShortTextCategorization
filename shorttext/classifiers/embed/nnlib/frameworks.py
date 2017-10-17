@@ -55,7 +55,7 @@ def CNNWordEmbed(nb_labels,
     :rtype: keras.models.Sequential or keras.models.Model
     """
     if with_gensim == True:
-        embedding_layer = wvmodel.get_embedding_layer()
+        embedding_layer = wvmodel.get_keras_embedding()
         sequence_input = Input(shape=(maxlen,), dtype='int32')
         x = embedding_layer(sequence_input)
         x = Conv1D(filters=nb_filters,
@@ -145,7 +145,7 @@ def DoubleCNNWordEmbed(nb_labels,
     :rtype: keras.models.Sequential or keras.models.Model
     """
     if with_gensim == True:
-        embedding_layer = wvmodel.get_embedding_layer()
+        embedding_layer = wvmodel.get_keras_embedding()
         sequence_input = Input(shape=(maxlen,), dtype='int32')
         x = embedding_layer(sequence_input)
         x = Conv1D(filters=nb_filters_1,
@@ -251,7 +251,7 @@ def CLSTMWordEmbed(nb_labels,
     :rtype: keras.models.Sequential or keras.models.Model
     """
     if with_gensim == True:
-        embedding_layer = wvmodel.get_embedding_layer()
+        embedding_layer = wvmodel.get_keras_embedding()
         sequence_input = Input(shape=(maxlen,), dtype='int32')
         x = embedding_layer(sequence_input)
         x = Conv1D(filters=nb_filters,
