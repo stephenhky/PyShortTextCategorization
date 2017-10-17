@@ -1,6 +1,7 @@
 News
 ====
 
+* 10/17/2017: `shorttext` 0.5.6 released.
 * 09/28/2017: `shorttext` 0.5.5 released.
 * 09/08/2017: `shorttext` 0.5.4 released.
 * 09/02/2017: end of GSoC project.
@@ -24,6 +25,11 @@ News
 
 What's New
 ----------
+
+Release 0.5.6 (September 28, 2017)
+---------------------------------
+
+* Updated the neural network framework due to the change in `gensim` API.
 
 Release 0.5.5 (September 28, 2017)
 ---------------------------------
