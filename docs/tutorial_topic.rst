@@ -40,7 +40,7 @@ For other algorithms, user can use :class:`LSIModeler` for LSI or :class:`RPMode
 for RP. Everything else is the same.
 To train with 128 topics, enter:
 
->>> topicmodeler.train(trainclassdict, 128)
+>>> topicmodeler.train(trainclassdict, 64)
 
 After the training is done, the user can retrieve the topic vector representation
 with the trained model. For example,
@@ -71,7 +71,7 @@ While initialize the instance of the topic modeler, the user can also specify
 whether to weigh the terms using tf-idf (term frequency - inverse document frequency).
 The default is to weigh. To not weigh, initialize it as
 
->>> topicmodeler3 = shorttext.generators.GensimTopicModeler(toweight=False)
+>>> topicmodeler3 = shorttext.generators.GensimTopicModeler(toweigh=False)
 
 Appendix: Model I/O in Previous Versions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -135,7 +135,7 @@ Like other topic models, while initialize the instance of the topic modeler, the
 whether to weigh the terms using tf-idf (term frequency - inverse document frequency).
 The default is to weigh. To not weigh, initialize it as:
 
->>> autoencoder3 = shorttext.generators.AutoencodingTopicModeler(toweight=False)
+>>> autoencoder3 = shorttext.generators.AutoencodingTopicModeler(toweigh=False)
 
 Appendix: Unzipping Model I/O
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
