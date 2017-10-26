@@ -38,7 +38,7 @@ After training, it can be used for classification, such as
 
 To save the model,
 
->>> classifier.score('/path/to/filename.bin')
+>>> classifier.save_compact_model('/path/to/filename.bin')
 
 To load the model to be a classifier, enter:
 

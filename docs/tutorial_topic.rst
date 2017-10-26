@@ -239,7 +239,7 @@ algorithms. We can take any supervised learning algorithms in `scikit-learn` her
 We use Gaussian naive Bayes as an example. For faster demonstration, use the subject
 keywords as the example dataset.
 
->>> subtopicmodeler = shorttext.generators.GensimTopicModeler()
+>>> subtopicmodeler = shorttext.generators.LDAModeler()
 >>> subtopicmodeler.train(subdict, 8)
 
 We first import the class:
