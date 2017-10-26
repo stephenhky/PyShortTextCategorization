@@ -40,7 +40,7 @@ For other algorithms, user can use :class:`LSIModeler` for LSI or :class:`RPMode
 for RP. Everything else is the same.
 To train with 128 topics, enter:
 
->>> topicmodeler.train(trainclassdict, 64)
+>>> topicmodeler.train(trainclassdict, 128)
 
 After the training is done, the user can retrieve the topic vector representation
 with the trained model. For example,
