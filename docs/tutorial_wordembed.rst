@@ -75,7 +75,11 @@ in the documentation of `gensim`: `Converting GloVe to Word2Vec
 FastText
 --------
 
-FastText is a similar word-embedding model from Facebook.
+FastText is a similar word-embedding model from Facebook. You can download pre-trained models here:
+
+`Pre-trained word vectors
+<https://github.com/facebookresearch/fastText/blob/master/pretrained-vectors.md>`_
+
 
 Links
 -----

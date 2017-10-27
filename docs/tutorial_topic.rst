@@ -197,8 +197,9 @@ A list include:
     shorttext.classifiers.load_autoencoder_topic  ->  shorttext.generators.load_autoencoder_topicmodel
 
 
-For backward compatibility, developers can still call the topic models as if there were no such changes,
-although they are advised to make this change.
+Before release 0.5.6, for backward compatibility, developers can still call the topic models as if there were no such changes,
+although they are advised to make this change. However, *effective release 0.5.7, this backward compatibility is no longer
+available.*
 
 Classification Using Cosine Similarity
 --------------------------------------
