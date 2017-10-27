@@ -8,7 +8,7 @@ from .classifiers import load_autoencoder_topic_sklearnclassifier, load_gensim_t
 from .classifiers import load_maxent_classifier
 
 
-def smartload_compact_model(filename, wvmodel, preprocessor=standard_text_preprocessor_1(), vecsize=100):
+def smartload_compact_model(filename, wvmodel, preprocessor=standard_text_preprocessor_1(), vecsize=None):
     """ Load appropriate classifier or model from the binary model.
 
     The second parameter, `wvmodel`, can be set to `None` if no Word2Vec model is needed.
@@ -16,11 +16,13 @@ def smartload_compact_model(filename, wvmodel, preprocessor=standard_text_prepro
     :param filename: path of the compact model file
     :param wvmodel: Word2Vec model
     :param preprocessor: text preprocessor (Default: `shorttext.utils.textpreprocess.standard_text_preprocessor_1`)
+    :param vecsize: length of embedded vectors in the model (Default: None, extracted directly from the word-embedding model)
     :return: appropriate classifier or model
     :raise: AlgorithmNotExistException
     :type filename: str
     :type wvmodel: gensim.models.keyedvectors.KeyedVectors
     :type preprocessor: function
+    :type vecsize: int
     """
     classifier_name = cio.get_model_classifier_name(filename)
     if classifier_name in ['ldatopic', 'lsitopic', 'rptopic']:

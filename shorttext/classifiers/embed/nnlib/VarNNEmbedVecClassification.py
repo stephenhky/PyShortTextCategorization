@@ -30,55 +30,19 @@ class VarNNEmbeddedVecClassifier:
 
     A pre-trained Google Word2Vec model can be downloaded `here
     <https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit>`_.
-
-        Examples
-
-    >>> import shorttext
-    >>> # load the Word2Vec model
-    >>> wvmodel = shorttext.utils.load_word2vec_model('GoogleNews-vectors-negative300.bin.gz', binary=True)
-    >>>
-    >>> # load the training data
-    >>> trainclassdict = shorttext.data.subjectkeywords()
-    >>>
-    >>> # initialize the classifier and train
-    >>> kmodel = shorttext.classifiers.frameworks.CNNWordEmbed(len(trainclassdict.keys()), vecsize=300)    # using convolutional neural network model
-    >>> classifier = shorttext.classifiers.VarNNEmbeddedVecClassifier(wvmodel, vecsize=300)
-    >>> classifier.train(trainclassdict, kmodel)
-    Epoch 1/10
-    45/45 [==============================] - 0s - loss: 1.0578
-    Epoch 2/10
-    45/45 [==============================] - 0s - loss: 0.5536
-    Epoch 3/10
-    45/45 [==============================] - 0s - loss: 0.3437
-    Epoch 4/10
-    45/45 [==============================] - 0s - loss: 0.2282
-    Epoch 5/10
-    45/45 [==============================] - 0s - loss: 0.1658
-    Epoch 6/10
-    45/45 [==============================] - 0s - loss: 0.1273
-    Epoch 7/10
-    45/45 [==============================] - 0s - loss: 0.1052
-    Epoch 8/10
-    45/45 [==============================] - 0s - loss: 0.0961
-    Epoch 9/10
-    45/45 [==============================] - 0s - loss: 0.0839
-    Epoch 10/10
-    45/45 [==============================] - 0s - loss: 0.0743
-    >>> classifier.score('artificial intelligence')
-    {'mathematics': 0.57749695, 'physics': 0.33749574, 'theology': 0.085007325}
     """
-    def __init__(self, wvmodel, vecsize=100, maxlen=15, with_gensim=False):
+    def __init__(self, wvmodel, vecsize=None, maxlen=15, with_gensim=False):
         """ Initialize the classifier.
 
         :param wvmodel: Word2Vec model
-        :param vecsize: length of the embedded vectors in the model (Default: 100)
+        :param vecsize: length of the embedded vectors in the model (Default: None, directly extracted from word-embedding model)
         :param maxlen: maximum number of words in a sentence (Default: 15)
         :type wvmodel: gensim.models.keyedvectors.KeyedVectors
         :type vecsize: int
         :type maxlen: int
         """
         self.wvmodel = wvmodel
-        self.vecsize = vecsize
+        self.vecsize = self.wvmodel.vector_size if vecsize == None else vecsize
         self.maxlen = maxlen
         self.with_gensim = with_gensim
         self.trained = False
@@ -289,13 +253,13 @@ class VarNNEmbeddedVecClassifier:
 
         return scoredict
 
-def load_varnnlibvec_classifier(wvmodel, name, compact=True, vecsize=100):
+def load_varnnlibvec_classifier(wvmodel, name, compact=True, vecsize=None):
     """ Load a :class:`shorttext.classifiers.VarNNEmbeddedVecClassifier` instance from file, given the pre-trained Word2Vec model.
 
     :param wvmodel: Word2Vec model
     :param name: name (if compact=True) or prefix (if compact=False) of the file path
     :param compact whether model file is compact (Default: True)
-    :param vecsize: length of embedded vectors in the model (Default: 100)
+    :param vecsize: length of embedded vectors in the model (Default: None, extracted directly from the word-embedding model)
     :return: the classifier
     :type wvmodel: gensim.models.keyedvectors.KeyedVectors
     :type name: str

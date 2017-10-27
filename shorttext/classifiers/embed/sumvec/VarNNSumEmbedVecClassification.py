@@ -24,18 +24,18 @@ class VarNNSumEmbeddedVecClassifier:
     <https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit>`_.
 
     """
-    def __init__(self, wvmodel, vecsize=100, maxlen=15):
+    def __init__(self, wvmodel, vecsize=None, maxlen=15):
         """ Initialize the classifier.
 
         :param wvmodel: Word2Vec model
-        :param vecsize: length of the embedded vectors in the model (Default: 100)
+        :param vecsize: length of embedded vectors in the model (Default: None, extracted directly from the word-embedding model)
         :param maxlen: maximum number of words in a sentence (Default: 15)
         :type wvmodel: gensim.models.word2vec.Word2Vec
         :type vecsize: int
         :type maxlen: int
         """
         self.wvmodel = wvmodel
-        self.vecsize = vecsize
+        self.vecsize = self.wvmodel.vector_size if vecsize==None else vecsize
         self.maxlen = maxlen
         self.trained = False
 

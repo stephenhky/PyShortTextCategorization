@@ -4,6 +4,8 @@ Upcoming Updates to `shorttext`
 Confirmed Updates
 -----------------
 
+* Removed most explicit user-specification of `vecsize` for given word-embedding models.
+
 Expected Updates
 ----------------
 

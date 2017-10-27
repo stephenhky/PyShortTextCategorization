@@ -24,18 +24,18 @@ class SumEmbeddedVecClassifier:
     <https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit>`_.
     """
 
-    def __init__(self, wvmodel, vecsize=100, simfcn=lambda u, v: 1-cosine(u, v)):
+    def __init__(self, wvmodel, vecsize=None, simfcn=lambda u, v: 1-cosine(u, v)):
         """ Initialize the classifier.
 
         :param wvmodel: Word2Vec model
-        :param vecsize: length of the embedded vectors in the model (Default: 100)
+        :param vecsize: length of the embedded vectors in the model (Default: None, directly extracted from word-embedding model)
         :param simfcn: similarity function (Default: cosine similarity)
         :type wvmodel: gensim.models.keyedvectors.KeyedVectors
         :type vecsize: int
         :type simfcn: function
         """
         self.wvmodel = wvmodel
-        self.vecsize = vecsize
+        self.vecsize = self.wvmodel.vector_size if vecsize == None else vecsize
         self.simfcn = simfcn
         self.trained = False
 
@@ -131,13 +131,13 @@ class SumEmbeddedVecClassifier:
                 scoredict[classtype] = np.nan
         return scoredict
 
-def load_sumword2vec_classifier(wvmodel, name, compact=True, vecsize=100):
+def load_sumword2vec_classifier(wvmodel, name, compact=True, vecsize=None):
     """ Load a :class:`shorttext.classifiers.SumEmbeddedVecClassifier` instance from file, given the pre-trained Word2Vec model.
 
     :param wvmodel: Word2Vec model
     :param name: name (if compact=True) or prefix (if compact=False) of the file path
     :param compact whether model file is compact (Default: True)
-    :param vecsize: length of embedded vectors in the model (Default: 100)
+    :param vecsize: length of embedded vectors in the model (Default: None, directly extracted from word-embedding model)
     :return: the classifier
     :type wvmodel: gensim.models.keyedvectors.KeyedVectors
     :type name: str

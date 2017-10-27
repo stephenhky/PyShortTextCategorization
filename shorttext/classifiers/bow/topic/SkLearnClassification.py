@@ -3,9 +3,8 @@ from collections import defaultdict
 from sklearn.externals import joblib
 
 from shorttext.utils import textpreprocessing as textpreprocess
-from .LatentTopicModeling import AutoencodingTopicModeler, load_autoencoder_topicmodel
-from .LatentTopicModeling import LDAModeler, LSIModeler, RPModeler
-from .LatentTopicModeling import load_gensimtopicmodel
+from shorttext.generators import load_autoencoder_topicmodel, load_gensimtopicmodel
+from shorttext.generators import LDAModeler, LSIModeler, RPModeler, AutoencodingTopicModeler
 import shorttext.utils.classification_exceptions as e
 import shorttext.utils.compactmodel_io as cio
 
