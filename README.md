@@ -35,6 +35,7 @@ to fix any errors.
 
 # News
 
+* 10/27/2017: `shorttext` 0.5.7 released.
 * 10/17/2017: `shorttext` 0.5.6 released.
 * 09/28/2017: `shorttext` 0.5.5 released.
 * 09/08/2017: `shorttext` 0.5.4 released.

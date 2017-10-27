@@ -1,6 +1,7 @@
 News
 ====
 
+* 10/27/2017: `shorttext` 0.5.7 released.
 * 10/17/2017: `shorttext` 0.5.6 released.
 * 09/28/2017: `shorttext` 0.5.5 released.
 * 09/08/2017: `shorttext` 0.5.4 released.
@@ -26,7 +27,13 @@ News
 What's New
 ----------
 
-Release 0.5.6 (September 28, 2017)
+Release 0.5.7 (October 27, 2017)
+---------------------------------
+
+* Removed most explicit user-specification of `vecsize` for given word-embedding models;
+* Removed old namespace for topic models (hence no more backward compatibility).
+
+Release 0.5.6 (October 17, 2017)
 ---------------------------------
 
 * Updated the neural network framework due to the change in `gensim` API.
