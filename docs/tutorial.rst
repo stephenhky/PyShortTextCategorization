@@ -8,7 +8,7 @@ Before using, type
 
 >>> import shorttext
 
-You will get the message that `Theano` or `Tensorflow` backend is used for `keras`. Refer to `Keras Backend
+You will get the message that `Theano`, `Tensorflow` or `CNTK` backend is used for `keras`. Refer to `Keras Backend
 <https://keras.io/backend/>`_ for information about switching backends.
 
 .. toctree::
