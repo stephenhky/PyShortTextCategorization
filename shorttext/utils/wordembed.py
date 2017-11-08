@@ -3,6 +3,7 @@ import numpy as np
 import gensim
 
 from shorttext.utils import tokenize
+from gensim.models.wrappers import FastText
 
 def load_word2vec_model(path, binary=True):
     """ Load a pre-trained Word2Vec model.
@@ -15,6 +16,16 @@ def load_word2vec_model(path, binary=True):
     :rtype: gensim.models.keyedvectors.KeyedVectors
     """
     return gensim.models.KeyedVectors.load_word2vec_format(path, binary=binary)
+
+def load_fasttext_model(path):
+    """ Load a pre-trained FastText model.
+
+    :param path: path of the file of the pre-trained FastText model
+    :return: a pre-trained FastText model
+    :type path: str
+    :rtype: gensim.models.keyedvectors.KeyedVectors
+    """
+    return FastText.load_fasttext_format(path)
 
 def shorttext_to_avgembedvec(shorttext, wvmodel, vecsize):
     """ Convert the short text into an averaged embedded vector representation.
