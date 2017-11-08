@@ -36,7 +36,7 @@ Then run the following command in your terminal or console:
 
 ::
 
-    python -m spacy download en
+    spacy download en
 
 Refer to `spaCy webpage
 <https://spacy.io/docs/usage/models>`_ for more information.

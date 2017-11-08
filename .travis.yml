@@ -20,5 +20,6 @@ install:
   - pip install google-compute-engine
   - pip install tensorflow==1.1.0
   - pip install -U .
+  - spacy download en
 script:
   - python setup.py test

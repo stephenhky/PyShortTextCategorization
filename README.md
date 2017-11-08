@@ -16,6 +16,12 @@ or, if you want the most updated code that is not released on PyPI yet, type
 
 Developers are advised to make sure `Keras` >=2 be installed. Users are advised to install the backend `Tensorflow` (preferred) or `Theano` in advance.
 
+Before using, check the language model of spaCy has been installed or updated, by running:
+
+```
+>>> spacy download en
+```
+
 See [tutorial](http://shorttext.readthedocs.io/en/latest/tutorial.html) for how to use the package.
 
 # Issues

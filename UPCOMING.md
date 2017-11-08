@@ -6,11 +6,12 @@ Confirmed Updates
 
 * Removed most explicit user-specification of `vecsize` for given word-embedding models;
 * Removed old namespace for topic models (no more backward compatibility).
+* Integration of [FastText](https://github.com/facebookresearch/fastText).
 
 Expected Updates
 ----------------
 
-* Integration of other embedding algorithms, such as [FastText](https://github.com/facebookresearch/fastText), [StarSpace](https://github.com/facebookresearch/StarSpace) etc.
+* Integration of other embedding algorithms, such as [StarSpace](https://github.com/facebookresearch/StarSpace) etc.
 * Support of seq2seq models (character-based);
 * Spelling corrections and fuzzy logic;
 * More explicit code in `TensorFlow` instead of `keras`;

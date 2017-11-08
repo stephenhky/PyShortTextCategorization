@@ -80,6 +80,12 @@ FastText is a similar word-embedding model from Facebook. You can download pre-t
 `Pre-trained word vectors
 <https://github.com/facebookresearch/fastText/blob/master/pretrained-vectors.md>`_
 
+To load a pre-trained FastText model, run:
+
+>>> import shorttext
+>>> ftmodel = shorttext.utils.load_fasttext_model('/path/to/model.bin')
+
+And it is used exactly the same way as Word2Vec.
 
 Links
 -----
