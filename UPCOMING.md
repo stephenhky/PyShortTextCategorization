@@ -4,10 +4,6 @@ Upcoming Updates to `shorttext`
 Confirmed Updates
 -----------------
 
-* Removed most explicit user-specification of `vecsize` for given word-embedding models;
-* Removed old namespace for topic models (no more backward compatibility).
-* Integration of [FastText](https://github.com/facebookresearch/fastText).
-
 Expected Updates
 ----------------
 

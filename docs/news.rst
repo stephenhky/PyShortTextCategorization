@@ -1,6 +1,7 @@
 News
 ====
 
+* 11/08/2017: `shorttext` 0.5.8 released.
 * 10/27/2017: `shorttext` 0.5.7 released.
 * 10/17/2017: `shorttext` 0.5.6 released.
 * 09/28/2017: `shorttext` 0.5.5 released.
@@ -26,6 +27,14 @@ News
 
 What's New
 ----------
+
+Release 0.5.8 (November 8, 2017)
+---------------------------------
+
+* Removed most explicit user-specification of `vecsize` for given word-embedding models;
+* Removed old namespace for topic models (no more backward compatibility).
+* Integration of [FastText](https://github.com/facebookresearch/fastText).
+
 
 Release 0.5.7 (October 27, 2017)
 ---------------------------------
