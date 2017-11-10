@@ -277,10 +277,7 @@ class LogisticStackedGeneralization(StackedGeneralization):
         stackedmodeldict = pickle.load(open(nameprefix+'_stackedlogistics.pkl', 'r'))
         self.register_classlabels(stackedmodeldict['classlabels'])
         self.classifier2idx = stackedmodeldict['classifiers']
-        self.idx2classifier = {}
-        for key, val in self.classifier2idx.items():
-            self.idx2classifier[val] = key
-
+        self.idx2classifier = {val: key for key, val in self.classifier2idx.items()}
         self.model = kerasio.load_model(nameprefix+'_stackedlogistics')
 
         self.trained = True
