@@ -31,7 +31,7 @@ def DenseWordEmbed(nb_labels,
     :type reg_coef: float
     :type final_activiation: str
     :type optimizer: str
-    :rtype: keras.models.Sequential
+    :rtype: keras.models.Model
     """
     if len(dense_nb_nodes)!=len(dense_actfcn):
         raise UnequalArrayLengthsException(dense_nb_nodes, dense_actfcn)

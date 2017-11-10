@@ -52,7 +52,7 @@ def CNNWordEmbed(nb_labels,
     :type dense_bl2reg: float
     :type optimizer: str
     :type with_gensim: bool
-    :rtype: keras.models.Sequential or keras.models.Model
+    :rtype: keras.models.Model
     """
     if wvmodel != None:
         vecsize = wvmodel.vector_size
@@ -145,7 +145,7 @@ def DoubleCNNWordEmbed(nb_labels,
     :type dense_bl2reg: float
     :type optimizer: str
     :type with_gensim: bool
-    :rtype: keras.models.Sequential or keras.models.Model
+    :rtype: keras.models.Model
     """
     if wvmodel != None:
         vecsize = wvmodel.vector_size
@@ -254,7 +254,7 @@ def CLSTMWordEmbed(nb_labels,
     :type dense_bl2reg: float
     :type optimizer: str
     :type with_gensim: bool
-    :rtype: keras.models.Sequential or keras.models.Model
+    :rtype: keras.models.Model
     """
     if wvmodel != None:
         vecsize = wvmodel.vector_size
