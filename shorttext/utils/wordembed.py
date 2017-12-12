@@ -1,9 +1,10 @@
 
 import numpy as np
-import gensim
+from gensim.models import KeyedVectors
+from gensim.models.wrappers import FastText
 
 from shorttext.utils import tokenize
-from gensim.models.wrappers import FastText
+
 
 def load_word2vec_model(path, binary=True):
     """ Load a pre-trained Word2Vec model.
@@ -15,7 +16,7 @@ def load_word2vec_model(path, binary=True):
     :type binary: bool
     :rtype: gensim.models.keyedvectors.KeyedVectors
     """
-    return gensim.models.KeyedVectors.load_word2vec_format(path, binary=binary)
+    return KeyedVectors.load_word2vec_format(path, binary=binary)
 
 def load_fasttext_model(path):
     """ Load a pre-trained FastText model.
