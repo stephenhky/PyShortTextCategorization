@@ -2,8 +2,9 @@
 import numpy as np
 from gensim.models import KeyedVectors
 from gensim.models.wrappers import FastText
+from gensim.models.poincare import PoincareModel, PoincareKeyedVectors
 
-from shorttext.utils import tokenize
+from shorttext.utils import tokenize, deprecated
 
 
 def load_word2vec_model(path, binary=True):
@@ -18,6 +19,7 @@ def load_word2vec_model(path, binary=True):
     """
     return KeyedVectors.load_word2vec_format(path, binary=binary)
 
+
 def load_fasttext_model(path):
     """ Load a pre-trained FastText model.
 
@@ -28,13 +30,35 @@ def load_fasttext_model(path):
     """
     return FastText.load_fasttext_format(path)
 
+
+def load_poincare_model(path, word2vec_format=True, binary=False):
+    """ Load a Poincare embedding model.
+
+    :param path: path of the file of the pre-trained Poincare embedding model
+    :param word2vec_format: whether to load from word2vec format (default: True)
+    :param binary: binary format (default: False)
+    :return: a pre-trained Poincare embedding model
+    :type path: str
+    :type word2vec_format: bool
+    :type binary: bool
+    :rtype: gensim.models.poincare.PoincareKeyedVectors
+    """
+    if word2vec_format:
+        return PoincareKeyedVectors.load_word2vec_format(path, binary=binary)
+    else:
+        return PoincareModel.load(path).kv
+
+
+@deprecated
 def shorttext_to_avgembedvec(shorttext, wvmodel, vecsize):
-    """ Convert the short text into an averaged embedded vector representation.
+    """ Convert the short text into an averaged embedded vector representation. (deprecated, kept for backward compatibility)
 
     Given a short sentence, it converts all the tokens into embedded vectors according to
     the given word-embedding model, sums
     them up, and normalize the resulting vector. It returns the resulting vector
     that represents this short sentence.
+
+    This function has been deprecated. Please use :func:`shorttext_to_avgvec` instead.
 
     :param shorttext: a short sentence
     :param wvmodel: word-embedding model
@@ -52,4 +76,29 @@ def shorttext_to_avgembedvec(shorttext, wvmodel, vecsize):
     norm = np.linalg.norm(vec)
     if norm != 0:
         vec /= np.linalg.norm(vec)
+    return vec
+
+
+def shorttext_to_avgvec(shorttext, wvmodel):
+    """ Convert the short text into an averaged embedded vector representation.
+
+    Given a short sentence, it converts all the tokens into embedded vectors according to
+    the given word-embedding model, sums
+    them up, and normalize the resulting vector. It returns the resulting vector
+    that represents this short sentence.
+
+    :param shorttext: a short sentence
+    :param wvmodel: word-embedding model
+    :return: an embedded vector that represents the short sentence
+    :type shorttext: str
+    :type wvmodel: gensim.models.keyedvectors.KeyedVectors
+    :rtype: numpy.ndarray
+    """
+    vec = np.sum([wvmodel[token] for token in tokenize(shorttext) if token in wvmodel], axis=0)
+
+    # normalize
+    norm = np.linalg.norm(vec)
+    if norm != 0:
+        vec /= norm
+
     return vec
