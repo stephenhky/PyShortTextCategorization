@@ -39,6 +39,9 @@ Francois Chollet, "Building Autoencoders in Keras," *The Keras Blog*. [`Keras
 Hsiang-Fu Yu, Chia-Hua Ho, Yu-Chin Juan, and Chih-Jen Lin, "LibShortText: A Library for Short-text Classification." [`NTU
 <https://www.csie.ntu.edu.tw/~cjlin/libshorttext/>`_]
 
+Jayant Jain, "Implementing Poincaré Embeddings," RaRe Technologies (2017). [`RaRe
+<https://rare-technologies.com/implementing-poincare-embeddings/#h2-2>`_]
+
 Jeffrey Pennington, Richard Socher, Christopher D. Manning, “GloVe: Global Vectors for Word Representation,” *Empirical Methods in Natural Language Processing (EMNLP)*, pp. 1532-1543 (2014). [`PDF
 <http://www.aclweb.org/anthology/D14-1162>`_]
 
@@ -46,6 +49,9 @@ Jeffrey Pennington, Richard Socher, Christopher D. Manning, “GloVe: Global Vec
 <https://github.com/fchollet/keras/wiki/Keras-2.0-release-notes/>`_]
 
 Matt J. Kusner, Yu Sun, Nicholas I. Kolkin, Kilian Q. Weinberger, "From Word Embeddings to Document Distances," *ICML* (2015).
+
+Maximilian Nickel, Douwe Kiela, "Poincaré Embeddings for Learning Hierarchical Representations," arXiv:1705.08039 (2017). [`arXiv
+<https://arxiv.org/abs/1705.08039>`_]
 
 Michael Czerny, "Modern Methods for Sentiment Analysis," *District Data Labs (2015). [`DistrictDataLabs
 <https://districtdatalabs.silvrback.com/modern-methods-for-sentiment-analysis>`_]

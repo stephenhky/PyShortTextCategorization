@@ -87,6 +87,15 @@ To load a pre-trained FastText model, run:
 
 And it is used exactly the same way as Word2Vec.
 
+Poincaré Embeddings
+-------------------
+
+Poincaré embeddings is a new embedding that learns both semantic similarity and hierarchical structures. To load a
+pre-trained model, run:
+
+>>> import shorttext
+>>> pemodel = shorttext.utils.load_poincare_model('/path/to/model.txt')
+
 Links
 -----
 
@@ -97,8 +106,14 @@ Links
 Reference
 ---------
 
+Jayant Jain, "Implementing Poincaré Embeddings," RaRe Technologies (2017). [`RaRe
+<https://rare-technologies.com/implementing-poincare-embeddings/#h2-2>`_]
+
 Jeffrey Pennington, Richard Socher, Christopher D. Manning, “GloVe: Global Vectors for Word Representation,” *Empirical Methods in Natural Language Processing (EMNLP)*, pp. 1532-1543 (2014). [`PDF
 <http://www.aclweb.org/anthology/D14-1162>`_]
+
+Maximilian Nickel, Douwe Kiela, "Poincaré Embeddings for Learning Hierarchical Representations," arXiv:1705.08039 (2017). [`arXiv
+<https://arxiv.org/abs/1705.08039>`_]
 
 Piotr Bojanowski, Edouard Grave, Armand Joulin, Tomas Mikolov, "Enriching Word Vectors with Subword Information," arXiv:1607.04606 (2016). [`arXiv
 <https://arxiv.org/abs/1607.04606>`_]

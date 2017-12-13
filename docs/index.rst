@@ -22,7 +22,6 @@ Contents:
    tutorial
    scripts
    faq
-   codes
    refs
    links
    news
