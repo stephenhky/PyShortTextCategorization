@@ -1,3 +1,4 @@
 include README.md
 include shorttext/data/shorttext_exampledata.csv
 include shorttext/utils/stopwordset.pkl
+include test/test_w2v_model.bin
