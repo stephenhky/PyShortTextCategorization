@@ -44,7 +44,7 @@ setup(name='shorttext',
           'numpy>=1.11.3', 'scipy>=0.18.1', 'scikit-learn', 'keras>=2.0.0', 'gensim>=3.2.0', 'pandas', 'spacy>=1.7.0', 'stemming', 'pulp',
       ],
       tests_require=[
-          'unittest2', 'keras>=2.0.0', 'gensim>=2.2.0',
+          'unittest2', 'keras>=2.0.0', 'gensim>=3.2.0',
       ],
       scripts=['bin/ShortTextCategorizerConsole',
                'bin/ShortTextWord2VecSimilarity',

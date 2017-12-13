@@ -32,11 +32,11 @@ the default. However, it is highly recommended to use Tensorflow as the backend.
 Required Packages
 -----------------
 
-- Numpy_ (Numerical Python)
+- Numpy_ (Numerical Python, version >= 1.11.3)
 - SciPy_ (Scientific Python, version >= 0.18.1)
 - Scikit-Learn_ (Machine Learning in Python)
 - keras_ (Deep Learning Library for Theano and Tensorflow, version >= 2.0.0)
-- gensim_ (Topic Modeling for Humans, version >= 2.2.0)
+- gensim_ (Topic Modeling for Humans, version >= 3.2.0)
 - Pandas_ (Python Data Analysis Library)
 - spaCy_ (Industrial Strenglth Natural Language Processing in Python, version >= 1.7.0)
 - stemming_ (stemming in Python)
