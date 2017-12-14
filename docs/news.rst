@@ -1,6 +1,7 @@
 News
 ====
 
+* 12/14/2017: `shorttext` 0.5.9 released.
 * 11/08/2017: `shorttext` 0.5.8 released.
 * 10/27/2017: `shorttext` 0.5.7 released.
 * 10/17/2017: `shorttext` 0.5.6 released.
@@ -27,6 +28,13 @@ News
 
 What's New
 ----------
+
+Release 0.5.9 (December 14, 2017)
+---------------------------------
+
+* Support of Poincare embedding;
+* Code optimization;
+* Script `ShortTextWord2VecSimilarity` updated to `ShortTextWordEmbedSimilarity`.
 
 Release 0.5.8 (November 8, 2017)
 ---------------------------------

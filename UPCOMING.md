@@ -4,10 +4,6 @@ Upcoming Updates to `shorttext`
 Confirmed Updates
 -----------------
 
-* Support of Poincare embedding;
-* Code optimization;
-* Script updated.
-
 Expected Updates
 ----------------
 
