@@ -14,6 +14,8 @@ parser = getargparser()
 args = parser.parse_args()
 
 
+import time
+
 from scipy.spatial.distance import cosine
 
 from shorttext.metrics.embedfuzzy import jaccardscore_sents
@@ -29,10 +31,16 @@ typedict = {'word2vec': load_word2vec_model,
 
 
 if __name__ == '__main__':
-    wvmodel = typedict[args.type](args.modelpath)
-    end = False
     # preload tokenizer
     tokenize('Mogu is cute.')
+
+    time0 = time.time()
+    print "Loading", args.type, "model: ", args.modelpath
+    wvmodel = typedict[args.type](args.modelpath)
+    time1 = time.time()
+    end = False
+    print "... loading time:", time1 - time0, "seconds"
+
     while not end:
         sent1 = raw_input('sent1> ')
         if len(sent1)==0:
