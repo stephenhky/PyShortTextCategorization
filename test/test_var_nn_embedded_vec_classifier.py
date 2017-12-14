@@ -9,13 +9,14 @@ import shorttext
 class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
     def setUp(self):
 		if not os.path.isfile("test_w2v_model"):
-			os.system('wget "https://github.com/stephenhky/PyShortTextCategorization/blob/master/test/test_w2v_model.bin?raw=true"')  # download the model
+			os.system('wget "https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/test_w2v_model.bin?raw=true"')  # download the model
 			os.system('mv test_w2v_model.bin\?raw=true test_w2v_model.bin')
 		self.w2v_model = shorttext.utils.load_word2vec_model("test_w2v_model.bin", binary=True)  # load word2vec model
 		self.trainclass_dict = shorttext.data.subjectkeywords()  # load training data
 
     def tearDown(self):
-		pass
+		if os.path.isfile("test_w2v_model.bin"):
+			os.remove('test_w2v_model.bin')
 
     def testCNNWordEmbedWithoutGensim(self):
   		# create keras model using `CNNWordEmbed` class
