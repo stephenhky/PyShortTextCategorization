@@ -30,20 +30,22 @@ ShortTextCategorizerConsole
                             set to None. (Default: None)
 
 
-ShortTextWord2VecSimilarity
----------------------------
+ShortTextWordEmbedSimilarity
+----------------------------
 
 ::
 
-    usage: ShortTextWord2VecSimilarity [-h] [--vecsize VECSIZE] word2vec_modelpath
+    usage: ShortTextWordEmbedSimilarity [-h] [--type TYPE] modelpath
 
-    Find the similarity between two short sentences using Word2Vec.
+    Find the similarities between two short sentences using Word2Vec.
 
     positional arguments:
-      word2vec_modelpath  Path of the Word2Vec model
+      modelpath    Path of the Word2Vec model
 
     optional arguments:
-      -h, --help          show this help message and exit
-      --vecsize VECSIZE   Vector dimensions. (Default: 100)
+      -h, --help   show this help message and exit
+      --type TYPE  Type of word-embedding model (default: "word2vec"; other
+                   options: "fasttext", "poincare")
+
 
 Home: :doc:`index`

@@ -5,7 +5,8 @@ Confirmed Updates
 -----------------
 
 * Support of Poincare embedding;
-* Code optimization.
+* Code optimization;
+* Script updated.
 
 Expected Updates
 ----------------
