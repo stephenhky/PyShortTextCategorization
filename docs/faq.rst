@@ -38,6 +38,15 @@ Then run the following command in your terminal or console:
 
     spacy download en
 
+
+You might need administrator priveledge to do this. This will link a folder `en_core_web_sm` to `en` too.
+In case the linkage fails, delete the existing `en` link and do this:
+
+::
+
+    python -m spacy link en_core_web_sm en
+
+
 Refer to `spaCy webpage
 <https://spacy.io/docs/usage/models>`_ for more information.
 
@@ -47,13 +56,13 @@ Refer to `spaCy webpage
 Ans: Make sure your `keras` have version >= 2.
 
 
-**Q6. The following error message appears while loading shorttext:
+**Q6. The following error message appears while loading shorttext:**
 
 ::
 
     ImportError: dlopen: cannot load any more object with static TLS
 
-How do I deal with it?**
+**How do I deal with it?**
 
 Ans: If you use Tensorflow as your backend, you may experience this problem. This has been pointed
 out by Yeung in the community: `issue
