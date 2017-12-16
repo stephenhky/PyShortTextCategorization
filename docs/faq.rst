@@ -1,17 +1,15 @@
 Frequently Asked Questions (FAQ)
 ================================
 
-**Q1. Can we use Tensorflow backend?**
+**Q1. Can we use TensorFlow backend?**
 
-Ans: Yes, users can use tensorflow backend instead of theano backend, as both as supported
-by Keras. Refer to `Keras Backend
+Ans: Yes, users can use TensorFlow and CNTK backend instead of Theano backend. Refer to `Keras Backend
 <https://keras.io/backend/>`_ for information about switching backends.
 
 
 **Q2. Can we use word-embedding algorithms other than Word2Vec?**
 
-Ans: Currently only Word2Vec is directly supported. However, you can
-convert GloVe models into Word2Vec models. See: :doc:`tutorial_wordembed` .
+Ans: Yes. Besides Word2Vec, you can use FastText and Poincaré embedding. See: :doc:`tutorial_wordembed` .
 
 
 **Q3. Can this package work on Python 3?**
