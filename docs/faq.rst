@@ -38,7 +38,18 @@ Then run the following command in your terminal or console:
 
 
 You might need administrator priveledge to do this. This will link a folder `en_core_web_sm` to `en` too.
-In case the linkage fails, delete the existing `en` link and do this:
+
+You may receive this error message:
+
+::
+
+    Error: Couldn't link model to 'en'
+    Creating a symlink in spacy/data failed. Make sure you have the required
+    permissions and try re-running the command as admin, or use a
+    virtualenv. You can still import the model as a module and call its
+    load() method, or create the symlink manually.
+
+This means the linkage fails. Delete the existing `en` link and do this:
 
 ::
 
