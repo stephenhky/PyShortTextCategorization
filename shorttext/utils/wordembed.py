@@ -26,7 +26,7 @@ def load_fasttext_model(path):
     :param path: path of the file of the pre-trained FastText model
     :return: a pre-trained FastText model
     :type path: str
-    :rtype: gensim.models.keyedvectors.KeyedVectors
+    :rtype: gensim.models.keyedvectors.FastTextKeyedVectors
     """
     return FastText.load_fasttext_format(path)
 
