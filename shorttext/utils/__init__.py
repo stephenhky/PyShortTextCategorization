@@ -1,5 +1,7 @@
+
 from .deprecation import deprecated
 
+from . import misc
 from . import kerasmodel_io
 from . import classification_exceptions
 from . import gensim_corpora
