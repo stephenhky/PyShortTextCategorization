@@ -8,6 +8,7 @@ Expected Updates
 - [ ] Support of seq2seq models (character-based);
 - [ ] Spelling corrections and fuzzy logic;
 - [ ] Gradually replacing `keras` with direct `TensorFlow` or the `keras` package within `TensorFlow`;
+- [ ] Jupyter notebooks as tutorials;
 - [ ] Python 3 compatibility;
 - [ ] More neural networks;
 - [ ] More available corpus.
