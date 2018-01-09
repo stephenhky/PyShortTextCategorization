@@ -113,11 +113,11 @@ def CompactIOClassifier(Classifier, infodict, prefix, suffices):
     """
     # define the inherit class
     class DressedClassifier(Classifier):
-        def save_compact_model(self, filename):
-            save_compact_model(filename, self.savemodel, prefix, suffices, infodict)
+        def save_compact_model(self, filename, *args, **kwargs):
+            save_compact_model(filename, self.savemodel, prefix, suffices, infodict, *args, **kwargs)
 
-        def load_compact_model(self, filename):
-            return load_compact_model(filename, self.loadmodel, prefix, infodict)
+        def load_compact_model(self, filename, *args, **kwargs):
+            return load_compact_model(filename, self.loadmodel, prefix, infodict, *args, **kwargs)
 
         def get_info(self):
             return {'classifier': infodict['classifier'],
