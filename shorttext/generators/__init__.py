@@ -5,3 +5,5 @@ from .bow.GensimTopicModeling import LatentTopicModeler, GensimTopicModeler, LDA
 from .bow.AutoEncodingTopicModeling import AutoencodingTopicModeler
 
 from .charbase.char2vec import SentenceToCharVecEncoder, initSentenceToCharVecEncoder
+from .seq2seq.s2skeras import Seq2SeqWithKeras
+from .seq2seq.charbaseS2S import CharbasedSeq2SeqWithKeras

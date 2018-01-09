@@ -11,28 +11,27 @@ kerasseq2seq_suffices = {'.h5', '.json', '_encoder.h5', '_encoder.json', '_decod
 
 @cio.compactio({'classifier': 'kerasseq2seq'}, 'kerasseq2seq', kerasseq2seq_suffices)
 class Seq2SeqWithKeras:
-    def __init__(self, nbelem, vecsize, latent_dim):
-        self.nbelem = nbelem
+    def __init__(self, vecsize, latent_dim):
         self.vecsize = vecsize
         self.latent_dim = latent_dim
 
     def prepare_model(self):
         # Define an input sequence and process it.
-        encoder_inputs = Input(shape=(None, self.nbelem))
+        encoder_inputs = Input(shape=(None, self.vecsize))
         encoder = LSTM(self.latent_dim, return_state=True)
         encoder_outputs, state_h, state_c = encoder(encoder_inputs)
         # We discard `encoder_outputs` and only keep the states.
         encoder_states = [state_h, state_c]
 
         # Set up the decoder, using `encoder_states` as initial state.
-        decoder_inputs = Input(shape=(None, self.nbelem))
+        decoder_inputs = Input(shape=(None, self.vecsize))
         # We set up our decoder to return full output sequences,
         # and to return internal states as well. We don't use the
         # return states in the training model, but we will use them in inference.
         decoder_lstm = LSTM(self.latent_dim, return_sequences=True, return_state=True)
         decoder_outputs, _, _ = decoder_lstm(decoder_inputs,
                                              initial_state=encoder_states)
-        decoder_dense = Dense(self.nbelem, activation='softmax')
+        decoder_dense = Dense(self.vecsize, activation='softmax')
         decoder_outputs = decoder_dense(decoder_outputs)
 
         # Define the model that will turn
