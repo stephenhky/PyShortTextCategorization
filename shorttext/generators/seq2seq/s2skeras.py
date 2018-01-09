@@ -3,9 +3,14 @@ from keras.models import load_model
 from keras.models import Model
 from keras.layers import Input, LSTM, Dense
 
+from shorttext.utils import compactmodel_io as cio
+
 # Reference: https://blog.keras.io/a-ten-minute-introduction-to-sequence-to-sequence-learning-in-keras.html
 
-class CharSeq2SeqWithKeras:
+kerasseq2seq_suffices = {'.h5', '.json', '_encoder.h5', '_encoder.json', '_decoder.h5', '_decoder.json'}
+
+@cio.compactio({'classifier': 'kerasseq2seq'}, 'kerasseq2seq', kerasseq2seq_suffices)
+class Seq2SeqWithKeras:
     def __init__(self, nbelem, vecsize, latent_dim):
         self.nbelem = nbelem
         self.vecsize = vecsize
@@ -59,7 +64,7 @@ class CharSeq2SeqWithKeras:
                        batch_size=batch_size,
                        epochs=epochs)
 
-    def save(self, prefix, final=False):
+    def savemodel(self, prefix, final=False):
         # save whole model
         if final:
             self.model.save_weights(prefix+'.h5')
@@ -77,7 +82,7 @@ class CharSeq2SeqWithKeras:
         open(prefix+'_encoder.json', 'wb').write(self.encoder_model.to_json())
         open(prefix+'_decoder.json', 'wb').write(self.decoder_model.to_json())
 
-    def load(self, prefix, from_final=False):
+    def loadmodel(self, prefix):
         self.model = load_model(prefix+'.h5')
         self.encoder_model = load_model(prefix+'_encoder.h5')
         self.decoder_model = load_model(prefix+'_decoder.h5')
