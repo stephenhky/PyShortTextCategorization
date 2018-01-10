@@ -1,7 +1,7 @@
 
 
 from .s2skeras import Seq2SeqWithKeras
-from ..charbase import SentenceToCharVecEncoder
+from ..charbase.char2vec import SentenceToCharVecEncoder
 
 
 class CharBasedSeq2SeqGenerator:
