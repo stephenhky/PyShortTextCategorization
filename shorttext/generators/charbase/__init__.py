@@ -1,2 +1,2 @@
 
-from .char2vec import SentenceToCharVecEncoder, initSentenceToCharVecEncoder
+from . import char2vec
