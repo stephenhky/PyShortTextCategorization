@@ -27,15 +27,15 @@ class DocumentTermMatrix:
     def generate_dtm(self, corpus):
         self.dictionary = Dictionary(corpus)
         self.dtm = dok_matrix((len(corpus), len(self.dictionary)), dtype=np.int)
-        for docid in range(self.docids):
-            for tokenid, count in self.dictionary.doc2bow(corpus[docid]):
-                self.dtm[docid, tokenid] = count
+        for docid in self.docids:
+            for tokenid, count in self.dictionary.doc2bow(corpus[self.docid_dict[docid]]):
+                self.dtm[self.docid_dict[docid], tokenid] = count
 
     def get_termfreq(self, docid, token):
         return self.dtm[self.docid_dict[docid], self.dictionary.token2id[token]]
 
     def get_total_termfreq(self, token):
-        return sum(self.dtm[:, self.dictionary.token2id[token]])
+        return sum(self.dtm[:, self.dictionary.token2id[token]].values())
 
     def get_doc_frequency(self, token):
         return len(self.dtm[:, self.dictionary.token2id[token]].values())
@@ -47,7 +47,7 @@ class DocumentTermMatrix:
         return {self.dictionary.token2id[tokenid]: count for (_, tokenid), count in self.dtm[self.docid_dict[docid], :].items()}
 
     def generate_dtm_dataframe(self):
-        tbl = pd.DataFrame({self.dtm.items()})
+        tbl = pd.DataFrame(self.dtm.toarray())
         tbl.index = self.docids
         tbl.columns = map(lambda i: self.dictionary[i], range(len(self.dictionary)))
         return tbl
