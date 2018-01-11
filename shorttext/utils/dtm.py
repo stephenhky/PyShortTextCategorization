@@ -8,8 +8,8 @@ import pandas as pd
 class DocumentTermMatrix:
     def __init__(self, corpus, docids=None):
         if docids == None:
-            self.docid_dict = {i: i for i in range(corpus)}
-            self.docids = range(corpus)
+            self.docid_dict = {i: i for i in range(len(corpus))}
+            self.docids = range(len(corpus))
         else:
             if len(docids) == len(corpus):
                 self.docid_dict = {docid: i for i, docid in enumerate(docids)}
