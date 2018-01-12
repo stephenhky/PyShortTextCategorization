@@ -131,7 +131,7 @@ class DocumentTermMatrix:
         :type token: str
         :rtype: dict
         """
-        return {self.docid_dict[docidx]: count for (docidx, _), count in self.dtm[:, token].items()}
+        return {self.docids[docidx]: count for (docidx, _), count in self.dtm[:, self.dictionary.token2id[token]].items()}
 
     def get_doc_tokens(self, docid):
         """ Retrieve the term frequencies of all tokens in the given document.
@@ -146,7 +146,7 @@ class DocumentTermMatrix:
         :type docid: any
         :rtype: dict
         """
-        return {self.dictionary.token2id[tokenid]: count for (_, tokenid), count in self.dtm[self.docid_dict[docid], :].items()}
+        return {self.dictionary[tokenid]: count for (_, tokenid), count in self.dtm[self.docid_dict[docid], :].items()}
 
     def generate_dtm_dataframe(self):
         """ Generate the data frame of the document-term matrix.
