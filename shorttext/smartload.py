@@ -2,6 +2,7 @@
 from .utils import standard_text_preprocessor_1
 from .utils import compactmodel_io as cio
 from .utils import classification_exceptions as e
+from .utils import load_DocumentTermMatrix
 from .classifiers import  load_varnnlibvec_classifier, load_sumword2vec_classifier
 from .generators import load_autoencoder_topicmodel, load_gensimtopicmodel
 from .classifiers import load_autoencoder_topic_sklearnclassifier, load_gensim_topicvec_sklearnclassifier
@@ -43,5 +44,7 @@ def smartload_compact_model(filename, wvmodel, preprocessor=standard_text_prepro
         return load_sumword2vec_classifier(wvmodel, filename, compact=True, vecsize=vecsize)
     elif classifier_name in ['maxent']:
         return load_maxent_classifier(filename, compact=True)
+    elif classifier_name in ['dtm']:
+        return load_DocumentTermMatrix(filename, compact=True)
     else:
         raise e.AlgorithmNotExistException(classifier_name)

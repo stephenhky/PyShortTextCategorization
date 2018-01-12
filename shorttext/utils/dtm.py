@@ -178,11 +178,12 @@ class DocumentTermMatrix:
         :type prefix: str
         """
         self.docids = pickle.load(open(prefix+'_docids.pkl', 'rb'))
+        self.docid_dict = {docid: i for i, docid in enumerate(self.docids)}
         self.dictionary = Dictionary.load(prefix+'_dictionary.dict')
         self.dtm = pickle.load(open(prefix+'_dtm.pkl', 'rb'))
 
 
-def loadDocumentTermMatrix(filename, compact=True):
+def load_DocumentTermMatrix(filename, compact=True):
     """ Load presaved Document-Term Matrix (DTM).
 
     Given the file name (if `compact` is `True`) or the prefix (if `compact` is `False`),
