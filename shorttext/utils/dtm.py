@@ -5,7 +5,14 @@ from gensim.models import TfidfModel
 from scipy.sparse import dok_matrix
 import pandas as pd
 
+import pickle
 
+from . import compactmodel_io as cio
+
+
+dtm_suffices = ['_docids.pkl', '_dictionary.dict', '_dtm.pkl']
+
+@cio.compactio({'classifier': 'dtm'}, 'dtm', dtm_suffices)
 class DocumentTermMatrix:
     """ Document-term matrix for corpus.
 
@@ -151,3 +158,25 @@ class DocumentTermMatrix:
         tbl.index = self.docids
         tbl.columns = map(lambda i: self.dictionary[i], range(len(self.dictionary)))
         return tbl
+
+    def savemodel(self, prefix):
+        """ Save the model.
+
+        :param prefix: prefix of the files
+        :return: None
+        :type prefix: str
+        """
+        pickle.dump(self.docids, open(prefix+'_docids.pkl', 'wb'))
+        self.dictionary.save(prefix+'_dictionary.dict')
+        pickle.dump(self.dtm, open(prefix+'_dtm.pkl', 'wb'))
+
+    def loadmodel(self, prefix):
+        """ Load the model.
+
+        :param prefix: prefix of the files
+        :return: None
+        :type prefix: str
+        """
+        self.docids = pickle.load(open(prefix+'_docids.pkl', 'rb'))
+        self.dictionary = Dictionary.load(prefix+'_dictionary.dict')
+        self.dtm = pickle.load(open(prefix+'_dtm.pkl', 'rb'))
