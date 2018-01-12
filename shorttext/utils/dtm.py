@@ -1,12 +1,16 @@
 
 import numpy as np
 from gensim.corpora import Dictionary
+from gensim.models import TfidfModel
 from scipy.sparse import dok_matrix
 import pandas as pd
 
 
 class DocumentTermMatrix:
-    def __init__(self, corpus, docids=None):
+    """
+
+    """
+    def __init__(self, corpus, docids=None, tfidf=False):
         if docids == None:
             self.docid_dict = {i: i for i in range(len(corpus))}
             self.docids = range(len(corpus))
@@ -22,13 +26,17 @@ class DocumentTermMatrix:
                 self.docid_dict = {i: i for i in range(len(docids), range(corpus))}
                 self.docids = docids + range(len(docids), range(corpus))
 
-        self.generate_dtm(corpus)
+        self.generate_dtm(corpus, tfidf=tfidf)
 
-    def generate_dtm(self, corpus):
+    def generate_dtm(self, corpus, tfidf=False):
         self.dictionary = Dictionary(corpus)
-        self.dtm = dok_matrix((len(corpus), len(self.dictionary)), dtype=np.int)
+        self.dtm = dok_matrix((len(corpus), len(self.dictionary)), dtype=np.float)
+        bow_corpus = [self.dictionary.doc2bow(doctokens) for doctokens in corpus]
+        if tfidf:
+            weighted_model = TfidfModel(bow_corpus)
+            bow_corpus = weighted_model[bow_corpus]
         for docid in self.docids:
-            for tokenid, count in self.dictionary.doc2bow(corpus[self.docid_dict[docid]]):
+            for tokenid, count in bow_corpus[self.docid_dict[docid]]:
                 self.dtm[self.docid_dict[docid], tokenid] = count
 
     def get_termfreq(self, docid, token):
