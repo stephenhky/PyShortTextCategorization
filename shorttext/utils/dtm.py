@@ -180,3 +180,24 @@ class DocumentTermMatrix:
         self.docids = pickle.load(open(prefix+'_docids.pkl', 'rb'))
         self.dictionary = Dictionary.load(prefix+'_dictionary.dict')
         self.dtm = pickle.load(open(prefix+'_dtm.pkl', 'rb'))
+
+
+def loadDocumentTermMatrix(filename, compact=True):
+    """ Load presaved Document-Term Matrix (DTM).
+
+    Given the file name (if `compact` is `True`) or the prefix (if `compact` is `False`),
+    return the document-term matrix.
+
+    :param filename: file name or prefix
+    :param compact: whether it is a compact model. (Default: `True`)
+    :return: document-term matrix
+    :type filename: str
+    :type compact: bool
+    :rtype: DocumentTermMatrix
+    """
+    dtm = DocumentTermMatrix([[]])
+    if compact:
+        dtm.load_compact_model(filename)
+    else:
+        dtm.loadmodel(filename)
+    return dtm
