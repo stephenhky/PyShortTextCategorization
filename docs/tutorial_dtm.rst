@@ -1,6 +1,9 @@
 Document-Term Matrix
 ====================
 
+Preparing for the Corpus
+------------------------
+
 We can create and handle document-term matrix (DTM) with `shorttext`. Use the dataset of Presidents'
 Inaugural Addresses as an example.
 
@@ -22,6 +25,9 @@ produce a list of lists (of tokens) (or a corpus in `gensim`):
 Then now the variable `corpus` is a list of lists of tokens. For example,
 
 >>> corpus[0]     # shows all the preprocessed tokens of the first Presidential Inaugural Addresses
+
+Using Class `DocumentTermMatrix`
+--------------------------------
 
 With the corpus ready in this form, we can create a `DocumentTermMatrix` class for DTM by:
 
