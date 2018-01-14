@@ -16,4 +16,5 @@ from .wordembed import load_word2vec_model, load_fasttext_model, load_poincare_m
 from .dtm import load_DocumentTermMatrix
 from .wordembed import shorttext_to_avgembedvec     # deprecated
 
+from .dtm import DocumentTermMatrix, load_DocumentTermMatrix
 

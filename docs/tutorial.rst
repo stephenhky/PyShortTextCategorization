@@ -16,6 +16,7 @@ You will get the message that `Theano`, `Tensorflow` or `CNTK` backend is used f
 
    tutorial_dataprep
    tutorial_textpreprocessing
+   tutorial_dtm
    tutorial_topic
    tutorial_wordembed
    tutorial_sumvec
