@@ -1,6 +1,7 @@
 News
 ====
 
+* 01/15/2017: `shorttext` 0.5.10 released.
 * 12/14/2017: `shorttext` 0.5.9 released.
 * 11/08/2017: `shorttext` 0.5.8 released.
 * 10/27/2017: `shorttext` 0.5.7 released.
@@ -28,6 +29,12 @@ News
 
 What's New
 ----------
+
+Release 0.5.10 (January 15, 2018)
+---------------------------------
+
+* Support of encoder module for character-based models;
+* Implementation of document-term matrix (DTM).
 
 Release 0.5.9 (December 14, 2017)
 ---------------------------------
