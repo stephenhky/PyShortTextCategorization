@@ -13,3 +13,8 @@ class CharBasedSeq2SeqGenerator:
         self.sent2charvec_encoder = SentenceToCharVecEncoder(self.dictionary)
         self.s2sgenerator = Seq2SeqWithKeras(self.nbelem, self.latent_dim)
 
+    def train(self, sequence):
+        pass
+
+    def decode(self, sequence):
+        pass
