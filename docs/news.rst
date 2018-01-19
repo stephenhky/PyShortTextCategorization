@@ -1,6 +1,7 @@
 News
 ====
 
+* 01/19/2017: `shorttext` 0.5.11 released.
 * 01/15/2017: `shorttext` 0.5.10 released.
 * 12/14/2017: `shorttext` 0.5.9 released.
 * 11/08/2017: `shorttext` 0.5.8 released.
@@ -29,6 +30,11 @@ News
 
 What's New
 ----------
+
+Release 0.5.11 (January 19, 2018)
+---------------------------------
+
+* Removal of word-embedding `keras`-type layers.
 
 Release 0.5.10 (January 15, 2018)
 ---------------------------------

@@ -82,16 +82,6 @@ To load it, enter:
 
 >>> classifier2 = shorttext.classifiers.load_varnnlibvec_classifier(wvmodel, '/path/to/nnlibvec_convnet_subdata.bin')
 
-Putting Word2Vec Model As an Input Keras Layer
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This functionality is removed since release 0.5.11, due to the following reasons:
-
-* `keras` changed its code that produces this bug;
-* the layer is consuming memory;
-* only Word2Vec is supported; and
-* the results are incorrect.
-
 Provided Neural Networks
 ------------------------
 
@@ -152,6 +142,16 @@ as long as the following criteria are met:
 of the embedded vectors. The output is a one-dimensional array, of size equal to
 the number of classes provided by the training data. The order of the class labels is assumed
 to be the same as the order of the given training data (stored as a Python dictionary).
+
+Putting Word2Vec Model As an Input Keras Layer (Deprecated)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This functionality is removed since release 0.5.11, due to the following reasons:
+
+* `keras` changed its code that produces this bug;
+* the layer is consuming memory;
+* only Word2Vec is supported; and
+* the results are incorrect.
 
 Reference
 ---------

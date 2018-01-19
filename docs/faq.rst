@@ -88,4 +88,14 @@ mentioned, cite those papers. For example, if you use `CNNWordEmbed` in `framewo
 according to the docstring, cite Yoon Kim's paper. Refer to this documentation for the reference too.
 
 
+**Q8. Is there any reasons why word-embedding keras layers no longer used since release 0.5.11?**
+
+Ans: This functionality is removed since release 0.5.11, due to the following reasons:
+
+* `keras` changed its code that produces this bug;
+* the layer is consuming memory;
+* only Word2Vec is supported; and
+* the results are incorrect.
+
+
 Home: :doc:`index`
