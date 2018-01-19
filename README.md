@@ -69,6 +69,7 @@ to fix any errors.
 # Possible Future Updates
 
 - [ ] Support of seq2seq models (character-based);
+- [x] Removal of word-embedding `keras`-type layers;
 - [ ] Spelling corrections and fuzzy logic;
 - [ ] Gradually replacing `keras` with direct `TensorFlow` or the `keras` package within `TensorFlow`;
 - [ ] Jupyter notebooks as tutorials;

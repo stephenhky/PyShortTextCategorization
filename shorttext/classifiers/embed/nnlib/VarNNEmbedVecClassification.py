@@ -44,7 +44,7 @@ class VarNNEmbeddedVecClassifier:
         self.wvmodel = wvmodel
         self.vecsize = self.wvmodel.vector_size if vecsize == None else vecsize
         self.maxlen = maxlen
-        self.with_gensim = with_gensim
+        self.with_gensim = False
         self.trained = False
 
     def convert_trainingdata_matrix(self, classdict):
@@ -70,13 +70,7 @@ class VarNNEmbeddedVecClassifier:
                 category_bucket = [0]*len(classlabels)
                 category_bucket[lblidx_dict[label]] = 1
                 indices.append(category_bucket)
-                if self.with_gensim:
-                    phrases.append(shorttext)
-                else:
-                    phrases.append(tokenize(shorttext))
-
-        if self.with_gensim:
-            return classlabels, phrases, indices
+                phrases.append(tokenize(shorttext))
 
         # store embedded vectors
         train_embedvec = np.zeros(shape=(len(phrases), self.maxlen, self.vecsize))
@@ -103,23 +97,11 @@ class VarNNEmbeddedVecClassifier:
         :type kerasmodel: keras.models.Sequential
         :type nb_epoch: int
         """
-        if self.with_gensim:
-            # convert classdict to training input vectors
-            self.classlabels, x_train, y_train = self.convert_trainingdata_matrix(classdict)
+        # convert classdict to training input vectors
+        self.classlabels, train_embedvec, indices = self.convert_trainingdata_matrix(classdict)
 
-            tokenizer = Tokenizer()
-            tokenizer.fit_on_texts(x_train)
-            x_train = tokenizer.texts_to_sequences(x_train)
-            x_train = pad_sequences(x_train, maxlen=self.maxlen)
-
-            # train the model
-            kerasmodel.fit(x_train, y_train, epochs=nb_epoch)
-        else:
-            # convert classdict to training input vectors
-            self.classlabels, train_embedvec, indices = self.convert_trainingdata_matrix(classdict)
-
-            # train the model
-            kerasmodel.fit(train_embedvec, indices, epochs=nb_epoch)
+        # train the model
+        kerasmodel.fit(train_embedvec, indices, epochs=nb_epoch)
 
         # flag switch
         self.model = kerasmodel
@@ -146,7 +128,7 @@ class VarNNEmbeddedVecClassifier:
         labelfile = open(nameprefix+'_classlabels.txt', 'w')
         labelfile.write('\n'.join(self.classlabels))
         labelfile.close()
-        json.dump({'with_gensim': self.with_gensim}, open(nameprefix+'_config.json', 'w'))
+        json.dump({'with_gensim': False}, open(nameprefix+'_config.json', 'w'))
 
     def loadmodel(self, nameprefix):
         """ Load a trained model from files.
@@ -169,10 +151,7 @@ class VarNNEmbeddedVecClassifier:
         self.classlabels = map(lambda s: s.strip(), self.classlabels)
         # check if _config.json exists.
         # This file does not exist if the model was created with shorttext<0.4.0
-        if os.path.exists(nameprefix+'_config.json'):
-            self.with_gensim = json.load(open(nameprefix+'_config.json', 'r'))['with_gensim']
-        else:
-            self.with_gensim = False
+        self.with_gensim = False
         self.trained = True
 
     def word_to_embedvec(self, word):
@@ -207,18 +186,6 @@ class VarNNEmbeddedVecClassifier:
             matrix[i] = self.word_to_embedvec(tokens[i])
         return matrix
 
-    def process_text(self, shorttext):
-        """Process the input text by tokenizing and padding it.
-
-        :param shorttext: a short sentence
-        """
-        tokenizer = Tokenizer()
-        tokenizer.fit_on_texts(shorttext)
-        x_train = tokenizer.texts_to_sequences(shorttext)
-
-        x_train = pad_sequences(x_train, maxlen=self.maxlen)
-        return x_train
-
     def score(self, shorttext):
         """ Calculate the scores for all the class labels for the given short sentence.
 
@@ -236,12 +203,8 @@ class VarNNEmbeddedVecClassifier:
         if not self.trained:
             raise e.ModelNotTrainedException()
 
-        if self.with_gensim:
-            # tokenize and pad input text
-            matrix = self.process_text(shorttext)
-        else:
-            # retrieve vector
-            matrix = np.array([self.shorttext_to_matrix(shorttext)])
+        # retrieve vector
+        matrix = np.array([self.shorttext_to_matrix(shorttext)])
 
         # classification using the neural network
         predictions = self.model.predict(matrix)

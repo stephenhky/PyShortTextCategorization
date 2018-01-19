@@ -57,43 +57,22 @@ def CNNWordEmbed(nb_labels,
     if wvmodel != None:
         vecsize = wvmodel.vector_size
 
-    if with_gensim == True:
-        embedding_layer = wvmodel.get_keras_embedding()
-        sequence_input = Input(shape=(maxlen,), dtype='int32')
-        x = embedding_layer(sequence_input)
-        x = Conv1D(filters=nb_filters,
-                   kernel_size=n_gram,
-                   padding='valid',
-                   activation='relu',
-                   input_shape=(maxlen, vecsize))(x)
-        if cnn_dropout > 0.0:
-            x = Dropout(cnn_dropout)(x)
-        x = MaxPooling1D(pool_size=maxlen - n_gram + 1)(x)
-        x = Flatten()(x)
-        x = Dense(nb_labels,
-                  activation=final_activation,
-                  kernel_regularizer=l2(dense_wl2reg),
-                  bias_regularizer=l2(dense_bl2reg))(x)
-
-        model = Model(sequence_input, x)
-        model.compile(loss='categorical_crossentropy', optimizer=optimizer)
-    else:
-        model = Sequential()
-        model.add(Conv1D(filters=nb_filters,
-                         kernel_size=n_gram,
-                         padding='valid',
-                         activation='relu',
-                         input_shape=(maxlen, vecsize)))
-        if cnn_dropout > 0.0:
-            model.add(Dropout(cnn_dropout))
-        model.add(MaxPooling1D(pool_size=maxlen - n_gram + 1))
-        model.add(Flatten())
-        model.add(Dense(nb_labels,
-                        activation=final_activation,
-                        kernel_regularizer=l2(dense_wl2reg),
-                        bias_regularizer=l2(dense_bl2reg))
-                  )
-        model.compile(loss='categorical_crossentropy', optimizer=optimizer)
+    model = Sequential()
+    model.add(Conv1D(filters=nb_filters,
+                     kernel_size=n_gram,
+                     padding='valid',
+                     activation='relu',
+                     input_shape=(maxlen, vecsize)))
+    if cnn_dropout > 0.0:
+        model.add(Dropout(cnn_dropout))
+    model.add(MaxPooling1D(pool_size=maxlen - n_gram + 1))
+    model.add(Flatten())
+    model.add(Dense(nb_labels,
+                    activation=final_activation,
+                    kernel_regularizer=l2(dense_wl2reg),
+                    bias_regularizer=l2(dense_bl2reg))
+              )
+    model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
     return model
 
@@ -150,55 +129,28 @@ def DoubleCNNWordEmbed(nb_labels,
     if wvmodel != None:
         vecsize = wvmodel.vector_size
 
-    if with_gensim == True:
-        embedding_layer = wvmodel.get_keras_embedding()
-        sequence_input = Input(shape=(maxlen,), dtype='int32')
-        x = embedding_layer(sequence_input)
-        x = Conv1D(filters=nb_filters_1,
-                   kernel_size=n_gram,
-                   padding='valid',
-                   activation='relu',
-                   input_shape=(maxlen, vecsize))(x)
-        if cnn_dropout_1 > 0.0:
-            x = Dropout(cnn_dropout_1)(x)
-        x = Conv1D(filters=nb_filters_2,
-                   kernel_size=filter_length_2,
-                   padding='valid',
-                   activation='relu')(x)
-        if cnn_dropout_2 > 0.0:
-            x = Dropout(cnn_dropout_2)(x)
-        x = MaxPooling1D(pool_size=maxlen - n_gram -filter_length_2 + 1)(x)
-        x = Flatten()(x)
-        x = Dense(nb_labels,
-                  activation=final_activation,
-                  kernel_regularizer=l2(dense_wl2reg),
-                  bias_regularizer=l2(dense_bl2reg))(x)
-
-        model = Model(sequence_input, x)
-        model.compile(loss='categorical_crossentropy', optimizer=optimizer)
-    else:
-        model = Sequential()
-        model.add(Conv1D(filters=nb_filters_1,
-                         kernel_size=n_gram,
-                         padding='valid',
-                         activation='relu',
-                         input_shape=(maxlen, vecsize)))
-        if cnn_dropout_1 > 0.0:
-            model.add(Dropout(cnn_dropout_1))
-        model.add(Conv1D(filters=nb_filters_2,
-                         kernel_size=filter_length_2,
-                         padding='valid',
-                         activation='relu'))
-        if cnn_dropout_2 > 0.0:
-            model.add(Dropout(cnn_dropout_2))
-        model.add(MaxPooling1D(pool_size=maxlen - n_gram -filter_length_2 + 1))
-        model.add(Flatten())
-        model.add(Dense(nb_labels,
-                        activation=final_activation,
-                        kernel_regularizer=l2(dense_wl2reg),
-                        bias_regularizer=l2(dense_bl2reg))
-                  )
-        model.compile(loss='categorical_crossentropy', optimizer=optimizer)
+    model = Sequential()
+    model.add(Conv1D(filters=nb_filters_1,
+                     kernel_size=n_gram,
+                     padding='valid',
+                     activation='relu',
+                     input_shape=(maxlen, vecsize)))
+    if cnn_dropout_1 > 0.0:
+        model.add(Dropout(cnn_dropout_1))
+    model.add(Conv1D(filters=nb_filters_2,
+                     kernel_size=filter_length_2,
+                     padding='valid',
+                     activation='relu'))
+    if cnn_dropout_2 > 0.0:
+        model.add(Dropout(cnn_dropout_2))
+    model.add(MaxPooling1D(pool_size=maxlen - n_gram -filter_length_2 + 1))
+    model.add(Flatten())
+    model.add(Dense(nb_labels,
+                    activation=final_activation,
+                    kernel_regularizer=l2(dense_wl2reg),
+                    bias_regularizer=l2(dense_bl2reg))
+              )
+    model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
     return model
 
@@ -259,47 +211,24 @@ def CLSTMWordEmbed(nb_labels,
     if wvmodel != None:
         vecsize = wvmodel.vector_size
 
-    if with_gensim == True:
-        embedding_layer = wvmodel.get_keras_embedding()
-        sequence_input = Input(shape=(maxlen,), dtype='int32')
-        x = embedding_layer(sequence_input)
-        x = Conv1D(filters=nb_filters,
-                   kernel_size=n_gram,
-                   padding='valid',
-                   activation='relu',
-                   input_shape=(maxlen, vecsize))(x)
-        if cnn_dropout > 0.0:
-            x = Dropout(cnn_dropout)(x)
-        x = MaxPooling1D(pool_size=maxlen - n_gram + 1)(x)
-        x = LSTM(nb_rnnoutdim)(x)
-        if rnn_dropout > 0.0:
-            x = Dropout(rnn_dropout)(x)
-        x = Dense(nb_labels,
-                  activation=final_activation,
-                  kernel_regularizer=l2(dense_wl2reg),
-                  bias_regularizer=l2(dense_bl2reg),)(x)
-
-        model = Model(sequence_input, x)
-        model.compile(loss='categorical_crossentropy', optimizer=optimizer)
-    else:
-        model = Sequential()
-        model.add(Conv1D(filters=nb_filters,
-                         kernel_size=n_gram,
-                         padding='valid',
-                         activation='relu',
-                         input_shape=(maxlen, vecsize)))
-        if cnn_dropout > 0.0:
-            model.add(Dropout(cnn_dropout))
-        model.add(MaxPooling1D(pool_size=maxlen - n_gram + 1))
-        model.add(LSTM(nb_rnnoutdim))
-        if rnn_dropout > 0.0:
-            model.add(Dropout(rnn_dropout))
-        model.add(Dense(nb_labels,
-                        activation=final_activation,
-                        kernel_regularizer=l2(dense_wl2reg),
-                        bias_regularizer=l2(dense_bl2reg),
-                        )
-                  )
-        model.compile(loss='categorical_crossentropy', optimizer=optimizer)
+    model = Sequential()
+    model.add(Conv1D(filters=nb_filters,
+                     kernel_size=n_gram,
+                     padding='valid',
+                     activation='relu',
+                     input_shape=(maxlen, vecsize)))
+    if cnn_dropout > 0.0:
+        model.add(Dropout(cnn_dropout))
+    model.add(MaxPooling1D(pool_size=maxlen - n_gram + 1))
+    model.add(LSTM(nb_rnnoutdim))
+    if rnn_dropout > 0.0:
+        model.add(Dropout(rnn_dropout))
+    model.add(Dense(nb_labels,
+                    activation=final_activation,
+                    kernel_regularizer=l2(dense_wl2reg),
+                    bias_regularizer=l2(dense_bl2reg),
+                    )
+              )
+    model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
     return model
