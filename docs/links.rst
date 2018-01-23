@@ -58,4 +58,7 @@ Blog Entries
 "Release of shorttext 0.5.4," *Everything About Data Analytics*, WordPress (2017). [`WordPress
 <https://datawarrior.wordpress.com/2017/09/08/release-of-shorttext-0-5-4/>`_]
 
+"Document-Term Matrix: Text Mining in R and Python," *Everything About Data Analytics*, WordPress (2018). [`WordPress
+https://datawarrior.wordpress.com/2018/01/22/document-term-matrix-text-mining-in-r-and-python/`_]
+
 Home: :doc:`index`
