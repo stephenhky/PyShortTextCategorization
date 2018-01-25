@@ -1,4 +1,6 @@
 
+import json
+
 from keras.models import load_model
 from keras.models import Model
 from keras.layers import Input, LSTM, Dense
@@ -7,13 +9,15 @@ from shorttext.utils import compactmodel_io as cio
 
 # Reference: https://blog.keras.io/a-ten-minute-introduction-to-sequence-to-sequence-learning-in-keras.html
 
-kerasseq2seq_suffices = {'.h5', '.json', '_encoder.h5', '_encoder.json', '_decoder.h5', '_decoder.json'}
+kerasseq2seq_suffices = {'.h5', '.json', '_s2s_hyperparam.json', '_encoder.h5', '_encoder.json', '_decoder.h5', '_decoder.json'}
 
 @cio.compactio({'classifier': 'kerasseq2seq'}, 'kerasseq2seq', kerasseq2seq_suffices)
 class Seq2SeqWithKeras:
     def __init__(self, vecsize, latent_dim):
         self.vecsize = vecsize
         self.latent_dim = latent_dim
+
+        self.prepare_model()
 
     def prepare_model(self):
         # Define an input sequence and process it.
@@ -64,6 +68,9 @@ class Seq2SeqWithKeras:
                        epochs=epochs)
 
     def savemodel(self, prefix, final=False):
+        # save hyperparameters
+        json.dump({'vecize': self.vecsize, 'latent_dim': self.latent_dim}, open(prefix+'_s2s_hyperparam.json', 'wb'))
+
         # save whole model
         if final:
             self.model.save_weights(prefix+'.h5')
@@ -82,6 +89,17 @@ class Seq2SeqWithKeras:
         open(prefix+'_decoder.json', 'wb').write(self.decoder_model.to_json())
 
     def loadmodel(self, prefix):
+        hyperparameters = json.load(open(prefix+'_s2s_hyperparam.json', 'rb'))
+        self.vecsize, self.latent_dim = hyperparameters['vecsize'], hyperparameters['latent_dim']
         self.model = load_model(prefix+'.h5')
         self.encoder_model = load_model(prefix+'_encoder.h5')
         self.decoder_model = load_model(prefix+'_decoder.h5')
+
+
+def loadSeq2SeqWithKeras(path, compact=True):
+    generator = Seq2SeqWithKeras(0, 0)
+    if compact:
+        generator.load_compact_model(path)
+    else:
+        generator.loadmodel(path)
+    return generator
