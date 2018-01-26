@@ -16,8 +16,7 @@ class Seq2SeqWithKeras:
     def __init__(self, vecsize, latent_dim):
         self.vecsize = vecsize
         self.latent_dim = latent_dim
-
-        self.prepare_model()
+        self.compiled = False
 
     def prepare_model(self):
         # Define an input sequence and process it.
@@ -60,7 +59,9 @@ class Seq2SeqWithKeras:
         self.decoder_model = decoder_model
 
     def compile(self, optimizer='rmsprop', loss='categorical_crossentropy'):
+        self.prepare_model()
         self.model.compile(optimizer=optimizer, loss=loss)
+        self.compiled = True
 
     def fit(self, encoder_input, decoder_input, decoder_output, batch_size=64, epochs=100):
         self.model.fit([encoder_input, decoder_input], decoder_output,
@@ -69,7 +70,7 @@ class Seq2SeqWithKeras:
 
     def savemodel(self, prefix, final=False):
         # save hyperparameters
-        json.dump({'vecize': self.vecsize, 'latent_dim': self.latent_dim}, open(prefix+'_s2s_hyperparam.json', 'wb'))
+        json.dump({'vecsize': self.vecsize, 'latent_dim': self.latent_dim}, open(prefix+'_s2s_hyperparam.json', 'wb'))
 
         # save whole model
         if final:
@@ -102,4 +103,5 @@ def loadSeq2SeqWithKeras(path, compact=True):
         generator.load_compact_model(path)
     else:
         generator.loadmodel(path)
+    generator.compiled = True
     return generator
