@@ -59,7 +59,6 @@ class Seq2SeqWithKeras:
         self.decoder_model = decoder_model
 
     def compile(self, optimizer='rmsprop', loss='categorical_crossentropy'):
-        self.prepare_model()
         self.model.compile(optimizer=optimizer, loss=loss)
         self.compiled = True
 

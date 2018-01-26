@@ -26,6 +26,7 @@ class CharBasedSeq2SeqGenerator:
 
     def compile(self, optimizer='rmsprop', loss='categorical_crossentropy'):
         if not self.compiled:
+            self.s2sgenerator.prepare_model()
             self.s2sgenerator.compile(optimizer=optimizer, loss=loss)
             self.compiled = True
 
