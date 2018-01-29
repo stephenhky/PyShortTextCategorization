@@ -33,11 +33,20 @@ David H. Wolpert, "Stacked Generalization," *Neural Netw* 5: 241-259 (1992).
 David M. Blei, "Probabilistic Topic Models," *Communications of the ACM* 55(4): 77-84 (2012). [`ACM
 <http://dl.acm.org/citation.cfm?id=2133826>`_]
 
+Francois Chollet, "A ten-minute introduction to sequence-to-sequence learning in Keras," *The Keras Blog*. [`Keras
+<https://blog.keras.io/a-ten-minute-introduction-to-sequence-to-sequence-learning-in-keras.html>`_]
+
 Francois Chollet, "Building Autoencoders in Keras," *The Keras Blog*. [`Keras
 <https://blog.keras.io/building-autoencoders-in-keras.html>`_]
 
-Hsiang-Fu Yu, Chia-Hua Ho, Yu-Chin Juan, and Chih-Jen Lin, "LibShortText: A Library for Short-text Classification." [`NTU
+Hsiang-Fu Yu, Chia-Hua Ho, Yu-Chin Juan, Chih-Jen Lin, "LibShortText: A Library for Short-text Classification." [`NTU
 <https://www.csie.ntu.edu.tw/~cjlin/libshorttext/>`_]
+
+Ilya Sutskever, James Martens, Geoffrey Hinton, "Generating Text with Recurrent Neural Networks," *ICML* (2011). [`UToronto
+<http://www.cs.utoronto.ca/~ilya/pubs/2011/LANG-RNN.pdf>`_]
+
+Ilya Sutskever, Oriol Vinyals, Quoc V. Le, "Sequence to Sequence Learning with Neural Networks," arXiv:1409.3215 (2014). [`arXiv
+<https://arxiv.org/abs/1409.3215>`_]
 
 Jayant Jain, "Implementing Poincaré Embeddings," RaRe Technologies (2017). [`RaRe
 <https://rare-technologies.com/implementing-poincare-embeddings/#h2-2>`_]
