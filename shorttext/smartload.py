@@ -5,6 +5,7 @@ from .utils import classification_exceptions as e
 from .utils import load_DocumentTermMatrix
 from .classifiers import  load_varnnlibvec_classifier, load_sumword2vec_classifier
 from .generators import load_autoencoder_topicmodel, load_gensimtopicmodel
+from .generators import loadSeq2SeqWithKeras, loadCharBasedSeq2SeqGenerator
 from .classifiers import load_autoencoder_topic_sklearnclassifier, load_gensim_topicvec_sklearnclassifier
 from .classifiers import load_maxent_classifier
 
@@ -46,5 +47,9 @@ def smartload_compact_model(filename, wvmodel, preprocessor=standard_text_prepro
         return load_maxent_classifier(filename, compact=True)
     elif classifier_name in ['dtm']:
         return load_DocumentTermMatrix(filename, compact=True)
+    elif classifier_name in ['kerasseq2seq']:
+        return loadSeq2SeqWithKeras(filename, compact=True)
+    elif classifier_name in ['charbases2s']:
+        return loadCharBasedSeq2SeqGenerator(filename, compact=True)
     else:
         raise e.AlgorithmNotExistException(classifier_name)
