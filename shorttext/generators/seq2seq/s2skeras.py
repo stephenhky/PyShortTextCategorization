@@ -6,6 +6,7 @@ from keras.models import Model
 from keras.layers import Input, LSTM, Dense
 
 from shorttext.utils import compactmodel_io as cio
+import shorttext.utils.classification_exceptions as e
 
 # Reference: https://blog.keras.io/a-ten-minute-introduction-to-sequence-to-sequence-learning-in-keras.html
 
@@ -13,12 +14,37 @@ kerasseq2seq_suffices = ['.h5', '.json', '_s2s_hyperparam.json', '_encoder.h5', 
 
 @cio.compactio({'classifier': 'kerasseq2seq'}, 'kerasseq2seq', kerasseq2seq_suffices)
 class Seq2SeqWithKeras:
+    """ Class implementing sequence-to-sequence (seq2seq) learning with keras.
+
+    Reference:
+
+    Ilya Sutskever, James Martens, Geoffrey Hinton, "Generating Text with Recurrent Neural Networks," *ICML* (2011). [`UToronto
+    <http://www.cs.utoronto.ca/~ilya/pubs/2011/LANG-RNN.pdf>`_]
+
+    Ilya Sutskever, Oriol Vinyals, Quoc V. Le, "Sequence to Sequence Learning with Neural Networks," arXiv:1409.3215 (2014). [`arXiv
+    <https://arxiv.org/abs/1409.3215>`_]
+
+    Francois Chollet, "A ten-minute introduction to sequence-to-sequence learning in Keras," *The Keras Blog*. [`Keras
+    <https://blog.keras.io/a-ten-minute-introduction-to-sequence-to-sequence-learning-in-keras.html>`_]
+    """
     def __init__(self, vecsize, latent_dim):
+        """ Instantiate the class.
+
+        :param vecsize: vector size of the sequence
+        :param latent_dim: latent dimension in the RNN cell
+        :type vecsize: int
+        :type latent_dim: int
+        """
         self.vecsize = vecsize
         self.latent_dim = latent_dim
         self.compiled = False
+        self.trained = False
 
     def prepare_model(self):
+        """ Prepare the keras model.
+
+        :return: None
+        """
         # Define an input sequence and process it.
         encoder_inputs = Input(shape=(None, self.vecsize))
         encoder = LSTM(self.latent_dim, return_state=True)
@@ -59,15 +85,56 @@ class Seq2SeqWithKeras:
         self.decoder_model = decoder_model
 
     def compile(self, optimizer='rmsprop', loss='categorical_crossentropy'):
+        """ Compile the keras model after preparation running :func:`~prepare_model`.
+
+        :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: adam)
+        :param loss: loss function available from keras (Default: 'categorical_crossentropy`)
+        :type optimizer: str
+        :type loss: str
+        :return: None
+        """
         self.model.compile(optimizer=optimizer, loss=loss)
         self.compiled = True
 
     def fit(self, encoder_input, decoder_input, decoder_output, batch_size=64, epochs=100):
+        """ Fit the sequence to learn the sequence-to-sequence (seq2seq) model.
+
+        :param encoder_input: encoder input, a rank-3 tensor
+        :param decoder_input: decoder input, a rank-3 tensor
+        :param decoder_output: decoder output, a rank-3 tensor
+        :param batch_size: batch size (Default: 64)
+        :param epochs: number of epochs (Default: 100)
+        :return: None
+        :type encoder_input: numpy.array
+        :type decoder_input: numpy.array
+        :type decoder_output: numpy.array
+        :type batch_size: int
+        :type epochs: int
+        """
         self.model.fit([encoder_input, decoder_input], decoder_output,
                        batch_size=batch_size,
                        epochs=epochs)
+        self.trained = True
 
     def savemodel(self, prefix, final=False):
+        """ Save the trained models into multiple files.
+
+        To save it compactly, call :func:`~save_compact_model`.
+
+        If `final` is set to `True`, the model cannot be further trained.
+
+        If there is no trained model, a `ModelNotTrainedException` will be thrown.
+
+        :param prefix: prefix of the file path
+        :param final: whether the model is final (that should not be trained further) (Default: False)
+        :return: None
+        :type prefix: str
+        :type final: bool
+        :raise: ModelNotTrainedException
+        """
+        if not self.trained:
+            raise e.ModelNotTrainedException()
+
         # save hyperparameters
         json.dump({'vecsize': self.vecsize, 'latent_dim': self.latent_dim}, open(prefix+'_s2s_hyperparam.json', 'wb'))
 
@@ -89,14 +156,29 @@ class Seq2SeqWithKeras:
         open(prefix+'_decoder.json', 'wb').write(self.decoder_model.to_json())
 
     def loadmodel(self, prefix):
+        """ Load a trained model from various files.
+
+        To load a compact model, call :func:`~load_compact_model`.
+
+        :param prefix: prefix of the file path
+        :return: None
+        :type prefix: str
+        """
         hyperparameters = json.load(open(prefix+'_s2s_hyperparam.json', 'rb'))
         self.vecsize, self.latent_dim = hyperparameters['vecsize'], hyperparameters['latent_dim']
         self.model = load_model(prefix+'.h5')
         self.encoder_model = load_model(prefix+'_encoder.h5')
         self.decoder_model = load_model(prefix+'_decoder.h5')
+        self.trained = True
 
 
 def loadSeq2SeqWithKeras(path, compact=True):
+    """
+
+    :param path:
+    :param compact:
+    :return:
+    """
     generator = Seq2SeqWithKeras(0, 0)
     if compact:
         generator.load_compact_model(path)
