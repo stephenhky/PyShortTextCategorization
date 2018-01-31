@@ -1,10 +1,7 @@
 
 import json
-import os
 
 import numpy as np
-from keras.preprocessing.text import Tokenizer
-from keras.preprocessing.sequence import pad_sequences
 
 import shorttext.utils.kerasmodel_io as kerasio
 import shorttext.utils.classification_exceptions as e
