@@ -14,7 +14,28 @@ charbases2s_suffices = kerasseq2seq_suffices + ['_dictionary.dict', '_charbases2
 
 @cio.compactio({'classifier': 'charbases2s'}, 'charbases2s', charbases2s_suffices)
 class CharBasedSeq2SeqGenerator:
+    """ Class implementing character-based sequence-to-sequence (seq2seq) learning model.
+
+    This class implements the seq2seq model at the character level. This class calls
+    :class:`Seq2SeqWithKeras`.
+
+    Reference:
+
+    Oriol Vinyals, Quoc Le, "A Neural Conversational Model," arXiv:1506.05869 (2015). [`arXiv
+    <https://arxiv.org/abs/1506.05869>`_]
+    """
     def __init__(self, sent2charvec_encoder, latent_dim, maxlen):
+        """ Instantiate the class.
+
+        If no one-hot encoder passed in, no compilation will be performed.
+
+        :param sent2charvec_encoder: the one-hot encoder
+        :param latent_dim: number of latent dimension
+        :param maxlen: maximum length of a sentence
+        :type sent2charvec_encoder: SentenceToCharVecEncoder
+        :type latent_dim: int
+        :type maxlen: int
+        """
         self.compiled = False
         if sent2charvec_encoder != None:
             self.sent2charvec_encoder = sent2charvec_encoder
@@ -25,12 +46,27 @@ class CharBasedSeq2SeqGenerator:
             self.s2sgenerator = Seq2SeqWithKeras(self.nbelem, self.latent_dim)
 
     def compile(self, optimizer='rmsprop', loss='categorical_crossentropy'):
+        """ Compile the keras model.
+
+        :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: rmsprop)
+        :param loss: loss function available from keras (Default: 'categorical_crossentropy`)
+        :return: None
+        :type optimizer: str
+        :type loss: str
+        """
         if not self.compiled:
             self.s2sgenerator.prepare_model()
             self.s2sgenerator.compile(optimizer=optimizer, loss=loss)
             self.compiled = True
 
     def prepare_trainingdata(self, txtseq):
+        """ Transforming sentence to a sequence of numerical vectors.
+
+        :param txtseq: text
+        :return: rank-3 tensors for encoder input, decoder input, and decoder output
+        :type txtseq: str
+        :rtype: (numpy.array, numpy.array, numpy.array)
+        """
         encoder_input = self.sent2charvec_encoder.encode_sentences(txtseq[:-1], startsig=True, maxlen=self.maxlen, sparse=False)
         decoder_input = self.sent2charvec_encoder.encode_sentences(txtseq[1:], startsig=True, maxlen=self.maxlen, sparse=False)
         decoder_output = self.sent2charvec_encoder.encode_sentences(txtseq[1:], endsig=True, maxlen=self.maxlen, sparse=False)

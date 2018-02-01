@@ -26,6 +26,9 @@ class Seq2SeqWithKeras:
 
     Francois Chollet, "A ten-minute introduction to sequence-to-sequence learning in Keras," *The Keras Blog*. [`Keras
     <https://blog.keras.io/a-ten-minute-introduction-to-sequence-to-sequence-learning-in-keras.html>`_]
+
+    Aurélien Géron, *Hands-On Machine Learning with Scikit-Learn and TensorFlow* (Sebastopol, CA: O'Reilly Media, 2017). [`O\'Reilly
+    <http://shop.oreilly.com/product/0636920052289.do>`_]
     """
     def __init__(self, vecsize, latent_dim):
         """ Instantiate the class.
@@ -173,11 +176,14 @@ class Seq2SeqWithKeras:
 
 
 def loadSeq2SeqWithKeras(path, compact=True):
-    """
+    """ Load a trained `Seq2SeqWithKeras` class from file.
 
-    :param path:
-    :param compact:
-    :return:
+    :param path: path of the model file
+    :param compact: whether it is a compact model (Default: True)
+    :return: a `Seq2SeqWithKeras` class for sequence to sequence inference
+    :type path: str
+    :type compact: bool
+    :rtype: Seq2SeqWithKeras
     """
     generator = Seq2SeqWithKeras(0, 0)
     if compact:
