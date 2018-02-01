@@ -4,6 +4,9 @@ References
 Adam L. Berger, Stephen A. Della Pietra, Vincent J. Della Pietra, "A Maximum Entropy Approach to Natural Language Processing," *Computational Linguistics* 22(1): 39-72 (1996). [`ACM
 <http://dl.acm.org/citation.cfm?id=234289>`_]
 
+Aurélien Géron, *Hands-On Machine Learning with Scikit-Learn and TensorFlow* (Sebastopol, CA: O'Reilly Media, 2017). [`O\'Reilly
+<http://shop.oreilly.com/product/0636920052289.do>`_]
+
 Chinmaya Pancholi, "Gensim integration with scikit-learn and Keras," *Google Summer of Codes* (GSoC) proposal (2017). [`Github
 <https://github.com/numfocus/gsoc/blob/master/2017/proposals/Chinmaya_Pancholi.md>`_]
 
@@ -70,6 +73,9 @@ M. Paz Sesmero, Agapito I. Ledezma, Araceli Sanchis, "Generating ensembles of he
 
 Nal Kalchbrenner, Edward Grefenstette, Phil Blunsom, "A Convolutional Neural Network for Modelling Sentences," *Proceedings of the 52nd Annual Meeting of the Association for Computational Linguistics*, pp. 655-665 (2014). [`arXiv
 <https://arxiv.org/abs/1404.2188>`_]
+
+Oriol Vinyals, Quoc Le, "A Neural Conversational Model," arXiv:1506.05869 (2015). [`arXiv
+<https://arxiv.org/abs/1506.05869>`_]
 
 Piotr Bojanowski, Edouard Grave, Armand Joulin, Tomas Mikolov, "Enriching Word Vectors with Subword Information," arXiv:1607.04606 (2016). [`arXiv
 <https://arxiv.org/abs/1607.04606>`_]
