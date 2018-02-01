@@ -27,7 +27,7 @@ class Seq2SeqWithKeras:
     Francois Chollet, "A ten-minute introduction to sequence-to-sequence learning in Keras," *The Keras Blog*. [`Keras
     <https://blog.keras.io/a-ten-minute-introduction-to-sequence-to-sequence-learning-in-keras.html>`_]
 
-    Aurélien Géron, *Hands-On Machine Learning with Scikit-Learn and TensorFlow* (Sebastopol, CA: O'Reilly Media, 2017). [`O\'Reilly
+    Aurelien Geron, *Hands-On Machine Learning with Scikit-Learn and TensorFlow* (Sebastopol, CA: O'Reilly Media, 2017). [`O\'Reilly
     <http://shop.oreilly.com/product/0636920052289.do>`_]
     """
     def __init__(self, vecsize, latent_dim):
