@@ -73,11 +73,32 @@ class CharBasedSeq2SeqGenerator:
         return encoder_input, decoder_input, decoder_output
 
     def train(self, txtseq, batch_size=64, epochs=100, optimizer='rmsprop', loss='categorical_crossentropy'):
+        """ Train the character-based seq2seq model.
+
+        :param txtseq: text
+        :param batch_size: batch size (Default: 64)
+        :param epochs: number of epochs (Default: 100)
+        :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: rmsprop)
+        :param loss: loss function available from keras (Default: 'categorical_crossentropy`)
+        :return: None
+        :type txtseq: str
+        :type batch_size: int
+        :type epochs: int
+        :type optimizer: str
+        :type loss: str
+        """
         encoder_input, decoder_input, decoder_output = self.prepare_trainingdata(txtseq)
         self.compile(optimizer=optimizer, loss=loss)
         self.s2sgenerator.fit(encoder_input, decoder_input, decoder_output, batch_size=batch_size, epochs=epochs)
 
     def decode(self, txtseq):
+        """ Given an input text, produce the output text.
+
+        :param txtseq: input text
+        :return: output text
+        :type txtseq: str
+        :rtype: str
+        """
         # Encode the input as state vectors.
         inputvec = np.array([self.sent2charvec_encoder.encode_sentence(txtseq, maxlen=self.maxlen, endsig=True).toarray()])
         states_value = self.s2sgenerator.encoder_model.predict(inputvec)
@@ -114,11 +135,34 @@ class CharBasedSeq2SeqGenerator:
         return decoded_txtseq
 
     def savemodel(self, prefix, final=False):
+        """ Save the trained models into multiple files.
+
+        To save it compactly, call :func:`~save_compact_model`.
+
+        If `final` is set to `True`, the model cannot be further trained.
+
+        If there is no trained model, a `ModelNotTrainedException` will be thrown.
+
+        :param prefix: prefix of the file path
+        :param final: whether the model is final (that should not be trained further) (Default: False)
+        :return: None
+        :type prefix: str
+        :type final: bool
+        :raise: ModelNotTrainedException
+        """
         self.s2sgenerator.savemodel(prefix, final=final)
         self.dictionary.save(prefix+'_dictionary.dict')
         json.dump({'maxlen': self.maxlen, 'latent_dim': self.latent_dim}, open(prefix+'_charbases2s.json', 'wb'))
 
     def loadmodel(self, prefix):
+        """ Load a trained model from various files.
+
+        To load a compact model, call :func:`~load_compact_model`.
+
+        :param prefix: prefix of the file path
+        :return: None
+        :type prefix: str
+        """
         self.dictionary = gensim.corpora.Dictionary.load(prefix+'_dictionary.dict')
         self.s2sgenerator = loadSeq2SeqWithKeras(prefix, compact=False)
         self.sent2charvec_encoder = SentenceToCharVecEncoder(self.dictionary)
@@ -128,6 +172,15 @@ class CharBasedSeq2SeqGenerator:
         self.compiled = True
 
 def loadCharBasedSeq2SeqGenerator(path, compact=True):
+    """ Load a trained `CharBasedSeq2SeqGenerator` class from file.
+
+    :param path: path of the model file
+    :param compact: whether it is a compact model (Default: True)
+    :return: a `CharBasedSeq2SeqGenerator` class for sequence to sequence inference
+    :type path: str
+    :type compact: bool
+    :rtype: CharBasedSeq2SeqGenerator
+    """
     seq2seqer = CharBasedSeq2SeqGenerator(None, 0, 0)
     if compact:
         seq2seqer.load_compact_model(path)

@@ -90,7 +90,7 @@ class Seq2SeqWithKeras:
     def compile(self, optimizer='rmsprop', loss='categorical_crossentropy'):
         """ Compile the keras model after preparation running :func:`~prepare_model`.
 
-        :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: adam)
+        :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: rmsprop)
         :param loss: loss function available from keras (Default: 'categorical_crossentropy`)
         :type optimizer: str
         :type loss: str
