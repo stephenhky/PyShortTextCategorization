@@ -91,7 +91,7 @@ class CharBasedSeq2SeqGenerator:
         self.compile(optimizer=optimizer, loss=loss)
         self.s2sgenerator.fit(encoder_input, decoder_input, decoder_output, batch_size=batch_size, epochs=epochs)
 
-    def decode(self, txtseq):
+    def decode(self, txtseq, stochastic=True):
         """ Given an input text, produce the output text.
 
         :param txtseq: input text
@@ -116,7 +116,11 @@ class CharBasedSeq2SeqGenerator:
             output_tokens, h, c = self.s2sgenerator.decoder_model.predict([target_seq] + states_value)
 
             # Sample a token
-            sampled_token_index = np.argmax(output_tokens[0, -1, :])
+            if stochastic:
+                # TODO: work on it here
+                pass
+            else:
+                sampled_token_index = np.argmax(output_tokens[0, -1, :])
             sampled_char = self.dictionary[sampled_token_index]
             decoded_txtseq += sampled_char
 
