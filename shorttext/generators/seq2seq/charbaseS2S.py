@@ -117,8 +117,8 @@ class CharBasedSeq2SeqGenerator:
 
             # Sample a token
             if stochastic:
-                # TODO: work on it here
-                pass
+                sampled_token_index = np.random.choice(np.arange(output_tokens.shape[2]),
+                                                       p=output_tokens[0, -1, :])
             else:
                 sampled_token_index = np.argmax(output_tokens[0, -1, :])
             sampled_char = self.dictionary[sampled_token_index]
