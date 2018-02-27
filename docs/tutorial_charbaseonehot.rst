@@ -51,3 +51,4 @@ Reference
 Aurelien Geron, *Hands-On Machine Learning with Scikit-Learn and TensorFlow* (Sebastopol, CA: O'Reilly Media, 2017). [`O\'Reilly
 <http://shop.oreilly.com/product/0636920052289.do>`_]
 
+Home: :doc:`index`

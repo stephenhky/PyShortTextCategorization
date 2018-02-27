@@ -97,6 +97,9 @@ Thomas W. Jones, "textmineR: Functions for Text Mining and Topic Modeling," CRAN
 Tomas Mikolov, Kai Chen, Greg Corrado, Jeffrey Dean, “Efficient Estimation of Word Representations in Vector Space,” *ICLR* 2013 (2013). [`arXiv
 <https://arxiv.org/abs/1301.3781>`_]
 
+Tom Young, Devamanyu Hazarika, Soujanya Poria, Erik Cambria, "Recent Trends in Deep Learning Based Natural Language Processing," arXiv:1708.02709 (2017). [`arXiv
+<https://arxiv.org/abs/1708.02709>`_]
+
 Xuan Hieu Phan, Cam-Tu Nguyen, Dieu-Thu Le, Minh Le Nguyen, Susumu Horiguchi, Quang-Thuy Ha,
 "A Hidden Topic-Based Framework toward Building Applications with Short Web Documents,"
 *IEEE Trans. Knowl. Data Eng.* 23(7): 961-976 (2011).
