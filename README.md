@@ -42,8 +42,9 @@ to fix any errors.
 
 # News
 
-* 01/19/2017: `shorttext` 0.5.11 released.
-* 01/15/2017: `shorttext` 0.5.10 released.
+* 02/27/2018: `shorttext` 0.6.0 released.
+* 01/19/2018: `shorttext` 0.5.11 released.
+* 01/15/2018: `shorttext` 0.5.10 released.
 * 12/14/2017: `shorttext` 0.5.9 released.
 * 11/08/2017: `shorttext` 0.5.8 released.
 * 10/27/2017: `shorttext` 0.5.7 released.
@@ -70,7 +71,6 @@ to fix any errors.
 
 # Possible Future Updates
 
-- [x] Support of seq2seq models (character-based);
 - [ ] Spelling corrections and fuzzy logic;
 - [ ] Gradually replacing `keras` with direct `TensorFlow` or the `keras` package within `TensorFlow`;
 - [ ] Jupyter notebooks as tutorials;

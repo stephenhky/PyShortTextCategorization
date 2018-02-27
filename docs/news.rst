@@ -1,8 +1,9 @@
 News
 ====
 
-* 01/19/2017: `shorttext` 0.5.11 released.
-* 01/15/2017: `shorttext` 0.5.10 released.
+* 02/27/2018: `shorttext` 0.6.0 released.
+* 01/19/2018: `shorttext` 0.5.11 released.
+* 01/15/2018: `shorttext` 0.5.10 released.
 * 12/14/2017: `shorttext` 0.5.9 released.
 * 11/08/2017: `shorttext` 0.5.8 released.
 * 10/27/2017: `shorttext` 0.5.7 released.
@@ -30,6 +31,12 @@ News
 
 What's New
 ----------
+
+Release 0.6.0 (February 27, 2018)
+---------------------------------
+
+* Support of character-based sequence-to-sequence (seq2seq) models.
+
 
 Release 0.5.11 (January 19, 2018)
 ---------------------------------
