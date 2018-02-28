@@ -16,11 +16,10 @@ the file `big.txt` in Peter Norvig's websites:
 
 >>> import urllib2
 >>> textfile = urllib2.urlopen('http://norvig.com/big.txt', 'r')
->>> text = filter(lambda t: len(t)>0, [t.strip() for t in textfile])
 
 Then instantiate the class using the function :func:`shorttext.generators.initSentenceToCharVecEncoder`:
 
->>> chartovec_encoder = shorttext.generators.initSentenceToCharVecEncoder(text)
+>>> chartovec_encoder = shorttext.generators.initSentenceToCharVecEncoder(textfile)
 
 Now, the object `chartovec_encoder` is an instance of :class:`shorttext.generators.SentenceToCharVecEncoder` . The
 default signal character is `\n`, which is also encoded, and can be checked by looking at the field:

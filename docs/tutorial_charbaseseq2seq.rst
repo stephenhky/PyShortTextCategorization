@@ -12,9 +12,7 @@ To use it, create an instance of the class :class:`shorttext.generators.Sentence
 >>> import numpy as np
 >>> import shorttext
 >>> import urllib2
->>> textfile = urllib2.urlopen('http://norvig.com/big.txt', 'r')
->>> text = filter(lambda t: len(t)>0, [t.strip() for t in textfile])
->>> chartovec_encoder = shorttext.generators.initSentenceToCharVecEncoder(text)
+>>> chartovec_encoder = shorttext.generators.initSentenceToCharVecEncoder(urllib2.urlopen('http://norvig.com/big.txt', 'r'))
 
 The above code is the same as :doc:`tutorial_charbaseonehot` .
 
