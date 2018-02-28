@@ -13,7 +13,7 @@ class TestCharOneHot(unittest.TestCase):
 
     def testBigTxt(self):
         chartovec_encoder = shorttext.generators.initSentenceToCharVecEncoder(urllib2.urlopen('http://norvig.com/big.txt', 'r'))
-        self.assertEqual(0, len(chartovec_encoder.dictionary))
+        self.assertEqual(93, len(chartovec_encoder.dictionary))
         self.assertEqual('\n', chartovec_encoder.signalchar)
 
 
