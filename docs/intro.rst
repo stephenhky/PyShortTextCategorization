@@ -18,7 +18,8 @@ Characteristics:
 - cosine distance classification; (see :doc:`tutorial_topic`, :doc:`tutorial_sumvec`)
 - neural network classification (including ConvNet, and C-LSTM); (see :doc:`tutorial_nnlib`)
 - maximum entropy classification; (see :doc:`tutorial_maxent`) and
-- metrics of phrases differences, including soft Jaccard score (using Damerau-Levenshtein distance), and Word Mover's distance (WMD). (see :doc:`tutorial_metrics`)
+- metrics of phrases differences, including soft Jaccard score (using Damerau-Levenshtein distance), and Word Mover's distance (WMD); (see :doc:`tutorial_metrics`) and
+- character-level sequence-to-sequence (seq2seq) learning. (see :doc:`tutorial_charbaseseq2seq`)
 
 Part of the package was implemented using C, and it is interfaced to Python using SWIG_ (Simplified Wrapper and Interface Generator).
 
