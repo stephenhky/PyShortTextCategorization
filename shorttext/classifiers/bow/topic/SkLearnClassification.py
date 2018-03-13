@@ -1,4 +1,3 @@
-from collections import defaultdict
 
 from sklearn.externals import joblib
 
@@ -108,10 +107,10 @@ class TopicVectorSkLearnClassifier:
         """
         if not self.trained:
             raise e.ModelNotTrainedException()
-        scoredict = defaultdict(lambda : default_score)
+
         topicvec = self.getvector(shorttext)
-        for classidx, classlabel in zip(range(len(self.classlabels)), self.classlabels):
-            scoredict[classlabel] = self.classifier.score([topicvec], [classidx])
+        scoredict = {classlabel: self.classifier.score([topicvec], [classidx])
+                     for classidx, classlabel in zip(range(len(self.classlabels)), self.classlabels)}
         return dict(scoredict)
 
     def savemodel(self, nameprefix):
