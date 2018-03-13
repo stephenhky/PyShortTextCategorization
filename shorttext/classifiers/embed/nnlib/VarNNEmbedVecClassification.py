@@ -207,9 +207,8 @@ class VarNNEmbeddedVecClassifier:
         predictions = self.model.predict(matrix)
 
         # wrangle output result
-        scoredict = {}
-        for idx, classlabel in zip(range(len(self.classlabels)), self.classlabels):
-            scoredict[classlabel] = predictions[0][idx]
+        scoredict = {classlabel: predictions[0][idx]
+                     for idx, classlabel in zip(range(len(self.classlabels)), self.classlabels)}
 
         return scoredict
 
