@@ -12,7 +12,7 @@ class TestSpellCheck(unittest.TestCase):
         pass
 
     def test_norvig(self):
-        speller = shorttext.spell.norvig.NorvigSpellCorrector()
+        speller = shorttext.spell.NorvigSpellCorrector()
         speller.train(self.text)
         self.assertEqual(speller.correct('apple'), 'apple')
         self.assertEqual(speller.correct('appl'), 'apply')
