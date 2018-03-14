@@ -3,10 +3,8 @@
 
 import re
 from collections import Counter
-from numba import jit
 
 
-@jit(cache=True)
 def compute_set_edits1(word):
     "All edits that are one edit away from `word`."
     letters = 'abcdefghijklmnopqrstuvwxyz'
@@ -18,7 +16,6 @@ def compute_set_edits1(word):
     return set(deletes + transposes + replaces + inserts)
 
 
-@jit(cache=True)
 def compute_set_edits2(word):
     return (e2 for e1 in compute_set_edits1(word) for e2 in compute_set_edits1(e1))
 
