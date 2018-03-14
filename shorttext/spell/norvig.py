@@ -4,9 +4,10 @@
 import re
 from collections import Counter
 
+from . import SpellCorrector
+
 
 def compute_set_edits1(word):
-    "All edits that are one edit away from `word`."
     letters = 'abcdefghijklmnopqrstuvwxyz'
     splits = [(word[:i], word[i:]) for i in range(len(word) + 1)]
     deletes = [L + R[1:] for L, R in splits if R]
@@ -21,7 +22,7 @@ def compute_set_edits2(word):
 
 
 
-class NorvigSpellCorrector:
+class NorvigSpellCorrector(SpellCorrector):
     def __init__(self):
         self.train('')
 
@@ -41,9 +42,4 @@ class NorvigSpellCorrector:
 
     def candidates(self, word):
         return (self.known([word]) or self.known(compute_set_edits1(word)) or self.known(compute_set_edits2(word)) or [word])
-
-
-
-# WORDS = Counter(words(open('big.txt').read()))
-
 
