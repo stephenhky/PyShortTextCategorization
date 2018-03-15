@@ -1,6 +1,4 @@
 
-from .norvig import NorvigSpellCorrector
-
 import shorttext.utils.classification_exceptions as ce
 
 class SpellCorrector:
@@ -9,3 +7,5 @@ class SpellCorrector:
 
     def correct(self, word):
         return word
+
+from .norvig import NorvigSpellCorrector
