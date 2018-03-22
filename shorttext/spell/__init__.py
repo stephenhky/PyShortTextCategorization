@@ -9,3 +9,4 @@ class SpellCorrector:
         return word
 
 from .norvig import NorvigSpellCorrector
+from .sakaguchi import SCRNNSpellCorrector
