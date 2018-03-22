@@ -16,3 +16,6 @@ class TestSpellCheck(unittest.TestCase):
         speller.train(self.text)
         self.assertEqual(speller.correct('apple'), 'apple')
         self.assertEqual(speller.correct('appl'), 'apply')
+
+if __name__ == '__main__':
+    unittest.main()
