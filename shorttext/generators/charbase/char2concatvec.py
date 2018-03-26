@@ -1,6 +1,10 @@
 
 from .char2vec import initSentenceToCharVecEncoder
 
+default_alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,:;'*!?`$%&(){}[]-/\@_#"
+# NB. # is <eos>, _ is <unk>, @ is number
+default_specialsignals = {'eos': '#', 'unk': '_', 'number': '@'}
+
 class SpellingToConcatCharVecEncoder:
     def __init__(self, alph):
         self.charevec_encoder = initSentenceToCharVecEncoder(alph)
