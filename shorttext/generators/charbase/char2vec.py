@@ -85,6 +85,9 @@ class SentenceToCharVecEncoder:
         else:
             return np.array(map(lambda sparsevec: sparsevec.toarray(), list_encoded_sentences))
 
+    def __len__(self):
+        return len(self.dictionary)
+
 
 def initSentenceToCharVecEncoder(textfile):
     """ Instantiate a class of SentenceToCharVecEncoder from a text file.
