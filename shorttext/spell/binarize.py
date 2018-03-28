@@ -3,12 +3,24 @@ import re
 import string
 
 import numpy as np
-from shorttext.generators.charbase.char2concatvec import SpellingToConcatCharVecEncoder
+from shorttext.generators.charbase.char2vec import initSentenceToCharVecEncoder
 
 default_alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,:;'*!?`$%&(){}[]-/\@_#"
 # NB. # is <eos>, _ is <unk>, @ is number
 default_specialsignals = {'eos': '#', 'unk': '_', 'number': '@'}
 default_signaldenotions = {'<eos>': 'eos', '<unk>': 'unk'}
+
+
+class SpellingToConcatCharVecEncoder:
+    def __init__(self, alph):
+        self.charevec_encoder = initSentenceToCharVecEncoder(alph)
+
+    def encode_spelling(self, spelling):
+        spmat = self.charevec_encoder.encode_sentence(spelling, len(spelling))
+        return spmat.sum(axis=0)
+
+    def __len__(self):
+        return len(self.charevec_encoder)
 
 
 def hasnum(word):
