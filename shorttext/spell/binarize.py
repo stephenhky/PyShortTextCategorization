@@ -4,6 +4,7 @@ import string
 
 import numpy as np
 from shorttext.generators.charbase.char2vec import initSentenceToCharVecEncoder
+from shorttext.utils.classification_exceptions import OperationNotDefinedException
 
 default_alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,:;'*!?`$%&(){}[]-/\@_#"
 # NB. # is <eos>, _ is <unk>, @ is number
@@ -32,7 +33,6 @@ class SCRNNBinarizer:
         self.signalchar_dict = signalchar_dict
         self.concatchar_encoder = SpellingToConcatCharVecEncoder(alpha)
 
-
     def noise_char(self, word, opt):
         bin_all = np.zeros((len(self.signalchar_dict), 1))
         w = word
@@ -55,9 +55,8 @@ class SCRNNBinarizer:
             w = word[:rep_idx] + rep_char + w[(rep_char+1):]
             bin_all = self.concatchar_encoder.encode_spelling(w)
         else:
-            raise Exception('Unknown options: '+opt)
+            raise OperationNotDefinedException('NOISE-'+opt)
         return np.repeat(np.array([bin_all]), 3, axis=0).reshape((1, len(self.concatchar_encoder)))[0], w
-
 
     def jumble_char(self, word, opt):
         if opt=='WHOLE':
@@ -69,8 +68,7 @@ class SCRNNBinarizer:
         elif opt=='INT':
             return self.jumble_char_int(word)
         else:
-            raise Exception('Unknown options: '+opt)
-
+            raise OperationNotDefinedException('JUMBLE-'+opt)
 
     def jumble_char_whole(self, word):
         bin_all = np.zeros((len(self.signalchar_dict), 1))
@@ -84,7 +82,6 @@ class SCRNNBinarizer:
             bin_all = self.concatchar_encoder.encode_spelling(w)
         bin_filler = np.zeros((len(self.signalchar_dict)*2, 1))
         return np.append(bin_all, bin_filler), w
-
 
     def jumble_char_beg(self, word):
         bin_initial = np.zeros((len(self.signalchar_dict), 1))
@@ -104,7 +101,6 @@ class SCRNNBinarizer:
             bin_end = self.concatchar_encoder.encode_spelling(word[:-1])
         return reduce(np.append, [bin_initial, bin_end, bin_filler]), w
 
-
     def jumble_char_end(self, word):
         bin_initial = np.zeros((len(self.signalchar_dict), 1))
         bin_end = np.zeros((len(self.signalchar_dict), 1))
@@ -122,7 +118,6 @@ class SCRNNBinarizer:
             bin_initial = self.concatchar_encoder.encode_spelling(word[0])
             bin_end = self.concatchar_encoder.encode_spelling(w_end)
         return reduce(np.append, [bin_initial, bin_end, bin_filler]), w
-
 
     def jumble_char_int(self, word):
         bin_initial = np.zeros((len(self.signalchar_dict), 1))
