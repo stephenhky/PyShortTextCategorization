@@ -1,4 +1,6 @@
 
+from .deprecation import deprecated
+
 class ModelNotTrainedException(Exception):
     def __init__(self):
         self.message = 'Model not trained.'
@@ -7,9 +9,14 @@ class AlgorithmNotExistException(Exception):
     def __init__(self, algoname):
         self.message = 'Algorithm '+algoname+' not exist.'
 
+@deprecated
 class Word2VecModelNotExistException(Exception):
     def __init__(self, path):
         self.message = 'Given path of Word2Vec not exist: '+path
+
+class WordEmbeddingModelNotExistException(Exception):
+    def __init__(self, path):
+        self.message = 'Given path of the word-embedding model not exist: '+path
 
 class UnequalArrayLengthsException(Exception):
     def __init__(self, arr1, arr2):
@@ -22,3 +29,7 @@ class NotImplementedException(Exception):
 class IncorrectClassificationModelFileException(Exception):
     def __init__(self, expectedname, actualname):
         self.message = 'Incorrect model (expected: '+expectedname+' ; actual: '+actualname+')'
+
+class OperationNotDefinedException(Exception):
+    def __init__(self, opname):
+        self.message = 'Operation '+opname+' not defined'

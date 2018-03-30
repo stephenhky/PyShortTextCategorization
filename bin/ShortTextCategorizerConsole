@@ -24,7 +24,7 @@ topicmodels = ['ldatopic', 'lsitopic', 'rptopic', 'kerasautoencoder']
 import os
 
 import shorttext
-from shorttext.utils.classification_exceptions import Word2VecModelNotExistException, AlgorithmNotExistException
+from shorttext.utils.classification_exceptions import AlgorithmNotExistException, WordEmbeddingModelNotExistException
 
 # main block
 if __name__ == '__main__':
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     if classifier_name in needembedded_classifiers:
         # check if thw word embedding model is available
         if not os.path.exists(args.wv):
-            raise Word2VecModelNotExistException(args.wv)
+            raise WordEmbeddingModelNotExistException(args.wv)
         # if there, load it
         print 'Loading word-embedding model...', args.wv
         wvmodel = shorttext.utils.load_word2vec_model(args.wv)
