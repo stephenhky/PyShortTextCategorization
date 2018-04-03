@@ -5,6 +5,8 @@
 import numpy as np
 from gensim.corpora import Dictionary
 from sklearn.preprocessing import OneHotEncoder
+from keras.models import Sequential
+from keras.layers import LSTM, Activation, Dropout, Dense, TimeDistributed
 
 from . import SpellCorrector
 from .binarize import default_alph, default_specialsignals
@@ -14,12 +16,19 @@ from .binarize import SpellingToConcatCharVecEncoder, SCRNNBinarizer
 
 
 class SCRNNSpellCorrector(SpellCorrector):
-    def __init__(self, operation, alph=default_alph, specialsignals=default_specialsignals, concatcharvec_encoder=None):
+    def __init__(self, operation,
+                 alph=default_alph,
+                 specialsignals=default_specialsignals,
+                 concatcharvec_encoder=None,
+                 batchsize=1,
+                 nb_hiddenunits=650):
         self.operation = operation
         self.binarizer = SCRNNBinarizer(alph, specialsignals)
         self.concatcharvec_encoder = SpellingToConcatCharVecEncoder() if concatcharvec_encoder==None else concatcharvec_encoder
         self.onehotencoder = OneHotEncoder()
         self.trained = False
+        self.batchsize = batchsize
+        self.nb_hiddenunits = nb_hiddenunits
 
     def preprocess_text_train(self, text):
         if not self.trained:
@@ -42,6 +51,18 @@ class SCRNNSpellCorrector(SpellCorrector):
         ytrain = np.array(map(lambda item: item[1], xylist))
 
         # neural network here
+        model = Sequential()
+        model.add(LSTM(self.nb_hiddenunits, return_sequences=True, batch_input_shape=(None, self.batchsize, len(self.concatcharvec_encoder))))
+        model.add(Dropout(0.01))
+        model.add(TimeDistributed(Dense(len(self.dictionary))))
+        model.add(Activation('softmax'))
+
+        # compile... more arguments
+        model.compile(loss='categorical_crossentropy',
+                      optimizer='rmsprop'  # or sgd
+                      #metrics=['accuracy'])
+                      )
+
 
     def correct(self, word):
         pass
