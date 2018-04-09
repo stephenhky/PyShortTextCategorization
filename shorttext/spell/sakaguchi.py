@@ -45,7 +45,7 @@ class SCRNNSpellCorrector(SpellCorrector):
 
     def train(self, text):
         self.dictionary = Dictionary(text+' <unk> <eos>')
-        self.onehotencoder(np.arange(len(self.dictionary)).reshape((len(self.dictionary), 1)))
+        self.onehotencoder.fit(np.arange(len(self.dictionary)).reshape((len(self.dictionary), 1)))
         xylist = [(xvec, yvec) for xvec, yvec in self.preprocess_text_train(text)]
         xtrain = np.array(map(lambda item: item[0], xylist))
         ytrain = np.array(map(lambda item: item[1], xylist))
