@@ -43,7 +43,7 @@ class SCRNNSpellCorrector(SpellCorrector):
             yvec = self.onehotencoder.transform([self.dictionary[normtoken]]).reshape((len(self.dictionary), 1))
             yield xvec, yvec
 
-    def train(self, text):
+    def train(self, text, nb_epoch=100):
         self.dictionary = Dictionary(text+' <unk> <eos>')
         # self.onehotencoder.transform(np.arange(len(self.dictionary)).reshape((len(self.dictionary), 1)))  # need some work
         xylist = [(xvec, yvec) for xvec, yvec in self.preprocess_text_train(text)]
@@ -63,6 +63,9 @@ class SCRNNSpellCorrector(SpellCorrector):
                       #metrics=['accuracy'])
                       )
 
+        model.fit(xtrain, ytrain, nb_epoch=nb_epoch)
+
+        self.model = model
 
     def correct(self, word):
         pass
