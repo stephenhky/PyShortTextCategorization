@@ -24,16 +24,13 @@ class SCRNNSpellCorrector(SpellCorrector):
                  nb_hiddenunits=650):
         self.operation = operation
         self.binarizer = SCRNNBinarizer(alph, specialsignals)
-        self.concatcharvec_encoder = SpellingToConcatCharVecEncoder() if concatcharvec_encoder==None else concatcharvec_encoder
+        self.concatcharvec_encoder = SpellingToConcatCharVecEncoder(alph) if concatcharvec_encoder==None else concatcharvec_encoder
         self.onehotencoder = OneHotEncoder()
         self.trained = False
         self.batchsize = batchsize
         self.nb_hiddenunits = nb_hiddenunits
 
     def preprocess_text_train(self, text):
-        if not self.trained:
-            raise ce.ModelNotTrainedException()
-
         for token in tokenize(text):
             if self.operation.upper().startswith('NOISE'):
                 xvec = self.binarizer.noise_char(token, self.operation.upper()[6:])
@@ -43,9 +40,15 @@ class SCRNNSpellCorrector(SpellCorrector):
             yvec = self.onehotencoder.transform([self.dictionary[normtoken]]).reshape((len(self.dictionary), 1))
             yield xvec, yvec
 
+    def preprocess_text_correct(self, text):
+        if not self.trained:
+            raise ce.ModelNotTrainedException()
+        for token in tokenize(text):
+            xvec = self.binarizer.change_nothing(token, self.operation)
+            yield xvec
+
     def train(self, text, nb_epoch=100):
-        self.dictionary = Dictionary(text+' <unk> <eos>')
-        # self.onehotencoder.transform(np.arange(len(self.dictionary)).reshape((len(self.dictionary), 1)))  # need some work
+        self.dictionary = Dictionary(tokenize(text+' <unk> <eos>'))
         xylist = [(xvec, yvec) for xvec, yvec in self.preprocess_text_train(text)]
         xtrain = np.array(map(lambda item: item[0], xylist))
         ytrain = np.array(map(lambda item: item[1], xylist))
@@ -68,4 +71,8 @@ class SCRNNSpellCorrector(SpellCorrector):
         self.model = model
 
     def correct(self, word):
-        pass
+        xmat = np.array([xvec for xvec in self.preprocess_text_correct(word)])
+        yvec = self.model.predict(xmat)
+
+        maxy = yvec.argmax(axis=-1)
+        return ' '.join([self.dictionary[y] for y in maxy])
