@@ -48,7 +48,7 @@ class SCRNNSpellCorrector(SpellCorrector):
             yield xvec
 
     def train(self, text, nb_epoch=100):
-        self.dictionary = Dictionary(tokenize(text+' <unk> <eos>'))
+        self.dictionary = Dictionary([tokenize(text)])
         xylist = [(xvec, yvec) for xvec, yvec in self.preprocess_text_train(text)]
         xtrain = np.array(map(lambda item: item[0], xylist))
         ytrain = np.array(map(lambda item: item[1], xylist))
