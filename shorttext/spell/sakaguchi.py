@@ -15,6 +15,9 @@ from shorttext.utils import tokenize
 from .binarize import SpellingToConcatCharVecEncoder, SCRNNBinarizer
 
 
+nospace_tokenize = lambda sentence: map(lambda t: t.strip(), filter(lambda t: len(t.strip())>0, tokenize(sentence)))
+
+
 class SCRNNSpellCorrector(SpellCorrector):
     def __init__(self, operation,
                  alph=default_alph,
@@ -31,7 +34,8 @@ class SCRNNSpellCorrector(SpellCorrector):
         self.nb_hiddenunits = nb_hiddenunits
 
     def preprocess_text_train(self, text):
-        for token in tokenize(text):
+        for token in nospace_tokenize(text):
+            print token     # DEBUG!!!!!!!!!!!!!!!!!!!!!!!!
             if self.operation.upper().startswith('NOISE'):
                 xvec = self.binarizer.noise_char(token, self.operation.upper()[6:])
             elif self.operation.upper().startswith('JUMBLE'):
@@ -43,12 +47,12 @@ class SCRNNSpellCorrector(SpellCorrector):
     def preprocess_text_correct(self, text):
         if not self.trained:
             raise ce.ModelNotTrainedException()
-        for token in tokenize(text):
+        for token in nospace_tokenize(text):
             xvec = self.binarizer.change_nothing(token, self.operation)
             yield xvec
 
     def train(self, text, nb_epoch=100):
-        self.dictionary = Dictionary([tokenize(text)])
+        self.dictionary = Dictionary([nospace_tokenize(text), default_specialsignals.keys()])
         xylist = [(xvec, yvec) for xvec, yvec in self.preprocess_text_train(text)]
         xtrain = np.array(map(lambda item: item[0], xylist))
         ytrain = np.array(map(lambda item: item[1], xylist))
