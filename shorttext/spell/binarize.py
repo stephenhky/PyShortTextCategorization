@@ -138,8 +138,12 @@ class SCRNNBinarizer:
             w_mid = ''.join(np.random.choice([c for c in word[1:-1]], len(word)-2)) if not unchanged and len(w)>3 else w[1:-1]
             w = word[0] + w_mid + word[-1]
             bin_initial = self.concatchar_encoder.encode_spelling(word[0])
-            bin_middle = self.concatchar_encoder.encode_spelling(w_mid)
+            if len(w_mid)>0:
+                bin_middle = self.concatchar_encoder.encode_spelling(w_mid)
             bin_end = self.concatchar_encoder.encode_spelling(word[-1])
+        print np.dim(bin_initial)
+        print np.dim(bin_middle)
+        print np.dim(bin_end)
         return reduce(np.append, [bin_initial, bin_middle, bin_end]), w
 
     def change_nothing(self, word, operation):

@@ -35,7 +35,7 @@ class SCRNNSpellCorrector(SpellCorrector):
 
     def preprocess_text_train(self, text):
         for token in nospace_tokenize(text):
-            print token     # DEBUG!!!!!!!!!!!!!!!!!!!!!!!!
+            print token, len(token)     # DEBUG!!!!!!!!!!!!!!!!!!!!!!!!
             if self.operation.upper().startswith('NOISE'):
                 xvec = self.binarizer.noise_char(token, self.operation.upper()[6:])
             elif self.operation.upper().startswith('JUMBLE'):
