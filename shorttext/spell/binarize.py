@@ -141,10 +141,10 @@ class SCRNNBinarizer:
             if len(w_mid)>0:
                 bin_middle = self.concatchar_encoder.encode_spelling(w_mid)
             bin_end = self.concatchar_encoder.encode_spelling(word[-1])
-        print np.dim(bin_initial)
-        print np.dim(bin_middle)
-        print np.dim(bin_end)
-        return reduce(np.append, [bin_initial, bin_middle, bin_end]), w
+        print bin_initial.shape
+        print bin_middle.shape
+        print bin_end.shape
+        return reduce(lambda a, b: np.append(a, b, axis=0), [bin_initial, bin_middle, bin_end]), w
 
     def change_nothing(self, word, operation):
         if operation.upper().startswith('NOISE'):
