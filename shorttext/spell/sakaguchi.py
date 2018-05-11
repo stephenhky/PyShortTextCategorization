@@ -35,13 +35,12 @@ class SCRNNSpellCorrector(SpellCorrector):
 
     def preprocess_text_train(self, text):
         for token in nospace_tokenize(text):
-            print token, len(token)     # DEBUG!!!!!!!!!!!!!!!!!!!!!!!!
             if self.operation.upper().startswith('NOISE'):
                 xvec = self.binarizer.noise_char(token, self.operation.upper()[6:])
             elif self.operation.upper().startswith('JUMBLE'):
                 xvec = self.binarizer.jumble_char(token, self.operation.upper()[7:])
             normtoken = token if self.dictionary.token2id.has_key(token) else '<unk>'
-            yvec = self.onehotencoder.transform([self.dictionary.token2id[normtoken]]).reshape((len(self.dictionary), 1))
+            yvec = self.onehotencoder.transform([[self.dictionary.token2id[normtoken]]]).toarray().reshape((len(self.dictionary), 1))
             yield xvec, yvec
 
     def preprocess_text_correct(self, text):
@@ -53,6 +52,7 @@ class SCRNNSpellCorrector(SpellCorrector):
 
     def train(self, text, nb_epoch=100):
         self.dictionary = Dictionary([nospace_tokenize(text), default_specialsignals.values()])
+        self.onehotencoder.fit(np.arange(len(self.dictionary)).reshape((len(self.dictionary), 1)))
         xylist = [(xvec, yvec) for xvec, yvec in self.preprocess_text_train(text)]
         xtrain = np.array(map(lambda item: item[0], xylist))
         ytrain = np.array(map(lambda item: item[1], xylist))
