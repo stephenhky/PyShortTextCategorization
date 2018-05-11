@@ -36,9 +36,9 @@ class SCRNNSpellCorrector(SpellCorrector):
     def preprocess_text_train(self, text):
         for token in nospace_tokenize(text):
             if self.operation.upper().startswith('NOISE'):
-                xvec = self.binarizer.noise_char(token, self.operation.upper()[6:])
+                xvec, _ = self.binarizer.noise_char(token, self.operation.upper()[6:])
             elif self.operation.upper().startswith('JUMBLE'):
-                xvec = self.binarizer.jumble_char(token, self.operation.upper()[7:])
+                xvec, _ = self.binarizer.jumble_char(token, self.operation.upper()[7:])
             normtoken = token if self.dictionary.token2id.has_key(token) else '<unk>'
             yvec = self.onehotencoder.transform([[self.dictionary.token2id[normtoken]]]).toarray().reshape((len(self.dictionary), 1))
             yield xvec, yvec
@@ -57,9 +57,12 @@ class SCRNNSpellCorrector(SpellCorrector):
         xtrain = np.array(map(lambda item: item[0], xylist))
         ytrain = np.array(map(lambda item: item[1], xylist))
 
+        print xtrain.shape
+        print ytrain.shape
+
         # neural network here
         model = Sequential()
-        model.add(LSTM(self.nb_hiddenunits, return_sequences=True, batch_input_shape=(None, self.batchsize, len(self.concatcharvec_encoder))))
+        model.add(LSTM(self.nb_hiddenunits, return_sequences=True, batch_input_shape=(None, self.batchsize, len(self.concatcharvec_encoder)*3)))
         model.add(Dropout(0.01))
         model.add(TimeDistributed(Dense(len(self.dictionary))))
         model.add(Activation('softmax'))
