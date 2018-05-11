@@ -33,6 +33,7 @@ class SCRNNBinarizer:
     def __init__(self, alpha, signalchar_dict):
         self.signalchar_dict = signalchar_dict
         self.concatchar_encoder = SpellingToConcatCharVecEncoder(alpha)
+        self.char_dict = self.concatchar_encoder.charevec_encoder.dictionary
 
     def noise_char(self, word, opt, unchanged=False):
         bin_all = np.zeros((len(self.signalchar_dict), 1))
@@ -128,13 +129,13 @@ class SCRNNBinarizer:
         bin_end = np.zeros((len(self.concatchar_encoder.charevec_encoder.dictionary), 1))
         w = word
         if word in default_signaldenotions.keys():
-            bin_initial[default_specialsignals[default_signaldenotions[word]]] += 1
-            bin_middle[default_specialsignals[default_signaldenotions[word]]] += 1
-            bin_end[default_specialsignals[default_signaldenotions[word]]] += 1
+            bin_initial[self.char_dict.token2id[default_specialsignals[default_signaldenotions[word]]]] += 1
+            bin_middle[self.char_dict.token2id[default_specialsignals[default_signaldenotions[word]]]] += 1
+            bin_end[self.char_dict.token2id[default_specialsignals[default_signaldenotions[word]]]] += 1
         elif hasnum(word):
-            bin_initial[default_specialsignals['number']] += 1
-            bin_middle[default_specialsignals['number']] += 1
-            bin_end[default_specialsignals['number']] += 1
+            bin_initial[self.char_dict.token2id[default_specialsignals['number']]] += 1
+            bin_middle[self.char_dict.token2id[default_specialsignals['number']]] += 1
+            bin_end[self.char_dict.token2id[default_specialsignals['number']]] += 1
         else:
             w_mid = ''.join(np.random.choice([c for c in word[1:-1]], len(word)-2)) if not unchanged and len(w)>3 else w[1:-1]
             w = word[0] + w_mid + word[-1]

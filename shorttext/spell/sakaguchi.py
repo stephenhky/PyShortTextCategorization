@@ -15,7 +15,7 @@ from shorttext.utils import tokenize
 from .binarize import SpellingToConcatCharVecEncoder, SCRNNBinarizer
 
 
-nospace_tokenize = lambda sentence: map(lambda t: t.strip(), filter(lambda t: len(t.strip())>0, tokenize(sentence)))
+nospace_tokenize = lambda sentence: map(lambda t: t.strip(), filter(lambda t: len(t.strip())>0, sentence.split()))
 
 
 class SCRNNSpellCorrector(SpellCorrector):
