@@ -47,18 +47,15 @@ class SCRNNSpellCorrector(SpellCorrector):
         if not self.trained:
             raise ce.ModelNotTrainedException()
         for token in nospace_tokenize(text):
-            xvec = self.binarizer.change_nothing(token, self.operation)
+            xvec, _ = self.binarizer.change_nothing(token, self.operation)
             yield xvec
 
     def train(self, text, nb_epoch=100):
         self.dictionary = Dictionary([nospace_tokenize(text), default_specialsignals.values()])
         self.onehotencoder.fit(np.arange(len(self.dictionary)).reshape((len(self.dictionary), 1)))
-        xylist = [(xvec, yvec) for xvec, yvec in self.preprocess_text_train(text)]
+        xylist = [(xvec.transpose(), yvec.transpose()) for xvec, yvec in self.preprocess_text_train(text)]
         xtrain = np.array(map(lambda item: item[0], xylist))
         ytrain = np.array(map(lambda item: item[1], xylist))
-
-        print xtrain.shape
-        print ytrain.shape
 
         # neural network here
         model = Sequential()
@@ -76,10 +73,11 @@ class SCRNNSpellCorrector(SpellCorrector):
         model.fit(xtrain, ytrain, nb_epoch=nb_epoch)
 
         self.model = model
+        self.trained = True
 
     def correct(self, word):
-        xmat = np.array([xvec for xvec in self.preprocess_text_correct(word)])
+        xmat = np.array([xvec.transpose() for xvec in self.preprocess_text_correct(word)])
         yvec = self.model.predict(xmat)
 
         maxy = yvec.argmax(axis=-1)
-        return ' '.join([self.dictionary[y] for y in maxy])
+        return ' '.join([self.dictionary[y] for y in maxy[0]])
