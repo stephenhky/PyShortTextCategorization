@@ -72,8 +72,6 @@ to fix any errors.
 # Possible Future Updates
 
 - [ ] Spelling corrections and fuzzy logic;
-- [ ] Gradually replacing `keras` with direct `TensorFlow` or the `keras` package within `TensorFlow`;
 - [ ] Jupyter notebooks as tutorials;
 - [ ] Python 3 compatibility;
-- [ ] More neural networks;
 - [ ] More available corpus.
