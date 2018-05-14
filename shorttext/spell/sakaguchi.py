@@ -11,7 +11,6 @@ from keras.layers import LSTM, Activation, Dropout, Dense, TimeDistributed
 from . import SpellCorrector
 from .binarize import default_alph, default_specialsignals
 from shorttext.utils import classification_exceptions as ce
-from shorttext.utils import tokenize
 from .binarize import SpellingToConcatCharVecEncoder, SCRNNBinarizer
 
 
@@ -70,7 +69,7 @@ class SCRNNSpellCorrector(SpellCorrector):
                       #metrics=['accuracy'])
                       )
 
-        model.fit(xtrain, ytrain, nb_epoch=nb_epoch)
+        model.fit(xtrain, ytrain, epochs=nb_epoch)
 
         self.model = model
         self.trained = True
