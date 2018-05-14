@@ -36,31 +36,31 @@ class SCRNNBinarizer:
         self.char_dict = self.concatchar_encoder.charevec_encoder.dictionary
 
     def noise_char(self, word, opt, unchanged=False):
-        bin_all = np.zeros((len(self.signalchar_dict), 1))
+        bin_all = np.zeros((len(self.concatchar_encoder), 1))
         w = word
         if word in default_signaldenotions.keys():
-            bin_all[default_specialsignals[default_signaldenotions[word]]] += 1
+            bin_all[self.char_dict.token2id[default_specialsignals[default_signaldenotions[word]]]] += 1
         elif hasnum(word):
-            bin_all[default_specialsignals['number']] += 1
+            bin_all[self.char_dict.token2id[default_specialsignals['number']]] += 1
         elif unchanged:
-            bin_all = self.concatchar_encoder.encode_spelling(w)
+            bin_all = self.concatchar_encoder.encode_spelling(w).transpose()
         elif opt=='DELETE':
             idx = np.random.randint(0, len(word))
             w = word[:idx] + word[(idx+1):]
-            bin_all = self.concatchar_encoder.encode_spelling(w)
+            bin_all = self.concatchar_encoder.encode_spelling(w).transpose()
         elif opt=='INSERT':
             ins_idx = np.random.randint(0, len(word)+1)
             ins_char = np.random.choice([c for c in string.ascii_lowercase])
             w = word[:ins_idx] + ins_char + word[ins_idx:]
-            bin_all = self.concatchar_encoder.encode_spelling(w)
+            bin_all = self.concatchar_encoder.encode_spelling(w).transpose()
         elif opt=='REPLACE':
             rep_idx = np.random.randint(0, len(word))
             rep_char = np.random.choice([c for c in string.ascii_lowercase])
-            w = word[:rep_idx] + rep_char + w[(rep_char+1):]
-            bin_all = self.concatchar_encoder.encode_spelling(w)
+            w = word[:rep_idx] + rep_char + w[(rep_idx+1):]
+            bin_all = self.concatchar_encoder.encode_spelling(w).transpose()
         else:
             raise OperationNotDefinedException('NOISE-'+opt)
-        return np.repeat(np.array([bin_all]), 3, axis=0).reshape((1, len(self.concatchar_encoder)))[0], w
+        return np.array([ np.repeat(np.array([bin_all]), 3, axis=0).reshape((1, len(self.concatchar_encoder)*3))[0] ]).transpose(), w
 
     def jumble_char(self, word, opt, unchanged=False):
         if opt=='WHOLE':

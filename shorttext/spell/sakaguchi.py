@@ -49,7 +49,7 @@ class SCRNNSpellCorrector(SpellCorrector):
             xvec, _ = self.binarizer.change_nothing(token, self.operation)
             yield xvec
 
-    def train(self, text, nb_epoch=100):
+    def train(self, text, nb_epoch=100, optimizer='rmsprop'):
         self.dictionary = Dictionary([nospace_tokenize(text), default_specialsignals.values()])
         self.onehotencoder.fit(np.arange(len(self.dictionary)).reshape((len(self.dictionary), 1)))
         xylist = [(xvec.transpose(), yvec.transpose()) for xvec, yvec in self.preprocess_text_train(text)]
@@ -64,10 +64,12 @@ class SCRNNSpellCorrector(SpellCorrector):
         model.add(Activation('softmax'))
 
         # compile... more arguments
-        model.compile(loss='categorical_crossentropy',
-                      optimizer='rmsprop'  # or sgd
+        model.compile(loss='categorical_crossentropy', optimizer=optimizer
                       #metrics=['accuracy'])
                       )
+
+        print xtrain.shape
+        print ytrain.shape
 
         model.fit(xtrain, ytrain, epochs=nb_epoch)
 
