@@ -2,12 +2,15 @@
 # Reference: https://github.com/keisks/robsut-wrod-reocginiton
 # Article: http://cs.jhu.edu/~kevinduh/papers/sakaguchi17robsut.pdf
 
+import json
+
 import numpy as np
 from gensim.corpora import Dictionary
 from sklearn.preprocessing import OneHotEncoder
 from keras.models import Sequential
 from keras.layers import LSTM, Activation, Dropout, Dense, TimeDistributed
 
+import shorttext.utils.kerasmodel_io as kerasio
 from . import SpellCorrector
 from .binarize import default_alph, default_specialsignals
 from shorttext.utils import classification_exceptions as ce
@@ -47,8 +50,10 @@ class SCRNNSpellCorrector(SpellCorrector):
         :type nb_hiddenunits: int
         """
         self.operation = operation
-        self.binarizer = SCRNNBinarizer(alph, specialsignals)
-        self.concatcharvec_encoder = SpellingToConcatCharVecEncoder(alph) if concatcharvec_encoder==None else concatcharvec_encoder
+        self.alph = alph
+        self.specialsignals = specialsignals
+        self.binarizer = SCRNNBinarizer(self.alph, self.specialsignals)
+        self.concatcharvec_encoder = SpellingToConcatCharVecEncoder(self.alph) if concatcharvec_encoder==None else concatcharvec_encoder
         self.onehotencoder = OneHotEncoder()
         self.trained = False
         self.batchsize = batchsize
@@ -129,7 +134,11 @@ class SCRNNSpellCorrector(SpellCorrector):
         :return: recommended correction
         :type word: str
         :rtype: str
+        :raise: ModelNotTrainedException
         """
+        if not self.trained:
+            raise ce.ModelNotTrainedException()
+
         xmat = np.array([xvec.transpose() for xvec in self.preprocess_text_correct(word)])
         yvec = self.model.predict(xmat)
 
@@ -137,7 +146,25 @@ class SCRNNSpellCorrector(SpellCorrector):
         return ' '.join([self.dictionary[y] for y in maxy[0]])
 
     def loadmodel(self, prefix):
-        pass
+        self.dictionary = Dictionary.load(prefix+'_vocabs.gensimdict')
+        parameters = json.load(prefix+'_config.json')
+        self.operation = parameters['operation']
+        self.alph = parameters['alph']
+        self.specialsignals = parameters['special_signals']
+        self.binarizer = SCRNNBinarizer(self.alph, self.specialsignals)
+        self.concatcharvec_encoder = SpellingToConcatCharVecEncoder(self.alph)
+        self.batchsize = parameters['batchsize']
+        self.nb_hiddenunits = parameters['nb_hiddenunits']
+        self.onehotencoder = OneHotEncoder()
+        self.onehotencoder.fit(np.arange(len(self.dictionary)).reshape((len(self.dictionary), 1)))
+
+        self.model = kerasio.load_model(prefix)
 
     def savemodel(self, prefix):
-        pass
+        if not self.trained:
+            raise ce.ModelNotTrainedException()
+        kerasio.save_model(prefix, self.model)
+        self.dictionary.save(prefix+'_vocabs.gensimdict')
+        parameters = {'alph': self.alph, 'special_signals': self.specialsignals, 'operation': self.operation,
+                      'batchsize': self.batchsize, 'nb_hiddenunits': self.nb_hiddenunits}
+        json.dump(parameters, prefix+'_config.json')

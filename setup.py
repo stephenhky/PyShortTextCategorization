@@ -48,7 +48,7 @@ setup(name='shorttext',
           'pandas', 'spacy>=1.7.0', 'stemming', 'pulp',
       ],
       tests_require=[
-          'unittest2', 'keras>=2.0.0', 'gensim>=3.2.0',
+          'unittest2', 'keras>=2.0.0', 'gensim>=3.2.0', 'tensorflow',
       ],
       scripts=['bin/ShortTextCategorizerConsole',
                'bin/ShortTextWordEmbedSimilarity',
