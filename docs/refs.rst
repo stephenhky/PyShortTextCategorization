@@ -57,6 +57,9 @@ Jayant Jain, "Implementing Poincaré Embeddings," RaRe Technologies (2017). [`Ra
 Jeffrey Pennington, Richard Socher, Christopher D. Manning, “GloVe: Global Vectors for Word Representation,” *Empirical Methods in Natural Language Processing (EMNLP)*, pp. 1532-1543 (2014). [`PDF
 <http://www.aclweb.org/anthology/D14-1162>`_]
 
+Keisuke Sakaguchi, Kevin Duh, Matt Post, Benjamin Van Durme, "Robsut Wrod Reocginiton via semi-Character Recurrent Neural Networ," arXiv:1608.02214 (2016). [`arXiv
+<https://arxiv.org/abs/1608.02214>`_]
+
 "Keras 2.0 Release Notes." (2017) [`Github
 <https://github.com/fchollet/keras/wiki/Keras-2.0-release-notes/>`_]
 
@@ -76,6 +79,9 @@ Nal Kalchbrenner, Edward Grefenstette, Phil Blunsom, "A Convolutional Neural Net
 
 Oriol Vinyals, Quoc Le, "A Neural Conversational Model," arXiv:1506.05869 (2015). [`arXiv
 <https://arxiv.org/abs/1506.05869>`_]
+
+Peter Norvig, "How to write a spell corrector." (2016) [`Norvig
+<https://norvig.com/spell-correct.html>`_]
 
 Piotr Bojanowski, Edouard Grave, Armand Joulin, Tomas Mikolov, "Enriching Word Vectors with Subword Information," arXiv:1607.04606 (2016). [`arXiv
 <https://arxiv.org/abs/1607.04606>`_]
