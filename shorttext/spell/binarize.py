@@ -11,7 +11,6 @@ default_alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,:;'*!?`$%&
 default_specialsignals = {'eos': '#', 'unk': '_', 'number': '@'}
 default_signaldenotions = {'<eos>': 'eos', '<unk>': 'unk'}
 
-## TODO: need to refine the array settings
 
 class SpellingToConcatCharVecEncoder:
     def __init__(self, alph):
@@ -30,6 +29,11 @@ def hasnum(word):
 
 
 class SCRNNBinarizer:
+    """ A class used by Sakaguchi's spell corrector to convert text into numerical vectors.
+
+    No documentation for this class.
+
+    """
     def __init__(self, alpha, signalchar_dict):
         self.signalchar_dict = signalchar_dict
         self.concatchar_encoder = SpellingToConcatCharVecEncoder(alpha)

@@ -18,12 +18,34 @@ nospace_tokenize = lambda sentence: map(lambda t: t.strip(), filter(lambda t: le
 
 
 class SCRNNSpellCorrector(SpellCorrector):
+    """ scRNN (semi-character-level recurrent neural network) Spell Corrector.
+
+    Reference:
+    Keisuke Sakaguchi, Kevin Duh, Matt Post, Benjamin Van Durme, "Robsut Wrod Reocginiton via semi-Character Recurrent Neural Networ," arXiv:1608.02214 (2016). [`arXiv
+    <https://arxiv.org/abs/1608.02214>`_]
+
+    """
     def __init__(self, operation,
                  alph=default_alph,
                  specialsignals=default_specialsignals,
                  concatcharvec_encoder=None,
                  batchsize=1,
                  nb_hiddenunits=650):
+        """ Instantiate the scRNN spell corrector.
+
+        :param operation: types of distortion of words in training (options: "NOISE-INSERT", "NOISE-DELETE", "NOISE-REPLACE", "JUMBLE-WHOLE", "JUMBLE-BEG", "JUMBLE-END", and "JUMBLE-INT")
+        :param alph: default string of characters (Default: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,:;'*!?`$%&(){}[]-/\@_#")
+        :param specialsignals: dictionary of special signals (Default built-in)
+        :param concatcharvec_encoder: one-hot encoder for characters, initialize if None. (Default: None)
+        :param batchsize: batch size. (Default: 1)
+        :param nb_hiddenunits: number of hidden units. (Default: 650)
+        :type operation: str
+        :type alpha: str
+        :type specialsignals: dict
+        :type concatcharvec_encoder: shorttext.spell.binarize.SpellingToConcatCharVecEncoder
+        :type batchsize: int
+        :type nb_hiddenunits: int
+        """
         self.operation = operation
         self.binarizer = SCRNNBinarizer(alph, specialsignals)
         self.concatcharvec_encoder = SpellingToConcatCharVecEncoder(alph) if concatcharvec_encoder==None else concatcharvec_encoder
@@ -33,6 +55,13 @@ class SCRNNSpellCorrector(SpellCorrector):
         self.nb_hiddenunits = nb_hiddenunits
 
     def preprocess_text_train(self, text):
+        """ A generator that output numpy vectors for the text for training.
+
+        :param text: text
+        :return: generator that outputs the numpy vectors for training
+        :type text: str
+        :rtype: generator
+        """
         for token in nospace_tokenize(text):
             if self.operation.upper().startswith('NOISE'):
                 xvec, _ = self.binarizer.noise_char(token, self.operation.upper()[6:])
@@ -43,13 +72,34 @@ class SCRNNSpellCorrector(SpellCorrector):
             yield xvec, yvec
 
     def preprocess_text_correct(self, text):
+        """ A generator that output numpy vectors for the text for correction.
+
+        ModelNotTrainedException is raised if the model has not been trained.
+
+        :param text: text
+        :return: generator that outputs the numpy vectors for correction
+        :type text: str
+        :rtype: generator
+        :raise: ModelNotTrainedException
+        """
         if not self.trained:
             raise ce.ModelNotTrainedException()
         for token in nospace_tokenize(text):
             xvec, _ = self.binarizer.change_nothing(token, self.operation)
             yield xvec
 
-    def train(self, text, nb_epoch=100, optimizer='rmsprop'):
+    def train(self, text, nb_epoch=100, dropout_rate=0.01, optimizer='rmsprop'):
+        """ Train the scRNN model.
+
+        :param text: training corpus
+        :param nb_epoch: number of epochs (Default: 100)
+        :param dropout_rate: dropout rate (Default: 0.01)
+        :param optimizer: optimizer (Default: "rmsprop")
+        :type text: str
+        :type nb_epoch: int
+        :type dropout_rate: float
+        :type optimizer: str
+        """
         self.dictionary = Dictionary([nospace_tokenize(text), default_specialsignals.values()])
         self.onehotencoder.fit(np.arange(len(self.dictionary)).reshape((len(self.dictionary), 1)))
         xylist = [(xvec.transpose(), yvec.transpose()) for xvec, yvec in self.preprocess_text_train(text)]
@@ -59,26 +109,35 @@ class SCRNNSpellCorrector(SpellCorrector):
         # neural network here
         model = Sequential()
         model.add(LSTM(self.nb_hiddenunits, return_sequences=True, batch_input_shape=(None, self.batchsize, len(self.concatcharvec_encoder)*3)))
-        model.add(Dropout(0.01))
+        model.add(Dropout(dropout_rate))
         model.add(TimeDistributed(Dense(len(self.dictionary))))
         model.add(Activation('softmax'))
 
         # compile... more arguments
-        model.compile(loss='categorical_crossentropy', optimizer=optimizer
-                      #metrics=['accuracy'])
-                      )
+        model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
-        print xtrain.shape
-        print ytrain.shape
-
+        # training
         model.fit(xtrain, ytrain, epochs=nb_epoch)
 
         self.model = model
         self.trained = True
 
     def correct(self, word):
+        """ Recommend a spell correction to given the word.
+
+        :param word: a given word
+        :return: recommended correction
+        :type word: str
+        :rtype: str
+        """
         xmat = np.array([xvec.transpose() for xvec in self.preprocess_text_correct(word)])
         yvec = self.model.predict(xmat)
 
         maxy = yvec.argmax(axis=-1)
         return ' '.join([self.dictionary[y] for y in maxy[0]])
+
+    def loadmodel(self, prefix):
+        pass
+
+    def savemodel(self, prefix):
+        pass
