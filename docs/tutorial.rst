@@ -26,6 +26,7 @@ You will get the message that `Theano`, `Tensorflow` or `CNTK` backend is used f
    tutorial_charbaseseq2seq
    tutorial_stacking
    tutorial_metrics
+   tutorial_spell
 
 
 Home: :doc:`index`
