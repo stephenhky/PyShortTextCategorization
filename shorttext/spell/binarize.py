@@ -45,8 +45,11 @@ class SCRNNBinarizer:
         elif unchanged:
             bin_all = self.concatchar_encoder.encode_spelling(w).transpose()
         elif opt=='DELETE':
-            idx = np.random.randint(0, len(word))
-            w = word[:idx] + word[(idx+1):]
+            if len(word) > 1:
+                idx = np.random.randint(0, len(word))
+                w = word[:idx] + word[(idx+1):]
+            else:
+                w = word
             bin_all = self.concatchar_encoder.encode_spelling(w).transpose()
         elif opt=='INSERT':
             ins_idx = np.random.randint(0, len(word)+1)
@@ -84,8 +87,8 @@ class SCRNNBinarizer:
         else:
             w = ''.join(np.random.choice([c for c in word], len(word), replace=False)) if not unchanged else word
             bin_all = self.concatchar_encoder.encode_spelling(w).transpose()
-        bin_filler = np.zeros((len(self.signalchar_dict)*2, 1))
-        return np.append(bin_all, bin_filler), w
+        bin_filler = np.zeros((len(self.concatchar_encoder)*2, 1))
+        return np.concatenate((bin_all, bin_filler), axis=0), w
 
     def jumble_char_beg(self, word, unchanged=False):
         bin_initial = np.zeros((len(self.concatchar_encoder), 1))
@@ -101,9 +104,10 @@ class SCRNNBinarizer:
         else:
             w_init = ''.join(np.random.choice([c for c in word[:-1]], len(word)-1)) if not unchanged and len(w)>3 else word[:-1]
             w = w_init + word[-1]
-            bin_initial = self.concatchar_encoder.encode_spelling(w_init).transpose()
-            bin_end = self.concatchar_encoder.encode_spelling(word[:-1]).transpose()
-        return reduce(np.append, [bin_initial, bin_end, bin_filler]), w
+            if len(w_init) > 0:
+                bin_initial = self.concatchar_encoder.encode_spelling(w_init).transpose()
+            bin_end = self.concatchar_encoder.encode_spelling(word[-1]).transpose()
+        return reduce(lambda a, b: np.concatenate((a, b), axis=0), [bin_initial, bin_end, bin_filler]), w
 
     def jumble_char_end(self, word, unchanged=False):
         bin_initial = np.zeros((len(self.concatchar_encoder), 1))
@@ -120,8 +124,9 @@ class SCRNNBinarizer:
             w_end = ''.join(np.random.choice([c for c in word[1:]], len(word)-1)) if not unchanged and len(w)>3 else word[1:]
             w = word[0] + w_end
             bin_initial = self.concatchar_encoder.encode_spelling(word[0]).transpose()
-            bin_end = self.concatchar_encoder.encode_spelling(w_end).transpose()
-        return reduce(np.append, [bin_initial, bin_end, bin_filler]), w
+            if len(w_end) > 0:
+                bin_end = self.concatchar_encoder.encode_spelling(w_end).transpose()
+        return reduce(lambda a, b: np.concatenate((a, b), axis=0), [bin_initial, bin_end, bin_filler]), w
 
     def jumble_char_int(self, word, unchanged=False):
         bin_initial = np.zeros((len(self.concatchar_encoder), 1))
