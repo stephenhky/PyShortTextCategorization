@@ -1,4 +1,5 @@
-from keras.layers import Dense
+
+from keras.layers import Dense, Activation
 from keras.models import Sequential
 from keras.regularizers import l2
 
@@ -39,10 +40,7 @@ def DenseWordEmbed(nb_labels,
 
     model = Sequential()
     if nb_layers==0:
-        model.add(Dense(nb_labels,
-                        input_shape=(vecsize,),
-                        activation=final_activiation,
-                        kernel_regularizer=l2(reg_coef)))
+        model.add(Dense(nb_labels, input_shape=(vecsize,), kernel_regularizer=l2(reg_coef)))
     else:
         model.add(Dense(dense_nb_nodes[0],
                         input_shape=(vecsize,),
@@ -50,14 +48,11 @@ def DenseWordEmbed(nb_labels,
                         kernel_regularizer=l2(reg_coef))
                   )
         for nb_nodes, activation in zip(dense_nb_nodes[1:], dense_actfcn[1:]):
-            model.add(Dense(nb_nodes,
-                            activation=activation,
-                            kernel_regularizer=l2(reg_coef))
-                      )
-        model.add(Dense(nb_labels,
-                        activation=final_activiation,
-                        kernel_regularizer=l2(reg_coef))
-                  )
+            model.add(Dense(nb_nodes, activation=activation, kernel_regularizer=l2(reg_coef)))
+        model.add(Dense(nb_labels, kernel_regularizer=l2(reg_coef)))
+
+    # final activation layer
+    model.add(Activation(final_activiation))
     model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
     return model

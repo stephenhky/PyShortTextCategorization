@@ -1,7 +1,7 @@
-from keras.layers import Conv1D, MaxPooling1D, Flatten, Dense, Dropout, LSTM
+
+from keras.layers import Conv1D, MaxPooling1D, Flatten, Dense, Dropout, LSTM, Activation
 from keras.models import Sequential, Model
 from keras.regularizers import l2
-from keras.engine import Input
 
 # Codes were changed because of Keras.
 # Keras 1 --> Keras 2: https://github.com/fchollet/keras/wiki/Keras-2.0-release-notes
@@ -67,11 +67,8 @@ def CNNWordEmbed(nb_labels,
         model.add(Dropout(cnn_dropout))
     model.add(MaxPooling1D(pool_size=maxlen - n_gram + 1))
     model.add(Flatten())
-    model.add(Dense(nb_labels,
-                    activation=final_activation,
-                    kernel_regularizer=l2(dense_wl2reg),
-                    bias_regularizer=l2(dense_bl2reg))
-              )
+    model.add(Dense(nb_labels, kernel_regularizer=l2(dense_wl2reg), bias_regularizer=l2(dense_bl2reg)))
+    model.add(Activation(final_activation))
     model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
     return model
@@ -145,11 +142,8 @@ def DoubleCNNWordEmbed(nb_labels,
         model.add(Dropout(cnn_dropout_2))
     model.add(MaxPooling1D(pool_size=maxlen - n_gram -filter_length_2 + 1))
     model.add(Flatten())
-    model.add(Dense(nb_labels,
-                    activation=final_activation,
-                    kernel_regularizer=l2(dense_wl2reg),
-                    bias_regularizer=l2(dense_bl2reg))
-              )
+    model.add(Dense(nb_labels, kernel_regularizer=l2(dense_wl2reg), bias_regularizer=l2(dense_bl2reg)))
+    model.add(Activation(final_activation))
     model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
     return model
@@ -223,12 +217,8 @@ def CLSTMWordEmbed(nb_labels,
     model.add(LSTM(nb_rnnoutdim))
     if rnn_dropout > 0.0:
         model.add(Dropout(rnn_dropout))
-    model.add(Dense(nb_labels,
-                    activation=final_activation,
-                    kernel_regularizer=l2(dense_wl2reg),
-                    bias_regularizer=l2(dense_bl2reg),
-                    )
-              )
+    model.add(Dense(nb_labels, kernel_regularizer=l2(dense_wl2reg), bias_regularizer=l2(dense_bl2reg)))
+    model.add(Activation(final_activation))
     model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
     return model
