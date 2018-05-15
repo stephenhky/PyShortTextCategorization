@@ -25,7 +25,7 @@ class TestSCRNN(unittest.TestCase):
         self.generalproc('NOISE-REPLACE')
 
     def test_JUMBLE_WHOLE(self):
-        self.generalproc('NOISE-WHOLE')
+        self.generalproc('JUMBLE-WHOLE')
 
     def test_JUMBLE_BEG(self):
         self.generalproc('JUMBLE-BEG')

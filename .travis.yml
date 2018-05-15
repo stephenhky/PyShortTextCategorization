@@ -18,7 +18,7 @@ install:
   - pip install unittest2
   - pip install pytest
   - pip install google-compute-engine
-  - pip install tensorflow==1.1.0
+  - pip install tensorflow
   - pip install -U .
   - spacy download en
 script:
