@@ -71,7 +71,8 @@ to fix any errors.
 
 # Possible Future Updates
 
-- [ ] Spelling corrections and fuzzy logic;
+- [x] Spelling corrections and fuzzy logic;
 - [ ] Jupyter notebooks as tutorials;
 - [ ] Python 3 compatibility;
+- [ ] More unit tests;
 - [ ] More available corpus.
