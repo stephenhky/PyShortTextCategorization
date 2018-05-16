@@ -15,7 +15,7 @@ before_install:
 install:
   - conda create --yes -n shorttext-test python=$TRAVIS_PYTHON_VERSION pip numpy scipy
   - source activate shorttext-test
-  - pip install -U tensorflow
+  - pip install -U tensorflow==1.7.0
   - pip install -U .
   - spacy download en
 script:
