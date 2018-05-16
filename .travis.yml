@@ -17,6 +17,7 @@ install:
   - source activate shorttext-test
   - pip install Cython
   - pip install -U numpy
+  - pip install -U scipy
   - pip install -U tensorflow
   - pip install -U .
   - spacy download en
