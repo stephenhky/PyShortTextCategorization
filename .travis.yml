@@ -20,5 +20,6 @@ install:
   - pip install -U tensorflow
   - pip install -U .
   - spacy download en
+  - python -c "import shorttext"
 script:
   - python setup.py test
