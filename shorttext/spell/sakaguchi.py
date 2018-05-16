@@ -170,3 +170,11 @@ class SCRNNSpellCorrector(SpellCorrector):
                       'batchsize': self.batchsize, 'nb_hiddenunits': self.nb_hiddenunits}
         json.dump(parameters, open(prefix+'_config.json', 'w'))
 
+
+def loadSCRNNSpellCorrector(filepath, compact=True):
+    corrector = SCRNNSpellCorrector('JUMBLE-WHOLE')
+    if compact:
+        corrector.load_compact_model(filepath)
+    else:
+        corrector.loadmodel(filepath)
+    return corrector
