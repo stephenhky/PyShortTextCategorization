@@ -44,7 +44,7 @@ setup(name='shorttext',
       package_data={'shorttext': ['data/*.csv', 'utils/*.pkl', 'metrics/dynprog/*.c', 'metric/dynprog/*.h']},
       setup_requires=['numpy'],
       install_requires=[
-          'numpy>=1.11.3', 'scipy>=0.18.1', 'scikit-learn', 'keras>=2.0.0', 'gensim>=3.2.0',
+          'Cython', 'numpy>=1.11.3', 'scipy>=0.18.1', 'scikit-learn', 'keras>=2.0.0', 'gensim>=3.2.0',
           'pandas', 'spacy>=1.7.0', 'stemming', 'pulp',
       ],
       tests_require=[

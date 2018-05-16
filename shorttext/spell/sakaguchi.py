@@ -15,11 +15,12 @@ from . import SpellCorrector
 from .binarize import default_alph, default_specialsignals
 from shorttext.utils import classification_exceptions as ce
 from .binarize import SpellingToConcatCharVecEncoder, SCRNNBinarizer
-
+import shorttext.utils.compactmodel_io as cio
 
 nospace_tokenize = lambda sentence: map(lambda t: t.strip(), filter(lambda t: len(t.strip())>0, sentence.split()))
 
 
+@cio.compactio({'classifier': 'scrnn_spell'}, 'scrnn_spell', ['_config.json', '_vocabs.gensimdict', '.h5', '.json'])
 class SCRNNSpellCorrector(SpellCorrector):
     """ scRNN (semi-character-level recurrent neural network) Spell Corrector.
 
@@ -147,7 +148,7 @@ class SCRNNSpellCorrector(SpellCorrector):
 
     def loadmodel(self, prefix):
         self.dictionary = Dictionary.load(prefix+'_vocabs.gensimdict')
-        parameters = json.load(prefix+'_config.json')
+        parameters = json.load(open(prefix+'_config.json', 'r'))
         self.operation = parameters['operation']
         self.alph = parameters['alph']
         self.specialsignals = parameters['special_signals']
@@ -157,8 +158,8 @@ class SCRNNSpellCorrector(SpellCorrector):
         self.nb_hiddenunits = parameters['nb_hiddenunits']
         self.onehotencoder = OneHotEncoder()
         self.onehotencoder.fit(np.arange(len(self.dictionary)).reshape((len(self.dictionary), 1)))
-
         self.model = kerasio.load_model(prefix)
+        self.trained = True
 
     def savemodel(self, prefix):
         if not self.trained:
@@ -167,4 +168,5 @@ class SCRNNSpellCorrector(SpellCorrector):
         self.dictionary.save(prefix+'_vocabs.gensimdict')
         parameters = {'alph': self.alph, 'special_signals': self.specialsignals, 'operation': self.operation,
                       'batchsize': self.batchsize, 'nb_hiddenunits': self.nb_hiddenunits}
-        json.dump(parameters, prefix+'_config.json')
+        json.dump(parameters, open(prefix+'_config.json', 'w'))
+
