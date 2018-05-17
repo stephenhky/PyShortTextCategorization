@@ -12,14 +12,15 @@ before_install:
   - conda update --yes conda
   - sudo apt-get update
   - sudo apt-get install libc6
-  - conda install --yes libgcc
+  - conda uninstall --yes gcc
+  - conda install -c serge-sans-paille gcc_49
 install:
   - conda create --yes -n shorttext-test python=$TRAVIS_PYTHON_VERSION pip numpy scipy
   - source activate shorttext-test
   - pip install Cython
   - pip install -U numpy
   - pip install -U scipy
-  - pip install -U tensorflow
+  - conda install --yes tensorflow
   - pip install -U .
   - spacy download en
   - python -c "import shorttext"
