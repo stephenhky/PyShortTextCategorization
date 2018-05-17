@@ -23,7 +23,7 @@ the most updated (not official) version, you can install from Github_:
 By adding ``-U`` in the command, it automatically installs the required packages. If not,
 you have to install these packages on your own.
 
-The package keras_ uses either Tensorflow_ or Theano_ as the backend, while Theano is usually
+The package keras_ uses either Tensorflow_, Theano_, or CNTK_ as the backend, while Theano is usually
 the default. However, it is highly recommended to use Tensorflow as the backend. Refer to
 :doc:`faq` for how to switch the backend.
 
@@ -49,6 +49,7 @@ Home: :doc:`index`
 .. _Scikit-Learn: http://scikit-learn.org/stable/
 .. _Tensorflow: https://www.tensorflow.org/
 .. _Theano: http://deeplearning.net/software/theano/
+.. _CNTK: https://github.com/Microsoft/CNTK/wiki
 .. _keras: https://keras.io/
 .. _gensim: https://radimrehurek.com/gensim/
 .. _Pandas: http://pandas.pydata.org/

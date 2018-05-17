@@ -16,12 +16,20 @@ Norvig
 >>> norvig_corrector.train(text)
 >>> norvig_corrector.correct('oranhe')   # gives "orange"
 
-Sakaguchi
----------
+Sakaguchi (SCRNN - semi-character recurrent neural network)
+-----------------------------------------------------------
 
 >>> scrnn_corrector = shorttext.spell.SCRNNSpellCorrector('JUMBLE-WHOLE')
 >>> scrnn_corrector.train(text)
 >>> scrnn_corrector.correct('oranhe')   # gives "orange"
+
+We can save the SCRNN corrector for future use:
+
+>>> scrnn_corrector.save_compact_model('/path/to/spellscrnn.bin')
+
+To load,
+
+>>> corrector = shorttext.spell.loadSCRNNSpellCorrector('/path/to/spellscrnn.bin')
 
 Reference
 ---------

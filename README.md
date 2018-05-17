@@ -42,6 +42,7 @@ to fix any errors.
 
 # News
 
+* 05/17/2018: `shorttext` 0.7.0 released.
 * 02/27/2018: `shorttext` 0.6.0 released.
 * 01/19/2018: `shorttext` 0.5.11 released.
 * 01/15/2018: `shorttext` 0.5.10 released.
@@ -71,8 +72,6 @@ to fix any errors.
 
 # Possible Future Updates
 
-- [x] Spelling corrections and fuzzy logic;
 - [ ] Jupyter notebooks as tutorials;
 - [ ] Python 3 compatibility;
-- [x] More unit tests;
 - [ ] More available corpus.

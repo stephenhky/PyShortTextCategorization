@@ -1,6 +1,7 @@
 News
 ====
 
+* 05/17/2018: `shorttext` 0.7.0 released.
 * 02/27/2018: `shorttext` 0.6.0 released.
 * 01/19/2018: `shorttext` 0.5.11 released.
 * 01/15/2018: `shorttext` 0.5.10 released.
@@ -31,6 +32,13 @@ News
 
 What's New
 ----------
+
+Release 0.7.0 (May 17, 2018)
+---------------------------------
+
+* Spelling corrections and fuzzy logic;
+* More unit tests.
+
 
 Release 0.6.0 (February 27, 2018)
 ---------------------------------

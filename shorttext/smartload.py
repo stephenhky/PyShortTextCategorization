@@ -8,6 +8,7 @@ from .generators import load_autoencoder_topicmodel, load_gensimtopicmodel
 from .generators import loadSeq2SeqWithKeras, loadCharBasedSeq2SeqGenerator
 from .classifiers import load_autoencoder_topic_sklearnclassifier, load_gensim_topicvec_sklearnclassifier
 from .classifiers import load_maxent_classifier
+from .spell import loadSCRNNSpellCorrector
 
 
 def smartload_compact_model(filename, wvmodel, preprocessor=standard_text_preprocessor_1(), vecsize=None):
@@ -51,5 +52,7 @@ def smartload_compact_model(filename, wvmodel, preprocessor=standard_text_prepro
         return loadSeq2SeqWithKeras(filename, compact=True)
     elif classifier_name in ['charbases2s']:
         return loadCharBasedSeq2SeqGenerator(filename, compact=True)
+    elif classifier_name in ['scrnn_spell']:
+        return loadSCRNNSpellCorrector(filename, compact=True)
     else:
         raise e.AlgorithmNotExistException(classifier_name)
