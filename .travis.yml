@@ -12,8 +12,8 @@ before_install:
   - conda update --yes conda
   - sudo apt-get update
   - sudo apt-get install libc6
-  - conda uninstall --yes gcc
-  - conda install -c serge-sans-paille gcc_49
+  - conda uninstall --yes libgcc
+  - conda install --yes libgcc
 install:
   - conda create --yes -n shorttext-test python=$TRAVIS_PYTHON_VERSION pip numpy scipy
   - source activate shorttext-test
