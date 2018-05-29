@@ -147,6 +147,12 @@ class SCRNNSpellCorrector(SpellCorrector):
         return ' '.join([self.dictionary[y] for y in maxy[0]])
 
     def loadmodel(self, prefix):
+        """ Load the model.
+
+        :param prefix: prefix of the model path
+        :return: None
+        :type prefix: str
+        """
         self.dictionary = Dictionary.load(prefix+'_vocabs.gensimdict')
         parameters = json.load(open(prefix+'_config.json', 'r'))
         self.operation = parameters['operation']
@@ -162,6 +168,12 @@ class SCRNNSpellCorrector(SpellCorrector):
         self.trained = True
 
     def savemodel(self, prefix):
+        """ Save the model.
+
+        :param prefix: prefix of the model path
+        :return: None
+        :type prefix: str
+        """
         if not self.trained:
             raise ce.ModelNotTrainedException()
         kerasio.save_model(prefix, self.model)
@@ -172,6 +184,15 @@ class SCRNNSpellCorrector(SpellCorrector):
 
 
 def loadSCRNNSpellCorrector(filepath, compact=True):
+    """ Load a pre-trained scRNN spell corrector instance.
+
+    :param filepath: path of the model if compact==True; prefix of the model oath if compact==False
+    :param compact: whether model file is compact (Default: True)
+    :return: an instance of scRnn spell corrector
+    :type filepath: str
+    :type compact: bool
+    :rtype: SCRNNSpellCorrector
+    """
     corrector = SCRNNSpellCorrector('JUMBLE-WHOLE')
     if compact:
         corrector.load_compact_model(filepath)

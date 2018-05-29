@@ -77,8 +77,8 @@ Module `shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification`
 Maximum Entropy Classifiers
 ---------------------------
 
-Module `shorttext.classifiers.bow.maxent.MaxEntClassification
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Module `shorttext.classifiers.bow.maxent.MaxEntClassification`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: shorttext.classifiers.bow.maxent.MaxEntClassification
    :members:
@@ -151,6 +151,22 @@ Module `shorttext.metrics.wassersterin`
 
 .. automodule:: shorttext.metrics.wasserstein.wordmoverdist
    :members:
+
+Spell Correction
+----------------
+
+Module `shorttext.spell`
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: shorttext.spell.basespellcorrector
+   :members:
+
+.. automodule:: shorttext.spell.norvig
+   :members:
+
+.. automodule:: shorttext.spell.sakaguchi
+   :members:
+
 
 
 
