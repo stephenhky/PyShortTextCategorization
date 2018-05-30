@@ -18,8 +18,8 @@ autoencoder_suffices = ['.gensimdict', '_encoder.json', '_encoder.h5', '_classto
                         '.json']
 
 
-@cio.compactio({'classifier': 'kerasautoencoder'}, 'kerasautoencoder', autoencoder_suffices)
-class AutoencodingTopicModeler(LatentTopicModeler):
+# @cio.compactio({'classifier': 'kerasautoencoder'}, 'kerasautoencoder', autoencoder_suffices)
+class AutoencodingTopicModeler(LatentTopicModeler, cio.CompactIOMachine):
     """
     This class facilitates the topic modeling of input training data using the autoencoder.
 
@@ -40,6 +40,7 @@ class AutoencodingTopicModeler(LatentTopicModeler):
         :type classdict: dict
         :type nb_topics: int
         """
+        cio.CompactIOMachine.__init__(self, {'classifier': 'kerasautoencoder'}, 'kerasautoencoder', autoencoder_suffices)
         self.nb_topics = nb_topics
         self.generate_corpus(classdict)
         vecsize = len(self.dictionary)

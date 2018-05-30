@@ -168,9 +168,9 @@ class StackedGeneralization:
         """
         raise e.NotImplementedException()
 
-@cio.compactio({'classifier': 'stacked_logistics'}, 'stacked_logistics',
-               ['_stackedlogistics.pkl', '_stackedlogistics.h5', '_stackedlogistics.json'])
-class LogisticStackedGeneralization(StackedGeneralization):
+# @cio.compactio({'classifier': 'stacked_logistics'}, 'stacked_logistics',
+#                ['_stackedlogistics.pkl', '_stackedlogistics.h5', '_stackedlogistics.json'])
+class LogisticStackedGeneralization(StackedGeneralization, cio.CompactIOMachine):
     """
     This class implements logistic regression as the stacked generalizer.
 
@@ -196,6 +196,11 @@ class LogisticStackedGeneralization(StackedGeneralization):
         :type bias_l2reg: float
         :type nb_epoch: int
         """
+        cio.CompactIOMachine.__init__(self,
+                                      {'classifier': 'stacked_logistics'},
+                                      'stacked_logistics',
+                                      ['_stackedlogistics.pkl', '_stackedlogistics.h5', '_stackedlogistics.json'])
+
         # register
         self.register_classifiers()
         self.register_classlabels(classdict.keys())
