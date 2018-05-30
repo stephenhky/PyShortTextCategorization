@@ -124,6 +124,25 @@ def CompactIOClassifier(Classifier, infodict, prefix, suffices):
                     'prefix': prefix,
                     'suffices': suffices}
 
+        def __call__(self, *args, **kwargs):
+            self.before_call()
+            self.thisclass = self.__init__(*args, **kwargs)
+            self.after_call()
+
+            return self.thisclass
+
+        def before_call(self):
+            pass
+
+        def after_call(self):
+            pass
+
+    DressedClassifier.__name__ = Classifier.__name__
+    DressedClassifier.__doc__ = Classifier.__doc__
+    DressedClassifier.__call__ = Classifier.__call__
+    DressedClassifier.__code__ = Classifier.__code__
+    DressedClassifier.__closure__ = Classifier.__closure__
+
     # return decorated classifier
     return DressedClassifier
 
