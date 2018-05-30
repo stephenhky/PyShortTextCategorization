@@ -151,7 +151,6 @@ def CompactIOClassifier(Classifier, infodict, prefix, suffices):
 
     DressedClassifier.__name__ = Classifier.__name__
     DressedClassifier.__doc__ = Classifier.__doc__
-    DressedClassifier.__bases__ = Classifier.__bases__
 
     # return decorated classifier
     return DressedClassifier
