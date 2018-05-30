@@ -93,6 +93,31 @@ def load_compact_model(filename, loadfunc, prefix, infodict):
 
     return returnobj
 
+
+class CompactIOMachine:
+    def __init__(self, infodict, prefix, suffices):
+        self.infodict = infodict
+        self.prefix = prefix
+        self.suffices = suffices
+
+    def savemodel(self, nameprefix):
+        raise e.OperationNotDefinedException()
+
+    def loadmodel(self, nameprefix):
+        raise e.OperationNotDefinedException()
+
+    def save_compact_model(self, filename, *args, **kwargs):
+        save_compact_model(filename, self.savemodel, self.prefix, self.suffices, self.infodict, *args, **kwargs)
+
+    def load_compact_model(self, filename, *args, **kwargs):
+        return load_compact_model(filename, self.loadmodel, self.prefix, self.infodict, *args, **kwargs)
+
+    def get_info(self):
+        return {'classifier': self.infodict['classifier'],
+                'prefix': self.prefix,
+                'suffices': self.suffices}
+
+
 # decorator that adds compact model methods to classifier dynamically
 def CompactIOClassifier(Classifier, infodict, prefix, suffices):
     """ Returns a decorated class object with additional methods for compact model I/O.
@@ -126,6 +151,7 @@ def CompactIOClassifier(Classifier, infodict, prefix, suffices):
 
     DressedClassifier.__name__ = Classifier.__name__
     DressedClassifier.__doc__ = Classifier.__doc__
+    DressedClassifier.__bases__ = Classifier.__bases__
 
     # return decorated classifier
     return DressedClassifier

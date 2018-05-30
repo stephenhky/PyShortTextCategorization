@@ -9,8 +9,8 @@ from shorttext.utils import tokenize
 import shorttext.utils.compactmodel_io as cio
 
 
-@cio.compactio({'classifier': 'nnlibvec'}, 'nnlibvec', ['_classlabels.txt', '.json', '.h5', '_config.json'])
-class VarNNEmbeddedVecClassifier:
+# @cio.compactio({'classifier': 'nnlibvec'}, 'nnlibvec', ['_classlabels.txt', '.json', '.h5', '_config.json'])
+class VarNNEmbeddedVecClassifier(cio.CompactIOMachine):
     """
     This is a wrapper for various neural network algorithms
     for supervised short text categorization.
@@ -38,6 +38,7 @@ class VarNNEmbeddedVecClassifier:
         :type vecsize: int
         :type maxlen: int
         """
+        cio.CompactIOMachine.__init__(self, {'classifier': 'nnlibvec'}, 'nnlibvec', ['_classlabels.txt', '.json', '.h5', '_config.json'])
         self.wvmodel = wvmodel
         self.vecsize = self.wvmodel.vector_size if vecsize == None else vecsize
         self.maxlen = maxlen
