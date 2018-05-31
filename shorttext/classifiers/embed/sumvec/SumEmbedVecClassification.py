@@ -9,8 +9,8 @@ from shorttext.utils import shorttext_to_avgvec
 import shorttext.utils.compactmodel_io as cio
 
 
-@cio.compactio({'classifier': 'sumvec'}, 'sumvec', ['_embedvecdict.pkl'])
-class SumEmbeddedVecClassifier:
+# @cio.compactio({'classifier': 'sumvec'}, 'sumvec', ['_embedvecdict.pkl'])
+class SumEmbeddedVecClassifier(cio.CompactIOMachine):
     """
     This is a supervised classification algorithm for short text categorization.
     Each class label has a few short sentences, where each token is converted
@@ -33,6 +33,7 @@ class SumEmbeddedVecClassifier:
         :type vecsize: int
         :type simfcn: function
         """
+        cio.CompactIOMachine(self, {'classifier': 'sumvec'}, 'sumvec', ['_embedvecdict.pkl'])
         self.wvmodel = wvmodel
         self.vecsize = self.wvmodel.vector_size if vecsize == None else vecsize
         self.simfcn = simfcn
