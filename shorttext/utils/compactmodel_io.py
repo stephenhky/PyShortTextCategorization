@@ -95,24 +95,71 @@ def load_compact_model(filename, loadfunc, prefix, infodict):
 
 
 class CompactIOMachine:
+    """ Base class that implements compact model I/O.
+
+    This is to replace the original :func:`compactio` decorator.
+
+    """
     def __init__(self, infodict, prefix, suffices):
+        """
+
+        :param infodict: information about the model. Must contain the key 'classifier'.
+        :param prefix: prefix of names of the model file
+        :param suffices: suffices of the names of the model file
+        :type infodict: dict
+        :type prefix: str
+        :type suffices: list
+        """
         self.infodict = infodict
         self.prefix = prefix
         self.suffices = suffices
 
     def savemodel(self, nameprefix):
+        """ Abstract method for `savemodel`.
+
+        :param nameprefix: prefix of the model path
+        :type nameprefix: str
+        """
         raise e.OperationNotDefinedException()
 
     def loadmodel(self, nameprefix):
+        """ Abstract method for `loadmodel`.
+
+        :param nameprefix: prefix of the model path
+        :type nameprefix: str
+        """
         raise e.OperationNotDefinedException()
 
     def save_compact_model(self, filename, *args, **kwargs):
+        """ Save the model in a compressed binary format.
+
+        :param filename: name of the model file
+        :param args: arguments
+        :param kwargs: arguments
+        :type filename: str
+        :type args: dict
+        :type kwargs: dict
+        """
         save_compact_model(filename, self.savemodel, self.prefix, self.suffices, self.infodict, *args, **kwargs)
 
     def load_compact_model(self, filename, *args, **kwargs):
+        """ Load the model in a compressed binary format.
+
+        :param filename: name of the model file
+        :param args: arguments
+        :param kwargs: arguments
+        :type filename: str
+        :type args: dict
+        :type kwargs: dict
+        """
         return load_compact_model(filename, self.loadmodel, self.prefix, self.infodict, *args, **kwargs)
 
     def get_info(self):
+        """ Getting information for the dressed machine.
+
+        :return: dictionary of the information for the dressed machine.
+        :rtype: dict
+        """
         return {'classifier': self.infodict['classifier'],
                 'prefix': self.prefix,
                 'suffices': self.suffices}

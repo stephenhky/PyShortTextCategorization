@@ -84,7 +84,7 @@ Release 0.5.6 (October 17, 2017)
 * Updated the neural network framework due to the change in `gensim` API.
 
 Release 0.5.5 (September 28, 2017)
----------------------------------
+----------------------------------
 
 * Script `ShortTextCategorizerConsole` updated.
 
