@@ -1,6 +1,7 @@
 News
 ====
 
+* 05/30/2018: `shorttext` 0.7.1 released.
 * 05/17/2018: `shorttext` 0.7.0 released.
 * 02/27/2018: `shorttext` 0.6.0 released.
 * 01/19/2018: `shorttext` 0.5.11 released.
@@ -32,6 +33,13 @@ News
 
 What's New
 ----------
+
+Release 0.7.1 (May 30, 2018)
+---------------------------------
+
+* Decorator replaced by base class `CompactIOMachine`;
+* API included in documentation.
+
 
 Release 0.7.0 (May 17, 2018)
 ---------------------------------
