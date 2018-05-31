@@ -12,8 +12,15 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-# import sys
+import sys
 # import os
+import mock
+
+MOCK_MODULES = ['Cython', 'numpy', 'scipy', 'sklearn', 'tensorflow', 'keras', 'gensim',
+                'pandas', 'spacy', 'stemming', 'pulp', 'shorttext', 'shorttext.utils',
+                'shorttext.data']
+for mod_name in MOCK_MODULES:
+    sys.modules[mod_name] = mock.Mock()
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
