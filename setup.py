@@ -1,4 +1,5 @@
-from setuptools import setup, Extension
+from setuptools import setup
+import numpy as np
 from Cython.Build import cythonize
 
 def readme():
@@ -43,6 +44,7 @@ setup(name='shorttext',
                 'shorttext.spell'],
       package_dir={'shorttext': 'shorttext'},
       package_data={'shorttext': ['data/*.csv', 'utils/*.pkl', 'metrics/dynprog/*.pyx']},
+      include_dirs=[np.get_include()],
       setup_requires=['numpy>=1.11.3', 'scipy>=0.18.1'],
       install_requires=[
           'Cython', 'numpy>=1.11.3', 'scipy>=0.18.1', 'scikit-learn', 'keras>=2.0.0', 'gensim>=3.2.0',
