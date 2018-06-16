@@ -30,7 +30,7 @@ class TestFuzzyLogic(unittest.TestCase):
 
     def test_correct(self):
         self.assertEqual(shorttext.metrics.dynprog.damerau_levenshtein('python', 'python'), 0)
-        self.assertEqual(shorttext.metrics.dynprog.damerau_levenshtein('sosad', 'sosad'), 1)
+        self.assertEqual(shorttext.metrics.dynprog.damerau_levenshtein('sosad', 'sosad'), 0)
 
     def test_jaccard(self):
         self.assertAlmostEqual(shorttext.metrics.dynprog.similarity('diver', 'driver'), 5./6.)
