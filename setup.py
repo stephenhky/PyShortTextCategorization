@@ -1,6 +1,13 @@
-from setuptools import setup
+from setuptools import setup, Extension
 import numpy as np
-from Cython.Build import cythonize
+
+try:
+    from Cython.Build import cythonize
+    ext_modiles = cythonize(['shorttext/metrics/dynprog/dldist.pyx',
+                             'shorttext/metrics/dynprog/lcp.pyx'])
+except ImportError:
+    ext_modiles = [Extension('_dldist', 'shorttext/metrics/dynprog/dldist.c'),
+                   Extension('_lcp', 'shorttext/metrics/dynprog/lcp.c')]
 
 def readme():
     with open('README.md') as f:
@@ -22,8 +29,7 @@ setup(name='shorttext',
       author="Kwan-Yuet Ho",
       author_email="stephenhky@yahoo.com.hk",
       license='MIT',
-      ext_modules=cythonize(['shorttext/metrics/dynprog/dldist.pyx',
-                             'shorttext/metrics/dynprog/lcp.pyx']),
+      ext_modules=ext_modiles,
       packages=['shorttext',
                 'shorttext.utils',
                 'shorttext.classifiers',
