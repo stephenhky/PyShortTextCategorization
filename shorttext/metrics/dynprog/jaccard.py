@@ -1,7 +1,8 @@
 
 from itertools import product
 
-from .dldist import damerau_levenshtein, longest_common_prefix
+from .dldist import damerau_levenshtein
+from .lcp import longest_common_prefix
 
 def similarity(word1, word2):
     """ Return the similarity between the two words.

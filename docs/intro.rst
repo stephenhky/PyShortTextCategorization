@@ -21,7 +21,8 @@ Characteristics:
 - metrics of phrases differences, including soft Jaccard score (using Damerau-Levenshtein distance), and Word Mover's distance (WMD); (see :doc:`tutorial_metrics`) and
 - character-level sequence-to-sequence (seq2seq) learning. (see :doc:`tutorial_charbaseseq2seq`)
 
-Part of the package was implemented using C, and it is interfaced to Python using SWIG_ (Simplified Wrapper and Interface Generator).
+Before release 0.7.2, part of the package was implemented using C, and it is interfaced to
+Python using SWIG_ (Simplified Wrapper and Interface Generator).
 
 Author: Kwan-Yuet Ho (LinkedIn_, ResearchGate_, Twitter_)
 

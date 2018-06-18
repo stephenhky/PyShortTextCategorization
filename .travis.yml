@@ -23,6 +23,6 @@ install:
   - conda install --yes tensorflow
   - pip install -U .
   - spacy download en
-  - python -c "import shorttext"
+#  - python -c "import shorttext"
 script:
   - python setup.py test
