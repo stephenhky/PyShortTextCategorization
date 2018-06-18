@@ -8,4 +8,4 @@ from .smartload import smartload_compact_model
 from . import metrics
 from . import spell
 
-__version__ = '0.7.2a0'
+__version__ = '0.7.2'
