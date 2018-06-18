@@ -44,8 +44,8 @@ union has 1.25 elements. Then the similarity between two sets of tokens can be m
 >>> soft_jaccard_score(['book', 'seller'], ['blok', 'sellers'])     # gives 0.6716417910447762
 >>> soft_jaccard_score(['police', 'station'], ['policeman'])        # gives 0.2857142857142858
 
-The functions `damerau_levenshtein` and `longest_common_prefix` are implemented using C, and interfaced
-to Python using SWIG_ (Simplified Wrapper and Interface Generator).
+The functions `damerau_levenshtein` and `longest_common_prefix` are implemented using Cython_ .
+(Before release 0.7.2, they were interfaced to Python using SWIG_ (Simplified Wrapper and Interface Generator)).
 
 Word Mover's Distance
 ---------------------
@@ -125,3 +125,4 @@ Home: :doc:`index`
 
 .. _SWIG: http://www.swig.org/
 .. _PyEMD: https://github.com/wmayner/pyemd
+.. _Cython: http://cython.org/
