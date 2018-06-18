@@ -1,6 +1,7 @@
 News
 ====
 
+* 06/18/2018: `shorttext` 0.7.2 released.
 * 05/30/2018: `shorttext` 0.7.1 released.
 * 05/17/2018: `shorttext` 0.7.0 released.
 * 02/27/2018: `shorttext` 0.6.0 released.
@@ -33,6 +34,11 @@ News
 
 What's New
 ----------
+
+Release 0.7.2 (June 18, 2018)
+---------------------------------
+
+* Damerau-Levenshtein distance and longest common prefix implemented using Cython.
 
 Release 0.7.1 (May 30, 2018)
 ---------------------------------
