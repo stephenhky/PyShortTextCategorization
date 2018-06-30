@@ -10,6 +10,8 @@ def get_argparser():
     argparser.add_argument('--vecsize', default=100, type=int, help='Vector dimensions. (Default: 100)')
     argparser.add_argument('--topn', type=int, default=10, help='Number of top-scored results displayed. (Default: 10)')
     argparser.add_argument('--inputtext', default=None, help='single input text for classification. Run console if set to None. (Default: None)')
+    argparser.add_argument('--type', default='word2vec',
+                           help='Type of word-embedding model (default: "word2vec"; other options: "fasttext", "poincare")')
     return argparser
 
 argparser = get_argparser()
@@ -25,6 +27,11 @@ import os
 
 import shorttext
 from shorttext.utils.classification_exceptions import AlgorithmNotExistException, WordEmbeddingModelNotExistException
+from shorttext.utils import load_word2vec_model, load_fasttext_model, load_poincare_model
+
+typedict = {'word2vec': load_word2vec_model,
+            'fasttext': load_fasttext_model,
+            'poincare': load_poincare_model}
 
 # main block
 if __name__ == '__main__':
@@ -33,7 +40,7 @@ if __name__ == '__main__':
         raise IOError('Model file '+args.model_filepath+' not found!')
 
     # get the name of the classifier
-    print 'Retrieving classifier name...'
+    print('Retrieving classifier name...')
     classifier_name = shorttext.utils.compactmodel_io.get_model_classifier_name(args.model_filepath)
     if not (classifier_name in allowed_classifiers):
         raise AlgorithmNotExistException(classifier_name)
@@ -45,11 +52,11 @@ if __name__ == '__main__':
         if not os.path.exists(args.wv):
             raise WordEmbeddingModelNotExistException(args.wv)
         # if there, load it
-        print 'Loading word-embedding model...', args.wv
-        wvmodel = shorttext.utils.load_word2vec_model(args.wv)
+        print('Loading word-embedding model...', args.wv)
+        wvmodel = typedict[args.type](args.wv)
 
     # load the classifier
-    print 'Initializing the classifier...'
+    print('Initializing the classifier...')
     classifier = None
     if classifier_name in topicmodels:
         topicmodel = shorttext.smartload_compact_model(args.model_filepath, wvmodel, vecsize=args.vecsize)
@@ -64,9 +71,9 @@ if __name__ == '__main__':
         if len(args.inputtext) > 0:
             scoredict = classifier.score(args.inputtext)
             for label, score in sorted(scoredict.items(), key=lambda s: s[1], reverse=True)[:args.topn]:
-                print label, ' : ', score
+                print(label, ' : ', score)
         else:
-            print 'No input text available!'
+            print('No input text available!')
     else:
         # Console
         run = True
@@ -75,8 +82,8 @@ if __name__ == '__main__':
             if len(shorttext) > 0:
                 scoredict = classifier.score(shorttext)
                 for label, score in sorted(scoredict.items(), key=lambda s: s[1], reverse=True)[:args.topn]:
-                    print label, ' : ', score
+                    print(label, ' : ', score)
             else:
                 run = False
 
-        print 'Done.'
+        print('Done.')

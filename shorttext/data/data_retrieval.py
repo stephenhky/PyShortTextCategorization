@@ -194,14 +194,14 @@ def get_or_download_data(filename, origin):
     targetfilepath = os.path.join(datadir, filename)
     # download if not exist
     if not os.path.exists(os.path.join(datadir, filename)):
-        print 'Downloading...'
-        print 'Source: ', origin
-        print 'Target: ', targetfilepath
+        print('Downloading...')
+        print('Source: ', origin)
+        print('Target: ', targetfilepath)
         try:
             urlretrieve(origin, targetfilepath)
         except:
-            print 'Failure to download file!'
-            print sys.exc_info()
+            print('Failure to download file!')
+            print(sys.exc_info())
             os.remove(targetfilepath)
 
     # return
