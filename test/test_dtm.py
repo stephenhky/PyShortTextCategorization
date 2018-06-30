@@ -19,7 +19,7 @@ class TestDTM(unittest.TestCase):
         pipeline = [lambda s: re.sub('[^\w\s]', '', s),
                     lambda s: re.sub('[\d]', '', s),
                     lambda s: s.lower(),
-                    lambda s: shorttext.utils.textpreprocessing.stem_text
+                    lambda s: shorttext.utils.textpreprocessing.stem_text(s)
                     ]
         txtpreproceesor = shorttext.utils.text_preprocessor(pipeline)
 
