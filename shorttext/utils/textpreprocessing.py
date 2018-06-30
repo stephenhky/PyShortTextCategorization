@@ -3,7 +3,7 @@ import pickle
 import os
 
 import spacy
-from stemming.porter import stem
+from gensim.parsing import stem_text
 
 # load stop words
 this_dir, _ = os.path.split(__file__)
@@ -90,6 +90,6 @@ def standard_text_preprocessor_1():
                 lambda s: re.sub('[\d]', '', s),
                 lambda s: s.lower(),
                 lambda s: ' '.join(filter(lambda s: not (s in stopwordset), spacy_tokenize(s))),
-                lambda s: ' '.join(map(stem, spacy_tokenize(s)))
+                lambda s: stem_text(s)
                ]
     return text_preprocessor(pipeline)
