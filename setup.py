@@ -55,7 +55,7 @@ setup(name='shorttext',
                 'shorttext.metrics.embedfuzzy',
                 'shorttext.spell'],
       package_dir={'shorttext': 'shorttext'},
-      package_data={'shorttext': ['data/*.csv', 'utils/*.pkl', 'metrics/dynprog/*.pyx']},
+      package_data={'shorttext': ['data/*.csv', 'utils/*.txt', 'metrics/dynprog/*.pyx']},
       include_dirs=[np.get_include()],
       setup_requires=['numpy>=1.11.3', 'scipy>=0.18.1'],
       install_requires=[

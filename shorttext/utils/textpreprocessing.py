@@ -1,16 +1,14 @@
 
 import re
-import pickle
 import os
 import codecs
 
+import Stemmer
 import spacy
 
 # stemmer
-import Stemmer
 stemmer = Stemmer.Stemmer('english')
 stemword = lambda s: stemmer.stemWord(s)
-
 
 
 # load stop words
