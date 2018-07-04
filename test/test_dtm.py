@@ -4,6 +4,7 @@ import re
 
 import pandas as pd
 import shorttext
+import Stemmer
 
 
 class TestDTM(unittest.TestCase):
@@ -15,28 +16,30 @@ class TestDTM(unittest.TestCase):
         usprezdf = pd.DataFrame({'yrprez': docids, 'speech': usprez})
         usprezdf = usprezdf[['yrprez', 'speech']]
 
+        stemmer = Stemmer.Stemmer('english')
+
         # preprocesser defined
         pipeline = [lambda s: re.sub('[^\w\s]', '', s),
                     lambda s: re.sub('[\d]', '', s),
                     lambda s: s.lower(),
-                    lambda s: ' '.join(map(shorttext.utils.textpreprocessing.stemword, shorttext.utils.tokenize(s)))
+                    lambda s: ' '.join(map(stemmer.stemWord, shorttext.utils.tokenize(s)))
                     ]
-        txtpreproceesor = shorttext.utils.text_preprocessor(pipeline)
+        txtpreprocessor = shorttext.utils.text_preprocessor(pipeline)
 
         # corpus making
         docids = list(usprezdf['yrprez'])
-        corpus = [txtpreproceesor(speech).split(' ') for speech in usprezdf['speech']]
+        corpus = [txtpreprocessor(speech).split(' ') for speech in usprezdf['speech']]
 
         # making DTM
         dtm = shorttext.utils.DocumentTermMatrix(corpus, docids=docids, tfidf=True)
 
         # check results
-        self.assertEqual(len(dtm.dictionary), 5533)
-        self.assertAlmostEqual(dtm.get_token_occurences(shorttext.utils.textpreprocessing.stem('change'))['2009-Obama'], 0.013832785291105156)
+        self.assertEqual(len(dtm.dictionary), 5252)
+        self.assertAlmostEqual(dtm.get_token_occurences(shorttext.utils.textpreprocessing.stem('change'))['2009-Obama'], 0.013937471327928361)
         numdocs, numtokens = dtm.dtm.shape
         self.assertEqual(numdocs, 56)
-        self.assertEqual(numtokens, 5533)
-        self.assertAlmostEqual(dtm.get_total_termfreq('government'), 0.27478750039568517)
+        self.assertEqual(numtokens, 5252)
+        self.assertAlmostEqual(dtm.get_total_termfreq('government'), 0.27875478870737563)
 
 
 if __name__ == '__main__':
