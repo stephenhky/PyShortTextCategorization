@@ -2,7 +2,7 @@
 import re
 import pickle
 import os
-import sys
+import codecs
 
 import spacy
 
@@ -15,10 +15,9 @@ stemword = lambda s: stemmer.stemWord(s)
 
 # load stop words
 this_dir, _ = os.path.split(__file__)
-if sys.version_info[0] == 2:
-    stopwordset = pickle.load(open(os.path.join(this_dir, 'stopwordset.pkl'), 'r'))
-else:
-    stopwordset = pickle.load(open(os.path.join(this_dir, 'stopwordset.pkl'), 'r'), encoding='bytes', fix_imports=True)
+f = codecs.open('stopwords.txt', 'r', 'utf-8')
+stopwordset = set([stopword.strip() for stopword in f])
+f.close()
 
 
 # initialize spacy
