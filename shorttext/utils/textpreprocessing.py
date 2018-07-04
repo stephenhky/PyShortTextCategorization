@@ -18,7 +18,7 @@ this_dir, _ = os.path.split(__file__)
 if sys.version_info[0] == 2:
     stopwordset = pickle.load(open(os.path.join(this_dir, 'stopwordset.pkl'), 'r'))
 else:
-    stopwordset = pickle.load(open(os.path.join(this_dir, 'stopwordset.pkl'), 'r'), encoding='bytes')
+    stopwordset = pickle.load(open(os.path.join(this_dir, 'stopwordset.pkl'), 'r'), encoding='bytes', fix_imports=True)
 
 
 # initialize spacy
