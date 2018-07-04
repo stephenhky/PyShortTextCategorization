@@ -1,6 +1,8 @@
+
 import re
 import pickle
 import os
+import sys
 
 import spacy
 
@@ -13,7 +15,11 @@ stemword = lambda s: stemmer.stemWord(s)
 
 # load stop words
 this_dir, _ = os.path.split(__file__)
-stopwordset = pickle.load(open(os.path.join(this_dir, 'stopwordset.pkl'), 'r'))
+if sys.version_info[0] == 2:
+    stopwordset = pickle.load(open(os.path.join(this_dir, 'stopwordset.pkl'), 'r'))
+else:
+    stopwordset = pickle.load(open(os.path.join(this_dir, 'stopwordset.pkl'), 'r'), encoding='utf-8')
+
 
 # initialize spacy
 class SpaCyNLPHolder:
