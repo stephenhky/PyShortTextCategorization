@@ -13,7 +13,7 @@ stemword = lambda s: stemmer.stemWord(s)
 
 # load stop words
 this_dir, _ = os.path.split(__file__)
-f = codecs.open('stopwords.txt', 'r', 'utf-8')
+f = codecs.open(os.path.join(this_dir, 'stopwords.txt'), 'r', 'utf-8')
 stopwordset = set([stopword.strip() for stopword in f])
 f.close()
 
