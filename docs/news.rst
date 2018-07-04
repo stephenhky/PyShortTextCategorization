@@ -35,6 +35,12 @@ News
 What's New
 ----------
 
+Release 1.0.0 (xxxxx)
+---------------------
+
+* Python-3 compatibility;
+* Replacing the original stemmer to use Snowball.
+
 Release 0.7.2 (June 18, 2018)
 ---------------------------------
 
