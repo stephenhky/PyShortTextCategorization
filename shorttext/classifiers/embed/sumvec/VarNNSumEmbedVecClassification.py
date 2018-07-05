@@ -136,7 +136,7 @@ class VarNNSumEmbeddedVecClassifier:
         labelfile = open(nameprefix+'_classlabels.txt', 'r')
         self.classlabels = labelfile.readlines()
         labelfile.close()
-        self.classlabels = map(lambda s: s.strip(), self.classlabels)
+        self.classlabels = list(map(lambda s: s.strip(), self.classlabels))
         self.trained = True
 
     def word_to_embedvec(self, word):

@@ -44,7 +44,7 @@ def spacy_tokenize(text):
     """
     nlp = spaCyNLPHolder.getNLPInstance()   # lazy loading
     tokenizer = nlp(unicode(text)) if sys.version_info[0]==2 else nlp(text)
-    return map(str, [token for token in tokenizer])
+    return [str(token) for token in tokenizer]
 
 def preprocess_text(text, pipeline):
     """ Preprocess the text according to the given pipeline.

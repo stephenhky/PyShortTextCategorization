@@ -17,7 +17,7 @@ from shorttext.utils import classification_exceptions as ce
 from .binarize import SpellingToConcatCharVecEncoder, SCRNNBinarizer
 import shorttext.utils.compactmodel_io as cio
 
-nospace_tokenize = lambda sentence: map(lambda t: t.strip(), filter(lambda t: len(t.strip())>0, sentence.split()))
+nospace_tokenize = lambda sentence: list(map(lambda t: t.strip(), filter(lambda t: len(t.strip())>0, sentence.split())))
 
 
 # @cio.compactio({'classifier': 'scrnn_spell'}, 'scrnn_spell', ['_config.json', '_vocabs.gensimdict', '.h5', '.json'])

@@ -216,7 +216,7 @@ class MaxEntClassifier:
         labelfile = open(nameprefix+'_classlabels.txt', 'r')
         self.classlabels = labelfile.readlines()
         labelfile.close()
-        self.classlabels = map(lambda s: s.strip(), self.classlabels)
+        self.classlabels = list(map(lambda s: s.strip(), self.classlabels))
 
         self.labels2idx = pickle.load(open(nameprefix+'_labelidx.pkl', 'r'))
 

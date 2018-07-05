@@ -52,7 +52,7 @@ class TopicVectorSkLearnClassifier:
         y = []
         self.classlabels = classdict.keys()
         for classidx, classlabel in zip(range(len(self.classlabels)), self.classlabels):
-            topicvecs = map(self.topicmodeler.retrieve_topicvec, classdict[classlabel])
+            topicvecs = [self.topicmodeler.retrieve_topicvec(topic) for topic in classdict[classlabel]]
             X += topicvecs
             y += [classidx]*len(topicvecs)
         self.classifier.fit(X, y, *args, **kwargs)

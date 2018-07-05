@@ -186,7 +186,7 @@ def yield_crossvalidation_classdicts(classdict, nb_partitions, shuffle=False):
         sentences = classdict[label] if not shuffle else random.shuffle(sentences)
         for i in range(nb_partitions):
             crossvaldicts[i][label] += sentences[i * partsize:min(nb_data, (i + 1) * partsize)]
-    crossvaldicts = map(dict, crossvaldicts)
+    crossvaldicts = [dict(crossvaldict) for crossvaldict in crossvaldicts]
 
     for i in range(nb_partitions):
         testdict = crossvaldicts[i]
