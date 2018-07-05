@@ -3,8 +3,11 @@ from collections import defaultdict
 import json
 import os
 import zipfile
-from urllib import urlretrieve
 import sys
+if sys.version_info[0]==2:
+    from urllib import urlretrieve
+else:
+    from urllib.request import urlretrieve
 
 import pandas as pd
 import numpy as np
