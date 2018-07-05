@@ -43,7 +43,7 @@ def spacy_tokenize(text):
     :rtype: list
     """
     nlp = spaCyNLPHolder.getNLPInstance()   # lazy loading
-    tokenizer = nlp(unicode(text)) if sys.version_info[0]==2 else nlp(str(text, 'utf-8'))
+    tokenizer = nlp(unicode(text)) if sys.version_info[0]==2 else nlp(text)
     return map(str, [token for token in tokenizer])
 
 def preprocess_text(text, pipeline):

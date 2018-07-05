@@ -83,8 +83,12 @@ def inaugural():
     :rtype: dict
     """
     zfile = zipfile.ZipFile(get_or_download_data("USInaugural.zip",
-                                                 "https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/USInaugural.zip?raw=true"))
-    return json.loads(zfile.open("addresses.json").read())
+                                                 "https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/USInaugural.zip?raw=true"),
+                            'r',
+                            zipfile.ZIP_DEFLATED)
+    address_jsonstr = zfile.open("addresses.json").read()
+    zfile.close()
+    return json.loads(address_jsonstr)
 
 def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512):
     """ Return an example data set, sampled from NIH RePORT (Research Portfolio
@@ -119,9 +123,11 @@ def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512
         raise KeyError('Undefined label column: '+label_col+'. Must be FUNDING_ICs or IC_NAME.')
 
     zfile = zipfile.ZipFile(get_or_download_data('nih_full.csv.zip',
-                                                 'https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/nih_full.csv.zip?raw=true')
-                            )
+                                                 'https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/nih_full.csv.zip?raw=true'),
+                            'r',
+                            zipfile.ZIP_DEFLATED)
     nih = pd.read_csv(zfile.open('nih_full.csv'), na_filter=False, usecols=[label_col, txt_col])
+    zfile.close()
     nb_data = len(nih)
     sample_size = nb_data if sample_size==None else min(nb_data, sample_size)
 
