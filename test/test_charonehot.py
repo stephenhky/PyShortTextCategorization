@@ -4,9 +4,9 @@ import sys
 
 import shorttext
 if sys.version_info[0]==2:
-    import urllib2
+    from urllib2 import urlopen
 else:
-    import urllib.request as urllib2
+    from urllib.request import urlopen
 
 class TestCharOneHot(unittest.TestCase):
     def setUp(self):
@@ -16,7 +16,7 @@ class TestCharOneHot(unittest.TestCase):
         pass
 
     def test_BigTxt(self):
-        chartovec_encoder = shorttext.generators.initSentenceToCharVecEncoder(urllib2.urlopen('http://norvig.com/big.txt', 'r'))
+        chartovec_encoder = shorttext.generators.initSentenceToCharVecEncoder(urlopen('http://norvig.com/big.txt'))
         self.assertEqual(93, len(chartovec_encoder.dictionary))
         self.assertEqual('\n', chartovec_encoder.signalchar)
 

@@ -1,6 +1,7 @@
 
 import re
 import string
+from functools import reduce
 
 import numpy as np
 from shorttext.generators.charbase.char2vec import initSentenceToCharVecEncoder

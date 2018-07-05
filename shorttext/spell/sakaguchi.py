@@ -74,7 +74,7 @@ class SCRNNSpellCorrector(SpellCorrector, cio.CompactIOMachine):
                 xvec, _ = self.binarizer.noise_char(token, self.operation.upper()[6:])
             elif self.operation.upper().startswith('JUMBLE'):
                 xvec, _ = self.binarizer.jumble_char(token, self.operation.upper()[7:])
-            normtoken = token if self.dictionary.token2id.has_key(token) else '<unk>'
+            normtoken = token if token in self.dictionary.token2id else '<unk>'
             yvec = self.onehotencoder.transform([[self.dictionary.token2id[normtoken]]]).toarray().reshape((len(self.dictionary), 1))
             yield xvec, yvec
 

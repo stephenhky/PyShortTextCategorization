@@ -23,7 +23,7 @@ class NorvigSpellCorrector(SpellCorrector):
         :param text: training corpus
         :type text: str
         """
-        self.words = re.findall(r'\w+', text.lower())
+        self.words = re.findall(b'\w+', text.lower())
         self.WORDS = Counter(self.words)
         self.N = sum(self.WORDS.values())
 

@@ -3,15 +3,15 @@ import unittest
 import sys
 
 if sys.version_info[0]==2:
-    import urllib2
+    from urllib2 import urlopen
 else:
-    import urllib.request as urllib2
+    from urllib.request import urlopen
 
 import shorttext
 
 class TestSpellCheck(unittest.TestCase):
     def setUp(self):
-        self.text = urllib2.urlopen('https://norvig.com/big.txt').read()
+        self.text = urlopen('https://norvig.com/big.txt').read()
 
     def tearDown(self):
         pass
