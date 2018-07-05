@@ -22,7 +22,7 @@ class TestDTM(unittest.TestCase):
         pipeline = [lambda s: re.sub('[^\w\s]', '', s),
                     lambda s: re.sub('[\d]', '', s),
                     lambda s: s.lower(),
-                    lambda s: ' '.join(map(stemmer.stemWord, shorttext.utils.tokenize(s)))
+                    lambda s: ' '.join([stemmer.stemWord(token) for token in shorttext.utils.tokenize(s)])
                     ]
         txtpreprocessor = shorttext.utils.text_preprocessor(pipeline)
 

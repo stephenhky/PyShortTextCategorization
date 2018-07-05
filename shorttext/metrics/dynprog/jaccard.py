@@ -67,6 +67,6 @@ def soft_jaccard_score(tokens1, tokens2):
     :rtype: float
     """
     intersection_list = soft_intersection_list(tokens1, tokens2)
-    num_intersections = sum(map(lambda item: item[1], intersection_list))
+    num_intersections = sum([item[1] for item in intersection_list])
     num_unions = len(tokens1) + len(tokens2) - num_intersections
     return float(num_intersections)/float(num_unions)

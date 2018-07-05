@@ -66,8 +66,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, cio.CompactIOMachine):
 
         # process training data
         embedvecs = np.array(reduce(add,
-                                    [map(lambda shorttext: self.retrieve_bow_vector(shorttext, normalize=True),
-                                         classdict[classtype])
+                                    [[self.retrieve_bow_vector(shorttext, normalize=True) for shorttext in classdict[classtype]]
                                      for classtype in classdict]
                                     )
                              )
@@ -118,7 +117,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, cio.CompactIOMachine):
         :type shorttexts: list
         :rtype: numpy.ndarray
         """
-        sumvec = sum(map(self.retrieve_topicvec, shorttexts))
+        sumvec = sum([self.retrieve_topicvec(shorttext) for shorttext in shorttexts])
         sumvec /= np.linalg.norm(sumvec)
         return sumvec
 

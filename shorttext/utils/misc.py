@@ -1,6 +1,6 @@
 
 
-def textfile_generator(textfile, linebreak=True):
+def textfile_generator(textfile, linebreak=True, encoding='ascii'):
     """ Return a generator that reads lines in a text file.
 
     :param textfile: file object of a text file
@@ -12,5 +12,5 @@ def textfile_generator(textfile, linebreak=True):
     """
     for t in textfile:
         if len(t) > 0:
-            yield t.strip() + ('\n' if linebreak else '')
+            yield t.strip() + ('\n'.encode(encoding) if linebreak else '')
 

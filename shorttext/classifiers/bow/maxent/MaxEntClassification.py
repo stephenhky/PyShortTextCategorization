@@ -119,7 +119,7 @@ class MaxEntClassifier:
         :type classdict: dict
         :rtype: tuple
         """
-        nb_data = sum(map(lambda k: len(classdict[k]), classdict.keys()))
+        nb_data = sum([len(classdict[k]) for k in classdict])
         X = dok_matrix((nb_data, len(self.dictionary)))
         y = dok_matrix((nb_data, len(self.labels2idx)))
 
@@ -216,7 +216,7 @@ class MaxEntClassifier:
         labelfile = open(nameprefix+'_classlabels.txt', 'r')
         self.classlabels = labelfile.readlines()
         labelfile.close()
-        self.classlabels = list(map(lambda s: s.strip(), self.classlabels))
+        self.classlabels = [s.strip() for s in self.classlabels]
 
         self.labels2idx = pickle.load(open(nameprefix+'_labelidx.pkl', 'r'))
 

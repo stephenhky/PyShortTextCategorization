@@ -83,7 +83,7 @@ class SentenceToCharVecEncoder:
         if sparse:
             return list(list_encoded_sentences_map)
         else:
-            return np.array(map(lambda sparsevec: sparsevec.toarray(), list_encoded_sentences_map))
+            return np.array([sparsevec.toarray() for sparsevec in list_encoded_sentences_map])
 
     def __len__(self):
         return len(self.dictionary)

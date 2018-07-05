@@ -54,9 +54,9 @@ Initialize a WordNet lemmatizer using `nltk`:
 
 Define the pipeline. Functions for each of the steps are:
 
->>> step1fcn = lambda s: ' '.join(map(lambda s1: lemmatizer.lemmatize(s1), s.split(' ')))
+>>> step1fcn = lambda s: ' '.join([lemmatizer.lemmatize(s1) for s1 in s.split(' ')])
 >>> step2fcn = lambda s: s.upper()
->>> step3fcn = lambda s: ' '.join(map(lambda s1: s1+'-'+str(len(s1)), s.split(' ')))
+>>> step3fcn = lambda s: ' '.join([s1+'-'+str(len(s1)) for s1 in s.split(' ')])
 
 Then the pipeline is:
 

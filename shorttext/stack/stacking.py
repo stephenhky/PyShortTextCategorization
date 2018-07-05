@@ -216,8 +216,8 @@ class LogisticStackedGeneralization(StackedGeneralization, cio.CompactIOMachine)
         kmodel.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
         Xy = [(xone, yone) for xone, yone in self.convert_traindata_matrix(classdict, tobucket=True)]
-        X = np.array(map(lambda item: item[0], Xy))
-        y = np.array(map(lambda item: item[1], Xy))
+        X = np.array([item[0] for item in Xy])
+        y = np.array([item[1] for item in Xy])
 
         kmodel.fit(X, y, epochs=nb_epoch)
 

@@ -17,7 +17,8 @@ from shorttext.utils import classification_exceptions as ce
 from .binarize import SpellingToConcatCharVecEncoder, SCRNNBinarizer
 import shorttext.utils.compactmodel_io as cio
 
-nospace_tokenize = lambda sentence: list(map(lambda t: t.strip(), filter(lambda t: len(t.strip())>0, sentence.split())))
+
+nospace_tokenize = lambda sentence: [t.strip() for t in sentence.split() if len(t.strip())>0]
 
 
 # @cio.compactio({'classifier': 'scrnn_spell'}, 'scrnn_spell', ['_config.json', '_vocabs.gensimdict', '.h5', '.json'])
@@ -110,8 +111,8 @@ class SCRNNSpellCorrector(SpellCorrector, cio.CompactIOMachine):
         self.dictionary = Dictionary([nospace_tokenize(text), default_specialsignals.values()])
         self.onehotencoder.fit(np.arange(len(self.dictionary)).reshape((len(self.dictionary), 1)))
         xylist = [(xvec.transpose(), yvec.transpose()) for xvec, yvec in self.preprocess_text_train(text)]
-        xtrain = np.array(map(lambda item: item[0], xylist))
-        ytrain = np.array(map(lambda item: item[1], xylist))
+        xtrain = np.array([item[0] for item in xylist])
+        ytrain = np.array([item[1] for item in xylist])
 
         # neural network here
         model = Sequential()

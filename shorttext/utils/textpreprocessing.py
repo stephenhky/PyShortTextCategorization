@@ -100,6 +100,6 @@ def standard_text_preprocessor_1():
                 lambda s: re.sub('[\d]', '', s),
                 lambda s: s.lower(),
                 lambda s: ' '.join(filter(lambda s: not (s in stopwordset), spacy_tokenize(s))),
-                lambda s: ' '.join(map(stemword, spacy_tokenize(s)))
+                lambda s: ' '.join([stemword(stemmed_token) for stemmed_token in spacy_tokenize(s)])
                ]
     return text_preprocessor(pipeline)
