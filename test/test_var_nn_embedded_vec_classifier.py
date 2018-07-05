@@ -1,6 +1,7 @@
 import os
 import unittest
 import urllib
+import sys
 
 import shorttext
 
@@ -10,9 +11,14 @@ import shorttext
 class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
     def setUp(self):
         if not os.path.isfile("test_w2v_model"):
-            urllib.urlretrieve(
-                "https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/test_w2v_model.bin?raw=true",
-                "test_w2v_model.bin")
+            if sys.version_info[0]==2:
+                urllib.urlretrieve(
+                    "https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/test_w2v_model.bin?raw=true",
+                    "test_w2v_model.bin")
+            else:
+                urllib.request.urlretrieve(
+                    "https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/test_w2v_model.bin?raw=true",
+                    "test_w2v_model.bin")
         self.w2v_model = shorttext.utils.load_word2vec_model("test_w2v_model.bin", binary=True)  # load word2vec model
         self.trainclass_dict = shorttext.data.subjectkeywords()  # load training data
 

@@ -1,8 +1,12 @@
 
 import unittest
+import sys
 
 import shorttext
-import urllib2
+if sys.version_info[0]==2:
+    import urllib2
+else:
+    import urllib.request as urllib2
 
 class TestCharOneHot(unittest.TestCase):
     def setUp(self):

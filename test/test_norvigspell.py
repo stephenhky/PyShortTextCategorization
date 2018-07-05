@@ -1,6 +1,11 @@
 
 import unittest
-import urllib2
+import sys
+
+if sys.version_info[0]==2:
+    import urllib2
+else:
+    import urllib.request as urllib2
 
 import shorttext
 
