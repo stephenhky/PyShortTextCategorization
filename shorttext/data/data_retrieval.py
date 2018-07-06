@@ -88,7 +88,7 @@ def inaugural():
                             )
     address_jsonstr = zfile.open("addresses.json").read()
     zfile.close()
-    return json.loads(address_jsonstr)
+    return json.loads(address_jsonstr) if sys.version_info[0]==2 else json.loads(address_jsonstr.decode('utf-8'))
 
 def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512):
     """ Return an example data set, sampled from NIH RePORT (Research Portfolio
