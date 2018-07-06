@@ -89,13 +89,15 @@ class SentenceToCharVecEncoder:
         return len(self.dictionary)
 
 
-def initSentenceToCharVecEncoder(textfile):
+def initSentenceToCharVecEncoder(textfile, encoding=None):
     """ Instantiate a class of SentenceToCharVecEncoder from a text file.
 
     :param textfile: text file
+    :param encoding: encoding of the text file (Default: None)
     :return: an instance of SentenceToCharVecEncoder
     :type textfile: file
+    :type encoding: str
     :rtype: SentenceToCharVecEncoder
     """
-    dictionary = Dictionary(map(lambda line: [c for c in line], textfile_generator(textfile)))
+    dictionary = Dictionary(map(lambda line: [c for c in line], textfile_generator(textfile, encoding=encoding)))
     return SentenceToCharVecEncoder(dictionary)

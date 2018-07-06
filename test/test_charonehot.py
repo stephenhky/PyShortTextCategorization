@@ -16,7 +16,9 @@ class TestCharOneHot(unittest.TestCase):
         pass
 
     def test_BigTxt(self):
-        chartovec_encoder = shorttext.generators.initSentenceToCharVecEncoder(urlopen('http://norvig.com/big.txt'))
+        encoding = 'utf-8' if sys.version_info[0]==3 else None
+        chartovec_encoder = shorttext.generators.initSentenceToCharVecEncoder(urlopen('http://norvig.com/big.txt'),
+                                                                              encoding=encoding)
         self.assertEqual(93, len(chartovec_encoder.dictionary))
         self.assertEqual('\n', chartovec_encoder.signalchar)
 
