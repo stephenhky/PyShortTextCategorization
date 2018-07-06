@@ -83,9 +83,9 @@ def inaugural():
     :rtype: dict
     """
     zfile = zipfile.ZipFile(get_or_download_data("USInaugural.zip",
-                                                 "https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/USInaugural.zip?raw=true"),
-                            'r',
-                            zipfile.ZIP_DEFLATED)
+                                                 "https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/USInaugural.zip?raw=true",
+                                                 asbytes=True),
+                            )
     address_jsonstr = zfile.open("addresses.json").read()
     zfile.close()
     return json.loads(address_jsonstr)
@@ -123,7 +123,8 @@ def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512
         raise KeyError('Undefined label column: '+label_col+'. Must be FUNDING_ICs or IC_NAME.')
 
     zfile = zipfile.ZipFile(get_or_download_data('nih_full.csv.zip',
-                                                 'https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/nih_full.csv.zip?raw=true'),
+                                                 'https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/nih_full.csv.zip?raw=true',
+                                                 asbytes=True),
                             'r',
                             zipfile.ZIP_DEFLATED)
     nih = pd.read_csv(zfile.open('nih_full.csv'), na_filter=False, usecols=[label_col, txt_col])
@@ -193,7 +194,7 @@ def yield_crossvalidation_classdicts(classdict, nb_partitions, shuffle=False):
         traindict = mergedict([crossvaldicts[j] for j in range(nb_partitions) if j != i])
         yield testdict, traindict
 
-def get_or_download_data(filename, origin):
+def get_or_download_data(filename, origin, asbytes=False):
     # determine path
     homedir = os.path.expanduser('~')
     datadir = os.path.join(homedir, '.shorttext')
@@ -214,4 +215,4 @@ def get_or_download_data(filename, origin):
             os.remove(targetfilepath)
 
     # return
-    return open(targetfilepath, 'r')
+    return open(targetfilepath, 'rb' if asbytes else 'r')
