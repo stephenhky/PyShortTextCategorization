@@ -16,5 +16,5 @@ def textfile_generator(textfile, linebreak=True):
             if sys.version_info[0]==2:
                 yield t.strip() + ('\n' if linebreak else '')
             else:
-                yield t.decode('utf-8').strip() + ('\n' if linebreak else '')
+                yield t.strip() + ('\n' if linebreak else '')
 
