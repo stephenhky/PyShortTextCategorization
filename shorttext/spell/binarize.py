@@ -2,7 +2,6 @@
 import re
 import string
 from functools import reduce
-import StringIO
 
 import numpy as np
 from shorttext.generators.charbase.char2vec import initSentenceToCharVecEncoder
@@ -16,9 +15,7 @@ default_signaldenotions = {'<eos>': 'eos', '<unk>': 'unk'}
 
 class SpellingToConcatCharVecEncoder:
     def __init__(self, alph):
-        stringio_fileobj = StringIO.StringIO()
-        stringio_fileobj.write(alph)
-        self.charevec_encoder = initSentenceToCharVecEncoder(stringio_fileobj)
+        self.charevec_encoder = initSentenceToCharVecEncoder(alph)
 
     def encode_spelling(self, spelling):
         spmat = self.charevec_encoder.encode_sentence(spelling, len(spelling))
