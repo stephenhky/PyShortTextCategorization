@@ -3,10 +3,10 @@ import numpy as np
 
 try:
     from Cython.Build import cythonize
-    ext_modiles = cythonize(['shorttext/metrics/dynprog/dldist.pyx',
+    ext_modules = cythonize(['shorttext/metrics/dynprog/dldist.pyx',
                              'shorttext/metrics/dynprog/lcp.pyx'])
 except ImportError:
-    ext_modiles = [Extension('_dldist', 'shorttext/metrics/dynprog/dldist.c'),
+    ext_modules = [Extension('_dldist', 'shorttext/metrics/dynprog/dldist.c'),
                    Extension('_lcp', 'shorttext/metrics/dynprog/lcp.c')]
 
 def readme():
@@ -33,7 +33,7 @@ setup(name='shorttext',
       author="Kwan-Yuet Ho",
       author_email="stephenhky@yahoo.com.hk",
       license='MIT',
-      ext_modules=ext_modiles,
+      ext_modules=ext_modules,
       packages=['shorttext',
                 'shorttext.utils',
                 'shorttext.classifiers',

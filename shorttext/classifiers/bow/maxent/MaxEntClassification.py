@@ -46,7 +46,7 @@ def logistic_framework(nb_features, nb_outputs, l2reg=0.01, bias_l2reg=0.01, opt
 
 
 # @cio.compactio({'classifier': 'maxent'}, 'maxent', ['_classlabels.txt', '.json', '.h5', '_labelidx.pkl', '_dictionary.dict'])
-class MaxEntClassifier:
+class MaxEntClassifier(cio.CompactIOMachine):
     """
     This is a classifier that implements the principle of maximum entropy.
 
