@@ -181,6 +181,13 @@ class LogisticStackedGeneralization(StackedGeneralization, cio.CompactIOMachine)
 
     The classifiers must have the :func:`~score` method that takes a string as an input argument.
     """
+    def __init__(self, intermediate_classifiers={}):
+        cio.CompactIOMachine.__init__(self,
+                                      {'classifier': 'stacked_logistics'},
+                                      'stacked_logistics',
+                                      ['_stackedlogistics.pkl', '_stackedlogistics.h5', '_stackedlogistics.json'])
+        StackedGeneralization.__init__x(self, intermediate_classifiers=intermediate_classifiers)
+
     def train(self, classdict, optimizer='adam', l2reg=0.01, bias_l2reg=0.01, nb_epoch=1000):
         """ Train the stacked generalization.
 
@@ -196,10 +203,6 @@ class LogisticStackedGeneralization(StackedGeneralization, cio.CompactIOMachine)
         :type bias_l2reg: float
         :type nb_epoch: int
         """
-        cio.CompactIOMachine.__init__(self,
-                                      {'classifier': 'stacked_logistics'},
-                                      'stacked_logistics',
-                                      ['_stackedlogistics.pkl', '_stackedlogistics.h5', '_stackedlogistics.json'])
 
         # register
         self.register_classifiers()
