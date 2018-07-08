@@ -43,10 +43,10 @@ class TestStacking(unittest.TestCase):
 
     def comparedict(self, dict1, dict2):
         self.assertTrue(len(dict1)==len(dict2))
-        print(dict1, '\t', dict2)
-        for key1 in dict1:
-            self.assertTrue(key1 in dict2)
-            self.assertAlmostEquals(dict1[key1], dict2[key1], places=4)
+        print(dict1, dict2)
+        for classlabel in dict1:
+            self.assertTrue(classlabel in dict2)
+            self.assertAlmostEquals(dict1[classlabel], dict2[classlabel], places=4)
 
     def testStudies(self):
         # train
@@ -59,8 +59,8 @@ class TestStacking(unittest.TestCase):
         topicdisclassifier2 = shorttext.classifiers.TopicVectorCosineDistanceClassifier(topicmodeler2)
         svm_classifier2 = smartload_compact_model('./bio_svm.bin', None)
         stacked_classifier2 = LogisticStackedGeneralization({'maxent': maxent_classifier2,
-                                                            'svm': svm_classifier2,
-                                                            'topiccosine': topicdisclassifier2})
+                                                             'svm': svm_classifier2,
+                                                             'topiccosine': topicdisclassifier2})
         stacked_classifier2.load_compact_model('./bio_logistics.bin')
 
         # compare

@@ -50,7 +50,7 @@ def save_compact_model(filename, savefunc, prefix, suffices, infodict):
     savefunc(tempdir+'/'+prefix)
 
     # zipping
-    outputfile = zipfile.ZipFile(filename, mode='w', allowZip64 = True)
+    outputfile = zipfile.ZipFile(filename, mode='wb', allowZip64 = True)
     for suffix in suffices:
         outputfile.write(tempdir+'/'+prefix+suffix, prefix+suffix)
     outputfile.writestr('modelconfig.json', json.dumps(infodict))
@@ -76,7 +76,7 @@ def load_compact_model(filename, loadfunc, prefix, infodict):
     tempdir = mkdtemp()
 
     # unzipping
-    inputfile = zipfile.ZipFile(filename, mode='r')
+    inputfile = zipfile.ZipFile(filename, mode='rb')
     inputfile.extractall(tempdir)
     inputfile.close()
 
@@ -231,7 +231,7 @@ def get_model_config_field(filename, parameter):
     :type parameter: str
     :rtype: str
     """
-    inputfile = zipfile.ZipFile(filename, mode='r')
+    inputfile = zipfile.ZipFile(filename, mode='rb')
     readinfodict = json.load(inputfile.open('modelconfig.json', 'r'))
     return readinfodict[parameter]
 
