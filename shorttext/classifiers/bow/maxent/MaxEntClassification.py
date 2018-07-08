@@ -194,7 +194,7 @@ class MaxEntClassifier(cio.CompactIOMachine):
         labelfile.write('\n'.join(self.classlabels))
         labelfile.close()
 
-        pickle.dump(self.labels2idx, open(nameprefix+'_labelidx.pkl', 'w'))
+        pickle.dump(self.labels2idx, open(nameprefix+'_labelidx.pkl', 'wb'))
 
     def loadmodel(self, nameprefix):
         """ Load a trained model from files.
@@ -218,7 +218,7 @@ class MaxEntClassifier(cio.CompactIOMachine):
         labelfile.close()
         self.classlabels = [s.strip() for s in self.classlabels]
 
-        self.labels2idx = pickle.load(open(nameprefix+'_labelidx.pkl', 'r'))
+        self.labels2idx = pickle.load(open(nameprefix+'_labelidx.pkl', 'rb'))
 
         self.trained = True
 

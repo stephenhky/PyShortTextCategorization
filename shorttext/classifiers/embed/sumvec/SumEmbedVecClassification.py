@@ -72,7 +72,7 @@ class SumEmbeddedVecClassifier(cio.CompactIOMachine):
         """
         if not self.trained:
             raise e.ModelNotTrainedException()
-        pickle.dump(self.addvec, open(nameprefix+'_embedvecdict.pkl', 'w'))
+        pickle.dump(self.addvec, open(nameprefix+'_embedvecdict.pkl', 'wb'))
 
     def loadmodel(self, nameprefix):
         """ Load a trained model from files.
@@ -87,7 +87,7 @@ class SumEmbeddedVecClassifier(cio.CompactIOMachine):
         :return: None
         :type nameprefix: str
         """
-        self.addvec = pickle.load(open(nameprefix+'_embedvecdict.pkl', 'r'))
+        self.addvec = pickle.load(open(nameprefix+'_embedvecdict.pkl', 'rb'))
         self.trained = True
 
     def shorttext_to_embedvec(self, shorttext):

@@ -171,7 +171,7 @@ class GensimTopicModeler(LatentTopicModeler):
         :type nameprefix: str
         """
         # load the JSON file (parameters)
-        parameters = json.load(open(nameprefix+'.json', 'rb'))
+        parameters = json.load(open(nameprefix+'.json', 'r'))
         self.nb_topics = parameters['nb_topics']
         self.toweigh = parameters['toweigh']
         self.algorithm = parameters['algorithm']
@@ -214,7 +214,7 @@ class GensimTopicModeler(LatentTopicModeler):
         parameters['toweigh'] = self.toweigh
         parameters['algorithm'] = self.algorithm
         parameters['classlabels'] = self.classlabels
-        json.dump(parameters, open(nameprefix+'.json', 'wb'))
+        json.dump(parameters, open(nameprefix+'.json', 'w'))
 
         self.dictionary.save(nameprefix+'.gensimdict')
         self.topicmodel.save(nameprefix+'.gensimmodel')
@@ -222,13 +222,14 @@ class GensimTopicModeler(LatentTopicModeler):
         if self.toweigh:
             self.tfidf.save(nameprefix+'.gensimtfidf')
 
+
 lda_suffices =  ['.json', '.gensimdict', '.gensimmodel.state',
                    '.gensimtfidf', '.gensimmodel', '.gensimmat']
 if gensim.__version__ >= '1.0.0':
     lda_suffices += ['.gensimmodel.expElogbeta.npy', '.gensimmodel.id2word']
 
-@cio.compactio({'classifier': 'ldatopic'}, 'ldatopic', lda_suffices)
-class LDAModeler(GensimTopicModeler):
+#@cio.compactio({'classifier': 'ldatopic'}, 'ldatopic', lda_suffices)
+class LDAModeler(GensimTopicModeler, cio.CompactIOMachine):
     """
     This class facilitates the creation of LDA (latent Dirichlet Allocation) topic models,
     with the given short text training data, and convert future
@@ -245,12 +246,14 @@ class LDAModeler(GensimTopicModeler):
                                     algorithm='lda',
                                     toweigh=toweigh,
                                     normalize=normalize)
+        cio.CompactIOMachine.__init__(self, {'classifier': 'ldatopic'}, 'ldatopic', lda_suffices)
+
 
 lsi_suffices = ['.json', '.gensimdict', '.gensimtfidf', '.gensimmodel.projection',
                 '.gensimmodel', '.gensimmat', ]
 
-@cio.compactio({'classifier': 'lsitopic'}, 'lsitopic', lsi_suffices)
-class LSIModeler(GensimTopicModeler):
+#@cio.compactio({'classifier': 'lsitopic'}, 'lsitopic', lsi_suffices)
+class LSIModeler(GensimTopicModeler, cio.CompactIOMachine):
     """
     This class facilitates the creation of LSI (latent semantic indexing) topic models,
     with the given short text training data, and convert future
@@ -267,11 +270,13 @@ class LSIModeler(GensimTopicModeler):
                                     algorithm='lsi',
                                     toweigh=toweigh,
                                     normalize=normalize)
+        cio.CompactIOMachine.__init__(self, {'classifier': 'lsitopic'}, 'lsitopic', lsi_suffices)
+
 
 rp_suffices = ['.json', '.gensimtfidf', '.gensimmodel', '.gensimmat', '.gensimdict']
 
-@cio.compactio({'classifier': 'rptopic'}, 'rptopic', rp_suffices)
-class RPModeler(GensimTopicModeler):
+#@cio.compactio({'classifier': 'rptopic'}, 'rptopic', rp_suffices)
+class RPModeler(GensimTopicModeler, cio.CompactIOMachine):
     """
     This class facilitates the creation of RP (random projection) topic models,
     with the given short text training data, and convert future
@@ -288,6 +293,7 @@ class RPModeler(GensimTopicModeler):
                                     algorithm='rp',
                                     toweigh=toweigh,
                                     normalize=normalize)
+        cio.CompactIOMachine.__init__(self, {'classifier': 'rptopic'}, 'rptopic', rp_suffices)
 
 
 def load_gensimtopicmodel(name,
