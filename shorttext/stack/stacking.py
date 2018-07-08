@@ -269,7 +269,7 @@ class LogisticStackedGeneralization(StackedGeneralization, cio.CompactIOMachine)
 
         stackedmodeldict = {'classifiers': self.classifier2idx,
                             'classlabels': self.classlabels}
-        pickle.dump(stackedmodeldict, open(nameprefix+'_stackedlogistics.pkl', 'w'))
+        pickle.dump(stackedmodeldict, open(nameprefix+'_stackedlogistics.pkl', 'wb'))
         kerasio.save_model(nameprefix+'_stackedlogistics', self.model)
 
     def loadmodel(self, nameprefix):
@@ -282,7 +282,7 @@ class LogisticStackedGeneralization(StackedGeneralization, cio.CompactIOMachine)
         :return: None
         :type nameprefix: str
         """
-        stackedmodeldict = pickle.load(open(nameprefix+'_stackedlogistics.pkl', 'r'))
+        stackedmodeldict = pickle.load(open(nameprefix+'_stackedlogistics.pkl', 'rb'))
         self.register_classlabels(stackedmodeldict['classlabels'])
         self.classifier2idx = stackedmodeldict['classifiers']
         self.idx2classifier = {val: key for key, val in self.classifier2idx.items()}
