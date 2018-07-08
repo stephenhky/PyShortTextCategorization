@@ -47,8 +47,6 @@ def save_compact_model(filename, savefunc, prefix, suffices, infodict):
     """
     # create temporary directory
     tempdir = mkdtemp()
-    if sys.version_info[0]==3:
-        tempdir = tempdir.decode('utf-8')
     savefunc(tempdir+'/'+prefix)
 
     # zipping
@@ -76,8 +74,6 @@ def load_compact_model(filename, loadfunc, prefix, infodict):
     """
     # create temporary directory
     tempdir = mkdtemp()
-    if sys.version_info[0]==3:
-        tempdir = tempdir.decode('utf-8')
 
     # unzipping
     inputfile = zipfile.ZipFile(filename, mode='r')
