@@ -1,4 +1,6 @@
 
+import sys
+
 from sklearn.externals import joblib
 
 from shorttext.utils import textpreprocessing as textpreprocess
@@ -143,6 +145,7 @@ class TopicVectorSkLearnClassifier:
         self.topicmodeler.loadmodel(nameprefix)
         self.classifier = joblib.load(nameprefix+'.pkl')
         self.classlabels = self.topicmodeler.classlabels
+        print(sys.version_info[0], self.classlabels)
 
     def save_compact_model(self, name):
         """ Save the model.
