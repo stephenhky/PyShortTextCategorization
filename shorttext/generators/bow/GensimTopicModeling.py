@@ -176,10 +176,6 @@ class GensimTopicModeler(LatentTopicModeler):
         self.toweigh = parameters['toweigh']
         self.algorithm = parameters['algorithm']
         self.classlabels = parameters['classlabels']
-        print('loading...')
-        print(parameters)
-        print(open(nameprefix+'.json', 'r').read())
-        print(','.join(self.classlabels))
 
         # load the dictionary
         self.dictionary = Dictionary.load(nameprefix+'.gensimdict')
@@ -218,10 +214,7 @@ class GensimTopicModeler(LatentTopicModeler):
         parameters['toweigh'] = self.toweigh
         parameters['algorithm'] = self.algorithm
         parameters['classlabels'] = self.classlabels
-        print('saving...')
-        print(','.join(self.classlabels))
         json.dump(parameters, open(nameprefix+'.json', 'w'))
-        print(json.dumps(parameters))
 
         self.dictionary.save(nameprefix+'.gensimdict')
         self.topicmodel.save(nameprefix+'.gensimmodel')

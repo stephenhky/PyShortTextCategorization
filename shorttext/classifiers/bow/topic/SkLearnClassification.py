@@ -50,7 +50,7 @@ class TopicVectorSkLearnClassifier:
         """
         X = []
         y = []
-        self.classlabels = classdict.keys()
+        self.classlabels = sorted(classdict.keys())     # classlabels must be sorted like the topic modelers
         for classidx, classlabel in zip(range(len(self.classlabels)), self.classlabels):
             topicvecs = [self.topicmodeler.retrieve_topicvec(topic) for topic in classdict[classlabel]]
             X += topicvecs
