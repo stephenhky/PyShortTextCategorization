@@ -46,7 +46,7 @@ class TestStacking(unittest.TestCase):
         print(dict1, dict2)
         for classlabel in dict1:
             self.assertTrue(classlabel in dict2)
-            self.assertAlmostEquals(dict1[classlabel], dict2[classlabel], places=4)
+            self.assertAlmostEqual(dict1[classlabel], dict2[classlabel], places=4)
 
     def testStudies(self):
         # train

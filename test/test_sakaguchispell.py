@@ -14,7 +14,7 @@ class TestSCRNN(unittest.TestCase):
     def generalproc(self, operation, typo='langudge', recommendation='language'):
         corrector = SCRNNSpellCorrector(operation)
         corrector.train('I am a nerd . Natural language processing is sosad .')
-        corrector.save_compact_model('./sosad_'+operation+'_sakuaguchi.bin')
+        corrector.save_compact_model('./sosad_'+operation+'_sakuguchi.bin')
 
         corrector2 = smartload_compact_model('./sosad_'+operation+'_sakaguchi.bin', None)
         self.assertEqual(corrector.correct(typo), corrector2.correct(typo))
