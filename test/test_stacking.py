@@ -93,7 +93,17 @@ class TestStacking(unittest.TestCase):
         terms = ['stem cell', 'grant', 'system biology']
         for term in terms:
             print(term)
-            print('SVM')
+            topicvec = svm_classifier.topicmodeler.getvector(term)
+            topicvec2 = svm_classifier2.topicmodeler.getvector(term)
+            print(topicvec)
+            print(topicvec2)
+            for idx, classlabel in enumerate(svm_classifier.classlabels):
+                print(str(idx)+' '+classlabel)
+                print(svm_classifier.score([topicvec], [idx]))
+                print(svm_classifier2.score([topicvec2], [idx]))
+
+        for term in terms:
+            print(term)
             self.comparedict(svm_classifier.score(term), svm_classifier2.score(term))
 
 

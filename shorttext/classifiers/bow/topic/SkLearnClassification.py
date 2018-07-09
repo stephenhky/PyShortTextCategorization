@@ -90,7 +90,7 @@ class TopicVectorSkLearnClassifier:
         topicvec = self.getvector(shorttext)
         return self.classlabels[self.classifier.predict([topicvec])[0]]
 
-    def score(self, shorttext, default_score=0.0):
+    def score(self, shorttext):
         """ Calculate the score, which is the cosine similarity with the topic vector of the model,
         of the short text against each class labels.
 
@@ -98,11 +98,9 @@ class TopicVectorSkLearnClassifier:
         topic model was not trained, it will raise `ModelNotTrainedException`.
 
         :param shorttext: short text
-        :param default_score: default score if no score is assigned (Default: 0.0)
         :return: dictionary of scores of the text to all classes
         :raise: ModelNotTrainedException
         :type shorttext: str
-        :type default_score: float
         :rtype: dict
         """
         if not self.trained:
