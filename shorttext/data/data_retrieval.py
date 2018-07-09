@@ -135,14 +135,14 @@ def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512
     classdict = defaultdict(lambda : [])
 
     for rowidx in np.random.randint(nb_data, size=min(nb_data, sample_size)):
-        label = nih.ix[rowidx, label_col]
+        label = nih.iloc[rowidx, label_col]
         if label_col=='FUNDING_ICs':
             if label=='':
                 label = 'OTHER'
             else:
                 endpos = label.index(':')
                 label = label[:endpos]
-        classdict[label] += [nih.ix[rowidx, txt_col]]
+        classdict[label] += [nih.iloc[rowidx, txt_col]]
 
     return dict(classdict)
 

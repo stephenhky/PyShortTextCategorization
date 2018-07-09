@@ -1,6 +1,4 @@
 
-import sys
-
 from sklearn.externals import joblib
 
 from shorttext.utils import textpreprocessing as textpreprocess
@@ -145,7 +143,6 @@ class TopicVectorSkLearnClassifier:
         self.topicmodeler.loadmodel(nameprefix)
         self.classifier = joblib.load(nameprefix+'.pkl')
         self.classlabels = self.topicmodeler.classlabels
-        print(sys.version_info[0], self.classlabels)
 
     def save_compact_model(self, name):
         """ Save the model.
@@ -174,6 +171,7 @@ class TopicVectorSkLearnClassifier:
         cio.load_compact_model(name, self.loadmodel, 'topic_sklearn',
                                {'classifier': 'topic_sklearn', 'topicmodel': None})
         self.trained = True
+
 
 def train_gensim_topicvec_sklearnclassifier(classdict,
                                             nb_topics,
@@ -234,6 +232,7 @@ def train_gensim_topicvec_sklearnclassifier(classdict,
 
     return classifier
 
+
 def load_gensim_topicvec_sklearnclassifier(name,
                                            preprocessor=textpreprocess.standard_text_preprocessor_1(),
                                            compact=True):
@@ -283,6 +282,7 @@ def load_gensim_topicvec_sklearnclassifier(name,
         # return the instance
         return classifier
 
+
 def train_autoencoder_topic_sklearnclassifier(classdict,
                                               nb_topics,
                                               sklearn_classifier,
@@ -330,6 +330,7 @@ def train_autoencoder_topic_sklearnclassifier(classdict,
     classifier.train(classdict, **sklearn_paramdict)
 
     return classifier
+
 
 def load_autoencoder_topic_sklearnclassifier(name,
                                              preprocessor=textpreprocess.standard_text_preprocessor_1(),

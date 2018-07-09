@@ -8,15 +8,14 @@ from sklearn.svm import SVC
 
 class TestStacking(unittest.TestCase):
     def setUp(self):
-        pass
+        self.nihdict = shorttext.data.nihreports(sample_size=None)
 
     def tearDown(self):
         pass
 
-    def training(self):
+    def training_stacking(self):
         # loading NIH Reports
-        nihdict = shorttext.data.nihreports(sample_size=None)
-        nihdict = {'NCCAM': nihdict['NCCAM'], 'NCATS': nihdict['NCATS']}
+        nihdict = {'NCCAM': self.nihdict['NCCAM'], 'NCATS': self.nihdict['NCATS']}
 
         # maxent
         maxent_classifier = shorttext.classifiers.MaxEntClassifier()
@@ -50,7 +49,7 @@ class TestStacking(unittest.TestCase):
 
     def testStudies(self):
         # train
-        maxent_classifier, topicmodeler, svm_classifier, stacked_classifier = self.training()
+        maxent_classifier, topicmodeler, svm_classifier, stacked_classifier = self.training_stacking()
         topicdisclassifier = shorttext.classifiers.TopicVectorCosineDistanceClassifier(topicmodeler)
 
         # smartload
@@ -75,6 +74,27 @@ class TestStacking(unittest.TestCase):
             self.comparedict(svm_classifier.score(term), svm_classifier2.score(term))
             print('combined')
             self.comparedict(stacked_classifier.score(term), stacked_classifier2.score(term))
+
+    def testSVM(self):
+        # loading NIH Reports
+        nihdict = {'NCCAM': self.nihdict['NCCAM'], 'NCATS': self.nihdict['NCATS']}
+
+        # svm
+        topicmodeler = shorttext.generators.LDAModeler()
+        topicmodeler.train(nihdict, 16)
+        svm_classifier = shorttext.classifiers.TopicVectorSkLearnClassifier(topicmodeler, SVC())
+        svm_classifier.train(nihdict)
+        svm_classifier.save_compact_model('./bio_svm2.bin')
+
+        # load
+        svm_classifier2 = smartload_compact_model('./bio_svm2.bin', None)
+
+        # compare
+        terms = ['stem cell', 'grant', 'system biology']
+        for term in terms:
+            print(term)
+            print('SVM')
+            self.comparedict(svm_classifier.score(term), svm_classifier2.score(term))
 
 
 if __name__ == '__main__':
