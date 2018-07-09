@@ -109,7 +109,7 @@ class TopicVectorSkLearnClassifier:
         topicvec = self.getvector(shorttext)
         scoredict = {classlabel: self.classifier.score([topicvec], [classidx])
                      for classidx, classlabel in enumerate(self.classlabels)}
-        return dict(scoredict)
+        return scoredict
 
     def savemodel(self, nameprefix):
         """ Save the model.
