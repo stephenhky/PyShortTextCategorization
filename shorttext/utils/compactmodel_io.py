@@ -234,7 +234,7 @@ def get_model_config_field(filename, parameter):
     try:
         readinfodict = json.load(inputfile.open('modelconfig.json', 'r'))
     except TypeError:
-        readinfodict = json.load(inputfile.open('modelconfig.json', 'rb').decode('utf-8'))
+        readinfodict = json.load(inputfile.open('modelconfig.json', 'r').decode('utf-8'))
     return readinfodict[parameter]
 
 def get_model_classifier_name(filename):
