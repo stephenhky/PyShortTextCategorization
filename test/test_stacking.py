@@ -99,8 +99,8 @@ class TestStacking(unittest.TestCase):
             print(topicvec2)
             for idx, classlabel in enumerate(svm_classifier.classlabels):
                 print(str(idx)+' '+classlabel)
-                print(svm_classifier.score([topicvec], [idx]))
-                print(svm_classifier2.score([topicvec2], [idx]))
+                print(svm_classifier.classifier.score([topicvec], [idx]))
+                print(svm_classifier2.classifier.score([topicvec2], [idx]))
 
         for term in terms:
             print(term)
