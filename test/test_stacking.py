@@ -84,12 +84,19 @@ class TestStacking(unittest.TestCase):
         topicmodeler.train(nihdict, 16)
         svm_classifier = shorttext.classifiers.TopicVectorSkLearnClassifier(topicmodeler, SVC())
         svm_classifier.train(nihdict)
+        print('before saving...')
+        print('--'.join(svm_classifier.classlabels))
+        print('--'.join(svm_classifier.topicmodeler.classlabels))
         svm_classifier.save_compact_model('./bio_svm2.bin')
-        print(','.join(svm_classifier.classlabels))
+        print('after saving...')
+        print('--'.join(svm_classifier.classlabels))
+        print('--'.join(svm_classifier.topicmodeler.classlabels))
 
         # load
         svm_classifier2 = smartload_compact_model('./bio_svm2.bin', None)
+        print('second classifier...')
         print(','.join(svm_classifier2.classlabels))
+        print(','.join(svm_classifier2.topicmodeler.classlabels))
 
         # compare
         terms = ['stem cell', 'grant', 'system biology']
