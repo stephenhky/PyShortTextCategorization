@@ -93,8 +93,8 @@ class TestStacking(unittest.TestCase):
         terms = ['stem cell', 'grant', 'system biology']
         for term in terms:
             print(term)
-            topicvec = svm_classifier.topicmodeler.getvector(term)
-            topicvec2 = svm_classifier2.topicmodeler.getvector(term)
+            topicvec = svm_classifier.getvector(term)
+            topicvec2 = svm_classifier2.getvector(term)
             print(topicvec)
             print(topicvec2)
             for idx, classlabel in enumerate(svm_classifier.classlabels):
