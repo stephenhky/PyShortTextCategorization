@@ -214,9 +214,8 @@ class MaxEntClassifier(cio.CompactIOMachine):
         self.dictionary = Dictionary.load(nameprefix+'_dictionary.dict')
 
         labelfile = open(nameprefix+'_classlabels.txt', 'r')
-        self.classlabels = labelfile.readlines()
+        self.classlabels = [s.strip() for s in labelfile.readlines()]
         labelfile.close()
-        self.classlabels = [s.strip() for s in self.classlabels]
 
         self.labels2idx = pickle.load(open(nameprefix+'_labelidx.pkl', 'rb'))
 

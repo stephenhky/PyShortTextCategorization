@@ -1,4 +1,6 @@
 
+import os
+
 from sklearn.externals import joblib
 
 from shorttext.utils import textpreprocessing as textpreprocess
@@ -130,6 +132,9 @@ class TopicVectorSkLearnClassifier:
             raise e.ModelNotTrainedException()
         self.topicmodeler.savemodel(nameprefix)
         joblib.dump(self.classifier, nameprefix+'.pkl')
+        labelfile = open(nameprefix+'_classlabels.txt', 'w')
+        labelfile.write('\n'.join(self.classlabels))
+        labelfile.close()
 
     def loadmodel(self, nameprefix):
         """ Load the classification model together with the topic model.
@@ -140,7 +145,13 @@ class TopicVectorSkLearnClassifier:
         """
         self.topicmodeler.loadmodel(nameprefix)
         self.classifier = joblib.load(nameprefix+'.pkl')
-        self.classlabels = self.topicmodeler.classlabels
+        # for backward compatibility, shorttext<1.0.0 does not have _classlabels.txt
+        if os.path.exists(nameprefix+'_classlabels.txt'):
+            labelfile = open(nameprefix+'_classlabels.txt', 'r')
+            self.classlabels = [s.strip() for s in labelfile.readlines()]
+            labelfile.close()
+        else:
+            self.classlabels = self.topicmodeler.classlabels
 
     def save_compact_model(self, name):
         """ Save the model.
@@ -156,7 +167,7 @@ class TopicVectorSkLearnClassifier:
         """
         topicmodel_info = self.topicmodeler.get_info()
         cio.save_compact_model(name, self.savemodel, 'topic_sklearn',
-                               topicmodel_info['suffices']+['.pkl'],
+                               topicmodel_info['suffices']+['.pkl', '_classlabels.txt'],
                                {'classifier': 'topic_sklearn', 'topicmodel': topicmodel_info['classifier']})
 
     def load_compact_model(self, name):

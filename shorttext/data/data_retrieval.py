@@ -178,7 +178,7 @@ def yield_crossvalidation_classdicts(classdict, nb_partitions, shuffle=False):
     :rtype: generator
     """
     crossvaldicts = []
-    for i in range(nb_partitions):
+    for _ in range(nb_partitions):
         crossvaldicts.append(defaultdict(lambda: []))
 
     for label in classdict:
