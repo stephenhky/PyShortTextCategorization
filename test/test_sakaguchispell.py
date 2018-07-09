@@ -16,7 +16,7 @@ class TestSCRNN(unittest.TestCase):
         corrector.train('I am a nerd . Natural language processing is sosad .')
         corrector.save_compact_model('./sosad_'+operation+'_sakuaguchi.bin')
 
-        corrector2 = smartload_compact_model('./sosad_'+operation+'_sakaguchi.bin')
+        corrector2 = smartload_compact_model('./sosad_'+operation+'_sakaguchi.bin', None)
         self.assertEqual(corrector.correct(typo), corrector2.correct(typo))
 
         print('typo: '+typo+'  recommendation: '+corrector.correct(typo)+' ('+recommendation+')')
