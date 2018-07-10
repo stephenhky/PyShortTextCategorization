@@ -11,7 +11,7 @@ import shorttext.utils.kerasmodel_io as kerasio
 from shorttext.utils import tokenize
 from shorttext.utils import gensim_corpora as gc
 from shorttext.utils import classification_exceptions as e
-import shorttext.utils.compactmodel_io as cio
+from shorttext.utils.compactmodel_io import CompactIOMachine
 from shorttext.utils import deprecated
 
 
@@ -45,8 +45,7 @@ def logistic_framework(nb_features, nb_outputs, l2reg=0.01, bias_l2reg=0.01, opt
     return kmodel
 
 
-# @cio.compactio({'classifier': 'maxent'}, 'maxent', ['_classlabels.txt', '.json', '.h5', '_labelidx.pkl', '_dictionary.dict'])
-class MaxEntClassifier(cio.CompactIOMachine):
+class MaxEntClassifier(CompactIOMachine):
     """
     This is a classifier that implements the principle of maximum entropy.
 
@@ -59,7 +58,10 @@ class MaxEntClassifier(cio.CompactIOMachine):
         :param preprocessor: text preprocessor
         :type preprocessor: function
         """
-        cio.CompactIOMachine.__init__(self, {'classifier': 'maxent'}, 'maxent', ['_classlabels.txt', '.json', '.h5', '_labelidx.pkl', '_dictionary.dict'])
+        CompactIOMachine.__init__(self,
+                                  {'classifier': 'maxent'},
+                                  'maxent',
+                                  ['_classlabels.txt', '.json', '.h5', '_labelidx.pkl', '_dictionary.dict'])
         self.preprocessor = preprocessor
         self.trained = False
 
@@ -244,6 +246,7 @@ class MaxEntClassifier(cio.CompactIOMachine):
         # wrangle output result
         scoredict = {classlabel: predictions[0][idx] for idx, classlabel in enumerate(self.classlabels)}
         return scoredict
+
 
 def load_maxent_classifier(name, compact=True):
     """ Load the maximum entropy classifier from saved model.

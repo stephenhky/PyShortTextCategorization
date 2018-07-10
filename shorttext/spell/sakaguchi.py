@@ -15,14 +15,13 @@ from . import SpellCorrector
 from .binarize import default_alph, default_specialsignals
 from shorttext.utils import classification_exceptions as ce
 from .binarize import SpellingToConcatCharVecEncoder, SCRNNBinarizer
-import shorttext.utils.compactmodel_io as cio
+from shorttext.utils.compactmodel_io import CompactIOMachine
 
 
 nospace_tokenize = lambda sentence: [t.strip() for t in sentence.split() if len(t.strip())>0]
 
 
-# @cio.compactio({'classifier': 'scrnn_spell'}, 'scrnn_spell', ['_config.json', '_vocabs.gensimdict', '.h5', '.json'])
-class SCRNNSpellCorrector(SpellCorrector, cio.CompactIOMachine):
+class SCRNNSpellCorrector(SpellCorrector, CompactIOMachine):
     """ scRNN (semi-character-level recurrent neural network) Spell Corrector.
 
     Reference:
@@ -51,7 +50,7 @@ class SCRNNSpellCorrector(SpellCorrector, cio.CompactIOMachine):
         :type batchsize: int
         :type nb_hiddenunits: int
         """
-        cio.CompactIOMachine.__init__(self, {'classifier': 'scrnn_spell'}, 'scrnn_spell', ['_config.json', '_vocabs.gensimdict', '.h5', '.json'])
+        CompactIOMachine.__init__(self, {'classifier': 'scrnn_spell'}, 'scrnn_spell', ['_config.json', '_vocabs.gensimdict', '.h5', '.json'])
         self.operation = operation
         self.alph = alph
         self.specialsignals = specialsignals

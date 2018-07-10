@@ -1,4 +1,6 @@
+
 from keras.models import model_from_json
+
 
 def save_model(nameprefix, model):
     """ Save a keras sequential model into files.
@@ -15,6 +17,7 @@ def save_model(nameprefix, model):
     model_json = model.to_json()
     open(nameprefix+'.json', 'w').write(model_json)
     model.save_weights(nameprefix+'.h5')
+
 
 def load_model(nameprefix):
     """ Load a keras sequential model from files.

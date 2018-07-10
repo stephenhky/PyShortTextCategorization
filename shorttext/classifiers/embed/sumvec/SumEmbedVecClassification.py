@@ -4,13 +4,12 @@ from collections import defaultdict
 import numpy as np
 from scipy.spatial.distance import cosine
 
-import shorttext.utils.classification_exceptions as e
+from shorttext.utils.classification_exceptions import ModelNotTrainedException
 from shorttext.utils import shorttext_to_avgvec
-import shorttext.utils.compactmodel_io as cio
+from shorttext.utils.compactmodel_io import CompactIOMachine
 
 
-# @cio.compactio({'classifier': 'sumvec'}, 'sumvec', ['_embedvecdict.pkl'])
-class SumEmbeddedVecClassifier(cio.CompactIOMachine):
+class SumEmbeddedVecClassifier(CompactIOMachine):
     """
     This is a supervised classification algorithm for short text categorization.
     Each class label has a few short sentences, where each token is converted
@@ -33,7 +32,7 @@ class SumEmbeddedVecClassifier(cio.CompactIOMachine):
         :type vecsize: int
         :type simfcn: function
         """
-        cio.CompactIOMachine(self, {'classifier': 'sumvec'}, 'sumvec', ['_embedvecdict.pkl'])
+        CompactIOMachine(self, {'classifier': 'sumvec'}, 'sumvec', ['_embedvecdict.pkl'])
         self.wvmodel = wvmodel
         self.vecsize = self.wvmodel.vector_size if vecsize == None else vecsize
         self.simfcn = simfcn
@@ -71,7 +70,7 @@ class SumEmbeddedVecClassifier(cio.CompactIOMachine):
         :raise: ModelNotTrainedException
         """
         if not self.trained:
-            raise e.ModelNotTrainedException()
+            raise ModelNotTrainedException()
         pickle.dump(self.addvec, open(nameprefix+'_embedvecdict.pkl', 'wb'))
 
     def loadmodel(self, nameprefix):
@@ -121,7 +120,7 @@ class SumEmbeddedVecClassifier(cio.CompactIOMachine):
         :raise: ModelNotTrainedException
         """
         if not self.trained:
-            raise e.ModelNotTrainedException()
+            raise ModelNotTrainedException()
         vec = self.shorttext_to_embedvec(shorttext)
         scoredict = {}
         for classtype in self.addvec:
@@ -130,6 +129,7 @@ class SumEmbeddedVecClassifier(cio.CompactIOMachine):
             except ValueError:
                 scoredict[classtype] = np.nan
         return scoredict
+
 
 def load_sumword2vec_classifier(wvmodel, name, compact=True, vecsize=None):
     """ Load a :class:`shorttext.classifiers.SumEmbeddedVecClassifier` instance from file, given the pre-trained Word2Vec model.

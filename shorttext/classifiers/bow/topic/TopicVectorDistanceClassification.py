@@ -73,6 +73,7 @@ class TopicVecCosineDistanceClassifier:
     def save_compact_model(self, name):
         self.topicmodeler.save_compact_model(name)
 
+
 def train_gensimtopicvec_cosineClassifier(classdict,
                                           nb_topics,
                                           preprocessor=textpreprocess.standard_text_preprocessor_1(),
@@ -110,6 +111,7 @@ def train_gensimtopicvec_cosineClassifier(classdict,
     # cosine distance classifier
     return TopicVecCosineDistanceClassifier(topicmodeler)
 
+
 def load_gensimtopicvec_cosineClassifier(name,
                                          preprocessor=textpreprocess.standard_text_preprocessor_1(),
                                          compact=True):
@@ -132,6 +134,7 @@ def load_gensimtopicvec_cosineClassifier(name,
     """
     topicmodeler = load_gensimtopicmodel(name, preprocessor=preprocessor, compact=compact)
     return TopicVecCosineDistanceClassifier(topicmodeler)
+
 
 def train_autoencoder_cosineClassifier(classdict,
                                        nb_topics,
@@ -160,6 +163,7 @@ def train_autoencoder_cosineClassifier(classdict,
 
     # cosine distance classifier
     return TopicVecCosineDistanceClassifier(autoencoder)
+
 
 def load_autoencoder_cosineClassifier(name,
                                       preprocessor=textpreprocess.standard_text_preprocessor_1(),

@@ -1,6 +1,4 @@
 
-import sys
-
 def textfile_generator(textfile, linebreak=True, encoding=None):
     """ Return a generator that reads lines in a text file.
 

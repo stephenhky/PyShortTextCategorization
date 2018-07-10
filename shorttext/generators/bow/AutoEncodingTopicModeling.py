@@ -1,3 +1,4 @@
+
 import json
 import pickle
 from operator import add
@@ -10,16 +11,17 @@ from keras.layers import Dense
 from scipy.spatial.distance import cosine
 
 from .LatentTopicModeling import LatentTopicModeler
-from shorttext.utils import compactmodel_io as cio, classification_exceptions as e, kerasmodel_io as kerasio, \
-    textpreprocessing as textpreprocess
+from shorttext.utils import kerasmodel_io as kerasio, textpreprocessing as textpreprocess
+from shorttext.utils.compactmodel_io import CompactIOMachine
+from shorttext.utils.classification_exceptions import ModelNotTrainedException
+
 
 autoencoder_suffices = ['.gensimdict', '_encoder.json', '_encoder.h5', '_classtopicvecs.pkl',
                         '_decoder.json', '_decoder.h5', '_autoencoder.json', '_autoencoder.h5',
                         '.json']
 
 
-# @cio.compactio({'classifier': 'kerasautoencoder'}, 'kerasautoencoder', autoencoder_suffices)
-class AutoencodingTopicModeler(LatentTopicModeler, cio.CompactIOMachine):
+class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
     """
     This class facilitates the topic modeling of input training data using the autoencoder.
 
@@ -40,7 +42,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, cio.CompactIOMachine):
         :type classdict: dict
         :type nb_topics: int
         """
-        cio.CompactIOMachine.__init__(self, {'classifier': 'kerasautoencoder'}, 'kerasautoencoder', autoencoder_suffices)
+        CompactIOMachine.__init__(self, {'classifier': 'kerasautoencoder'}, 'kerasautoencoder', autoencoder_suffices)
         self.nb_topics = nb_topics
         self.generate_corpus(classdict)
         vecsize = len(self.dictionary)
@@ -99,7 +101,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, cio.CompactIOMachine):
         :rtype: numpy.ndarray
         """
         if not self.trained:
-            raise e.ModelNotTrainedException()
+            raise ModelNotTrainedException()
         bow_vector = self.retrieve_bow_vector(shorttext)
         encoded_vec = self.encoder.predict(np.array([bow_vector]))[0]
         if self.normalize:
@@ -134,7 +136,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, cio.CompactIOMachine):
         :rtype: dict
         """
         if not self.trained:
-            raise e.ModelNotTrainedException()
+            raise ModelNotTrainedException()
         simdict = {}
         for label in self.classtopicvecs:
             simdict[label] = 1 - cosine(self.classtopicvecs[label], self.retrieve_topicvec(shorttext))
@@ -159,7 +161,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, cio.CompactIOMachine):
         :type save_complete_autoencoder: bool
         """
         if not self.trained:
-            raise e.ModelNotTrainedException()
+            raise ModelNotTrainedException()
 
         parameters = {}
         parameters['nb_topics'] = self.nb_topics

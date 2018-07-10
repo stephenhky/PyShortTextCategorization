@@ -14,7 +14,7 @@ def readme():
         return f.read()
 
 setup(name='shorttext',
-      version="1.0.0a1",
+      version="1.0.0a2",
       description="Short Text Mining",
       long_description="Supervised learning algorithms for short text categorization using embedded word vectors such as Word2Vec, or immediate feature vectors using topic models",
       classifiers=[

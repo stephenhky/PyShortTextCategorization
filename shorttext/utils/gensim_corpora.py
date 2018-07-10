@@ -1,7 +1,10 @@
+
 from collections import defaultdict
 
 import gensim
+
 from .textpreprocessing import spacy_tokenize as tokenize
+
 
 def generate_gensim_corpora(classdict, preprocess_and_tokenize=tokenize):
     """ Generate gensim bag-of-words dictionary and corpus.
@@ -22,6 +25,7 @@ def generate_gensim_corpora(classdict, preprocess_and_tokenize=tokenize):
     dictionary = gensim.corpora.Dictionary(doc)
     corpus = [dictionary.doc2bow(doctokens) for doctokens in doc]
     return dictionary, corpus, classlabels
+
 
 def save_corpus(dictionary, corpus, prefix):
     """ Save gensim corpus and dictionary.

@@ -1,5 +1,5 @@
 
-import shorttext.utils.classification_exceptions as ce
+from shorttext.utils.classification_exceptions import NotImplementedException
 
 class SpellCorrector:
     """ Base class for all spell corrector.
@@ -13,7 +13,7 @@ class SpellCorrector:
         :param text: training corpus
         :type text: str
         """
-        raise ce.NotImplementedException()
+        raise NotImplementedException()
 
     def correct(self, word):
         """ Recommend a spell correction to given the word.
