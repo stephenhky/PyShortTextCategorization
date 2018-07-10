@@ -7,6 +7,7 @@ import numpy as np
 from shorttext.generators.charbase.char2vec import initSentenceToCharVecEncoder
 from shorttext.utils.classification_exceptions import OperationNotDefinedException
 
+
 default_alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,:;'*!?`$%&(){}[]-/\@_#"
 # NB. # is <eos>, _ is <unk>, @ is number
 default_specialsignals = {'eos': '#', 'unk': '_', 'number': '@'}

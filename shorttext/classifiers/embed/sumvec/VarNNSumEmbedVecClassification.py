@@ -1,11 +1,13 @@
+
 import numpy as np
 
 import shorttext.utils.kerasmodel_io as kerasio
-import shorttext.utils.classification_exceptions as e
+from shorttext.utils.classification_exceptions import ModelNotTrainedException
 from shorttext.utils.textpreprocessing import spacy_tokenize
+from shorttext.utils.compactmodel_io import CompactIOMachine
 
 
-class VarNNSumEmbeddedVecClassifier:
+class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
     """
     This is a wrapper for various neural network algorithms
     for supervised short text categorization.
@@ -34,6 +36,7 @@ class VarNNSumEmbeddedVecClassifier:
         :type vecsize: int
         :type maxlen: int
         """
+        CompactIOMachine.__init__(self, {'classifier': 'sumnnlibvec'}, 'sumnnlibvec', ['_classlabels.txt', '.json', '.h5'])
         self.wvmodel = wvmodel
         self.vecsize = self.wvmodel.vector_size if vecsize==None else vecsize
         self.maxlen = maxlen
@@ -113,7 +116,7 @@ class VarNNSumEmbeddedVecClassifier:
         :raise: ModelNotTrainedException
         """
         if not self.trained:
-            raise e.ModelNotTrainedException()
+            raise ModelNotTrainedException()
         kerasio.save_model(nameprefix, self.model)
         labelfile = open(nameprefix+'_classlabels.txt', 'w')
         labelfile.write('\n'.join(self.classlabels))
@@ -191,7 +194,7 @@ class VarNNSumEmbeddedVecClassifier:
         :raise: ModelNotTrainedException
         """
         if not self.trained:
-            raise e.ModelNotTrainedException()
+            raise ModelNotTrainedException()
 
             # retrieve vector
         embedvec = np.array(self.shorttext_to_embedvec(shorttext))
@@ -202,3 +205,25 @@ class VarNNSumEmbeddedVecClassifier:
         # wrangle output result
         scoredict = {classlabel: predictions[0][idx] for idx, classlabel in enumerate(self.classlabels)}
         return scoredict
+
+
+def load_varnnsumvec_classifier(wvmodel, name, compact=True, vecsize=None):
+    """ Load a :class:`shorttext.classifiers.VarNNSumEmbeddedVecClassifier` instance from file, given the pre-trained word-embedding model.
+
+    :param wvmodel: Word2Vec model
+    :param name: name (if compact=True) or prefix (if compact=False) of the file path
+    :param compact whether model file is compact (Default: True)
+    :param vecsize: length of embedded vectors in the model (Default: None, extracted directly from the word-embedding model)
+    :return: the classifier
+    :type wvmodel: gensim.models.keyedvectors.KeyedVectors
+    :type name: str
+    :type compact: bool
+    :type vecsize: int
+    :rtype: VarNNSumEmbeddedVecClassifier
+    """
+    classifier = VarNNSumEmbeddedVecClassifier(wvmodel, vecsize=vecsize)
+    if compact:
+        classifier.load_compact_model(name)
+    else:
+        classifier.loadmodel(name)
+    return classifier

@@ -7,6 +7,7 @@ import sys
 import Stemmer
 import spacy
 
+
 # stemmer
 stemmer = Stemmer.Stemmer('english')
 stemword = lambda s: stemmer.stemWord(s)
@@ -31,6 +32,7 @@ class SpaCyNLPHolder:
 # prepare the singleton
 spaCyNLPHolder = SpaCyNLPHolder()
 
+
 def spacy_tokenize(text):
     """ Tokenize a sentence with spaCy.
 
@@ -46,6 +48,7 @@ def spacy_tokenize(text):
     tokenizer = nlp(unicode(text)) if sys.version_info[0]==2 else nlp(text)
     return [str(token) for token in tokenizer]
 
+
 def preprocess_text(text, pipeline):
     """ Preprocess the text according to the given pipeline.
 
@@ -60,10 +63,8 @@ def preprocess_text(text, pipeline):
     :type pipeline: list
     :rtype: str
     """
-    if len(pipeline)==0:
-        return text
-    else:
-        return preprocess_text(pipeline[0](text), pipeline[1:])
+    return text if len(pipeline)==0 else preprocess_text(pipeline[0](text), pipeline[1:])
+
 
 def text_preprocessor(pipeline):
     """ Return the function that preprocesses text according to the pipeline.
@@ -79,6 +80,7 @@ def text_preprocessor(pipeline):
     :rtype: function
     """
     return lambda text: preprocess_text(text, pipeline)
+
 
 def standard_text_preprocessor_1():
     """ Return a commonly used text preprocessor.

@@ -6,11 +6,10 @@ import numpy as np
 import shorttext.utils.kerasmodel_io as kerasio
 import shorttext.utils.classification_exceptions as e
 from shorttext.utils import tokenize
-import shorttext.utils.compactmodel_io as cio
+from shorttext.utils.compactmodel_io import CompactIOMachine
 
 
-# @cio.compactio({'classifier': 'nnlibvec'}, 'nnlibvec', ['_classlabels.txt', '.json', '.h5', '_config.json'])
-class VarNNEmbeddedVecClassifier(cio.CompactIOMachine):
+class VarNNEmbeddedVecClassifier(CompactIOMachine):
     """
     This is a wrapper for various neural network algorithms
     for supervised short text categorization.
@@ -38,11 +37,11 @@ class VarNNEmbeddedVecClassifier(cio.CompactIOMachine):
         :type vecsize: int
         :type maxlen: int
         """
-        cio.CompactIOMachine.__init__(self, {'classifier': 'nnlibvec'}, 'nnlibvec', ['_classlabels.txt', '.json', '.h5', '_config.json'])
+        CompactIOMachine.__init__(self, {'classifier': 'nnlibvec'}, 'nnlibvec', ['_classlabels.txt', '.json', '.h5', '_config.json'])
         self.wvmodel = wvmodel
         self.vecsize = self.wvmodel.vector_size if vecsize == None else vecsize
         self.maxlen = maxlen
-        self.with_gensim = False
+        self.with_gensim = False if not with_gensim else with_gensim
         self.trained = False
 
     def convert_trainingdata_matrix(self, classdict):
@@ -213,8 +212,9 @@ class VarNNEmbeddedVecClassifier(cio.CompactIOMachine):
 
         return scoredict
 
+
 def load_varnnlibvec_classifier(wvmodel, name, compact=True, vecsize=None):
-    """ Load a :class:`shorttext.classifiers.VarNNEmbeddedVecClassifier` instance from file, given the pre-trained Word2Vec model.
+    """ Load a :class:`shorttext.classifiers.VarNNEmbeddedVecClassifier` instance from file, given the pre-trained word-embedding model.
 
     :param wvmodel: Word2Vec model
     :param name: name (if compact=True) or prefix (if compact=False) of the file path

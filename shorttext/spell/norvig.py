@@ -7,6 +7,7 @@ from collections import Counter
 from . import SpellCorrector
 from .editor import compute_set_edits1, compute_set_edits2
 
+
 class NorvigSpellCorrector(SpellCorrector):
     """ Spell corrector described by Peter Norvig in his blog. (https://norvig.com/spell-correct.html)
 

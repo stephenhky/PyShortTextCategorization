@@ -7,13 +7,12 @@ import pandas as pd
 
 import pickle
 
-from . import compactmodel_io as cio
+from .compactmodel_io import CompactIOMachine
 
 
 dtm_suffices = ['_docids.pkl', '_dictionary.dict', '_dtm.pkl']
 
-# @cio.compactio({'classifier': 'dtm'}, 'dtm', dtm_suffices)
-class DocumentTermMatrix(cio.CompactIOMachine):
+class DocumentTermMatrix(CompactIOMachine):
     """ Document-term matrix for corpus.
 
     This is a class that handles the document-term matrix (DTM). With a given corpus, users can
@@ -38,7 +37,7 @@ class DocumentTermMatrix(cio.CompactIOMachine):
         :type docids: list
         :type tfidf: bool
         """
-        cio.CompactIOMachine.__init__(self, {'classifier': 'dtm'}, 'dtm', dtm_suffices)
+        CompactIOMachine.__init__(self, {'classifier': 'dtm'}, 'dtm', dtm_suffices)
         if docids == None:
             self.docid_dict = {i: i for i in range(len(corpus))}
             self.docids = range(len(corpus))

@@ -1,10 +1,12 @@
 
 from keras.layers import Conv1D, MaxPooling1D, Flatten, Dense, Dropout, LSTM, Activation
-from keras.models import Sequential, Model
+from keras.models import Sequential
 from keras.regularizers import l2
+
 
 # Codes were changed because of Keras.
 # Keras 1 --> Keras 2: https://github.com/fchollet/keras/wiki/Keras-2.0-release-notes
+
 
 # Paper: Yoon Kim, "Convolutional Neural Networks for Sentence Classification," arXiv:1408.5882 (2014).
 # ref: https://gist.github.com/entron/b9bc61a74e7cadeb1fec
@@ -72,6 +74,7 @@ def CNNWordEmbed(nb_labels,
     model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
     return model
+
 
 # two layers of CNN, maxpooling, dense
 def DoubleCNNWordEmbed(nb_labels,
@@ -147,6 +150,7 @@ def DoubleCNNWordEmbed(nb_labels,
     model.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
     return model
+
 
 # C-LSTM
 # Chunting Zhou, Chonglin Sun, Zhiyuan Liu, Francis Lau,

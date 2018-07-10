@@ -1,4 +1,5 @@
 
+
 def compute_set_edits1(word):
     letters = 'abcdefghijklmnopqrstuvwxyz'
     splits = [(word[:i], word[i:]) for i in range(len(word) + 1)]

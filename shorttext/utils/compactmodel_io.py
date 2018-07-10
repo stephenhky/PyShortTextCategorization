@@ -13,6 +13,8 @@ import os
 from functools import partial
 
 from . import classification_exceptions as e
+from .deprecation import deprecated
+
 
 def removedir(dir):
     """ Remove all subdirectories and files under the specified path.
@@ -57,6 +59,7 @@ def save_compact_model(filename, savefunc, prefix, suffices, infodict):
 
     # delete temporary files
     removedir(tempdir)
+
 
 def load_compact_model(filename, loadfunc, prefix, infodict):
     """ Load a model from a compact file that contains multiple files related to the model.
@@ -165,7 +168,8 @@ class CompactIOMachine:
                 'suffices': self.suffices}
 
 
-# decorator that adds compact model methods to classifier dynamically
+# decorator that adds compact model methods to classifier dynamically (deprecated)
+@deprecated
 def CompactIOClassifier(Classifier, infodict, prefix, suffices):
     """ Returns a decorated class object with additional methods for compact model I/O.
 
@@ -202,7 +206,9 @@ def CompactIOClassifier(Classifier, infodict, prefix, suffices):
     # return decorated classifier
     return DressedClassifier
 
-# decorator for use
+
+# decorator for use (deprecated)
+@deprecated
 def compactio(infodict, prefix, suffices):
     """ Returns a decorator that performs the decoration by :func:`CompactIOClassifier`.
 
@@ -216,6 +222,7 @@ def compactio(infodict, prefix, suffices):
     :rtype: function
     """
     return partial(CompactIOClassifier, infodict=infodict, prefix=prefix, suffices=suffices)
+
 
 def get_model_config_field(filename, parameter):
     """ Return the configuration parameter of a model file.
@@ -238,6 +245,7 @@ def get_model_config_field(filename, parameter):
         modelconfig_json = modelconfig_json.decode('utf-8')
     readinfodict = json.loads(modelconfig_json)
     return readinfodict[parameter]
+
 
 def get_model_classifier_name(filename):
     """ Return the name of the classifier from a model file.

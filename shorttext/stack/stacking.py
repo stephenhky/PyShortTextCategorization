@@ -7,7 +7,8 @@ from keras.regularizers import l2
 
 import shorttext.utils.classification_exceptions as e
 import shorttext.utils.kerasmodel_io as kerasio
-import shorttext.utils.compactmodel_io as cio
+from shorttext.utils.compactmodel_io import CompactIOMachine
+
 
 # abstract class
 class StackedGeneralization:
@@ -168,9 +169,8 @@ class StackedGeneralization:
         """
         raise e.NotImplementedException()
 
-# @cio.compactio({'classifier': 'stacked_logistics'}, 'stacked_logistics',
-#                ['_stackedlogistics.pkl', '_stackedlogistics.h5', '_stackedlogistics.json'])
-class LogisticStackedGeneralization(StackedGeneralization, cio.CompactIOMachine):
+
+class LogisticStackedGeneralization(StackedGeneralization, CompactIOMachine):
     """
     This class implements logistic regression as the stacked generalizer.
 
@@ -182,10 +182,10 @@ class LogisticStackedGeneralization(StackedGeneralization, cio.CompactIOMachine)
     The classifiers must have the :func:`~score` method that takes a string as an input argument.
     """
     def __init__(self, intermediate_classifiers={}):
-        cio.CompactIOMachine.__init__(self,
-                                      {'classifier': 'stacked_logistics'},
-                                      'stacked_logistics',
-                                      ['_stackedlogistics.pkl', '_stackedlogistics.h5', '_stackedlogistics.json'])
+        CompactIOMachine.__init__(self,
+                                  {'classifier': 'stacked_logistics'},
+                                  'stacked_logistics',
+                                  ['_stackedlogistics.pkl', '_stackedlogistics.h5', '_stackedlogistics.json'])
         StackedGeneralization.__init__(self, intermediate_classifiers=intermediate_classifiers)
 
     def train(self, classdict, optimizer='adam', l2reg=0.01, bias_l2reg=0.01, nb_epoch=1000):
