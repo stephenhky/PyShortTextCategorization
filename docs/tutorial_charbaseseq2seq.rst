@@ -11,8 +11,8 @@ To use it, create an instance of the class :class:`shorttext.generators.Sentence
 
 >>> import numpy as np
 >>> import shorttext
->>> import urllib2
->>> chartovec_encoder = shorttext.generators.initSentenceToCharVecEncoder(urllib2.urlopen('http://norvig.com/big.txt', 'r'))
+>>> from urllib2 import urlopen   # for python 2.7; from urllib.request import urlopen for python 3
+>>> chartovec_encoder = shorttext.generators.initSentenceToCharVecEncoder(urlopen('http://norvig.com/big.txt', 'r'))
 
 The above code is the same as :doc:`tutorial_charbaseonehot` .
 

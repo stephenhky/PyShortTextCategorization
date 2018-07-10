@@ -181,6 +181,13 @@ class LogisticStackedGeneralization(StackedGeneralization, cio.CompactIOMachine)
 
     The classifiers must have the :func:`~score` method that takes a string as an input argument.
     """
+    def __init__(self, intermediate_classifiers={}):
+        cio.CompactIOMachine.__init__(self,
+                                      {'classifier': 'stacked_logistics'},
+                                      'stacked_logistics',
+                                      ['_stackedlogistics.pkl', '_stackedlogistics.h5', '_stackedlogistics.json'])
+        StackedGeneralization.__init__(self, intermediate_classifiers=intermediate_classifiers)
+
     def train(self, classdict, optimizer='adam', l2reg=0.01, bias_l2reg=0.01, nb_epoch=1000):
         """ Train the stacked generalization.
 
@@ -196,10 +203,6 @@ class LogisticStackedGeneralization(StackedGeneralization, cio.CompactIOMachine)
         :type bias_l2reg: float
         :type nb_epoch: int
         """
-        cio.CompactIOMachine.__init__(self,
-                                      {'classifier': 'stacked_logistics'},
-                                      'stacked_logistics',
-                                      ['_stackedlogistics.pkl', '_stackedlogistics.h5', '_stackedlogistics.json'])
 
         # register
         self.register_classifiers()
@@ -216,8 +219,8 @@ class LogisticStackedGeneralization(StackedGeneralization, cio.CompactIOMachine)
         kmodel.compile(loss='categorical_crossentropy', optimizer=optimizer)
 
         Xy = [(xone, yone) for xone, yone in self.convert_traindata_matrix(classdict, tobucket=True)]
-        X = np.array(map(lambda item: item[0], Xy))
-        y = np.array(map(lambda item: item[1], Xy))
+        X = np.array([item[0] for item in Xy])
+        y = np.array([item[1] for item in Xy])
 
         kmodel.fit(X, y, epochs=nb_epoch)
 
@@ -266,7 +269,7 @@ class LogisticStackedGeneralization(StackedGeneralization, cio.CompactIOMachine)
 
         stackedmodeldict = {'classifiers': self.classifier2idx,
                             'classlabels': self.classlabels}
-        pickle.dump(stackedmodeldict, open(nameprefix+'_stackedlogistics.pkl', 'w'))
+        pickle.dump(stackedmodeldict, open(nameprefix+'_stackedlogistics.pkl', 'wb'))
         kerasio.save_model(nameprefix+'_stackedlogistics', self.model)
 
     def loadmodel(self, nameprefix):
@@ -279,7 +282,7 @@ class LogisticStackedGeneralization(StackedGeneralization, cio.CompactIOMachine)
         :return: None
         :type nameprefix: str
         """
-        stackedmodeldict = pickle.load(open(nameprefix+'_stackedlogistics.pkl', 'r'))
+        stackedmodeldict = pickle.load(open(nameprefix+'_stackedlogistics.pkl', 'rb'))
         self.register_classlabels(stackedmodeldict['classlabels'])
         self.classifier2idx = stackedmodeldict['classifiers']
         self.idx2classifier = {val: key for key, val in self.classifier2idx.items()}

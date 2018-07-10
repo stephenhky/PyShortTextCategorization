@@ -1,8 +1,12 @@
 
 import unittest
+import sys
 
 import shorttext
-import urllib2
+if sys.version_info[0]==2:
+    from urllib2 import urlopen
+else:
+    from urllib.request import urlopen
 
 class TestCharOneHot(unittest.TestCase):
     def setUp(self):
@@ -12,7 +16,9 @@ class TestCharOneHot(unittest.TestCase):
         pass
 
     def test_BigTxt(self):
-        chartovec_encoder = shorttext.generators.initSentenceToCharVecEncoder(urllib2.urlopen('http://norvig.com/big.txt', 'r'))
+        encoding = 'utf-8' if sys.version_info[0]==3 else None
+        chartovec_encoder = shorttext.generators.initSentenceToCharVecEncoder(urlopen('http://norvig.com/big.txt'),
+                                                                              encoding=encoding)
         self.assertEqual(93, len(chartovec_encoder.dictionary))
         self.assertEqual('\n', chartovec_encoder.signalchar)
 

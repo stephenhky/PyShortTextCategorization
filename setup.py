@@ -3,10 +3,10 @@ import numpy as np
 
 try:
     from Cython.Build import cythonize
-    ext_modiles = cythonize(['shorttext/metrics/dynprog/dldist.pyx',
+    ext_modules = cythonize(['shorttext/metrics/dynprog/dldist.pyx',
                              'shorttext/metrics/dynprog/lcp.pyx'])
 except ImportError:
-    ext_modiles = [Extension('_dldist', 'shorttext/metrics/dynprog/dldist.c'),
+    ext_modules = [Extension('_dldist', 'shorttext/metrics/dynprog/dldist.c'),
                    Extension('_lcp', 'shorttext/metrics/dynprog/lcp.c')]
 
 def readme():
@@ -14,7 +14,7 @@ def readme():
         return f.read()
 
 setup(name='shorttext',
-      version="0.7.2",
+      version="1.0.0a1",
       description="Short Text Mining",
       long_description="Supervised learning algorithms for short text categorization using embedded word vectors such as Word2Vec, or immediate feature vectors using topic models",
       classifiers=[
@@ -22,6 +22,10 @@ setup(name='shorttext',
           "Natural Language :: English",
           "Topic :: Scientific/Engineering :: Mathematics",
           "Programming Language :: Python :: 2.7",
+          "Programming Language :: Python :: 3.5",
+          "Programming Language :: Python :: 3.6",
+          "Programming Language :: Cython",
+          "Programming Language :: C",
           "License :: OSI Approved :: MIT License",
       ],
       keywords="short text natural language processing text mining",
@@ -29,7 +33,7 @@ setup(name='shorttext',
       author="Kwan-Yuet Ho",
       author_email="stephenhky@yahoo.com.hk",
       license='MIT',
-      ext_modules=ext_modiles,
+      ext_modules=ext_modules,
       packages=['shorttext',
                 'shorttext.utils',
                 'shorttext.classifiers',
@@ -51,12 +55,12 @@ setup(name='shorttext',
                 'shorttext.metrics.embedfuzzy',
                 'shorttext.spell'],
       package_dir={'shorttext': 'shorttext'},
-      package_data={'shorttext': ['data/*.csv', 'utils/*.pkl', 'metrics/dynprog/*.pyx']},
+      package_data={'shorttext': ['data/*.csv', 'utils/*.txt', 'metrics/dynprog/*.pyx']},
       include_dirs=[np.get_include()],
       setup_requires=['numpy>=1.11.3', 'scipy>=0.18.1'],
       install_requires=[
           'Cython', 'numpy>=1.11.3', 'scipy>=0.18.1', 'scikit-learn', 'keras>=2.0.0', 'gensim>=3.2.0',
-          'pandas', 'spacy>=1.7.0', 'stemming', 'pulp',
+          'pandas', 'spacy>=1.7.0', 'pulp', 'PyStemmer',
       ],
       tests_require=[
           'unittest2', 'keras>=2.0.0', 'gensim>=3.2.0', 'tensorflow',

@@ -140,14 +140,14 @@ class Seq2SeqWithKeras(cio.CompactIOMachine):
             raise e.ModelNotTrainedException()
 
         # save hyperparameters
-        json.dump({'vecsize': self.vecsize, 'latent_dim': self.latent_dim}, open(prefix+'_s2s_hyperparam.json', 'wb'))
+        json.dump({'vecsize': self.vecsize, 'latent_dim': self.latent_dim}, open(prefix+'_s2s_hyperparam.json', 'w'))
 
         # save whole model
         if final:
             self.model.save_weights(prefix+'.h5')
         else:
             self.model.save(prefix+'.h5')
-        open(prefix+'.json', 'wb').write(self.model.to_json())
+        open(prefix+'.json', 'w').write(self.model.to_json())
 
         # save encoder and decoder
         if final:
@@ -156,8 +156,8 @@ class Seq2SeqWithKeras(cio.CompactIOMachine):
         else:
             self.encoder_model.save(prefix + '_encoder.h5')
             self.decoder_model.save(prefix+'_decoder.h5')
-        open(prefix+'_encoder.json', 'wb').write(self.encoder_model.to_json())
-        open(prefix+'_decoder.json', 'wb').write(self.decoder_model.to_json())
+        open(prefix+'_encoder.json', 'w').write(self.encoder_model.to_json())
+        open(prefix+'_decoder.json', 'w').write(self.decoder_model.to_json())
 
     def loadmodel(self, prefix):
         """ Load a trained model from various files.
@@ -168,7 +168,7 @@ class Seq2SeqWithKeras(cio.CompactIOMachine):
         :return: None
         :type prefix: str
         """
-        hyperparameters = json.load(open(prefix+'_s2s_hyperparam.json', 'rb'))
+        hyperparameters = json.load(open(prefix+'_s2s_hyperparam.json', 'r'))
         self.vecsize, self.latent_dim = hyperparameters['vecsize'], hyperparameters['latent_dim']
         self.model = load_model(prefix+'.h5')
         self.encoder_model = load_model(prefix+'_encoder.h5')

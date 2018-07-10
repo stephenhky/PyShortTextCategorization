@@ -8,6 +8,8 @@ representation of the texts and documents are needed before they are put into
 any classification algorithm. In this package, it facilitates various types
 of these representations, including topic modeling and word-embedding algorithms.
 
+Since release 1.0.0, `shorttext` runs on Python 2.7, 3.5, and 3.6.
+
 Characteristics:
 
 - example data provided (including subject keywords and NIH RePORT); (see :doc:`tutorial_dataprep`)

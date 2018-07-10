@@ -79,23 +79,25 @@ class SentenceToCharVecEncoder:
         :rtype: scipy.sparse.csc_matrix or numpy.array
         """
         encode_sent_func = partial(self.encode_sentence, startsig=startsig, endsig=endsig, maxlen=maxlen)
-        list_encoded_sentences = map(encode_sent_func, sentences)
+        list_encoded_sentences_map = map(encode_sent_func, sentences)
         if sparse:
-            return list_encoded_sentences
+            return list(list_encoded_sentences_map)
         else:
-            return np.array(map(lambda sparsevec: sparsevec.toarray(), list_encoded_sentences))
+            return np.array([sparsevec.toarray() for sparsevec in list_encoded_sentences_map])
 
     def __len__(self):
         return len(self.dictionary)
 
 
-def initSentenceToCharVecEncoder(textfile):
+def initSentenceToCharVecEncoder(textfile, encoding=None):
     """ Instantiate a class of SentenceToCharVecEncoder from a text file.
 
     :param textfile: text file
+    :param encoding: encoding of the text file (Default: None)
     :return: an instance of SentenceToCharVecEncoder
     :type textfile: file
+    :type encoding: str
     :rtype: SentenceToCharVecEncoder
     """
-    dictionary = Dictionary(map(lambda line: [c for c in line], textfile_generator(textfile)))
+    dictionary = Dictionary(map(lambda line: [c for c in line], textfile_generator(textfile, encoding=encoding)))
     return SentenceToCharVecEncoder(dictionary)

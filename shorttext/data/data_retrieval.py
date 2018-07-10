@@ -3,8 +3,11 @@ from collections import defaultdict
 import json
 import os
 import zipfile
-from urllib import urlretrieve
 import sys
+if sys.version_info[0]==2:
+    from urllib import urlretrieve
+else:
+    from urllib.request import urlretrieve
 
 import pandas as pd
 import numpy as np
@@ -80,8 +83,12 @@ def inaugural():
     :rtype: dict
     """
     zfile = zipfile.ZipFile(get_or_download_data("USInaugural.zip",
-                                                 "https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/USInaugural.zip?raw=true"))
-    return json.loads(zfile.open("addresses.json").read())
+                                                 "https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/USInaugural.zip?raw=true",
+                                                 asbytes=True),
+                            )
+    address_jsonstr = zfile.open("addresses.json").read()
+    zfile.close()
+    return json.loads(address_jsonstr) if sys.version_info[0]==2 else json.loads(address_jsonstr.decode('utf-8'))
 
 def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512):
     """ Return an example data set, sampled from NIH RePORT (Research Portfolio
@@ -116,23 +123,26 @@ def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512
         raise KeyError('Undefined label column: '+label_col+'. Must be FUNDING_ICs or IC_NAME.')
 
     zfile = zipfile.ZipFile(get_or_download_data('nih_full.csv.zip',
-                                                 'https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/nih_full.csv.zip?raw=true')
-                            )
+                                                 'https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/nih_full.csv.zip?raw=true',
+                                                 asbytes=True),
+                            'r',
+                            zipfile.ZIP_DEFLATED)
     nih = pd.read_csv(zfile.open('nih_full.csv'), na_filter=False, usecols=[label_col, txt_col])
+    zfile.close()
     nb_data = len(nih)
     sample_size = nb_data if sample_size==None else min(nb_data, sample_size)
 
     classdict = defaultdict(lambda : [])
 
     for rowidx in np.random.randint(nb_data, size=min(nb_data, sample_size)):
-        label = nih.ix[rowidx, label_col]
+        label = nih.iloc[rowidx, nih.columns.get_loc(label_col)]
         if label_col=='FUNDING_ICs':
             if label=='':
                 label = 'OTHER'
             else:
                 endpos = label.index(':')
                 label = label[:endpos]
-        classdict[label] += [nih.ix[rowidx, txt_col]]
+        classdict[label] += [nih.iloc[rowidx, nih.columns.get_loc(txt_col)]]
 
     return dict(classdict)
 
@@ -168,7 +178,7 @@ def yield_crossvalidation_classdicts(classdict, nb_partitions, shuffle=False):
     :rtype: generator
     """
     crossvaldicts = []
-    for i in range(nb_partitions):
+    for _ in range(nb_partitions):
         crossvaldicts.append(defaultdict(lambda: []))
 
     for label in classdict:
@@ -177,14 +187,14 @@ def yield_crossvalidation_classdicts(classdict, nb_partitions, shuffle=False):
         sentences = classdict[label] if not shuffle else random.shuffle(sentences)
         for i in range(nb_partitions):
             crossvaldicts[i][label] += sentences[i * partsize:min(nb_data, (i + 1) * partsize)]
-    crossvaldicts = map(dict, crossvaldicts)
+    crossvaldicts = [dict(crossvaldict) for crossvaldict in crossvaldicts]
 
     for i in range(nb_partitions):
         testdict = crossvaldicts[i]
         traindict = mergedict([crossvaldicts[j] for j in range(nb_partitions) if j != i])
         yield testdict, traindict
 
-def get_or_download_data(filename, origin):
+def get_or_download_data(filename, origin, asbytes=False):
     # determine path
     homedir = os.path.expanduser('~')
     datadir = os.path.join(homedir, '.shorttext')
@@ -194,15 +204,15 @@ def get_or_download_data(filename, origin):
     targetfilepath = os.path.join(datadir, filename)
     # download if not exist
     if not os.path.exists(os.path.join(datadir, filename)):
-        print 'Downloading...'
-        print 'Source: ', origin
-        print 'Target: ', targetfilepath
+        print('Downloading...')
+        print('Source: ', origin)
+        print('Target: ', targetfilepath)
         try:
             urlretrieve(origin, targetfilepath)
         except:
-            print 'Failure to download file!'
-            print sys.exc_info()
+            print('Failure to download file!')
+            print(sys.exc_info())
             os.remove(targetfilepath)
 
     # return
-    return open(targetfilepath, 'r')
+    return open(targetfilepath, 'rb' if asbytes else 'r')

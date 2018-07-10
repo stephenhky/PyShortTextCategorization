@@ -272,6 +272,9 @@ will still do the work. However, to load the saved classifier with an autoencode
 
 >>> classifier2 = shorttext.classifiers.load_autoencoder_topic_sklearnclassifier('/path/to/filename.bin')
 
+Compact model files saved by `TopicVectorSkLearnClassifier` in `shorttext` >= 1.0.0 cannot be read
+by earlier version of `shorttext`; vice versa is not true though: old compact model files can be read in.
+
 Notes about Text Preprocessing
 ------------------------------
 

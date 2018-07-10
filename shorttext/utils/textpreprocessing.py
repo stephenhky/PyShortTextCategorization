@@ -1,13 +1,23 @@
-import re
-import pickle
-import os
 
+import re
+import os
+import codecs
+import sys
+
+import Stemmer
 import spacy
-from stemming.porter import stem
+
+# stemmer
+stemmer = Stemmer.Stemmer('english')
+stemword = lambda s: stemmer.stemWord(s)
+
 
 # load stop words
 this_dir, _ = os.path.split(__file__)
-stopwordset = pickle.load(open(os.path.join(this_dir, 'stopwordset.pkl'), 'r'))
+f = codecs.open(os.path.join(this_dir, 'stopwords.txt'), 'r', 'utf-8')
+stopwordset = set([stopword.strip() for stopword in f])
+f.close()
+
 
 # initialize spacy
 class SpaCyNLPHolder:
@@ -33,8 +43,8 @@ def spacy_tokenize(text):
     :rtype: list
     """
     nlp = spaCyNLPHolder.getNLPInstance()   # lazy loading
-    tokenizer = nlp(unicode(text))
-    return map(str, [token for token in tokenizer])
+    tokenizer = nlp(unicode(text)) if sys.version_info[0]==2 else nlp(text)
+    return [str(token) for token in tokenizer]
 
 def preprocess_text(text, pipeline):
     """ Preprocess the text according to the given pipeline.
@@ -90,6 +100,6 @@ def standard_text_preprocessor_1():
                 lambda s: re.sub('[\d]', '', s),
                 lambda s: s.lower(),
                 lambda s: ' '.join(filter(lambda s: not (s in stopwordset), spacy_tokenize(s))),
-                lambda s: ' '.join(map(stem, spacy_tokenize(s)))
+                lambda s: ' '.join([stemword(stemmed_token) for stemmed_token in spacy_tokenize(s)])
                ]
     return text_preprocessor(pipeline)

@@ -66,8 +66,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, cio.CompactIOMachine):
 
         # process training data
         embedvecs = np.array(reduce(add,
-                                    [map(lambda shorttext: self.retrieve_bow_vector(shorttext, normalize=True),
-                                         classdict[classtype])
+                                    [[self.retrieve_bow_vector(shorttext, normalize=True) for shorttext in classdict[classtype]]
                                      for classtype in classdict]
                                     )
                              )
@@ -118,7 +117,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, cio.CompactIOMachine):
         :type shorttexts: list
         :rtype: numpy.ndarray
         """
-        sumvec = sum(map(self.retrieve_topicvec, shorttexts))
+        sumvec = sum([self.retrieve_topicvec(shorttext) for shorttext in shorttexts])
         sumvec /= np.linalg.norm(sumvec)
         return sumvec
 
@@ -172,7 +171,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, cio.CompactIOMachine):
         if save_complete_autoencoder:
             kerasio.save_model(nameprefix+'_decoder', self.decoder)
             kerasio.save_model(nameprefix+'_autoencoder', self.autoencoder)
-        pickle.dump(self.classtopicvecs, open(nameprefix+'_classtopicvecs.pkl', 'w'))
+        pickle.dump(self.classtopicvecs, open(nameprefix+'_classtopicvecs.pkl', 'wb'))
 
     def loadmodel(self, nameprefix, load_incomplete=False):
         """ Save the model with names according to the prefix.
@@ -189,13 +188,13 @@ class AutoencodingTopicModeler(LatentTopicModeler, cio.CompactIOMachine):
         :type load_incomplete: bool
         """
         # load the JSON file (parameters)
-        parameters = json.load(open(nameprefix+'.json', 'rb'))
+        parameters = json.load(open(nameprefix+'.json', 'r'))
         self.nb_topics = parameters['nb_topics']
         self.classlabels = parameters['classlabels']
 
         self.dictionary = Dictionary.load(nameprefix + '.gensimdict')
         self.encoder = kerasio.load_model(nameprefix+'_encoder')
-        self.classtopicvecs = pickle.load(open(nameprefix+'_classtopicvecs.pkl', 'r'))
+        self.classtopicvecs = pickle.load(open(nameprefix+'_classtopicvecs.pkl', 'rb'))
         if not load_incomplete:
             self.decoder = kerasio.load_model(nameprefix+'_decoder')
             self.autoencoder = kerasio.load_model(nameprefix+'_autoencoder')

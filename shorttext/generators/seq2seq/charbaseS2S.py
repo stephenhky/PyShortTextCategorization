@@ -157,7 +157,7 @@ class CharBasedSeq2SeqGenerator(cio.CompactIOMachine):
         """
         self.s2sgenerator.savemodel(prefix, final=final)
         self.dictionary.save(prefix+'_dictionary.dict')
-        json.dump({'maxlen': self.maxlen, 'latent_dim': self.latent_dim}, open(prefix+'_charbases2s.json', 'wb'))
+        json.dump({'maxlen': self.maxlen, 'latent_dim': self.latent_dim}, open(prefix+'_charbases2s.json', 'w'))
 
     def loadmodel(self, prefix):
         """ Load a trained model from various files.
@@ -172,7 +172,7 @@ class CharBasedSeq2SeqGenerator(cio.CompactIOMachine):
         self.s2sgenerator = loadSeq2SeqWithKeras(prefix, compact=False)
         self.sent2charvec_encoder = SentenceToCharVecEncoder(self.dictionary)
         self.nbelem = len(self.dictionary)
-        hyperparameters = json.load(open(prefix+'_charbases2s.json', 'rb'))
+        hyperparameters = json.load(open(prefix+'_charbases2s.json', 'r'))
         self.latent_dim, self.maxlen = hyperparameters['latent_dim'], hyperparameters['maxlen']
         self.compiled = True
 

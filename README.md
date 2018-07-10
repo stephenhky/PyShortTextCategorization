@@ -1,5 +1,7 @@
 # Short Text Categorization in Python
 
+[![Build Status](https://travis-ci.org/stephenhky/PyShortTextCategorization.svg?branch=master)](https://travis-ci.org/stephenhky/PyShortTextCategorization)
+
 This repository is a collection of algorithms for multi-class classification to short texts using Python. Modules are backward compatible unless otherwise specified. Feel free to give suggestions.
 
 To install it, in a console, use `pip`.
@@ -75,5 +77,7 @@ to fix any errors.
 # Possible Future Updates
 
 - [ ] Jupyter notebooks as tutorials;
-- [ ] Python 3 compatibility;
+- [x] Python 3 compatibility;
+- [x] Using Snowball Stemmer;
+- [ ] More explicit dependence on `TensorFlow`;
 - [ ] More available corpus.

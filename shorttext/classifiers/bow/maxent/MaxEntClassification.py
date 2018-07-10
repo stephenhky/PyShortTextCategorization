@@ -46,7 +46,7 @@ def logistic_framework(nb_features, nb_outputs, l2reg=0.01, bias_l2reg=0.01, opt
 
 
 # @cio.compactio({'classifier': 'maxent'}, 'maxent', ['_classlabels.txt', '.json', '.h5', '_labelidx.pkl', '_dictionary.dict'])
-class MaxEntClassifier:
+class MaxEntClassifier(cio.CompactIOMachine):
     """
     This is a classifier that implements the principle of maximum entropy.
 
@@ -119,7 +119,7 @@ class MaxEntClassifier:
         :type classdict: dict
         :rtype: tuple
         """
-        nb_data = sum(map(lambda k: len(classdict[k]), classdict.keys()))
+        nb_data = sum([len(classdict[k]) for k in classdict])
         X = dok_matrix((nb_data, len(self.dictionary)))
         y = dok_matrix((nb_data, len(self.labels2idx)))
 
@@ -194,7 +194,7 @@ class MaxEntClassifier:
         labelfile.write('\n'.join(self.classlabels))
         labelfile.close()
 
-        pickle.dump(self.labels2idx, open(nameprefix+'_labelidx.pkl', 'w'))
+        pickle.dump(self.labels2idx, open(nameprefix+'_labelidx.pkl', 'wb'))
 
     def loadmodel(self, nameprefix):
         """ Load a trained model from files.
@@ -214,11 +214,10 @@ class MaxEntClassifier:
         self.dictionary = Dictionary.load(nameprefix+'_dictionary.dict')
 
         labelfile = open(nameprefix+'_classlabels.txt', 'r')
-        self.classlabels = labelfile.readlines()
+        self.classlabels = [s.strip() for s in labelfile.readlines()]
         labelfile.close()
-        self.classlabels = map(lambda s: s.strip(), self.classlabels)
 
-        self.labels2idx = pickle.load(open(nameprefix+'_labelidx.pkl', 'r'))
+        self.labels2idx = pickle.load(open(nameprefix+'_labelidx.pkl', 'rb'))
 
         self.trained = True
 

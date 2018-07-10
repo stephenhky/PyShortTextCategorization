@@ -1,4 +1,6 @@
 
+import os
+
 from sklearn.externals import joblib
 
 from shorttext.utils import textpreprocessing as textpreprocess
@@ -50,9 +52,9 @@ class TopicVectorSkLearnClassifier:
         """
         X = []
         y = []
-        self.classlabels = classdict.keys()
+        self.classlabels = sorted(classdict.keys())     # classlabels must be sorted like the topic modelers
         for classidx, classlabel in zip(range(len(self.classlabels)), self.classlabels):
-            topicvecs = map(self.topicmodeler.retrieve_topicvec, classdict[classlabel])
+            topicvecs = [self.topicmodeler.retrieve_topicvec(topic) for topic in classdict[classlabel]]
             X += topicvecs
             y += [classidx]*len(topicvecs)
         self.classifier.fit(X, y, *args, **kwargs)
@@ -90,7 +92,7 @@ class TopicVectorSkLearnClassifier:
         topicvec = self.getvector(shorttext)
         return self.classlabels[self.classifier.predict([topicvec])[0]]
 
-    def score(self, shorttext, default_score=0.0):
+    def score(self, shorttext):
         """ Calculate the score, which is the cosine similarity with the topic vector of the model,
         of the short text against each class labels.
 
@@ -98,11 +100,9 @@ class TopicVectorSkLearnClassifier:
         topic model was not trained, it will raise `ModelNotTrainedException`.
 
         :param shorttext: short text
-        :param default_score: default score if no score is assigned (Default: 0.0)
         :return: dictionary of scores of the text to all classes
         :raise: ModelNotTrainedException
         :type shorttext: str
-        :type default_score: float
         :rtype: dict
         """
         if not self.trained:
@@ -110,8 +110,8 @@ class TopicVectorSkLearnClassifier:
 
         topicvec = self.getvector(shorttext)
         scoredict = {classlabel: self.classifier.score([topicvec], [classidx])
-                     for classidx, classlabel in zip(range(len(self.classlabels)), self.classlabels)}
-        return dict(scoredict)
+                     for classidx, classlabel in enumerate(self.classlabels)}
+        return scoredict
 
     def savemodel(self, nameprefix):
         """ Save the model.
@@ -132,6 +132,9 @@ class TopicVectorSkLearnClassifier:
             raise e.ModelNotTrainedException()
         self.topicmodeler.savemodel(nameprefix)
         joblib.dump(self.classifier, nameprefix+'.pkl')
+        labelfile = open(nameprefix+'_classlabels.txt', 'w')
+        labelfile.write('\n'.join(self.classlabels))
+        labelfile.close()
 
     def loadmodel(self, nameprefix):
         """ Load the classification model together with the topic model.
@@ -142,7 +145,13 @@ class TopicVectorSkLearnClassifier:
         """
         self.topicmodeler.loadmodel(nameprefix)
         self.classifier = joblib.load(nameprefix+'.pkl')
-        self.classlabels = self.topicmodeler.classlabels
+        # for backward compatibility, shorttext<1.0.0 does not have _classlabels.txt
+        if os.path.exists(nameprefix+'_classlabels.txt'):
+            labelfile = open(nameprefix+'_classlabels.txt', 'r')
+            self.classlabels = [s.strip() for s in labelfile.readlines()]
+            labelfile.close()
+        else:
+            self.classlabels = self.topicmodeler.classlabels
 
     def save_compact_model(self, name):
         """ Save the model.
@@ -158,7 +167,7 @@ class TopicVectorSkLearnClassifier:
         """
         topicmodel_info = self.topicmodeler.get_info()
         cio.save_compact_model(name, self.savemodel, 'topic_sklearn',
-                               topicmodel_info['suffices']+['.pkl'],
+                               topicmodel_info['suffices']+['.pkl', '_classlabels.txt'],
                                {'classifier': 'topic_sklearn', 'topicmodel': topicmodel_info['classifier']})
 
     def load_compact_model(self, name):
@@ -171,6 +180,7 @@ class TopicVectorSkLearnClassifier:
         cio.load_compact_model(name, self.loadmodel, 'topic_sklearn',
                                {'classifier': 'topic_sklearn', 'topicmodel': None})
         self.trained = True
+
 
 def train_gensim_topicvec_sklearnclassifier(classdict,
                                             nb_topics,
@@ -231,6 +241,7 @@ def train_gensim_topicvec_sklearnclassifier(classdict,
 
     return classifier
 
+
 def load_gensim_topicvec_sklearnclassifier(name,
                                            preprocessor=textpreprocess.standard_text_preprocessor_1(),
                                            compact=True):
@@ -280,6 +291,7 @@ def load_gensim_topicvec_sklearnclassifier(name,
         # return the instance
         return classifier
 
+
 def train_autoencoder_topic_sklearnclassifier(classdict,
                                               nb_topics,
                                               sklearn_classifier,
@@ -327,6 +339,7 @@ def train_autoencoder_topic_sklearnclassifier(classdict,
     classifier.train(classdict, **sklearn_paramdict)
 
     return classifier
+
 
 def load_autoencoder_topic_sklearnclassifier(name,
                                              preprocessor=textpreprocess.standard_text_preprocessor_1(),

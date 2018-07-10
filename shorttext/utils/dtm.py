@@ -157,7 +157,7 @@ class DocumentTermMatrix(cio.CompactIOMachine):
         """
         tbl = pd.DataFrame(self.dtm.toarray())
         tbl.index = self.docids
-        tbl.columns = map(lambda i: self.dictionary[i], range(len(self.dictionary)))
+        tbl.columns = [self.dictionary[i] for i in range(len(self.dictionary))]
         return tbl
 
     def savemodel(self, prefix):

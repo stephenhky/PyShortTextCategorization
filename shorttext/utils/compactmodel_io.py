@@ -231,7 +231,12 @@ def get_model_config_field(filename, parameter):
     :rtype: str
     """
     inputfile = zipfile.ZipFile(filename, mode='r')
-    readinfodict = json.load(inputfile.open('modelconfig.json', 'r'))
+    modelconfig_file = inputfile.open('modelconfig.json', 'r')
+    modelconfig_json = modelconfig_file.read()
+    modelconfig_file.close()
+    if type(modelconfig_json)==bytes:
+        modelconfig_json = modelconfig_json.decode('utf-8')
+    readinfodict = json.loads(modelconfig_json)
     return readinfodict[parameter]
 
 def get_model_classifier_name(filename):

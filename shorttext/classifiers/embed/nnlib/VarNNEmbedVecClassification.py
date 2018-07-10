@@ -146,7 +146,7 @@ class VarNNEmbeddedVecClassifier(cio.CompactIOMachine):
         labelfile = open(nameprefix+'_classlabels.txt', 'r')
         self.classlabels = labelfile.readlines()
         labelfile.close()
-        self.classlabels = map(lambda s: s.strip(), self.classlabels)
+        self.classlabels = [s.strip() for s in self.classlabels]
         # check if _config.json exists.
         # This file does not exist if the model was created with shorttext<0.4.0
         self.with_gensim = False
