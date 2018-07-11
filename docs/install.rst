@@ -4,6 +4,8 @@ Installation
 PIP
 ---
 
+Package `shorttext` runs in Python 2.7, 3.5, and 3.6.
+
 To install the package in Linux or OS X, enter the following in the console:
 
 ::
@@ -39,8 +41,8 @@ Required Packages
 - gensim_ (Topic Modeling for Humans, version >= 3.2.0)
 - Pandas_ (Python Data Analysis Library)
 - spaCy_ (Industrial Strenglth Natural Language Processing in Python, version >= 1.7.0)
-- stemming_ (stemming in Python)
 - PuLP_ (Optimization with PuLP)
+- PyStemmer_ (Snowball Stemmer, the package stemming_ is no longer used)
 
 Home: :doc:`index`
 
@@ -56,3 +58,4 @@ Home: :doc:`index`
 .. _spaCy: https://spacy.io/
 .. _stemming: https://pypi.python.org/pypi/stemming/
 .. _PuLP: https://pythonhosted.org/PuLP/
+.. _PyStemmer: http://snowball.tartarus.org/

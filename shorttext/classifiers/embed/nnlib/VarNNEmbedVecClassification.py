@@ -1,5 +1,7 @@
 
 import json
+import os
+import warnings
 
 import numpy as np
 
@@ -125,7 +127,8 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         labelfile = open(nameprefix+'_classlabels.txt', 'w')
         labelfile.write('\n'.join(self.classlabels))
         labelfile.close()
-        json.dump({'with_gensim': False}, open(nameprefix+'_config.json', 'w'))
+        json.dump({'with_gensim': False, 'maxlen': self.maxlen, 'vecsize': self.vecsize},
+                  open(nameprefix+'_config.json', 'w'))
 
     def loadmodel(self, nameprefix):
         """ Load a trained model from files.
@@ -146,8 +149,30 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         self.classlabels = labelfile.readlines()
         labelfile.close()
         self.classlabels = [s.strip() for s in self.classlabels]
+
         # check if _config.json exists.
         # This file does not exist if the model was created with shorttext<0.4.0
+        if os.path.exists(nameprefix+'_config.json'):
+            config = json.load(open(nameprefix+'_config.json', 'r'))
+            # these fields are present for release >= 1.0.0
+            if 'maxlen' in config:
+                self.maxlen = config['maxlen']
+            else:
+                self.maxlen = 15
+            if 'vecsize' in config:
+                self.vecsize = config['vecsize']
+            else:
+                self.vecsize = self.wvmodel.vector_size
+            if self.vecsize != self.wvmodel.vector_size:
+                warnings.warn('Record vector size (%i) is not the same as that of the given word-embedding model (%i)! ' % (self.vecsize, self.wvmodel.vector_size)+
+                              'Setting the vector size to be %i, but there may be run time error!' % (self.wvmodel.vector_size),
+                              RuntimeWarning)
+                self.vecsize = self.wvmodel.vector_size
+        else:
+            self.maxlen = 15
+            self.vecsize = self.wvmodel.vector_size
+            warnings.warn('Model files from old versions.')
+
         self.with_gensim = False
         self.trained = True
 
