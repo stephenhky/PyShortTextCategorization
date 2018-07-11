@@ -52,7 +52,7 @@ if __name__ == '__main__':
         if not os.path.exists(args.wv):
             raise WordEmbeddingModelNotExistException(args.wv)
         # if there, load it
-        print('Loading word-embedding model...', args.wv)
+        print('Loading word-embedding model: '+args.wv)
         wvmodel = typedict[args.type](args.wv)
 
     # load the classifier
@@ -82,7 +82,7 @@ if __name__ == '__main__':
             if len(shorttext) > 0:
                 scoredict = classifier.score(shorttext)
                 for label, score in sorted(scoredict.items(), key=lambda s: s[1], reverse=True)[:args.topn]:
-                    print(label, ' : ', score)
+                    print(label+' : '+'%.4f' % (score))
             else:
                 run = False
 

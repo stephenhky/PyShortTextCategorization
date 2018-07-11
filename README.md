@@ -1,6 +1,8 @@
 # Short Text Categorization in Python
 
-[![Build Status](https://travis-ci.org/stephenhky/PyShortTextCategorization.svg?branch=master)](https://travis-ci.org/stephenhky/PyShortTextCategorization)
+[![Build Status](https://travis-ci.org/stephenhky/PyShortTextCategorization.svg?branch=py3test)](https://travis-ci.org/stephenhky/PyShortTextCategorization)
+
+Package `shorttext` runs in Python 2.7, 3.5, and 3.6.
 
 This repository is a collection of algorithms for multi-class classification to short texts using Python. Modules are backward compatible unless otherwise specified. Feel free to give suggestions.
 

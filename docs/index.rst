@@ -23,7 +23,6 @@ Contents:
    scripts
    faq
    refs
-   codes
    links
    news
 
