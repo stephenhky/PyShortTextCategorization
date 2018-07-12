@@ -1,6 +1,6 @@
 # Short Text Categorization in Python
 
-[![Build Status](https://travis-ci.org/stephenhky/PyShortTextCategorization.svg?branch=master)](https://travis-ci.org/stephenhky/PyShortTextCategorization)
+[![Build Status](https://travis-ci.org/stephenhky/PyShortTextCategorization.svg?branch=py3test)](https://travis-ci.org/stephenhky/PyShortTextCategorization)
 
 [![Documentation Status](//readthedocs.org/projects/shorttext/badge/?version=latest)](https://shorttext.readthedocs.io/en/latest/?badge=latest)
 
