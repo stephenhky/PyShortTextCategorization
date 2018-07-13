@@ -1,7 +1,7 @@
 Introduction
 ============
 
-This package `shorttext` is a Python package that facilitates supervised
+This package `shorttext` is a Python package that facilitates supervised and unsupervised
 learning for short text categorization. Due to the sparseness of words and
 the lack of information carried in the short texts themselves, an intermediate
 representation of the texts and documents are needed before they are put into
@@ -21,10 +21,12 @@ Characteristics:
 - neural network classification (including ConvNet, and C-LSTM); (see :doc:`tutorial_nnlib`)
 - maximum entropy classification; (see :doc:`tutorial_maxent`) and
 - metrics of phrases differences, including soft Jaccard score (using Damerau-Levenshtein distance), and Word Mover's distance (WMD); (see :doc:`tutorial_metrics`) and
-- character-level sequence-to-sequence (seq2seq) learning. (see :doc:`tutorial_charbaseseq2seq`)
+- character-level sequence-to-sequence (seq2seq) learning; (see :doc:`tutorial_charbaseseq2seq`)
+- spell correction. (see :doc:`tutorial_spell`)
 
 Before release 0.7.2, part of the package was implemented using C, and it is interfaced to
-Python using SWIG_ (Simplified Wrapper and Interface Generator).
+Python using SWIG_ (Simplified Wrapper and Interface Generator). Since 1.0.0, these implementations
+were replaced with Cython_.
 
 Author: Kwan-Yuet Ho (LinkedIn_, ResearchGate_, Twitter_)
 
@@ -34,3 +36,4 @@ Home: :doc:`index`
 .. _ResearchGate: https://www.researchgate.net/profile/Kwan-yuet_Ho
 .. _Twitter: https://twitter.com/stephenhky
 .. _SWIG: http://www.swig.org/
+.. _Cython: http://cython.org/

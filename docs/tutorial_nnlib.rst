@@ -21,7 +21,10 @@ and they are good for short text or document classification. Of course, users ca
 own neural networks, written in `keras`.
 
 A pre-trained Google Word2Vec model can be downloaded `here
-<https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit>`_.
+<https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit>`_,
+and a pre-trained Facebook FastText model can be downloaded `here
+<https://github.com/facebookresearch/fastText/blob/master/pretrained-vectors.md>`_.
+
 
 See: :doc:`tutorial_wordembed` .
 
