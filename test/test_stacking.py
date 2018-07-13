@@ -1,5 +1,6 @@
 
 import unittest
+import os
 
 import shorttext
 from shorttext.stack import LogisticStackedGeneralization
@@ -11,7 +12,9 @@ class TestStacking(unittest.TestCase):
         self.nihdict = shorttext.data.nihreports(sample_size=None)
 
     def tearDown(self):
-        pass
+        for filepath in os.listdir('.'):
+            if filepath.endswith('.bin'):
+                os.remove(os.path.join('.', filepath))
 
     def training_stacking(self):
         # loading NIH Reports

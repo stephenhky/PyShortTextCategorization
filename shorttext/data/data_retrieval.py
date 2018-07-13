@@ -13,6 +13,8 @@ else:
 import pandas as pd
 import numpy as np
 
+from shorttext.utils.deprecation import deprecated
+
 
 def retrieve_csvdata_as_dict(filepath):
     """ Retrieve the training data in a CSV file.
@@ -34,7 +36,9 @@ def retrieve_csvdata_as_dict(filepath):
             shorttextdict[category] += [descp]
     return dict(shorttextdict)
 
-# for backward compatibility
+
+# deprecated, kept for backward compatibility
+@deprecated
 def retrieve_data_as_dict(filepath):
     """ Retrieve the training data in a CSV file.
 
@@ -46,6 +50,7 @@ def retrieve_data_as_dict(filepath):
     :rtype: dict
     """
     return retrieve_csvdata_as_dict(filepath)
+
 
 def retrieve_jsondata_as_dict(filepath):
     """ Retrieve the training data in a JSON file.
@@ -61,6 +66,7 @@ def retrieve_jsondata_as_dict(filepath):
     """
     return json.load(open(filepath, 'r'))
 
+
 def subjectkeywords():
     """ Return an example data set of subjects.
 
@@ -72,6 +78,7 @@ def subjectkeywords():
     """
     this_dir, _ = os.path.split(__file__)
     return retrieve_csvdata_as_dict(os.path.join(this_dir, 'shorttext_exampledata.csv'))
+
 
 def inaugural():
     """ Return an example dataset, which is the Inaugural Addresses of all Presidents of 
@@ -90,6 +97,7 @@ def inaugural():
     address_jsonstr = zfile.open("addresses.json").read()
     zfile.close()
     return json.loads(address_jsonstr) if sys.version_info[0]==2 else json.loads(address_jsonstr.decode('utf-8'))
+
 
 def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512):
     """ Return an example data set, sampled from NIH RePORT (Research Portfolio
@@ -147,6 +155,7 @@ def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512
 
     return dict(classdict)
 
+
 def mergedict(dicts):
     """ Merge data dictionary.
 
@@ -162,6 +171,7 @@ def mergedict(dicts):
         for label in thisdict:
             mdict[label] += thisdict[label]
     return dict(mdict)
+
 
 def yield_crossvalidation_classdicts(classdict, nb_partitions, shuffle=False):
     """ Yielding test data and training data for cross validation by partitioning it.
@@ -194,6 +204,7 @@ def yield_crossvalidation_classdicts(classdict, nb_partitions, shuffle=False):
         testdict = crossvaldicts[i]
         traindict = mergedict([crossvaldicts[j] for j in range(nb_partitions) if j != i])
         yield testdict, traindict
+
 
 def get_or_download_data(filename, origin, asbytes=False):
     # determine path
