@@ -1,5 +1,6 @@
 
 import unittest
+import os
 
 from shorttext.spell.sakaguchi import SCRNNSpellCorrector
 from shorttext.smartload import smartload_compact_model
@@ -20,6 +21,8 @@ class TestSCRNN(unittest.TestCase):
         self.assertEqual(corrector.correct(typo), corrector2.correct(typo))
 
         print('typo: '+typo+'  recommendation: '+corrector.correct(typo)+' ('+recommendation+')')
+
+        os.remove('./sosad_'+operation+'_sakaguchi.bin')
 
     def test_NOISE_INSERT(self):
         self.generalproc('NOISE-INSERT')
