@@ -4,19 +4,21 @@ import numpy as np
 try:
     from Cython.Build import cythonize
     ext_modules = cythonize(['shorttext/metrics/dynprog/dldist.pyx',
-                             'shorttext/metrics/dynprog/lcp.pyx'])
+                             'shorttext/metrics/dynprog/lcp.pyx',
+                             'shorttext/spell/edits1_comb.pyx'])
 except ImportError:
     ext_modules = [Extension('_dldist', 'shorttext/metrics/dynprog/dldist.c'),
-                   Extension('_lcp', 'shorttext/metrics/dynprog/lcp.c')]
+                   Extension('_lcp', 'shorttext/metrics/dynprog/lcp.c'),
+                   Extension('_edits1_comb', 'shorttext/spell/edits_comb.c')]
 
 def readme():
     with open('README.md') as f:
         return f.read()
 
 setup(name='shorttext',
-      version="1.0.0a2",
+      version="1.0.0a3",
       description="Short Text Mining",
-      long_description="Supervised learning algorithms for short text categorization using embedded word vectors such as Word2Vec, or immediate feature vectors using topic models",
+      long_description="Short text mining algorithms, involving word-embedding models, topic models, edit distances, Word Mover's distance, deep learning etc.",
       classifiers=[
           "Topic :: Scientific/Engineering :: Artificial Intelligence",
           "Natural Language :: English",
@@ -28,7 +30,7 @@ setup(name='shorttext',
           "Programming Language :: C",
           "License :: OSI Approved :: MIT License",
       ],
-      keywords="short text natural language processing text mining",
+      keywords="shorttext natural language processing text mining",
       url="https://github.com/stephenhky/PyShortTextCategorization",
       author="Kwan-Yuet Ho",
       author_email="stephenhky@yahoo.com.hk",
@@ -55,7 +57,9 @@ setup(name='shorttext',
                 'shorttext.metrics.embedfuzzy',
                 'shorttext.spell'],
       package_dir={'shorttext': 'shorttext'},
-      package_data={'shorttext': ['data/*.csv', 'utils/*.txt', 'metrics/dynprog/*.pyx']},
+      package_data={'shorttext': ['data/*.csv', 'utils/*.txt',
+                                  'metrics/dynprog/*.pyx', 'metrics/dynprog/*.c',
+                                  'spell/*.pyx', 'spell/*.c']},
       include_dirs=[np.get_include()],
       setup_requires=['numpy>=1.11.3', 'scipy>=0.18.1'],
       install_requires=[

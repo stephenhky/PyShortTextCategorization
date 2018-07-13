@@ -2,4 +2,8 @@ include README.md
 include shorttext/data/shorttext_exampledata.csv
 include shorttext/utils/stopwords.txt
 include shorttext/metrics/dynprog/dldist.pyx
+include shorttext/metrics/dynprog/dldist.c
 include shorttext/metrics/dynprog/lcp.pyx
+include shorttext/metrics/dynprog/lcp.c
+include shorttext/spell/edits1_comb.pyx
+include shorttext/spell/edits1_comb.c
