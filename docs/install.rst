@@ -34,7 +34,7 @@ Before using, check the language model of spaCy has been installed or updated, b
 The package keras_ (version >= 2.0.0) uses either Tensorflow_, Theano_, or CNTK_ as the backend, while Theano is usually
 the default. However, it is highly recommended to use Tensorflow as the backend.
 Users are advised to install the backend `Tensorflow` (preferred) or `Theano` in advance. Refer to
-:doc:`faq` for how to switch the backend.
+:doc:`faq` for how to switch the backend. It is also desirable if the package Cython_ has been previously installed.
 
 .. _Github: https://github.com/stephenhky/PyShortTextCategorization
 
@@ -53,6 +53,7 @@ Required Packages
 
 Home: :doc:`index`
 
+.. _Cython: http://cython.org/
 .. _Numpy: http://www.numpy.org/
 .. _SciPy: https://www.scipy.org/
 .. _Scikit-Learn: http://scikit-learn.org/stable/

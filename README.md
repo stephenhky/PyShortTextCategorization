@@ -1,12 +1,35 @@
-# Short Text Categorization in Python
+# Short Text Mining in Python
 
 [![Build Status](https://travis-ci.org/stephenhky/PyShortTextCategorization.svg?branch=master)](https://travis-ci.org/stephenhky/PyShortTextCategorization)
 
 [![Documentation Status](//readthedocs.org/projects/shorttext/badge/?version=latest)](https://shorttext.readthedocs.io/en/latest/?badge=latest)
 
-Package `shorttext` runs in Python 2.7, 3.5, and 3.6.
+## Introduction
 
-This repository is a collection of algorithms for multi-class classification to short texts using Python. Modules are backward compatible unless otherwise specified. Feel free to give suggestions.
+This package `shorttext` is a Python package that facilitates supervised and unsupervised
+learning for short text categorization. Due to the sparseness of words and
+the lack of information carried in the short texts themselves, an intermediate
+representation of the texts and documents are needed before they are put into
+any classification algorithm. In this package, it facilitates various types
+of these representations, including topic modeling and word-embedding algorithms.
+
+Since release 1.0.0, `shorttext` runs on Python 2.7, 3.5, and 3.6.
+
+Characteristics:
+
+- example data provided (including subject keywords and NIH RePORT);
+- text preprocessing;
+- pre-trained word-embedding support;
+- `gensim` topic models (LDA, LSI, Random Projections) and autoencoder;
+- topic model representation supported for supervised learning using `scikit-learn`;
+- cosine distance classification;
+- neural network classification (including ConvNet, and C-LSTM);
+- maximum entropy classification;
+- metrics of phrases differences, including soft Jaccard score (using Damerau-Levenshtein distance), and Word Mover's distance (WMD);
+- character-level sequence-to-sequence (seq2seq) learning; and
+- spell correction.
+
+## Installation
 
 To install it, in a console, use `pip`.
 
@@ -20,7 +43,7 @@ or, if you want the most updated code that is not released on PyPI yet, type
 >>> pip install -U git+https://github.com/stephenhky/PyShortTextCategorization@master
 ```
 
-Developers are advised to make sure `Keras` >=2 be installed. Users are advised to install the backend `Tensorflow` (preferred) or `Theano` in advance.
+Developers are advised to make sure `Keras` >=2 be installed. Users are advised to install the backend `Tensorflow` (preferred) or `Theano` in advance. It is desirable if `Cython` has been previously installed too.
 
 Before using, check the language model of spaCy has been installed or updated, by running:
 
@@ -30,13 +53,13 @@ Before using, check the language model of spaCy has been installed or updated, b
 
 See [tutorial](http://shorttext.readthedocs.io/en/latest/tutorial.html) for how to use the package.
 
-# Issues
+## Issues
 
 To report any issues, go to the [Issues](https://github.com/stephenhky/PyShortTextCategorization/issues) tab of the Github page and start a thread.
 It is welcome for developers to submit pull requests on their own
 to fix any errors.
 
-# Useful Links
+## Useful Links
 
 * Documentation: [http://shorttext.readthedocs.io](http://shorttext.readthedocs.io/)
 * Github: [https://github.com/stephenhky/PyShortTextCategorization](https://github.com/stephenhky/PyShortTextCategorization)

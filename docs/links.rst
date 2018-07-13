@@ -11,6 +11,13 @@ Project Codes and Package
 
 .. _PyPI: https://pypi.org/project/shorttext/
 
+Issues
+------
+
+To report bugs and issues, please go to Issues_.
+
+.. _Issues: https://github.com/stephenhky/PyShortTextCategorization/issues
+
 Gensim Incubator
 ----------------
 
