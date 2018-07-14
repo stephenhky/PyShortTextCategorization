@@ -59,6 +59,11 @@ To report any issues, go to the [Issues](https://github.com/stephenhky/PyShortTe
 It is welcome for developers to submit pull requests on their own
 to fix any errors.
 
+## Contributors
+
+If you would like to contribute, feel free to submit the pull requests. You can talk to me in advance through e-mails or the
+[Issues](https://github.com/stephenhky/PyShortTextCategorization/issues) page.
+
 ## Useful Links
 
 * Documentation: [http://shorttext.readthedocs.io](http://shorttext.readthedocs.io/)
@@ -69,8 +74,9 @@ to fix any errors.
 * "Document-Term Matrix: Text Mining in R and Python," [WordPress](https://datawarrior.wordpress.com/2018/01/22/document-term-matrix-text-mining-in-r-and-python/)
 * An [earlier version](https://github.com/stephenhky/PyShortTextCategorization/tree/b298d3ce7d06a9b4e0f7d32f27bab66064ba7afa) of this repository is a demonstration of the following blog post: [Short Text Categorization using Deep Neural Networks and Word-Embedding Models](https://datawarrior.wordpress.com/2016/10/12/short-text-categorization-using-deep-neural-networks-and-word-embedding-models/)
 
-# News
+## News
 
+* 07/14/2018: `shorttext` 1.0.0 released.
 * 06/18/2018: `shorttext` 0.7.2 released.
 * 05/30/2018: `shorttext` 0.7.1 released.
 * 05/17/2018: `shorttext` 0.7.0 released.
@@ -101,10 +107,7 @@ to fix any errors.
 * 11/25/2016: `shorttext` 0.1.2 released.
 * 11/21/2016: `shorttext` 0.1.1 released.
 
-# Possible Future Updates
+## Possible Future Updates
 
 - [ ] Jupyter notebooks as tutorials;
-- [x] Python 3 compatibility;
-- [x] Using Snowball Stemmer;
-- [ ] More explicit dependence on `TensorFlow`;
 - [ ] More available corpus.
