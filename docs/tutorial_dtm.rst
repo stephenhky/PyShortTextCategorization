@@ -101,6 +101,6 @@ Christopher Manning, Hinrich Schuetze, *Foundations of Statistical Natural Langu
 <https://mitpress.mit.edu/books/foundations-statistical-natural-language-processing>`_]
 
 "Document-Term Matrix: Text Mining in R and Python," *Everything About Data Analytics*, WordPress (2018). [`WordPress
-https://datawarrior.wordpress.com/2018/01/22/document-term-matrix-text-mining-in-r-and-python/`_]
+<https://datawarrior.wordpress.com/2018/01/22/document-term-matrix-text-mining-in-r-and-python/>`_]
 
 Home: :doc:`index`
