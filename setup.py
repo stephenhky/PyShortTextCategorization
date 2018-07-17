@@ -9,25 +9,26 @@ try:
 except ImportError:
     ext_modules = [Extension('_dldist', 'shorttext/metrics/dynprog/dldist.c'),
                    Extension('_lcp', 'shorttext/metrics/dynprog/lcp.c'),
-                   Extension('_edits1_comb', 'shorttext/spell/edits_comb.c')]
+                   Extension('_edits1_comb', 'shorttext/spell/edits1_comb.c')]
 
 def readme():
     with open('README.md') as f:
         return f.read()
 
 setup(name='shorttext',
-      version="1.0.0",
+      version="1.0.1",
       description="Short Text Mining",
       long_description="Short text mining algorithms, involving word-embedding models, topic models, edit distances, Word Mover's distance, deep learning etc.",
       classifiers=[
           "Topic :: Scientific/Engineering :: Artificial Intelligence",
-          "Natural Language :: English",
           "Topic :: Scientific/Engineering :: Mathematics",
           "Programming Language :: Python :: 2.7",
           "Programming Language :: Python :: 3.5",
           "Programming Language :: Python :: 3.6",
           "Programming Language :: Cython",
           "Programming Language :: C",
+          "Natural Language :: English",
+          "Topic :: Text Processing",
           "License :: OSI Approved :: MIT License",
       ],
       keywords="shorttext natural language processing text mining",

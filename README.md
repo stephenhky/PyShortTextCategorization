@@ -2,8 +2,6 @@
 
 [![Build Status](https://travis-ci.org/stephenhky/PyShortTextCategorization.svg?branch=master)](https://travis-ci.org/stephenhky/PyShortTextCategorization)
 
-[![Documentation Status](//readthedocs.org/projects/shorttext/badge/?version=latest)](https://shorttext.readthedocs.io/en/latest/?badge=latest)
-
 ## Introduction
 
 This package `shorttext` is a Python package that facilitates supervised and unsupervised
@@ -69,13 +67,14 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 * Documentation: [http://shorttext.readthedocs.io](http://shorttext.readthedocs.io/)
 * Github: [https://github.com/stephenhky/PyShortTextCategorization](https://github.com/stephenhky/PyShortTextCategorization)
 * PyPI: [https://pypi.org/project/shorttext/](https://pypi.org/project/shorttext/)
-* "Short Text Mining using Advanced Keras Layers and Maxent: shorttext 0.4.1," [WordPress](https://datawarrior.wordpress.com/2017/07/30/short-text-mining-using-advanced-keras-layers-and-maxent-shorttext-0-4-1/)
+* "Package shorttext 1.0.0 released," [Medium](https://medium.com/@stephenhky/package-shorttext-1-0-0-released-ca3cb24d0ff3)
 * "Python Package for Short Text Mining", [WordPress](https://datawarrior.wordpress.com/2016/12/22/python-package-for-short-text-mining/)
 * "Document-Term Matrix: Text Mining in R and Python," [WordPress](https://datawarrior.wordpress.com/2018/01/22/document-term-matrix-text-mining-in-r-and-python/)
 * An [earlier version](https://github.com/stephenhky/PyShortTextCategorization/tree/b298d3ce7d06a9b4e0f7d32f27bab66064ba7afa) of this repository is a demonstration of the following blog post: [Short Text Categorization using Deep Neural Networks and Word-Embedding Models](https://datawarrior.wordpress.com/2016/10/12/short-text-categorization-using-deep-neural-networks-and-word-embedding-models/)
 
 ## News
 
+* 07/17/2018: `shorttext` 1.0.1 released.
 * 07/14/2018: `shorttext` 1.0.0 released.
 * 06/18/2018: `shorttext` 0.7.2 released.
 * 05/30/2018: `shorttext` 0.7.1 released.
@@ -110,4 +109,5 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 ## Possible Future Updates
 
 - [ ] Jupyter notebooks as tutorials;
+- [ ] Compatibility with Python 3.7;
 - [ ] More available corpus.

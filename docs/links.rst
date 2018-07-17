@@ -66,6 +66,9 @@ Blog Entries
 <https://datawarrior.wordpress.com/2017/09/08/release-of-shorttext-0-5-4/>`_]
 
 "Document-Term Matrix: Text Mining in R and Python," *Everything About Data Analytics*, WordPress (2018). [`WordPress
-https://datawarrior.wordpress.com/2018/01/22/document-term-matrix-text-mining-in-r-and-python/`_]
+<https://datawarrior.wordpress.com/2018/01/22/document-term-matrix-text-mining-in-r-and-python/>`_]
+
+"Package shorttext 1.0.0 Released," Medium (2018). [`Medium
+<https://medium.com/@stephenhky/package-shorttext-1-0-0-released-ca3cb24d0ff3>`_]
 
 Home: :doc:`index`
