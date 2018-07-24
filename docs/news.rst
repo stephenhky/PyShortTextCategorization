@@ -1,6 +1,7 @@
 News
 ====
 
+* 07/24/2018: `shorttext` 1.0.2 released.
 * 07/17/2018: `shorttext` 1.0.1 released.
 * 07/14/2018: `shorttext` 1.0.0 released.
 * 06/18/2018: `shorttext` 0.7.2 released.
@@ -36,6 +37,11 @@ News
 
 What's New
 ----------
+
+Release 1.0.2 (July 24, 2018)
+-----------------------------
+
+* Minor bugs regarding installation fixed.
 
 Release 1.0.1 (July 14, 2018)
 -----------------------------

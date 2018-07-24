@@ -16,20 +16,25 @@ def readme():
         return f.read()
 
 setup(name='shorttext',
-      version="1.0.2a0",
+      version="1.0.2",
       description="Short Text Mining",
       long_description="Short text mining algorithms, involving word-embedding models, topic models, edit distances, Word Mover's distance, deep learning etc.",
       classifiers=[
           "Topic :: Scientific/Engineering :: Artificial Intelligence",
           "Topic :: Scientific/Engineering :: Mathematics",
+          "Topic :: Text Processing :: Linguistic",
+          "Topic :: Software Development :: Libraries :: Python Modules",
           "Programming Language :: Python :: 2.7",
           "Programming Language :: Python :: 3.5",
           "Programming Language :: Python :: 3.6",
           "Programming Language :: Cython",
           "Programming Language :: C",
           "Natural Language :: English",
-          "Topic :: Text Processing",
           "License :: OSI Approved :: MIT License",
+          "Intended Audience :: Developers",
+          "Intended Audience :: Education",
+          "Intended Audience :: Information Technology",
+          "Intended Audience :: Science/Research"
       ],
       keywords="shorttext natural language processing text mining",
       url="https://github.com/stephenhky/PyShortTextCategorization",
