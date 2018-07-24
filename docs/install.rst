@@ -20,14 +20,21 @@ the most updated (not official) version, you can install from Github_:
 
 ::
 
-    pip install -U git+https://github.com/stephenhky/PyShortTextCategorization
+    pip install -U git+https://github.com/stephenhky/PyShortTextCategorization@master
 
 By adding ``-U`` in the command, it automatically installs the required packages. If not,
 you have to install these packages on your own.
 
-The package keras_ uses either Tensorflow_, Theano_, or CNTK_ as the backend, while Theano is usually
-the default. However, it is highly recommended to use Tensorflow as the backend. Refer to
-:doc:`faq` for how to switch the backend.
+Before using, check the language model of spaCy has been installed or updated, by running:
+
+::
+
+    spacy download en
+
+The package keras_ (version >= 2.0.0) uses either Tensorflow_, Theano_, or CNTK_ as the backend, while Theano is usually
+the default. However, it is highly recommended to use Tensorflow as the backend.
+Users are advised to install the backend `Tensorflow` (preferred) or `Theano` in advance. Refer to
+:doc:`faq` for how to switch the backend. It is also desirable if the package Cython_ has been previously installed.
 
 .. _Github: https://github.com/stephenhky/PyShortTextCategorization
 
@@ -46,6 +53,7 @@ Required Packages
 
 Home: :doc:`index`
 
+.. _Cython: http://cython.org/
 .. _Numpy: http://www.numpy.org/
 .. _SciPy: https://www.scipy.org/
 .. _Scikit-Learn: http://scikit-learn.org/stable/

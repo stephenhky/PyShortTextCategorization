@@ -1,6 +1,8 @@
 News
 ====
 
+* 07/17/2018: `shorttext` 1.0.1 released.
+* 07/14/2018: `shorttext` 1.0.0 released.
 * 06/18/2018: `shorttext` 0.7.2 released.
 * 05/30/2018: `shorttext` 0.7.1 released.
 * 05/17/2018: `shorttext` 0.7.0 released.
@@ -35,8 +37,13 @@ News
 What's New
 ----------
 
-Release 1.0.0 (xxxxx)
----------------------
+Release 1.0.1 (July 14, 2018)
+-----------------------------
+
+* Minor bugs fixed.
+
+Release 1.0.0 (July 14, 2018)
+-----------------------------
 
 * Python-3 compatibility;
 * Replacing the original stemmer to use Snowball;
@@ -44,19 +51,19 @@ Release 1.0.0 (xxxxx)
 * Various bugs fixed.
 
 Release 0.7.2 (June 18, 2018)
----------------------------------
+-----------------------------
 
 * Damerau-Levenshtein distance and longest common prefix implemented using Cython.
 
 Release 0.7.1 (May 30, 2018)
----------------------------------
+----------------------------
 
 * Decorator replaced by base class `CompactIOMachine`;
 * API included in documentation.
 
 
 Release 0.7.0 (May 17, 2018)
----------------------------------
+----------------------------
 
 * Spelling corrections and fuzzy logic;
 * More unit tests.
@@ -87,7 +94,7 @@ Release 0.5.9 (December 14, 2017)
 * Script `ShortTextWord2VecSimilarity` updated to `ShortTextWordEmbedSimilarity`.
 
 Release 0.5.8 (November 8, 2017)
----------------------------------
+--------------------------------
 
 * Removed most explicit user-specification of `vecsize` for given word-embedding models;
 * Removed old namespace for topic models (no more backward compatibility).
@@ -95,13 +102,13 @@ Release 0.5.8 (November 8, 2017)
 
 
 Release 0.5.7 (October 27, 2017)
----------------------------------
+--------------------------------
 
 * Removed most explicit user-specification of `vecsize` for given word-embedding models;
 * Removed old namespace for topic models (hence no more backward compatibility).
 
 Release 0.5.6 (October 17, 2017)
----------------------------------
+--------------------------------
 
 * Updated the neural network framework due to the change in `gensim` API.
 
@@ -165,7 +172,7 @@ Release 0.3.6 (June 2, 2017)
 * Added "update" corpus capability to `gensim` models.
 
 Google Summer of Code (May 30, 2017)
------------------------------------------
+------------------------------------
 
 Chinamaya Pancholi, a Google Summer of Code (GSoC) student, is involved in
 the open-source development of `gensim`, that his project will be very related

@@ -14,8 +14,8 @@ Ans: Yes. Besides Word2Vec, you can use FastText and Poincaré embedding. See: :
 
 **Q3. Can this package work on Python 3?**
 
-Ans: This package is written in Python 2.7. It is not guaranteed that the package works perfectly
-well in Python 3.
+Ans: Since release 1.0.0, this package can be run in Python 2.7, 3.5, and 3.6. (Before that, it operates only under Python 2.7.)
+
 
 
 **Q4. This package requires SpaCy, which involves loading several models that
