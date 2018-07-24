@@ -7,16 +7,16 @@ try:
                              'shorttext/metrics/dynprog/lcp.pyx',
                              'shorttext/spell/edits1_comb.pyx'])
 except ImportError:
-    ext_modules = [Extension('_dldist', 'shorttext/metrics/dynprog/dldist.c'),
-                   Extension('_lcp', 'shorttext/metrics/dynprog/lcp.c'),
-                   Extension('_edits1_comb', 'shorttext/spell/edits1_comb.c')]
+    ext_modules = [Extension('shorttext.metrics.dynprog.dldist', ['shorttext/metrics/dynprog/dldist.c']),
+                   Extension('shorttext.metrics.dynprog.lcp', ['shorttext/metrics/dynprog/lcp.c']),
+                   Extension('shorttext.spell.edits1_comb', ['shorttext/spell/edits1_comb.c'])]
 
 def readme():
     with open('README.md') as f:
         return f.read()
 
 setup(name='shorttext',
-      version="1.0.1",
+      version="1.0.2a0",
       description="Short Text Mining",
       long_description="Short text mining algorithms, involving word-embedding models, topic models, edit distances, Word Mover's distance, deep learning etc.",
       classifiers=[
