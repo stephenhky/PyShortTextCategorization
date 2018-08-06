@@ -88,5 +88,5 @@ class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
                           'theology': 0.9965552994894663})
 
 
-if __name__ == '__main__':
-    unittest.main()
+# if __name__ == '__main__':
+#     unittest.main()
