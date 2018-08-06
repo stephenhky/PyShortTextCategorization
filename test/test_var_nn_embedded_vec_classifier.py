@@ -10,19 +10,19 @@ import shorttext
 
 class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
     def setUp(self):
+        print("Downloading word-embedding model....")
+        link = "https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/test_w2v_model.bin?raw=true"
+        filename = "test_w2v_model.bin"
         if not os.path.isfile("test_w2v_model.bin"):
             if sys.version_info[0]==2:
-                urllib.urlretrieve(
-                    "https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/test_w2v_model.bin?raw=true",
-                    "test_w2v_model.bin")
+                urllib.urlretrieve(link, filename)
             else:
-                urllib.request.urlretrieve(
-                    "https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/test_w2v_model.bin?raw=true",
-                    "test_w2v_model.bin")
-        self.w2v_model = shorttext.utils.load_word2vec_model("test_w2v_model.bin", binary=True)  # load word2vec model
+                urllib.request.urlretrieve(link, filename)
+        self.w2v_model = shorttext.utils.load_word2vec_model(filename, binary=True)  # load word2vec model
         self.trainclass_dict = shorttext.data.subjectkeywords()  # load training data
 
     def tearDown(self):
+        print("Removing word-embedding model")
         if os.path.isfile("test_w2v_model.bin"):
             os.remove('test_w2v_model.bin')
 
@@ -34,45 +34,58 @@ class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
             self.assertAlmostEqual(dict1[classlabel], dict2[classlabel], places=4)
 
     def testCNNWordEmbedWithoutGensim(self):
+        print("Testing CNN...")
         # create keras model using `CNNWordEmbed` class
+        print("\tKeras model")
         keras_model = shorttext.classifiers.frameworks.CNNWordEmbed(wvmodel=self.w2v_model,
                                                                     nb_labels=len(self.trainclass_dict.keys()))
 
         # create and train classifier using keras model constructed above
+        print("\tTraining")
         main_classifier = shorttext.classifiers.VarNNEmbeddedVecClassifier(self.w2v_model)
         main_classifier.train(self.trainclass_dict, keras_model, nb_epoch=2)
 
         # compute classification score
+        print("\tTesting")
         score_vals = main_classifier.score('artificial intelligence')
         self.assertAlmostEqual(score_vals['mathematics'] + score_vals['physics'] + score_vals['theology'], 1.0, 1)
 
     def testDoubleCNNWordEmbedWithoutGensim(self):
+        print("Testing DoubleCNN...")
         # create keras model using `DoubleCNNWordEmbed` class
+        print("\tKeras model")
         keras_model = shorttext.classifiers.frameworks.DoubleCNNWordEmbed(wvmodel=self.w2v_model,
                                                                           nb_labels=len(self.trainclass_dict.keys()))
 
         # create and train classifier using keras model constructed above
+        print("\tTraining")
         main_classifier = shorttext.classifiers.VarNNEmbeddedVecClassifier(self.w2v_model)
         main_classifier.train(self.trainclass_dict, keras_model, nb_epoch=2)
 
         # compute classification score
+        print("\tTesting")
         score_vals = main_classifier.score('artificial intelligence')
         self.assertAlmostEqual(score_vals['mathematics'] + score_vals['physics'] + score_vals['theology'], 1.0, 1)
 
     def testCLSTMWordEmbedWithoutGensim(self):
+        print("Testing CLSTM...")
         # create keras model using `CLSTMWordEmbed` class
+        print("\tKeras model")
         keras_model = shorttext.classifiers.frameworks.CLSTMWordEmbed(wvmodel=self.w2v_model,
                                                                       nb_labels=len(self.trainclass_dict.keys()))
 
         # create and train classifier using keras model constructed above
+        print("\tTraining")
         main_classifier = shorttext.classifiers.VarNNEmbeddedVecClassifier(self.w2v_model)
         main_classifier.train(self.trainclass_dict, keras_model, nb_epoch=2)
 
         # compute classification score
+        print("\tTesting")
         score_vals = main_classifier.score('artificial intelligence')
         self.assertAlmostEqual(score_vals['mathematics'] + score_vals['physics'] + score_vals['theology'], 1.0, 1)
 
     def testSumEmbed(self):
+        print("Testing SumEmbed")
         classifier = shorttext.classifiers.SumEmbeddedVecClassifier(self.w2v_model)
         classdict = shorttext.data.subjectkeywords()
         classifier.train(classdict)
@@ -88,5 +101,5 @@ class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
                           'theology': 0.9965552994894663})
 
 
-# if __name__ == '__main__':
-#     unittest.main()
+if __name__ == '__main__':
+    unittest.main()
