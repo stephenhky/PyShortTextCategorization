@@ -23,7 +23,7 @@ install:
   - pip install -U numpy
   - pip install -U scipy
   - pip install google-compute-engine
-  - conda install --yes tensorflow
+  - pip install -U tensorflow
   - pip install -U .
   - spacy download en
 script:
