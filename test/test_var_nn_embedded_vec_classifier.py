@@ -26,6 +26,13 @@ class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
         if os.path.isfile("test_w2v_model.bin"):
             os.remove('test_w2v_model.bin')
 
+    def comparedict(self, dict1, dict2):
+        self.assertTrue(len(dict1)==len(dict2))
+        print(dict1, dict2)
+        for classlabel in dict1:
+            self.assertTrue(classlabel in dict2)
+            self.assertAlmostEqual(dict1[classlabel], dict2[classlabel], places=4)
+
     def testCNNWordEmbedWithoutGensim(self):
         # create keras model using `CNNWordEmbed` class
         keras_model = shorttext.classifiers.frameworks.CNNWordEmbed(wvmodel=self.w2v_model,
@@ -70,6 +77,21 @@ class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
         # compute classification score
         score_vals = main_classifier.score('artificial intelligence')
         self.assertAlmostEqual(score_vals['mathematics'] + score_vals['physics'] + score_vals['theology'], 1.0, 1)
+
+    def testSumEmbed(self):
+        classifier = shorttext.classifiers.SumEmbeddedVecClassifier(wvmodel=self.w2v_model)
+        classdict = shorttext.data.subjectkeywords()
+        classifier.train(classdict)
+
+        # compute
+        self.comparedict(classifier.score('linear algebra'),
+                         {'mathematics': 0.9986082046096036,
+                          'physics': 0.9976047404871671,
+                          'theology': 0.9923434326310248})
+        self.comparedict(classifier.score('learning'),
+                         {'mathematics': 0.998968177605999,
+                          'physics': 0.9995439648885027,
+                          'theology': 0.9965552994894663})
 
 
 if __name__ == '__main__':
