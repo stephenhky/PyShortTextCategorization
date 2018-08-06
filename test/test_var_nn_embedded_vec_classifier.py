@@ -84,7 +84,7 @@ class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
         score_vals = main_classifier.score('artificial intelligence')
         self.assertAlmostEqual(score_vals['mathematics'] + score_vals['physics'] + score_vals['theology'], 1.0, 1)
 
-    def testSumEmbed(self):
+    def testAASumEmbed(self):
         print("Testing SumEmbed")
         classifier = shorttext.classifiers.SumEmbeddedVecClassifier(self.w2v_model)
         classdict = shorttext.data.subjectkeywords()
