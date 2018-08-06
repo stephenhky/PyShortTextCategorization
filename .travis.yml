@@ -17,7 +17,7 @@ before_install:
   - sudo apt-get install libc6
   - conda install --yes libgcc
 install:
-  - conda create --yes -n shorttext-test python=$TRAVIS_PYTHON_VERSION pip numpy scipy
+  - conda create --yes -n shorttext-test python=$TRAVIS_PYTHON_VERSION
   - source activate shorttext-test
   - pip install Cython
   - pip install -U numpy
