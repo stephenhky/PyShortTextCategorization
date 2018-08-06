@@ -32,7 +32,7 @@ class SumEmbeddedVecClassifier(CompactIOMachine):
         :type vecsize: int
         :type simfcn: function
         """
-        CompactIOMachine(self, {'classifier': 'sumvec'}, 'sumvec', ['_embedvecdict.pkl'])
+        CompactIOMachine.__init__(self, {'classifier': 'sumvec'}, 'sumvec', ['_embedvecdict.pkl'])
         self.wvmodel = wvmodel
         self.vecsize = self.wvmodel.vector_size if vecsize == None else vecsize
         self.simfcn = simfcn
