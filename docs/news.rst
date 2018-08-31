@@ -1,6 +1,7 @@
 News
 ====
 
+* 08/06/2018: `shorttext` 1.0.3 released.
 * 07/24/2018: `shorttext` 1.0.2 released.
 * 07/17/2018: `shorttext` 1.0.1 released.
 * 07/14/2018: `shorttext` 1.0.0 released.
@@ -37,6 +38,11 @@ News
 
 What's New
 ----------
+
+Release 1.0.3 (August 6, 2018)
+------------------------------
+
+* Bugs regarding I/O of `SumEmbeddedVecClassifier`.
 
 Release 1.0.2 (July 24, 2018)
 -----------------------------

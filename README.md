@@ -1,6 +1,6 @@
 # Short Text Mining in Python
 
-[![Build Status](https://travis-ci.org/stephenhky/PyShortTextCategorization.svg?branch=py3test)](https://travis-ci.org/stephenhky/PyShortTextCategorization)
+[![Build Status](https://travis-ci.org/stephenhky/PyShortTextCategorization.svg?branch=master)](https://travis-ci.org/stephenhky/PyShortTextCategorization)
 
 ## Introduction
 
@@ -74,6 +74,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 08/06/2018: `shorttext` 1.0.3 released.
 * 07/24/2018: `shorttext` 1.0.2 released.
 * 07/17/2018: `shorttext` 1.0.1 released.
 * 07/14/2018: `shorttext` 1.0.0 released.
@@ -109,6 +110,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
+- [ ] More scalability;
 - [ ] Jupyter notebooks as tutorials;
 - [ ] Compatibility with Python 3.7;
 - [ ] More available corpus.
