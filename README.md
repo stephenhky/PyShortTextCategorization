@@ -111,6 +111,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 ## Possible Future Updates
 
 - [ ] More scalability;
+- [ ] Less dependence on `pandas`;
 - [ ] Jupyter notebooks as tutorials;
 - [ ] Compatibility with Python 3.7;
 - [ ] More available corpus.
