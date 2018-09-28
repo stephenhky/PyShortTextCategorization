@@ -33,36 +33,6 @@ With the corpus ready in this form, we can create a `DocumentTermMatrix` class f
 
 >>> usprez_dtm = shorttext.utils.DocumentTermMatrix(corpus, docids=docids)
 
-With the DTM class set up, you can view the matrix in terms of a Pandas DataFrame:
-
->>> tbl = usprez_dtm.generate_dtm_dataframe()
->>> tbl
-
-::
-
-                           accomplish  accordingli  acknowledg  acquit  act  \
-    1789-Washington  12.0         1.0          1.0         1.0     1.0  1.0
-    1793-Washington   3.0         0.0          0.0         0.0     0.0  1.0
-    1797-Adams       15.0         0.0          0.0         1.0     0.0  0.0
-    1801-Jefferson   24.0         0.0          0.0         1.0     0.0  0.0
-    1805-Jefferson    3.0         0.0          0.0         1.0     0.0  4.0
-
-                     actual  actuat  add  addit   ...     starv  sweatshop  swill  \
-    1789-Washington     1.0     1.0  1.0    1.0   ...       0.0        0.0    0.0
-    1793-Washington     0.0     0.0  0.0    0.0   ...       0.0        0.0    0.0
-    1797-Adams          0.0     0.0  2.0    0.0   ...       0.0        0.0    0.0
-    1801-Jefferson      0.0     0.0  0.0    0.0   ...       0.0        0.0    0.0
-    1805-Jefferson      0.0     0.0  2.0    0.0   ...       0.0        0.0    0.0
-
-                     taker  tank  tast  tirelessli  unclench  whip  whisper
-    1789-Washington    0.0   0.0   0.0         0.0       0.0   0.0      0.0
-    1793-Washington    0.0   0.0   0.0         0.0       0.0   0.0      0.0
-    1797-Adams         0.0   0.0   0.0         0.0       0.0   0.0      0.0
-    1801-Jefferson     0.0   0.0   0.0         0.0       0.0   0.0      0.0
-    1805-Jefferson     0.0   0.0   0.0         0.0       0.0   0.0      0.0
-
-    [5 rows x 5404 columns]
-
 One can get the document frequency of any token (the number of documents that the given
 token is in) by:
 
