@@ -71,7 +71,7 @@ setup(name='shorttext',
       install_requires=[
           'Cython', 'numpy>=1.11.3', 'scipy>=0.18.1',
           'keras_applications==1.0.4', 'keras_preprocessing==1.0.2',
-          'scikit-learn', 'keras>=2.2.2', 'gensim>=3.2.0',
+          'scikit-learn', 'keras==2.2.2', 'gensim>=3.2.0',
           'pandas', 'spacy>=1.7.0', 'pulp', 'PyStemmer',
 
       ],
