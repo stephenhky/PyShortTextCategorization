@@ -76,7 +76,7 @@ setup(name='shorttext',
 
       ],
       tests_require=[
-          'unittest2', 'keras>=2.2.2', 'gensim>=3.2.0', 'tensorflow',
+          'unittest2', 'keras==2.2.2', 'gensim>=3.2.0', 'tensorflow',
       ],
       scripts=['bin/ShortTextCategorizerConsole',
                'bin/ShortTextWordEmbedSimilarity',
