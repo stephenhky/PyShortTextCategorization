@@ -16,7 +16,7 @@ def readme():
         return f.read()
 
 setup(name='shorttext',
-      version="1.0.4a01",
+      version="1.0.4a02",
       description="Short Text Mining",
       long_description="Short text mining algorithms, involving word-embedding models, topic models, edit distances, Word Mover's distance, deep learning etc.",
       classifiers=[
