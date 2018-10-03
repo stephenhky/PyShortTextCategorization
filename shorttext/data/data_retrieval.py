@@ -5,6 +5,7 @@ import json
 import os
 import zipfile
 import sys
+import csv
 if sys.version_info[0]==2:
     from urllib import urlretrieve
 else:
@@ -28,12 +29,23 @@ def retrieve_csvdata_as_dict(filepath):
     :type filepath: str
     :rtype: dict
     """
-    df = pd.read_csv(filepath)
-    category_col, descp_col = df.columns.values.tolist()
-    shorttextdict = defaultdict(lambda : [])
-    for category, descp in zip(df[category_col], df[descp_col]):
-        if type(descp)==str:
-            shorttextdict[category] += [descp]
+    datafile = open(filepath, 'r')
+    reader = csv.reader(datafile)
+    headerread = False
+    shorttextdict = defaultdict(lambda: [])
+    for label, content in reader:
+        if headerread:
+            if type(content) == str:
+                shorttextdict[label] += [content]
+        else:
+            category_col, descp_col = label, content
+            headerread = True
+    # df = pd.read_csv(filepath)
+    # category_col, descp_col = df.columns.values.tolist()
+    # shorttextdict = defaultdict(lambda : [])
+    # for category, descp in zip(df[category_col], df[descp_col]):
+    #     if type(descp)==str:
+    #         shorttextdict[category] += [descp]
     return dict(shorttextdict)
 
 

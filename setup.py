@@ -16,7 +16,7 @@ def readme():
         return f.read()
 
 setup(name='shorttext',
-      version="1.0.3",
+      version="1.0.4a01",
       description="Short Text Mining",
       long_description="Short text mining algorithms, involving word-embedding models, topic models, edit distances, Word Mover's distance, deep learning etc.",
       classifiers=[
@@ -69,11 +69,13 @@ setup(name='shorttext',
       include_dirs=[np.get_include()],
       setup_requires=['numpy>=1.11.3', 'scipy>=0.18.1'],
       install_requires=[
-          'Cython', 'numpy>=1.11.3', 'scipy>=0.18.1', 'scikit-learn', 'keras>=2.0.0', 'gensim>=3.2.0',
+          'Cython', 'numpy>=1.11.3', 'scipy>=0.18.1',
+          'scikit-learn', 'keras>=2.2.3', 'gensim>=3.2.0',
           'pandas', 'spacy>=1.7.0', 'pulp', 'PyStemmer',
+
       ],
       tests_require=[
-          'unittest2', 'keras>=2.0.0', 'gensim>=3.2.0', 'tensorflow',
+          'unittest2', 'keras>=2.2.3', 'gensim>=3.2.0', 'tensorflow',
       ],
       scripts=['bin/ShortTextCategorizerConsole',
                'bin/ShortTextWordEmbedSimilarity',

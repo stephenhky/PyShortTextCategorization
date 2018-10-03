@@ -11,7 +11,7 @@ import shorttext
 
 class TestSpellCheck(unittest.TestCase):
     def setUp(self):
-        self.text = urlopen('https://norvig.com/big.txt').read()
+        self.text = urlopen('http://norvig.com/big.txt').read()
         if sys.version_info[0]==3:
             self.text = self.text.decode('utf-8')
 

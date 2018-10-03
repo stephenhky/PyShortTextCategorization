@@ -3,11 +3,11 @@ import numpy as np
 from gensim.corpora import Dictionary
 from gensim.models import TfidfModel
 from scipy.sparse import dok_matrix
-import pandas as pd
 
 import pickle
 
 from .compactmodel_io import CompactIOMachine
+from .classification_exceptions import NotImplementedException
 
 
 dtm_suffices = ['_docids.pkl', '_dictionary.dict', '_dtm.pkl']
@@ -149,15 +149,15 @@ class DocumentTermMatrix(CompactIOMachine):
         return {self.dictionary[tokenid]: count for (_, tokenid), count in self.dtm[self.docid_dict[docid], :].items()}
 
     def generate_dtm_dataframe(self):
-        """ Generate the data frame of the document-term matrix.
+        """ Generate the data frame of the document-term matrix. (shorttext <= 1.0.3)
+
+        Now it raises exception.
 
         :return: data frame of the document-term matrix
         :rtype: pandas.DataFrame
+        :raise: NotImplementedException
         """
-        tbl = pd.DataFrame(self.dtm.toarray())
-        tbl.index = self.docids
-        tbl.columns = [self.dictionary[i] for i in range(len(self.dictionary))]
-        return tbl
+        raise NotImplementedException()
 
     def savemodel(self, prefix):
         """ Save the model.
