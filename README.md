@@ -74,6 +74,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 10/03/2018: `shorttext` 1.0.4 released.
 * 08/06/2018: `shorttext` 1.0.3 released.
 * 07/24/2018: `shorttext` 1.0.2 released.
 * 07/17/2018: `shorttext` 1.0.1 released.
@@ -111,7 +112,9 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 ## Possible Future Updates
 
 - [ ] More scalability;
-- [ ] Less dependence on `pandas`;
+- [x] Less dependence on `pandas`;
+- [x] Update package requirements;
+- [ ] Dividing components to other packages;
 - [ ] Jupyter notebooks as tutorials;
 - [ ] Compatibility with Python 3.7;
 - [ ] More available corpus.
