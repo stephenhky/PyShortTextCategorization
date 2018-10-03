@@ -1,6 +1,7 @@
 News
 ====
 
+* 10/03/2018: `shorttext` 1.0.4 released.
 * 08/06/2018: `shorttext` 1.0.3 released.
 * 07/24/2018: `shorttext` 1.0.2 released.
 * 07/17/2018: `shorttext` 1.0.1 released.
@@ -38,6 +39,13 @@ News
 
 What's New
 ----------
+
+Release 1.0.4 (October 3, 2018)
+------------------------------
+
+* Package `keras` requirement updated;
+* Less dependence on `pandas`.
+
 
 Release 1.0.3 (August 6, 2018)
 ------------------------------
