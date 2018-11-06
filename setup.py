@@ -1,6 +1,7 @@
 from setuptools import setup, Extension
 import numpy as np
 
+
 try:
     from Cython.Build import cythonize
     ext_modules = cythonize(['shorttext/metrics/dynprog/dldist.pyx',
@@ -11,9 +12,11 @@ except ImportError:
                    Extension('shorttext.metrics.dynprog.lcp', ['shorttext/metrics/dynprog/lcp.c']),
                    Extension('shorttext.spell.edits1_comb', ['shorttext/spell/edits1_comb.c'])]
 
+
 def readme():
     with open('README.md') as f:
         return f.read()
+
 
 setup(name='shorttext',
       version="1.0.4",
