@@ -11,6 +11,10 @@ from shorttext.utils import tokenize
 from shorttext.utils.compactmodel_io import CompactIOMachine
 
 
+# TODO: keras in distributed computing
+# reference: https://www.qubole.com/blog/distributed-deep-learning-keras-apache-spark/
+
+
 class VarNNEmbeddedVecClassifier(CompactIOMachine):
     """
     This is a wrapper for various neural network algorithms
