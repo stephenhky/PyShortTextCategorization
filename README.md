@@ -112,6 +112,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 ## Possible Future Updates
 
 - [ ] More scalability;
+- [ ] Including BERT models;
 - [ ] Dividing components to other packages;
 - [ ] Jupyter notebooks as tutorials;
 - [ ] Compatibility with Python 3.7;
