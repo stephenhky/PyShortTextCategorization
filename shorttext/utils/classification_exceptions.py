@@ -1,5 +1,5 @@
 
-from .deprecation import deprecated
+
 
 
 class ModelNotTrainedException(Exception):
@@ -10,12 +10,6 @@ class ModelNotTrainedException(Exception):
 class AlgorithmNotExistException(Exception):
     def __init__(self, algoname):
         self.message = 'Algorithm '+algoname+' not exist.'
-
-
-@deprecated
-class Word2VecModelNotExistException(Exception):
-    def __init__(self, path):
-        self.message = 'Given path of Word2Vec not exist: '+path
 
 
 class WordEmbeddingModelNotExistException(Exception):
