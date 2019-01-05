@@ -9,3 +9,8 @@ from . import metrics
 from . import spell
 
 __version__ = '0.7.2'
+
+
+# to include BERT: refer to:
+#  - https://colab.research.google.com/github/tensorflow/tpu/blob/master/tools/colab/bert_finetuning_with_cloud_tpus.ipynb#scrollTo=1wtjs1QDb3DX
+#  - https://zhuanlan.zhihu.com/p/52639988
