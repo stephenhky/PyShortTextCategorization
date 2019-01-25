@@ -98,4 +98,8 @@ Ans: This functionality is removed since release 0.5.11, due to the following re
 * the results are incorrect.
 
 
+**Q9. I am having trouble in install `shorttext` on Google Cloud Platform. What should I do?
+
+Ans: There is no "Python.h". Run: `sudo apt-get install python3-dev` in SSH shell of the VM instance.
+
 Home: :doc:`index`
