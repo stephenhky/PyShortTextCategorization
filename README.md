@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/stephenhky/PyShortTextCategorization.svg?branch=master)](https://travis-ci.org/stephenhky/PyShortTextCategorization)
 [![GitHub release](https://img.shields.io/github/release/stephenhky/PyShortTextCategorization.svg?maxAge=3600)](https://github.com/stephenhky/PyShortTextCategorization/releases)
-[![Wheel](https://img.shields.io/pypi/wheel/shorttext.svg)](https://pypi.python.org/pypi/shorttext)
+<!--[![Wheel](https://img.shields.io/pypi/wheel/shorttext.svg)](https://pypi.python.org/pypi/shorttext)-->
 
 ## Introduction
 
@@ -114,6 +114,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
+- [x] Moving the testing word2vec model to AWS S3;
 - [ ] More scalability;
 - [ ] Including BERT models;
 - [ ] Dividing components to other packages;
