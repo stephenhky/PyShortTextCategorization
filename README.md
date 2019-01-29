@@ -114,6 +114,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
+- [x] Moving the testing word2vec model to AWS S3;
 - [ ] More scalability;
 - [ ] Including BERT models;
 - [ ] Dividing components to other packages;
