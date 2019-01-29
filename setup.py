@@ -19,9 +19,9 @@ def readme():
 
 
 setup(name='shorttext',
-      version="1.0.5",
+      version="1.0.6a01",
       description="Short Text Mining",
-      long_description="Short text mining algorithms, involving word-embedding models, topic models, edit distances, Word Mover's distance, deep learning etc.",
+      long_description=readme(),
       classifiers=[
           "Topic :: Scientific/Engineering :: Artificial Intelligence",
           "Topic :: Scientific/Engineering :: Mathematics",
