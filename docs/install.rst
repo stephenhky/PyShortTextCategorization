@@ -4,7 +4,8 @@ Installation
 PIP
 ---
 
-Package `shorttext` runs in Python 2.7, 3.5, and 3.6.
+Package `shorttext` runs in Python 2.7, 3.5, 3.6, and 3.7. However, for Python 3.7, the backend
+of keras_ cannot be Tensorflow_.
 
 To install the package in Linux or OS X, enter the following in the console:
 
@@ -15,8 +16,7 @@ To install the package in Linux or OS X, enter the following in the console:
 It is very possible that you have to do it as root, that you have to add ``sudo`` in
 front of the command.
 
-However, the repository on Python Package Index is not always the most updated. To get
-the most updated (not official) version, you can install from Github_:
+On the other hand, to get the development version on Github, you can install from Github_:
 
 ::
 
@@ -29,12 +29,49 @@ Before using, check the language model of spaCy has been installed or updated, b
 
 ::
 
-    spacy download en
+    python -m spacy download en
+
+
+Backend for Keras
+-----------------
 
 The package keras_ (version >= 2.0.0) uses either Tensorflow_, Theano_, or CNTK_ as the backend, while Theano is usually
 the default. However, it is highly recommended to use Tensorflow as the backend.
-Users are advised to install the backend `Tensorflow` (preferred) or `Theano` in advance. Refer to
+Users are advised to install the backend Tensorflow_ (preferred for Python 2.7, 3.5, and 3.6) or
+Theano_ (preferred for Python 3.7) in advance. Refer to
 :doc:`faq` for how to switch the backend. It is also desirable if the package Cython_ has been previously installed.
+
+
+Possible Solutions for Installation Failures
+--------------------------------------------
+
+Most developers can install `shorttext` with the instructions above. If the installation fails,
+you may try one (or more) of the following:
+
+1. Installing Python-dev by typing:
+
+::
+
+    pip install -U python-dev
+
+
+
+for Python 2.7, or
+
+::
+
+    pip install -U python3-dev
+
+
+for Python 3.5, 3.6, and 3.7.
+
+2. Installing `gcc` by entering
+
+::
+
+    apt-get install libc6
+
+
 
 .. _Github: https://github.com/stephenhky/PyShortTextCategorization
 
