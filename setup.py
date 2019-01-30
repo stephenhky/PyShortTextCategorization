@@ -14,7 +14,7 @@ except ImportError:
 
 
 def readme():
-    with open('README.md') as f:
+    with open('intro.md') as f:
         return f.read()
 
 
