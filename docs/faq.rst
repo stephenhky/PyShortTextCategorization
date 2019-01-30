@@ -34,7 +34,7 @@ Then run the following command in your terminal or console:
 
 ::
 
-    spacy download en
+    python -m spacy download en
 
 
 You might need administrator priveledge to do this. This will link a folder `en_core_web_sm` to `en` too.
@@ -97,5 +97,9 @@ Ans: This functionality is removed since release 0.5.11, due to the following re
 * only Word2Vec is supported; and
 * the results are incorrect.
 
+
+**Q9. I am having trouble in install `shorttext` on Google Cloud Platform. What should I do?**
+
+Ans: There is no "Python.h". Run: `sudo apt-get install python3-dev` in SSH shell of the VM instance.
 
 Home: :doc:`index`
