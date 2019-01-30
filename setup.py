@@ -13,15 +13,16 @@ except ImportError:
                    Extension('shorttext.spell.edits1_comb', ['shorttext/spell/edits1_comb.c'])]
 
 
-def readme():
-    with open('intro.md') as f:
-        return f.read()
+def package_description():
+    text = open('README.md', 'r').read()
+    startpos = text.find('## Introduction')
+    return text[startpos:]
 
 
 setup(name='shorttext',
       version="1.0.6",
       description="Short Text Mining",
-      long_description=readme(),
+      long_description=package_description(),
       classifiers=[
           "Topic :: Scientific/Engineering :: Artificial Intelligence",
           "Topic :: Scientific/Engineering :: Mathematics",
