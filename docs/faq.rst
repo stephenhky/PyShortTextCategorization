@@ -34,7 +34,7 @@ Then run the following command in your terminal or console:
 
 ::
 
-    spacy download en
+    python -m spacy download en
 
 
 You might need administrator priveledge to do this. This will link a folder `en_core_web_sm` to `en` too.

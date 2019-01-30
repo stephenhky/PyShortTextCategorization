@@ -54,7 +54,7 @@ Developers are advised to make sure `Keras` >=2 be installed. Users are advised 
 Before using, check the language model of spaCy has been installed or updated, by running:
 
 ```
->>> spacy download en
+>>> python -m spacy download en
 ```
 
 See [tutorial](http://shorttext.readthedocs.io/en/latest/tutorial.html) for how to use the package.
