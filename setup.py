@@ -13,15 +13,16 @@ except ImportError:
                    Extension('shorttext.spell.edits1_comb', ['shorttext/spell/edits1_comb.c'])]
 
 
-def readme():
-    with open('README.md') as f:
-        return f.read()
+def package_description():
+    text = open('README.md', 'r').read()
+    startpos = text.find('## Introduction')
+    return text[startpos:]
 
 
 setup(name='shorttext',
       version="1.0.6",
       description="Short Text Mining",
-      long_description=readme(),
+      long_description=package_description(),
       classifiers=[
           "Topic :: Scientific/Engineering :: Artificial Intelligence",
           "Topic :: Scientific/Engineering :: Mathematics",
@@ -30,6 +31,7 @@ setup(name='shorttext',
           "Programming Language :: Python :: 2.7",
           "Programming Language :: Python :: 3.5",
           "Programming Language :: Python :: 3.6",
+          "Programming Language :: Python :: 3.7",
           "Programming Language :: Cython",
           "Programming Language :: C",
           "Natural Language :: English",
@@ -78,7 +80,7 @@ setup(name='shorttext',
 
       ],
       tests_require=[
-          'unittest2', 'keras>=2.2.3', 'gensim>=3.2.0', 'tensorflow',
+          'unittest2', 'keras>=2.2.3', 'gensim>=3.2.0',
       ],
       scripts=['bin/ShortTextCategorizerConsole',
                'bin/ShortTextWordEmbedSimilarity',
