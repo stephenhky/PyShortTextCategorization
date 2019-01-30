@@ -27,7 +27,6 @@ install:
   - pip install google-compute-engine
   - pip install -U theano
   - pip install -U .
-  - python -c "import keras"
   - switch_kerasbackend theano
   - python -m spacy download en
 script:
