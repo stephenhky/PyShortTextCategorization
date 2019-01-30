@@ -1,6 +1,7 @@
 News
 ====
 
+* 01/29/2019: `shorttext` 1.0.6 released.
 * 01/13/2019: `shorttext` 1.0.5 released.
 * 10/03/2018: `shorttext` 1.0.4 released.
 * 08/06/2018: `shorttext` 1.0.3 released.
@@ -40,6 +41,13 @@ News
 
 What's New
 ----------
+
+Release 1.0.6 (January 29, 2019)
+--------------------------------
+
+* Documentation change;
+* Word-embedding model used in unit test stored in Amazon S3 bucket.
+
 
 Release 1.0.5 (January 13, 2019)
 --------------------------------

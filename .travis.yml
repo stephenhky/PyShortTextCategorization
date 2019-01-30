@@ -20,8 +20,6 @@ before_install:
 install:
   - conda create --yes -n shorttext-test python=$TRAVIS_PYTHON_VERSION
   - source activate shorttext-test
-  - sudo apt-get install python-dev
-  - sudo apt-get install python3-dev
   - pip install Cython
   - pip install -U numpy
   - pip install -U scipy

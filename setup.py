@@ -19,7 +19,7 @@ def readme():
 
 
 setup(name='shorttext',
-      version="1.0.6a01",
+      version="1.0.6",
       description="Short Text Mining",
       long_description=readme(),
       classifiers=[
