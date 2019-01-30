@@ -1,6 +1,8 @@
 # Short Text Mining in Python
 
 [![Build Status](https://travis-ci.org/stephenhky/PyShortTextCategorization.svg?branch=master)](https://travis-ci.org/stephenhky/PyShortTextCategorization)
+[![GitHub release](https://img.shields.io/github/release/stephenhky/PyShortTextCategorization.svg?maxAge=3600)](https://github.com/stephenhky/PyShortTextCategorization/releases)
+<!--[![Wheel](https://img.shields.io/pypi/wheel/shorttext.svg)](https://pypi.python.org/pypi/shorttext)-->
 
 ## Introduction
 
@@ -27,6 +29,12 @@ Characteristics:
 - character-level sequence-to-sequence (seq2seq) learning; and
 - spell correction.
 
+## Documentation
+
+Documentation and tutorials for `shorttext` can be found here: [http://shorttext.rtfd.io/](http://shorttext.rtfd.io/).
+
+[FAQ](https://shorttext.readthedocs.io/en/latest/faq.html).
+
 ## Installation
 
 To install it, in a console, use `pip`.
@@ -46,7 +54,7 @@ Developers are advised to make sure `Keras` >=2 be installed. Users are advised 
 Before using, check the language model of spaCy has been installed or updated, by running:
 
 ```
->>> spacy download en
+>>> python -m spacy download en
 ```
 
 See [tutorial](http://shorttext.readthedocs.io/en/latest/tutorial.html) for how to use the package.
@@ -74,6 +82,8 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 01/29/2019: `shorttext` 1.0.6 released.
+* 01/13/2019: `shorttext` 1.0.5 released.
 * 10/03/2018: `shorttext` 1.0.4 released.
 * 08/06/2018: `shorttext` 1.0.3 released.
 * 07/24/2018: `shorttext` 1.0.2 released.
@@ -114,6 +124,5 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 - [ ] More scalability;
 - [ ] Including BERT models;
 - [ ] Dividing components to other packages;
-- [ ] Jupyter notebooks as tutorials;
 - [ ] Compatibility with Python 3.7;
 - [ ] More available corpus.
