@@ -20,7 +20,11 @@ homedir = os.path.expanduser('~')
 kerasconfigfile = os.path.join(homedir, '.keras/keras.json')
 
 if __name__ == '__main__':
-    kerasconfig = json.load(open(kerasconfigfile, 'r'))
-    kerasconfig['backend'] = args.backend
+    try:
+        kerasconfig = json.load(open(kerasconfigfile, 'r'))
+        kerasconfig['backend'] = args.backend
+    except IOError:  # file not found
+        kerasconfig = {'backend': args.backend, 'epsilon': 1e-07, 'floatx': 'float32'}
+
     json.dump(kerasconfig, open(kerasconfigfile, 'w'))
     print('Keras backend set to '+args.backend)
