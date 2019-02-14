@@ -1,6 +1,6 @@
 # Short Text Mining in Python
 
-[![Build Status](https://travis-ci.org/stephenhky/PyShortTextCategorization.svg?branch=py3test)](https://travis-ci.org/stephenhky/PyShortTextCategorization)
+[![Build Status](https://travis-ci.org/stephenhky/PyShortTextCategorization.svg?branch=master)](https://travis-ci.org/stephenhky/PyShortTextCategorization)
 [![GitHub release](https://img.shields.io/github/release/stephenhky/PyShortTextCategorization.svg?maxAge=3600)](https://github.com/stephenhky/PyShortTextCategorization/releases)
 
 ## Introduction
@@ -14,6 +14,7 @@ of these representations, including topic modeling and word-embedding algorithms
 
 Since release 1.0.0, `shorttext` runs on Python 2.7, 3.5, and 3.6.
 Since release 1.0.7, it runs on Python 3.7 as well, but the backend for `keras` cannot be `TensorFlow`.
+Since release 1.0.8, it runs on Python 3.7 with 'TensorFlow' being the backend for `keras`.
 
 Characteristics:
 
@@ -84,6 +85,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 02/14/2019: `shorttext` 1.0.8 released.
 * 01/30/2019: `shorttext` 1.0.7 released.
 * 01/29/2019: `shorttext` 1.0.6 released.
 * 01/13/2019: `shorttext` 1.0.5 released.

@@ -8,7 +8,7 @@ from .smartload import smartload_compact_model
 from . import metrics
 from . import spell
 
-__version__ = '1.0.7'
+__version__ = '1.0.8'
 
 
 # to include BERT: refer to:

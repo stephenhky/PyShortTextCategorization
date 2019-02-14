@@ -1,6 +1,7 @@
 News
 ====
 
+* 02/14/2019: `shorttext` 1.0.8 released.
 * 01/30/2019: `shorttext` 1.0.7 released.
 * 01/29/2019: `shorttext` 1.0.6 released.
 * 01/13/2019: `shorttext` 1.0.5 released.
@@ -42,6 +43,11 @@ News
 
 What's New
 ----------
+
+Release 1.0.7 (January 30, 2019)
+--------------------------------
+
+* Compatibility with Python 3.7 with TensorFlow as the backend.
 
 Release 1.0.7 (January 30, 2019)
 --------------------------------

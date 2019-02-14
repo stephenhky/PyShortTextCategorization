@@ -20,7 +20,7 @@ def package_description():
 
 
 setup(name='shorttext',
-      version="1.0.8a01",
+      version="1.0.8",
       description="Short Text Mining",
       long_description=package_description(),
       classifiers=[
