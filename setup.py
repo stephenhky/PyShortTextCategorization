@@ -77,7 +77,7 @@ setup(name='shorttext',
           'Cython', 'numpy>=1.11.3', 'scipy>=0.18.1',
           'scikit-learn', 'keras>=2.2.3', 'gensim>=3.2.0',
           'pandas', 'spacy>=1.7.0', 'pulp', 'PyStemmer',
-
+          'tensorflow>=1.8.0',
       ],
       tests_require=[
           'unittest2', 'keras>=2.2.3', 'gensim>=3.2.0',
