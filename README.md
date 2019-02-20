@@ -13,6 +13,8 @@ any classification algorithm. In this package, it facilitates various types
 of these representations, including topic modeling and word-embedding algorithms.
 
 Since release 1.0.0, `shorttext` runs on Python 2.7, 3.5, and 3.6.
+Since release 1.0.7, it runs on Python 3.7 as well, but the backend for `keras` cannot be `TensorFlow`.
+Since release 1.0.8, it runs on Python 3.7 with 'TensorFlow' being the backend for `keras`.
 
 Characteristics:
 
@@ -32,7 +34,7 @@ Characteristics:
 
 Documentation and tutorials for `shorttext` can be found here: [http://shorttext.rtfd.io/](http://shorttext.rtfd.io/).
 
-[FAQ](https://shorttext.readthedocs.io/en/latest/faq.html).
+See [tutorial](http://shorttext.readthedocs.io/en/latest/tutorial.html) for how to use the package, and [FAQ](https://shorttext.readthedocs.io/en/latest/faq.html).
 
 ## Installation
 
@@ -42,7 +44,7 @@ To install it, in a console, use `pip`.
 >>> pip install -U shorttext
 ```
 
-or, if you want the most updated code that is not released on PyPI yet, type
+or, if you want the most recent development version on Github, type
 
 ```
 >>> pip install -U git+https://github.com/stephenhky/PyShortTextCategorization@master
@@ -56,7 +58,8 @@ Before using, check the language model of spaCy has been installed or updated, b
 >>> python -m spacy download en
 ```
 
-See [tutorial](http://shorttext.readthedocs.io/en/latest/tutorial.html) for how to use the package.
+See [installation guide](https://shorttext.readthedocs.io/en/latest/install.html) for more details.
+
 
 ## Issues
 
@@ -82,6 +85,8 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 02/14/2019: `shorttext` 1.0.8 released.
+* 01/30/2019: `shorttext` 1.0.7 released.
 * 01/29/2019: `shorttext` 1.0.6 released.
 * 01/13/2019: `shorttext` 1.0.5 released.
 * 10/03/2018: `shorttext` 1.0.4 released.
@@ -124,5 +129,4 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 - [ ] More scalability;
 - [ ] Including BERT models;
 - [ ] Dividing components to other packages;
-- [ ] Compatibility with Python 3.7;
 - [ ] More available corpus.

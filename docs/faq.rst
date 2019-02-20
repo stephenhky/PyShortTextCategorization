@@ -15,6 +15,7 @@ Ans: Yes. Besides Word2Vec, you can use FastText and Poincaré embedding. See: :
 **Q3. Can this package work on Python 3?**
 
 Ans: Since release 1.0.0, this package can be run in Python 2.7, 3.5, and 3.6. (Before that, it operates only under Python 2.7.)
+     Since release 1.0.7, this package can also be run in Python 3.7 as well.
 
 
 
@@ -101,5 +102,9 @@ Ans: This functionality is removed since release 0.5.11, due to the following re
 **Q9. I am having trouble in install `shorttext` on Google Cloud Platform. What should I do?**
 
 Ans: There is no "Python.h". Run: `sudo apt-get install python3-dev` in SSH shell of the VM instance.
+
+
+
+
 
 Home: :doc:`index`

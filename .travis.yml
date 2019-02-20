@@ -25,9 +25,8 @@ install:
   - pip install -U numpy
   - pip install -U scipy
   - pip install google-compute-engine
-  - if [[ $TRAVIS_PYTHON_VERSION == '3.7' ]]; then pip install -U theano; else pip install -U tensorflow; fi
+  - pip install -U tensorflow
   - pip install -U .
-  - if [[ $TRAVIS_PYTHON_VERSION == '3.7' ]]; then switch_kerasbackend theano; fi
   - python -m spacy download en
 script:
   - python setup.py test
