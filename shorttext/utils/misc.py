@@ -1,4 +1,6 @@
 
+import sys
+
 def textfile_generator(textfile, linebreak=True, encoding=None):
     """ Return a generator that reads lines in a text file.
 
@@ -18,3 +20,17 @@ def textfile_generator(textfile, linebreak=True, encoding=None):
             else:
                 yield t.decode(encoding).strip() + ('\n' if linebreak else '')
 
+def text_input(prompt):
+    """ Get user response from keyboard in stdin.
+
+    :param prompt: prompt
+    :return: user-typed value
+    :type prompt: str
+    :rtype: str
+    """
+    if sys.version[0] == '2':
+        return raw_input(prompt)
+    elif sys.version[0] == '3':
+        return input(prompt)
+    else:
+        return None
