@@ -9,7 +9,7 @@ from shorttext.utils.classification_exceptions import UnequalArrayLengthsExcepti
 def DenseWordEmbed(nb_labels,
                    dense_nb_nodes=[],
                    dense_actfcn=[],
-                   vecsize=100,
+                   vecsize=300,
                    reg_coef=0.1,
                    final_activiation='softmax',
                    optimizer='adam'):
@@ -20,7 +20,7 @@ def DenseWordEmbed(nb_labels,
     :param nb_labels: number of class labels
     :param dense_nb_nodes: number of nodes in each later (Default: [])
     :param dense_actfcn: activation functions for each layer (Default: [])
-    :param vecsize: length of the embedded vectors in the model (Default: 100)
+    :param vecsize: length of the embedded vectors in the model (Default: 300)
     :param reg_coef: regularization coefficient (Default: 0.1)
     :param final_activiation: activation function of the final layer (Default: softmax)
     :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: adam)
