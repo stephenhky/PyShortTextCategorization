@@ -26,6 +26,7 @@ topicmodels = ['ldatopic', 'lsitopic', 'rptopic', 'kerasautoencoder']
 import os
 
 import shorttext
+from shorttext.utils.misc import text_input
 from shorttext.utils.classification_exceptions import AlgorithmNotExistException, WordEmbeddingModelNotExistException
 from shorttext.utils import load_word2vec_model, load_fasttext_model, load_poincare_model
 
@@ -78,7 +79,7 @@ if __name__ == '__main__':
         # Console
         run = True
         while run:
-            shorttext = raw_input('text> ')
+            shorttext = text_input('text> ')
             if len(shorttext) > 0:
                 scoredict = classifier.score(shorttext)
                 for label, score in sorted(scoredict.items(), key=lambda s: s[1], reverse=True)[:args.topn]:
