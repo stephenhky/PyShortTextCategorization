@@ -73,7 +73,7 @@ setup(name='shorttext',
                                   'metrics/dynprog/*.pyx', 'metrics/dynprog/*.c',
                                   'spell/*.pyx', 'spell/*.c']},
       include_dirs=[np.get_include()],
-      setup_requires=['numpy>=1.11.3', 'scipy>=0.18.1'],
+      setup_requires=['numpy>=1.16.0', 'scipy>=1.2.0'],
       install_requires=[
           'Cython', 'numpy>=1.16.0', 'scipy>=1.2.0',
           'scikit-learn', 'tensorflow>=1.8.0', 'keras>=2.2.3', 'gensim>=3.2.0',
