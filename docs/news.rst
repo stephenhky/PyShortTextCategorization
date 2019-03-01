@@ -44,6 +44,12 @@ News
 What's New
 ----------
 
+Release 1.0.8 (February 14, 2019)
+--------------------------------
+
+* Minor bugs fixed.
+
+
 Release 1.0.7 (January 30, 2019)
 --------------------------------
 
