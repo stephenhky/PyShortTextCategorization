@@ -103,7 +103,7 @@ def inaugural():
     :rtype: dict
     """
     zfile = zipfile.ZipFile(get_or_download_data("USInaugural.zip",
-                                                 "https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/USInaugural.zip?raw=true",
+                                                 "http://storage.googleapis.com/pyshorttext/USPresidentInaugural/USInaugural.zip",
                                                  asbytes=True),
                             )
     address_jsonstr = zfile.open("addresses.json").read()
@@ -144,7 +144,7 @@ def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512
         raise KeyError('Undefined label column: '+label_col+'. Must be FUNDING_ICs or IC_NAME.')
 
     zfile = zipfile.ZipFile(get_or_download_data('nih_full.csv.zip',
-                                                 'https://github.com/stephenhky/PyShortTextCategorization/blob/master/data/nih_full.csv.zip?raw=true',
+                                                 'http://storage.googleapis.com/pyshorttext/nih_grant_public/nih_full.csv.zip',
                                                  asbytes=True),
                             'r',
                             zipfile.ZIP_DEFLATED)
