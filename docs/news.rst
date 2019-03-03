@@ -1,6 +1,7 @@
 News
 ====
 
+* 03/01/2019: `shorttext` 1.1.0 released.
 * 02/14/2019: `shorttext` 1.0.8 released.
 * 01/30/2019: `shorttext` 1.0.7 released.
 * 01/29/2019: `shorttext` 1.0.6 released.
@@ -43,6 +44,18 @@ News
 
 What's New
 ----------
+
+Release 1.1.0 (March 1, 2019)
+-----------------------------
+
+* Size of embedded vectors set to 300 again when necessary. (Possibly break compatibility)
+
+
+Release 1.0.8 (February 14, 2019)
+--------------------------------
+
+* Minor bugs fixed.
+
 
 Release 1.0.7 (January 30, 2019)
 --------------------------------
