@@ -102,3 +102,5 @@ def shorttext_to_avgvec(shorttext, wvmodel):
         vec /= norm
 
     return vec
+
+# TODO: API for word2vec: https://github.com/3Top/word2vec-api
