@@ -20,9 +20,10 @@ def package_description():
 
 
 setup(name='shorttext',
-      version="1.0.8",
+      version="1.1.0",
       description="Short Text Mining",
       long_description=package_description(),
+      long_description_content_type='text/markdown',
       classifiers=[
           "Topic :: Scientific/Engineering :: Artificial Intelligence",
           "Topic :: Scientific/Engineering :: Mathematics",
@@ -72,12 +73,11 @@ setup(name='shorttext',
                                   'metrics/dynprog/*.pyx', 'metrics/dynprog/*.c',
                                   'spell/*.pyx', 'spell/*.c']},
       include_dirs=[np.get_include()],
-      setup_requires=['numpy>=1.11.3', 'scipy>=0.18.1'],
+      setup_requires=['numpy>=1.16.0', 'scipy>=1.2.0'],
       install_requires=[
-          'Cython', 'numpy>=1.11.3', 'scipy>=0.18.1',
-          'scikit-learn', 'keras>=2.2.3', 'gensim>=3.2.0',
+          'Cython', 'numpy>=1.16.0', 'scipy>=1.2.0',
+          'scikit-learn', 'tensorflow>=1.8.0', 'keras>=2.2.3', 'gensim>=3.2.0',
           'pandas', 'spacy>=1.7.0', 'pulp', 'PyStemmer',
-          'tensorflow>=1.8.0',
       ],
       tests_require=[
           'unittest2', 'keras>=2.2.3', 'gensim>=3.2.0',
@@ -85,6 +85,6 @@ setup(name='shorttext',
       scripts=['bin/ShortTextCategorizerConsole',
                'bin/ShortTextWordEmbedSimilarity',
                'bin/switch_kerasbackend'],
-      # include_package_data=False,
+      #include_package_data=False,
       test_suite="test",
       zip_safe=False)

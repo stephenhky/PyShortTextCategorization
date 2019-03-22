@@ -18,6 +18,7 @@ import time
 
 from scipy.spatial.distance import cosine
 
+from shorttext.utils.misc import text_input
 from shorttext.metrics.embedfuzzy import jaccardscore_sents
 from shorttext.utils import tokenize, load_word2vec_model, load_fasttext_model, load_poincare_model
 from shorttext.utils import shorttext_to_avgvec
@@ -42,11 +43,11 @@ if __name__ == '__main__':
     print("... loading time: "+str(time1 - time0)+" seconds")
 
     while not end:
-        sent1 = raw_input('sent1> ')
+        sent1 = text_input('sent1> ')
         if len(sent1)==0:
             end = True
         else:
-            sent2 = raw_input('sent2> ')
+            sent2 = text_input('sent2> ')
 
             # output results
             print("Cosine Similarity = %.4f" % (1 - cosine(shorttext_to_avgvec(sent1, wvmodel), shorttext_to_avgvec(sent2, wvmodel))))

@@ -16,7 +16,7 @@ def CNNWordEmbed(nb_labels,
                  nb_filters=1200,
                  n_gram=2,
                  maxlen=15,
-                 vecsize=100,
+                 vecsize=300,
                  cnn_dropout=0.0,
                  final_activation='softmax',
                  dense_wl2reg=0.0,
@@ -34,7 +34,7 @@ def CNNWordEmbed(nb_labels,
     :param nb_filters: number of filters (Default: 1200)
     :param n_gram: n-gram, or window size of CNN/ConvNet (Default: 2)
     :param maxlen: maximum number of words in a sentence (Default: 15)
-    :param vecsize: length of the embedded vectors in the model (Default: 100)
+    :param vecsize: length of the embedded vectors in the model (Default: 300)
     :param cnn_dropout: dropout rate for CNN/ConvNet (Default: 0.0)
     :param final_activation: activation function. Options: softplus, softsign, relu, tanh, sigmoid, hard_sigmoid, linear. (Default: 'softmax')
     :param dense_wl2reg: L2 regularization coefficient (Default: 0.0)
@@ -84,7 +84,7 @@ def DoubleCNNWordEmbed(nb_labels,
                        n_gram=2,
                        filter_length_2=10,
                        maxlen=15,
-                       vecsize=100,
+                       vecsize=300,
                        cnn_dropout_1=0.0,
                        cnn_dropout_2=0.0,
                        final_activation='softmax',
@@ -101,7 +101,7 @@ def DoubleCNNWordEmbed(nb_labels,
     :param n_gram: n-gram, or window size of first CNN/ConvNet (Default: 2)
     :param filter_length_2: window size for second CNN/ConvNet layer (Default: 10)
     :param maxlen: maximum number of words in a sentence (Default: 15)
-    :param vecsize: length of the embedded vectors in the model (Default: 100)
+    :param vecsize: length of the embedded vectors in the model (Default: 300)
     :param cnn_dropout_1: dropout rate for the first CNN/ConvNet layer (Default: 0.0)
     :param cnn_dropout_2: dropout rate for the second CNN/ConvNet layer (Default: 0.0)
     :param final_activation: activation function. Options: softplus, softsign, relu, tanh, sigmoid, hard_sigmoid, linear. (Default: 'softmax')
@@ -160,7 +160,7 @@ def CLSTMWordEmbed(nb_labels,
                    nb_filters=1200,
                    n_gram=2,
                    maxlen=15,
-                   vecsize=100,
+                   vecsize=300,
                    cnn_dropout=0.0,
                    nb_rnnoutdim=1200,
                    rnn_dropout=0.2,
@@ -181,7 +181,7 @@ def CLSTMWordEmbed(nb_labels,
     :param nb_filters: number of filters (Default: 1200)
     :param n_gram: n-gram, or window size of CNN/ConvNet (Default: 2)
     :param maxlen: maximum number of words in a sentence (Default: 15)
-    :param vecsize: length of the embedded vectors in the model (Default: 100)
+    :param vecsize: length of the embedded vectors in the model (Default: 300)
     :param cnn_dropout: dropout rate for CNN/ConvNet (Default: 0.0)
     :param nb_rnnoutdim: output dimension for the LSTM networks (Default: 1200)
     :param rnn_dropout: dropout rate for LSTM (Default: 0.2)
