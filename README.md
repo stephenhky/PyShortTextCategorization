@@ -127,7 +127,8 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
-- [ ] More scalability;
+- [ ] Using `word2vec-api` for faster loading (especially on Cloud);
+- [ ] More scalability using `horovod`;
 - [ ] Including BERT models;
 - [ ] Dividing components to other packages;
 - [ ] More available corpus.
