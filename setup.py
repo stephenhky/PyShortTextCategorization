@@ -77,7 +77,7 @@ setup(name='shorttext',
       install_requires=[
           'Cython', 'numpy>=1.16.0', 'scipy>=1.2.0',
           'scikit-learn', 'tensorflow>=1.8.0', 'keras>=2.2.3', 'gensim>=3.2.0',
-          'pandas', 'spacy>=1.7.0', 'pulp', 'PyStemmer', 'horovod',
+          'pandas', 'spacy>=1.7.0', 'pulp', 'PyStemmer',
       ],
       tests_require=[
           'unittest2', 'keras>=2.2.3', 'gensim>=3.2.0',
@@ -88,3 +88,7 @@ setup(name='shorttext',
       #include_package_data=False,
       test_suite="test",
       zip_safe=False)
+
+# The use of `horovod` is not to import the package.
+# Instead of importing `horovod`, make the package to be able to called by it.
+# Instruction: https://towardsdatascience.com/distributed-tensorflow-using-horovod-6d572f8790c4
