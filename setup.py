@@ -20,7 +20,7 @@ def package_description():
 
 
 setup(name='shorttext',
-      version="1.1.0",
+      version="1.1.0a01",
       description="Short Text Mining",
       long_description=package_description(),
       long_description_content_type='text/markdown',
@@ -77,7 +77,7 @@ setup(name='shorttext',
       install_requires=[
           'Cython', 'numpy>=1.16.0', 'scipy>=1.2.0',
           'scikit-learn', 'tensorflow>=1.8.0', 'keras>=2.2.3', 'gensim>=3.2.0',
-          'pandas', 'spacy>=1.7.0', 'pulp', 'PyStemmer',
+          'pandas', 'spacy>=1.7.0', 'pulp', 'PyStemmer', 'horovod',
       ],
       tests_require=[
           'unittest2', 'keras>=2.2.3', 'gensim>=3.2.0',
