@@ -1,6 +1,7 @@
 
 import json
 import pickle
+from functools import reduce
 from operator import add
 
 import numpy as np
