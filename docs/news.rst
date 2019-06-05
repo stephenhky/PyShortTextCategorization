@@ -1,6 +1,7 @@
 News
 ====
 
+* 06/05/2019: `shorttext` 1.1.2 released.
 * 04/23/2019: `shorttext` 1.1.1 released.
 * 03/03/2019: `shorttext` 1.1.0 released.
 * 02/14/2019: `shorttext` 1.0.8 released.
@@ -45,6 +46,11 @@ News
 
 What's New
 ----------
+
+Release 1.1.2 (June 5, 2019)
+-----------------------------
+
+* Updated codes for Fasttext moddel loading as the previous function was deprecated.
 
 Release 1.1.1 (April 23, 2019)
 -----------------------------
