@@ -128,6 +128,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
+- [x] Updated FastText loading routine;
 - [ ] Using `word2vec-api` for faster loading (especially on Cloud);
 - [ ] More scalability using `horovod`;
 - [ ] Including BERT models;
