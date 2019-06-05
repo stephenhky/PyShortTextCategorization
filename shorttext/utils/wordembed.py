@@ -3,6 +3,7 @@ import numpy as np
 from gensim.models import KeyedVectors
 from gensim.models.wrappers import FastText
 from gensim.models.poincare import PoincareModel, PoincareKeyedVectors
+import gensim
 
 from shorttext.utils import tokenize, deprecated
 
@@ -28,7 +29,7 @@ def load_fasttext_model(path):
     :type path: str
     :rtype: gensim.models.keyedvectors.FastTextKeyedVectors
     """
-    return FastText.load_fasttext_format(path)
+    return gensim.models.FastText.load_facebook_vectors(path)
 
 
 def load_poincare_model(path, word2vec_format=True, binary=False):
