@@ -18,7 +18,7 @@ before_install:
   - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
       export PATH=/home/travis/miniconda2/bin:$PATH;
     else
-      export PATH=/home/travis/minicond3/bin:$PATH;
+      export PATH=/home/travis/miniconda3/bin:$PATH;
     fi
   - conda update --yes conda
   - sudo apt-get update
