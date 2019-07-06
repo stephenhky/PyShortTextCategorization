@@ -15,7 +15,10 @@ before_install:
     fi
   - chmod +x miniconda.sh
   - ./miniconda.sh -b
-  - export PATH=/home/travis/miniconda/bin:$PATH
+  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+      export PATH=/home/travis/miniconda2/bin:$PATH
+    else
+      export PATH=/home/travis/minicond3/bin:$PATH
   - conda update --yes conda
   - sudo apt-get update
   - sudo apt-get install libc6
