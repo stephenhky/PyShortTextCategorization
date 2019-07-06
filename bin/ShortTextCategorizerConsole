@@ -11,7 +11,7 @@ def get_argparser():
     argparser.add_argument('--topn', type=int, default=10, help='Number of top-scored results displayed. (Default: 10)')
     argparser.add_argument('--inputtext', default=None, help='single input text for classification. Run console if set to None. (Default: None)')
     argparser.add_argument('--type', default='word2vec',
-                           help='Type of word-embedding model (default: "word2vec"; other options: "fasttext", "poincare")')
+                           help='Type of word-embedding model (default: "word2vec"; other options: "fasttext", "poincare", "word2vec_nonbinary", "poincare_binary")')
     return argparser
 
 argparser = get_argparser()
@@ -28,15 +28,18 @@ import os
 import shorttext
 from shorttext.utils.misc import text_input
 from shorttext.utils.classification_exceptions import AlgorithmNotExistException, WordEmbeddingModelNotExistException
-from shorttext.utils import load_word2vec_model, load_poincare_model
+from shorttext.utils import load_word2vec_model, load_fasttext_model, load_poincare_model
 
 from functools import partial
 
 load_word2vec_nonbinary_model = partial(load_word2vec_model, binary=False)
+load_poincare_binary_model = partial(load_poincare_model, binary=True)
 
 typedict = {'word2vec': load_word2vec_model,
-            'fasttext': load_word2vec_nonbinary_model,
-            'poincare': load_poincare_model}
+            'word2vec_nonbinary': load_word2vec_nonbinary_model,
+            'fasttext': load_fasttext_model,
+            'poincare': load_poincare_model,
+            'poincare_binary': load_poincare_binary_model}
 
 # main block
 if __name__ == '__main__':
