@@ -19,6 +19,7 @@ before_install:
       export PATH=/home/travis/miniconda2/bin:$PATH
     else
       export PATH=/home/travis/minicond3/bin:$PATH
+    fi
   - conda update --yes conda
   - sudo apt-get update
   - sudo apt-get install libc6
