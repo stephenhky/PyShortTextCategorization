@@ -30,8 +30,12 @@ from shorttext.utils.misc import text_input
 from shorttext.utils.classification_exceptions import AlgorithmNotExistException, WordEmbeddingModelNotExistException
 from shorttext.utils import load_word2vec_model, load_fasttext_model, load_poincare_model
 
+from functools import partial
+
+load_word2vec_nonbinary_model = partial(load_word2vec_model, binary=False)
+
 typedict = {'word2vec': load_word2vec_model,
-            'fasttext': load_fasttext_model,
+            'fasttext': load_word2vec_nonbinary_model,
             'poincare': load_poincare_model}
 
 # main block
