@@ -28,7 +28,7 @@ import os
 import shorttext
 from shorttext.utils.misc import text_input
 from shorttext.utils.classification_exceptions import AlgorithmNotExistException, WordEmbeddingModelNotExistException
-from shorttext.utils import load_word2vec_model, load_fasttext_model, load_poincare_model
+from shorttext.utils import load_word2vec_model, load_poincare_model
 
 from functools import partial
 
