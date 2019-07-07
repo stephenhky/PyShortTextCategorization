@@ -1,6 +1,7 @@
 News
 ====
 
+* 07/07/2019: `shorttext` 1.1.3 released.
 * 06/05/2019: `shorttext` 1.1.2 released.
 * 04/23/2019: `shorttext` 1.1.1 released.
 * 03/03/2019: `shorttext` 1.1.0 released.
@@ -46,6 +47,12 @@ News
 
 What's New
 ----------
+
+Release 1.1.3 (July 7, 2019)
+----------------------------
+
+* Updated codes for Console code loading;
+* Updated Travis CI script.
 
 Release 1.1.2 (June 5, 2019)
 -----------------------------
