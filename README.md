@@ -85,6 +85,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 07/20/2019: `shorttext` 1.1.4 released.
 * 07/07/2019: `shorttext` 1.1.3 released.
 * 06/05/2019: `shorttext` 1.1.2 released.
 * 04/23/2019: `shorttext` 1.1.1 released.
