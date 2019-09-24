@@ -78,7 +78,7 @@ FastText
 FastText is a similar word-embedding model from Facebook. You can download pre-trained models here:
 
 `Pre-trained word vectors
-<https://github.com/facebookresearch/fastText/blob/master/pretrained-vectors.md>`_
+<https://github.com/facebookresearch/fastText/blob/master/docs/pretrained-vectors.md>`_
 
 To load a pre-trained FastText model, run:
 
