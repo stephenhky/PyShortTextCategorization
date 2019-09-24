@@ -11,7 +11,7 @@ import shorttext
 class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
     def setUp(self):
         print("Downloading word-embedding model....")
-        link = "http://storage.googleapis.com/pyshorttext/test_w2vmodel/test_w2v_model.bin"
+        link = "https://shorttext-data-northernvirginia.s3.amazonaws.com/trainingdata/test_w2v_model.bin"
         filename = "test_w2v_model.bin"
         if not os.path.isfile("test_w2v_model.bin"):
             if sys.version_info[0]==2:
