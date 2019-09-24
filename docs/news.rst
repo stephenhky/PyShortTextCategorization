@@ -1,6 +1,7 @@
 News
 ====
 
+* 09/24/2019: `shorttext` 1.1.5 released.
 * 07/20/2019: `shorttext` 1.1.4 released.
 * 07/07/2019: `shorttext` 1.1.3 released.
 * 06/05/2019: `shorttext` 1.1.2 released.
@@ -48,6 +49,12 @@ News
 
 What's New
 ----------
+
+Release 1.1.5 (September 24, 2019)
+-----------------------------
+
+* Decommissioned GCP buckets; using data files stored in AWS S3 buckets.
+
 
 Release 1.1.4 (July 20, 2019)
 -----------------------------
