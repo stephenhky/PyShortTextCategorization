@@ -21,6 +21,7 @@ Training
 
 Then we can train the model by creating an instance of :class:`shorttext.generators.CharBasedSeq2SeqGenerator`:
 
+>>> latent_dim = 100
 >>> seq2seqer = shorttext.generators.CharBasedSeq2SeqGenerator(chartovec_encoder, latent_dim, 120)
 
 And then train this neural network model:

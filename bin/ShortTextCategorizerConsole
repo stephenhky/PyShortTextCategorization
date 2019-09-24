@@ -7,11 +7,11 @@ def get_argparser():
     argparser = argparse.ArgumentParser(description='Perform prediction on short text with a given trained model.')
     argparser.add_argument('model_filepath', help='Path of the trained (compact) model.')
     argparser.add_argument('--wv', default='', help='Path of the pre-trained Word2Vec model. (None if not needed)')
-    argparser.add_argument('--vecsize', default=100, type=int, help='Vector dimensions. (Default: 100)')
+    argparser.add_argument('--vecsize', default=300, type=int, help='Vector dimensions. (Default: 300)')
     argparser.add_argument('--topn', type=int, default=10, help='Number of top-scored results displayed. (Default: 10)')
     argparser.add_argument('--inputtext', default=None, help='single input text for classification. Run console if set to None. (Default: None)')
     argparser.add_argument('--type', default='word2vec',
-                           help='Type of word-embedding model (default: "word2vec"; other options: "fasttext", "poincare")')
+                           help='Type of word-embedding model (default: "word2vec"; other options: "fasttext", "poincare", "word2vec_nonbinary", "poincare_binary")')
     return argparser
 
 argparser = get_argparser()
@@ -26,12 +26,20 @@ topicmodels = ['ldatopic', 'lsitopic', 'rptopic', 'kerasautoencoder']
 import os
 
 import shorttext
+from shorttext.utils.misc import text_input
 from shorttext.utils.classification_exceptions import AlgorithmNotExistException, WordEmbeddingModelNotExistException
 from shorttext.utils import load_word2vec_model, load_fasttext_model, load_poincare_model
 
+from functools import partial
+
+load_word2vec_nonbinary_model = partial(load_word2vec_model, binary=False)
+load_poincare_binary_model = partial(load_poincare_model, binary=True)
+
 typedict = {'word2vec': load_word2vec_model,
+            'word2vec_nonbinary': load_word2vec_nonbinary_model,
             'fasttext': load_fasttext_model,
-            'poincare': load_poincare_model}
+            'poincare': load_poincare_model,
+            'poincare_binary': load_poincare_binary_model}
 
 # main block
 if __name__ == '__main__':
@@ -78,7 +86,7 @@ if __name__ == '__main__':
         # Console
         run = True
         while run:
-            shorttext = raw_input('text> ')
+            shorttext = text_input('text> ')
             if len(shorttext) > 0:
                 scoredict = classifier.score(shorttext)
                 for label, score in sorted(scoredict.items(), key=lambda s: s[1], reverse=True)[:args.topn]:

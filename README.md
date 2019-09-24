@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/stephenhky/PyShortTextCategorization.svg?branch=master)](https://travis-ci.org/stephenhky/PyShortTextCategorization)
 [![GitHub release](https://img.shields.io/github/release/stephenhky/PyShortTextCategorization.svg?maxAge=3600)](https://github.com/stephenhky/PyShortTextCategorization/releases)
-<!--[![Wheel](https://img.shields.io/pypi/wheel/shorttext.svg)](https://pypi.python.org/pypi/shorttext)-->
 
 ## Introduction
 
@@ -14,6 +13,8 @@ any classification algorithm. In this package, it facilitates various types
 of these representations, including topic modeling and word-embedding algorithms.
 
 Since release 1.0.0, `shorttext` runs on Python 2.7, 3.5, and 3.6.
+Since release 1.0.7, it runs on Python 3.7 as well, but the backend for `keras` cannot be `TensorFlow`.
+Since release 1.0.8, it runs on Python 3.7 with 'TensorFlow' being the backend for `keras`.
 
 Characteristics:
 
@@ -29,6 +30,12 @@ Characteristics:
 - character-level sequence-to-sequence (seq2seq) learning; and
 - spell correction.
 
+## Documentation
+
+Documentation and tutorials for `shorttext` can be found here: [http://shorttext.rtfd.io/](http://shorttext.rtfd.io/).
+
+See [tutorial](http://shorttext.readthedocs.io/en/latest/tutorial.html) for how to use the package, and [FAQ](https://shorttext.readthedocs.io/en/latest/faq.html).
+
 ## Installation
 
 To install it, in a console, use `pip`.
@@ -37,7 +44,7 @@ To install it, in a console, use `pip`.
 >>> pip install -U shorttext
 ```
 
-or, if you want the most updated code that is not released on PyPI yet, type
+or, if you want the most recent development version on Github, type
 
 ```
 >>> pip install -U git+https://github.com/stephenhky/PyShortTextCategorization@master
@@ -48,10 +55,11 @@ Developers are advised to make sure `Keras` >=2 be installed. Users are advised 
 Before using, check the language model of spaCy has been installed or updated, by running:
 
 ```
->>> spacy download en
+>>> python -m spacy download en
 ```
 
-See [tutorial](http://shorttext.readthedocs.io/en/latest/tutorial.html) for how to use the package.
+See [installation guide](https://shorttext.readthedocs.io/en/latest/install.html) for more details.
+
 
 ## Issues
 
@@ -74,8 +82,17 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 * "Document-Term Matrix: Text Mining in R and Python," [WordPress](https://datawarrior.wordpress.com/2018/01/22/document-term-matrix-text-mining-in-r-and-python/)
 * An [earlier version](https://github.com/stephenhky/PyShortTextCategorization/tree/b298d3ce7d06a9b4e0f7d32f27bab66064ba7afa) of this repository is a demonstration of the following blog post: [Short Text Categorization using Deep Neural Networks and Word-Embedding Models](https://datawarrior.wordpress.com/2016/10/12/short-text-categorization-using-deep-neural-networks-and-word-embedding-models/)
 
+
 ## News
 
+* 07/20/2019: `shorttext` 1.1.4 released.
+* 07/07/2019: `shorttext` 1.1.3 released.
+* 06/05/2019: `shorttext` 1.1.2 released.
+* 04/23/2019: `shorttext` 1.1.1 released.
+* 03/03/2019: `shorttext` 1.1.0 released.
+* 02/14/2019: `shorttext` 1.0.8 released.
+* 01/30/2019: `shorttext` 1.0.7 released.
+* 01/29/2019: `shorttext` 1.0.6 released.
 * 01/13/2019: `shorttext` 1.0.5 released.
 * 10/03/2018: `shorttext` 1.0.4 released.
 * 08/06/2018: `shorttext` 1.0.3 released.
@@ -114,10 +131,9 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
-- [x] Moving the testing word2vec model to AWS S3;
-- [ ] More scalability;
+- [ ] Using `word2vec-api` for faster loading (especially on Cloud);
+- [ ] More scalability using `horovod`;
 - [ ] Including BERT models;
+- [ ] Use of DASK;
 - [ ] Dividing components to other packages;
-- [ ] Jupyter notebooks as tutorials;
-- [ ] Compatibility with Python 3.7;
 - [ ] More available corpus.

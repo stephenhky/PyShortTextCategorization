@@ -23,7 +23,7 @@ ShortTextCategorizerConsole
       -h, --help            show this help message and exit
       --wv WV               Path of the pre-trained Word2Vec model. (None if not
                             needed)
-      --vecsize VECSIZE     Vector dimensions. (Default: 100)
+      --vecsize VECSIZE     Vector dimensions. (Default: 300)
       --topn TOPN           Number of top-scored results displayed. (Default: 10)
       --inputtext INPUTTEXT
                             single input text for classification. Run console if

@@ -38,7 +38,7 @@ class Seq2SeqWithKeras(cio.CompactIOMachine):
         :type vecsize: int
         :type latent_dim: int
         """
-        cio.CompactIOMachine(self, {'classifier': 'kerasseq2seq'}, 'kerasseq2seq', kerasseq2seq_suffices)
+        cio.CompactIOMachine.__init__(self, {'classifier': 'kerasseq2seq'}, 'kerasseq2seq', kerasseq2seq_suffices)
         self.vecsize = vecsize
         self.latent_dim = latent_dim
         self.compiled = False

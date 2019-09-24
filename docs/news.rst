@@ -1,6 +1,14 @@
 News
 ====
 
+* 07/20/2019: `shorttext` 1.1.4 released.
+* 07/07/2019: `shorttext` 1.1.3 released.
+* 06/05/2019: `shorttext` 1.1.2 released.
+* 04/23/2019: `shorttext` 1.1.1 released.
+* 03/03/2019: `shorttext` 1.1.0 released.
+* 02/14/2019: `shorttext` 1.0.8 released.
+* 01/30/2019: `shorttext` 1.0.7 released.
+* 01/29/2019: `shorttext` 1.0.6 released.
 * 01/13/2019: `shorttext` 1.0.5 released.
 * 10/03/2018: `shorttext` 1.0.4 released.
 * 08/06/2018: `shorttext` 1.0.3 released.
@@ -40,6 +48,60 @@ News
 
 What's New
 ----------
+
+Release 1.1.4 (July 20, 2019)
+-----------------------------
+
+* Minor bugs fixed.
+
+Release 1.1.3 (July 7, 2019)
+----------------------------
+
+* Updated codes for Console code loading;
+* Updated Travis CI script.
+
+Release 1.1.2 (June 5, 2019)
+-----------------------------
+
+* Updated codes for Fasttext moddel loading as the previous function was deprecated.
+
+Release 1.1.1 (April 23, 2019)
+-----------------------------
+
+* Bug fixed. (Acknowledgement: `Hamish Dickson
+  <https://github.com/hamishdickson>`_ )
+
+Release 1.1.0 (March 3, 2019)
+-----------------------------
+
+* Size of embedded vectors set to 300 again when necessary; (possibly break compatibility)
+* Moving corpus data from Github to Google Cloud Storage.
+
+
+Release 1.0.8 (February 14, 2019)
+--------------------------------
+
+* Minor bugs fixed.
+
+
+Release 1.0.7 (January 30, 2019)
+--------------------------------
+
+* Compatibility with Python 3.7 with TensorFlow as the backend.
+
+Release 1.0.7 (January 30, 2019)
+--------------------------------
+
+* Compatibility with Python 3.7 with Theano as the backend;
+* Minor documentation changes.
+
+
+Release 1.0.6 (January 29, 2019)
+--------------------------------
+
+* Documentation change;
+* Word-embedding model used in unit test stored in Amazon S3 bucket.
+
 
 Release 1.0.5 (January 13, 2019)
 --------------------------------
