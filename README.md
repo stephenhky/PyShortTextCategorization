@@ -132,6 +132,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
+- [ ] Compatibility with Tensorflow 2.0;
 - [ ] Using `word2vec-api` for faster loading (especially on Cloud);
 - [ ] More scalability using `horovod`;
 - [ ] Including BERT models;
