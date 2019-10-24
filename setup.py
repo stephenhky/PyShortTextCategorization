@@ -76,11 +76,11 @@ setup(name='shorttext',
       setup_requires=['numpy>=1.16.0', 'scipy>=1.2.0'],
       install_requires=[
           'Cython', 'numpy>=1.16.0', 'scipy>=1.2.0',
-          'scikit-learn', 'tensorflow>=2.0.0', 'keras>=2.2.3', 'gensim>=3.2.0',
+          'scikit-learn', 'tensorflow>=2.0.0', 'keras>=2.3.0', 'gensim>=3.2.0',
           'pandas', 'spacy>=1.7.0', 'pulp', 'PyStemmer',
       ],
       tests_require=[
-          'unittest2', 'keras>=2.2.3', 'gensim>=3.2.0',
+          'unittest2', 'keras>=2.3.0', 'gensim>=3.2.0',
       ],
       scripts=['bin/ShortTextCategorizerConsole',
                'bin/ShortTextWordEmbedSimilarity',
