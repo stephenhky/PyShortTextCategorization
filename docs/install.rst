@@ -78,15 +78,16 @@ for Python 3.5, 3.6, and 3.7.
 Required Packages
 -----------------
 
-- Numpy_ (Numerical Python, version >= 1.11.3)
-- SciPy_ (Scientific Python, version >= 0.18.1)
+- Numpy_ (Numerical Python, version >= 1.16.0)
+- SciPy_ (Scientific Python, version >= 1.2.0)
 - Scikit-Learn_ (Machine Learning in Python)
-- keras_ (Deep Learning Library for Theano and Tensorflow, version >= 2.2.3)
+- keras_ (Deep Learning Library for Theano and Tensorflow, version >= 2.3.0)
 - gensim_ (Topic Modeling for Humans, version >= 3.2.0)
 - Pandas_ (Python Data Analysis Library)
 - spaCy_ (Industrial Strenglth Natural Language Processing in Python, version >= 1.7.0)
 - PuLP_ (Optimization with PuLP)
 - PyStemmer_ (Snowball Stemmer, the package stemming_ is no longer used)
+- TensorFlow_ (TensorFlow, >= 2.0.0)
 
 Home: :doc:`index`
 
@@ -104,3 +105,4 @@ Home: :doc:`index`
 .. _stemming: https://pypi.python.org/pypi/stemming/
 .. _PuLP: https://pythonhosted.org/PuLP/
 .. _PyStemmer: http://snowball.tartarus.org/
+.. _TensorFlow: https://www.tensorflow.org/

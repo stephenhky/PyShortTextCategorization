@@ -85,6 +85,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 12/01/2019: `shorttext` 1.1.6 released.
 * 09/24/2019: `shorttext` 1.1.5 released.
 * 07/20/2019: `shorttext` 1.1.4 released.
 * 07/07/2019: `shorttext` 1.1.3 released.
@@ -132,6 +133,8 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
+- [ ] Compatibility with Python 3.8;
+- [x] Compatibility with Tensorflow 2.0;
 - [ ] Using `word2vec-api` for faster loading (especially on Cloud);
 - [ ] More scalability using `horovod`;
 - [ ] Including BERT models;
