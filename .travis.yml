@@ -35,7 +35,7 @@ install:
   - if [[ "$TRAVIS_PYTHON_VERSION" == "3.5" ]]; then
       pip install -U tensorflow==2.0.0b1;
     else
-      pip install -U tensorflow>=2.0.0
+      pip install -U tensorflow>=2.0.0;
     fi
   - pip install google-compute-engine
   - pip install -U .
