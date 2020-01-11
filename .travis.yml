@@ -3,23 +3,14 @@ dist: xenial
 sudo: required
 language: python
 python:
-  - "2.7"
   - "3.5"
   - "3.6"
   - "3.7"
 before_install:
-  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-      wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
-    else
-      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-    fi
+  - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
   - chmod +x miniconda.sh
   - ./miniconda.sh -b
-  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
-      export PATH=/home/travis/miniconda2/bin:$PATH;
-    else
-      export PATH=/home/travis/miniconda3/bin:$PATH;
-    fi
+  - export PATH=/home/travis/miniconda3/bin:$PATH;
   - conda update --yes conda
   - sudo apt-get update
   - sudo apt-get install libc6

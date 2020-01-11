@@ -20,7 +20,7 @@ def package_description():
 
 
 setup(name='shorttext',
-      version='1.1.6',
+      version='1.1.7a01',
       description="Short Text Mining",
       long_description=package_description(),
       long_description_content_type='text/markdown',
@@ -29,7 +29,6 @@ setup(name='shorttext',
           "Topic :: Scientific/Engineering :: Mathematics",
           "Topic :: Text Processing :: Linguistic",
           "Topic :: Software Development :: Libraries :: Python Modules",
-          "Programming Language :: Python :: 2.7",
           "Programming Language :: Python :: 3.5",
           "Programming Language :: Python :: 3.6",
           "Programming Language :: Python :: 3.7",
