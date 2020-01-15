@@ -23,11 +23,7 @@ install:
   - pip install Cython
   - pip install -U numpy
   - pip install -U scipy
-  - if [[ "$TRAVIS_PYTHON_VERSION" == "3.5" ]]; then
-      pip install -U tensorflow==2.0.0b1;
-    else
-      pip install -U tensorflow>=2.0.0;
-    fi
+  - pip install -U tensorflow>=2.0.0;
   - pip install google-compute-engine
   - pip install -U .
   - python -m spacy download en
