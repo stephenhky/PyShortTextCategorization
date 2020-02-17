@@ -102,3 +102,11 @@ def shorttext_to_avgvec(shorttext, wvmodel):
         vec /= norm
 
     return vec
+
+
+class WordEmbedAPI:
+    def __init__(self, url, port='5000'):
+        self.url = url
+        self.port = port
+
+
