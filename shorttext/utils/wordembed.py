@@ -1,7 +1,6 @@
 
 import numpy as np
 from gensim.models import KeyedVectors
-from gensim.models.wrappers import FastText
 from gensim.models.poincare import PoincareModel, PoincareKeyedVectors
 import gensim
 
