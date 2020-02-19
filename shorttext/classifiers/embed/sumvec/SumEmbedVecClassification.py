@@ -51,8 +51,8 @@ class SumEmbeddedVecClassifier(CompactIOMachine):
         """
         self.addvec = defaultdict(lambda : np.zeros(self.vecsize))
         for classtype in classdict:
-            for shorttext in classdict[classtype]:
-                self.addvec[classtype] += self.shorttext_to_embedvec(shorttext)
+            self.addvec[classtype] = np.sum([self.shorttext_to_embedvec(shorttext)
+                                             for shorttext in classdict[classtype]])
             self.addvec[classtype] /= np.linalg.norm(self.addvec[classtype])
         self.addvec = dict(self.addvec)
         self.trained = True

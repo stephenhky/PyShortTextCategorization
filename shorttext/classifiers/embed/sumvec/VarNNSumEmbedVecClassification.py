@@ -62,7 +62,6 @@ class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
             for shorttext in classdict[classlabel]:
                 embedvec = np.sum(np.array([self.word_to_embedvec(token) for token in spacy_tokenize(shorttext)]),
                                   axis=0)
-                # embedvec = np.reshape(embedvec, embedvec.shape+(1,))
                 norm = np.linalg.norm(embedvec)
                 if norm == 0:
                     continue
@@ -169,12 +168,9 @@ class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
         :type shorttext: str
         :rtype: numpy.ndarray
         """
-        vec = np.zeros(self.vecsize)
-        for token in spacy_tokenize(shorttext):
-            if token in self.wvmodel:
-                vec += self.wvmodel[token]
+        vec = np.sum([self.wvmodel[token] for token in spacy_tokenize(shorttext) if token in self.wvmodel])
         norm = np.linalg.norm(vec)
-        if norm!=0:
+        if norm != 0:
             vec /= np.linalg.norm(vec)
         return vec
 
