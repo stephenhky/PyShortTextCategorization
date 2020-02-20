@@ -104,7 +104,7 @@ def shorttext_to_avgvec(shorttext, wvmodel):
     return vec
 
 
-class WordEmbedAPI:
+class RESTfulKeyedVectors(KeyedVectors):
     def __init__(self, url, port='5000'):
         self.url = url
         self.port = port
