@@ -2,3 +2,56 @@
 
 # argument parsing
 import argparse
+
+argparser = argparse.ArgumentParser(description='Load word-embedding models into memory.')
+argparser.add_argument('filepath', help='file path of the word-embedding model')
+args = argparser.parse_args()
+
+
+from flask import Flask, request, jsonify
+import shorttext
+
+app = Flask(__name__)
+w2v_model = shorttext.utils.load_word2vec_model(args.filepath, binary=True)
+
+
+@app.route('/closerthan',methods=['POST'])
+def closer_than():
+    data = request.get_json(force=True)
+    entity1 = data['entity1']
+    entity2 = data['entity2']
+    close_entities = w2v_model.closer_than(entity1, entity2)
+    return jsonify(close_entities)
+
+
+@app.route('/distance',methods=['POST'])
+def distance():
+    data = request.get_json(force=True)
+    entity1 = data['entity1']
+    entity2 = data['entity2']
+    distance = w2v_model.distance(entity1, entity2)
+    return jsonify({'distance': distance})
+
+
+@app.route('/distances',methods=['POST'])
+def distances():
+    data = request.get_json(force=True)
+    entity1 = data['entity1']
+    other_entities = tuple(data['other_entities'])
+    distances = w2v_model.distances(entity1, other_entities)
+    return jsonify({'distances': list(distances)})
+
+
+@app.route('/get_vector',methods=['POST'])
+def get_vector():
+    data = request.get_json(force=True)
+    token = data['token']
+    try:
+        vector = w2v_model.get_vector(token)
+        return jsonify({'vector': vector.tolist()})
+    except KeyError:
+        return jsonify({})
+
+
+if __name__ == "__main__":
+    app.run(debug=True)

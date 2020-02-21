@@ -1,8 +1,10 @@
 
 import numpy as np
-from gensim.models import KeyedVectors
-from gensim.models.poincare import PoincareModel, PoincareKeyedVectors
 import gensim
+from gensim.models import KeyedVectors
+from gensim.models.keyedvectors import BaseKeyedVectors
+from gensim.models.poincare import PoincareModel, PoincareKeyedVectors
+import requests
 
 from shorttext.utils import tokenize, deprecated
 
@@ -104,9 +106,31 @@ def shorttext_to_avgvec(shorttext, wvmodel):
     return vec
 
 
-class RESTfulKeyedVectors(KeyedVectors):
+class RESTfulKeyedVectors(BaseKeyedVectors):
     def __init__(self, url, port='5000'):
         self.url = url
         self.port = port
 
+    def closer_than(self, entity1, entity2):
+        r = requests.post(self.url + ':' + '/mostsimilarvector',
+                          json={'entity1': entity1, 'entity2': entity2})
+        return r.json()
+
+    def distance(self, entity1, entity2):
+        r = requests.post(self.url + ':' + '/distance',
+                          json={'entity1': entity1, 'entity2': entity2})
+        return r.json()['distance']
+
+    def distances(self, entity1, other_entities=()):
+        r = requests.post(self.url + ':' + '/distances',
+                          json={'entity1': entity1, 'other_distances': other_entities})
+        return r.json()['distances']
+
+    def get_vector(self, entity):
+        r = requests.post(self.url + ':' + '/get_vector', json={'token': entity})
+        returned_dict = r.json()
+        if 'vector' in returned_dict:
+            return np.array(returned_dict['vector'])
+        else:
+            raise KeyError('The token {} does not exist in the model.'.format(entity))
 
