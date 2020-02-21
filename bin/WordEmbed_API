@@ -53,5 +53,38 @@ def get_vector():
         return jsonify({})
 
 
+@app.route('/most_similar',methods=['POST'])
+def most_similar():
+    keyword_args = request.get_json(force=True)
+    returned_results = w2v_model.most_similar(**keyword_args)
+    return jsonify(returned_results)
+
+
+@app.route('/most_similar_to_given',methods=['POST'])
+def most_similar_to_given():
+    data = request.get_json(force=True)
+    entity1 = data['entity1']
+    entities_list = data['entities_list']
+    entity = w2v_model.most_similar_to_given(entity1, entities_list)
+    return jsonify({'token': entity})
+
+
+@app.route('/rank',methods=['POST'])
+def rank():
+    data = request.get_json(force=True)
+    entity1 = data['entity1']
+    entity2 = data['entity2']
+    rank = w2v_model.rank(entity1, entity2)
+    return jsonify({'rank': rank})
+
+
+def similarity():
+    data = request.get_json(force=True)
+    entity1 = data['entity1']
+    entity2 = data['entity2']
+    similarity = w2v_model.similarity(entity1, entity2)
+    return jsonify({'similarity': similarity})
+
+
 if __name__ == "__main__":
     app.run(debug=True)

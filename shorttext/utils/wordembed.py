@@ -112,25 +112,48 @@ class RESTfulKeyedVectors(BaseKeyedVectors):
         self.port = port
 
     def closer_than(self, entity1, entity2):
-        r = requests.post(self.url + ':' + '/mostsimilarvector',
+        r = requests.post(self.url + ':' + self.port + '/mostsimilarvector',
                           json={'entity1': entity1, 'entity2': entity2})
         return r.json()
 
     def distance(self, entity1, entity2):
-        r = requests.post(self.url + ':' + '/distance',
+        r = requests.post(self.url + ':' + self.port + '/distance',
                           json={'entity1': entity1, 'entity2': entity2})
         return r.json()['distance']
 
     def distances(self, entity1, other_entities=()):
-        r = requests.post(self.url + ':' + '/distances',
+        r = requests.post(self.url + ':' + self.port + '/distances',
                           json={'entity1': entity1, 'other_distances': other_entities})
         return r.json()['distances']
 
     def get_vector(self, entity):
-        r = requests.post(self.url + ':' + '/get_vector', json={'token': entity})
+        r = requests.post(self.url + ':' + self.port + '/get_vector', json={'token': entity})
         returned_dict = r.json()
         if 'vector' in returned_dict:
             return np.array(returned_dict['vector'])
         else:
             raise KeyError('The token {} does not exist in the model.'.format(entity))
 
+    def most_similar(self, **kwargs):
+        r = requests.post(self.url + ':' + self.port + '/most_similar', json=kwargs)
+        return r.json()
+
+    def most_similar_to_given(self, entity1, entities_list):
+        r = requests.post(self.url + ':' + self.port + '/most_similar_to_given',
+                          json={'entity1': entity1, 'entities_list': entities_list})
+        return r.json()['token']
+
+    def rank(self, entity1, entity2):
+        r = requests.post(self.url + ':' + self.port + '/rank',
+                          json={'entity1': entity1, 'entity2': entity2})
+        return r.json()['rank']
+
+    def save(self, fname_or_handle, **kwargs):
+        raise IOError('The class RESTfulKeyedVectors do not persist models to a file.')
+
+    def similarity(self, entity1, entity2):
+        r = requests.post(self.url + ':' + self.port + '/similarity',
+                          json={'entity1': entity1, 'entity2': entity2})
+        return r.json()['similarity']
+
+# reference: https://radimrehurek.com/gensim/models/keyedvectors.html
