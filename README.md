@@ -133,7 +133,6 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
-- [x] Decomissioning support for Python 2.7;
 - [ ] Compatibility with Python 3.8;
 - [x] Using `word2vec-api` for faster loading (especially on Cloud);
 - [ ] More scalability using `horovod`;
