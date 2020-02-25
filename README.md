@@ -134,7 +134,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 ## Possible Future Updates
 
 - [ ] Compatibility with Python 3.8;
-- [x] Using `word2vec-api` for faster loading (especially on Cloud);
+- [x] Developing API for word-embedding model (especially on Cloud);
 - [ ] More scalability using `horovod`;
 - [ ] Including BERT models;
 - [ ] Use of DASK;
