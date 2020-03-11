@@ -20,7 +20,7 @@ def package_description():
 
 
 setup(name='shorttext',
-      version='1.1.7a01',
+      version='1.2.0a01',
       description="Short Text Mining",
       long_description=package_description(),
       long_description_content_type='text/markdown',
@@ -82,8 +82,7 @@ setup(name='shorttext',
           'unittest2', 'keras>=2.3.0', 'gensim>=3.2.0',
       ],
       scripts=['bin/ShortTextCategorizerConsole',
-               'bin/ShortTextWordEmbedSimilarity',
-               'bin/switch_kerasbackend'],
+               'bin/ShortTextWordEmbedSimilarity'],
       #include_package_data=False,
       test_suite="test",
       zip_safe=False)
