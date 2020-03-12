@@ -107,6 +107,9 @@ def shorttext_to_avgvec(shorttext, wvmodel):
 
 
 class RESTfulKeyedVectors(BaseKeyedVectors):
+    """
+
+    """
     def __init__(self, url, port='5000'):
         self.url = url
         self.port = port
