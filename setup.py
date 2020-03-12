@@ -84,7 +84,7 @@ setup(name='shorttext',
       scripts=['bin/ShortTextCategorizerConsole',
                'bin/ShortTextWordEmbedSimilarity',
                'bin/switch_kerasbackend',
-               'bin/WordEmbed_API'],
+               'bin/WordEmbedAPI'],
       #include_package_data=False,
       test_suite="test",
       zip_safe=False)

@@ -112,7 +112,7 @@ class RESTfulKeyedVectors(BaseKeyedVectors):
         self.port = port
 
     def closer_than(self, entity1, entity2):
-        r = requests.post(self.url + ':' + self.port + '/mostsimilarvector',
+        r = requests.post(self.url + ':' + self.port + '/closerthan',
                           json={'entity1': entity1, 'entity2': entity2})
         return r.json()
 
@@ -123,8 +123,8 @@ class RESTfulKeyedVectors(BaseKeyedVectors):
 
     def distances(self, entity1, other_entities=()):
         r = requests.post(self.url + ':' + self.port + '/distances',
-                          json={'entity1': entity1, 'other_distances': other_entities})
-        return r.json()['distances']
+                          json={'entity1': entity1, 'other_entities': other_entities})
+        return np.array(r.json()['distances'], dtype=np.float32)
 
     def get_vector(self, entity):
         r = requests.post(self.url + ':' + self.port + '/get_vector', json={'token': entity})
@@ -136,7 +136,7 @@ class RESTfulKeyedVectors(BaseKeyedVectors):
 
     def most_similar(self, **kwargs):
         r = requests.post(self.url + ':' + self.port + '/most_similar', json=kwargs)
-        return r.json()
+        return [tuple(pair) for pair in r.json()]
 
     def most_similar_to_given(self, entity1, entities_list):
         r = requests.post(self.url + ':' + self.port + '/most_similar_to_given',

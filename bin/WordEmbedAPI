@@ -47,7 +47,7 @@ def distances():
     entity1 = data['entity1']
     other_entities = tuple(data['other_entities'])
     distances = w2v_model.distances(entity1, other_entities)
-    return jsonify({'distances': list(distances)})
+    return jsonify({'distances': list([float(distance) for distance in distances])})
 
 
 @app.route('/get_vector',methods=['POST'])
@@ -86,12 +86,13 @@ def rank():
     return jsonify({'rank': rank})
 
 
+@app.route('/similarity',methods=['POST'])
 def similarity():
     data = request.get_json(force=True)
     entity1 = data['entity1']
     entity2 = data['entity2']
     similarity = w2v_model.similarity(entity1, entity2)
-    return jsonify({'similarity': similarity})
+    return jsonify({'similarity': float(similarity)})
 
 
 if __name__ == "__main__":
