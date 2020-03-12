@@ -89,22 +89,6 @@ class MaxEntClassifier(CompactIOMachine):
 
         return vec[0, :]
 
-    @deprecated
-    def gensimcorpus_to_matrix(self, corpus):
-        """ Convert the gensim corpus into a sparse matrix. (deprecated)
-
-        :param corpus: gensim corpus
-        :return: matrix representing the corpus
-        :type corpus: list
-        :rtype: scipy.sparse.dok_matrix
-        """
-        # not used, deprecated
-        matrix = dok_matrix((len(corpus), len(self.dictionary)))
-        for docid, doc in enumerate(corpus):
-            for tokenid, count in doc:
-                matrix[docid, tokenid] = count
-        return matrix
-
     def index_classlabels(self):
         """ Index the class outcome labels.
 
@@ -130,7 +114,6 @@ class MaxEntClassifier(CompactIOMachine):
             if label in self.labels2idx.keys():
                 for shorttext in classdict[label]:
                     tokens = tokenize(self.preprocessor(shorttext))
-                    #X[rowid, :] = self.shorttext_to_vec(shorttext)
                     for token in tokens:
                         X[rowid, self.dictionary.token2id[token]] += 1.0
                     y[rowid, self.labels2idx[label]] = 1.
