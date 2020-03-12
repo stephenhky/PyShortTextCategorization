@@ -19,6 +19,18 @@ def package_description():
     return text[startpos:]
 
 
+def install_requirements():
+    return [package_string.strip() for package_string in open('requirements.txt', 'r')]
+
+
+def setup_requirements():
+    return [package_string.strip() for package_string in open('setup_requirements.txt', 'r')]
+
+
+def test_requirements():
+    return [package_string.strip() for package_string in open('test_requirements.txt', 'r')]
+
+
 setup(name='shorttext',
       version='1.1.7a01',
       description="Short Text Mining",
@@ -72,15 +84,9 @@ setup(name='shorttext',
                                   'metrics/dynprog/*.pyx', 'metrics/dynprog/*.c',
                                   'spell/*.pyx', 'spell/*.c']},
       include_dirs=[np.get_include()],
-      setup_requires=['numpy>=1.16.0', 'scipy>=1.2.0'],
-      install_requires=[
-          'Cython', 'numpy>=1.16.0', 'scipy>=1.2.0',
-          'scikit-learn', 'keras>=2.3.0', 'gensim>=3.2.0',
-          'pandas', 'spacy>=1.7.0', 'pulp', 'PyStemmer',
-      ],
-      tests_require=[
-          'unittest2', 'keras>=2.3.0', 'gensim>=3.2.0',
-      ],
+      setup_requires=setup_requirements(),
+      install_requires=install_requirements(),
+      tests_require=test_requirements(),
       scripts=['bin/ShortTextCategorizerConsole',
                'bin/ShortTextWordEmbedSimilarity',
                'bin/switch_kerasbackend'],
