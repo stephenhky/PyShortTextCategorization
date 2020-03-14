@@ -27,8 +27,9 @@ Characteristics:
 - neural network classification (including ConvNet, and C-LSTM);
 - maximum entropy classification;
 - metrics of phrases differences, including soft Jaccard score (using Damerau-Levenshtein distance), and Word Mover's distance (WMD);
-- character-level sequence-to-sequence (seq2seq) learning; and
-- spell correction.
+- character-level sequence-to-sequence (seq2seq) learning; 
+- spell correction; and
+- API for word-embedding algorithm for one-time loading.
 
 ## Documentation
 
