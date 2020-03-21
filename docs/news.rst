@@ -1,6 +1,7 @@
 News
 ====
 
+* 03/21/2019: `shorttext` 1.2.0 released.
 * 12/01/2019: `shorttext` 1.1.6 released.
 * 09/24/2019: `shorttext` 1.1.5 released.
 * 07/20/2019: `shorttext` 1.1.4 released.
@@ -51,8 +52,14 @@ News
 What's New
 ----------
 
+Release 1.2.0 (March 21, 2019)
+--------------------------------
+
+* API for word-embedding algorithm for one-time loading.
+
+
 Release 1.1.6 (December 1, 2019)
-----------------------------------
+--------------------------------
 
 * Compatibility with TensorFlow 2.0.0.
 
