@@ -48,4 +48,24 @@ ShortTextWordEmbedSimilarity
                    options: "fasttext", "poincare")
 
 
+WordEmbedAPI
+------------
+
+::
+
+    usage: WordEmbedAPI [-h] [--embedtype EMBEDTYPE] [--debug] filepath
+
+    Load word-embedding models into memory.
+
+    positional arguments:
+      filepath              file path of the word-embedding model
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      --embedtype EMBEDTYPE
+                            type of word-embedding algorithm (default: "word2vec),
+                            allowing "word2vec", "fasttext", and "poincare"
+      --debug               Debug mode (Default: False)
+
+
 Home: :doc:`index`
