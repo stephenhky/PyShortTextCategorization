@@ -28,8 +28,9 @@ Characteristics:
 - neural network classification (including ConvNet, and C-LSTM);
 - maximum entropy classification;
 - metrics of phrases differences, including soft Jaccard score (using Damerau-Levenshtein distance), and Word Mover's distance (WMD);
-- character-level sequence-to-sequence (seq2seq) learning; and
-- spell correction.
+- character-level sequence-to-sequence (seq2seq) learning; 
+- spell correction; and
+- API for word-embedding algorithm for one-time loading.
 
 ## Documentation
 
@@ -135,7 +136,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 ## Possible Future Updates
 
 - [ ] Compatibility with Python 3.8;
-- [ ] Using `word2vec-api` for faster loading (especially on Cloud);
+- [x] Developing API for word-embedding model (especially on Cloud);
 - [ ] More scalability using `horovod`;
 - [ ] Including BERT models;
 - [ ] Use of DASK;

@@ -1,8 +1,10 @@
 
 import numpy as np
-from gensim.models import KeyedVectors
-from gensim.models.poincare import PoincareModel, PoincareKeyedVectors
 import gensim
+from gensim.models import KeyedVectors
+from gensim.models.keyedvectors import BaseKeyedVectors
+from gensim.models.poincare import PoincareModel, PoincareKeyedVectors
+import requests
 
 from shorttext.utils import tokenize, deprecated
 
@@ -102,3 +104,59 @@ def shorttext_to_avgvec(shorttext, wvmodel):
         vec /= norm
 
     return vec
+
+
+class RESTfulKeyedVectors(BaseKeyedVectors):
+    """
+
+    """
+    def __init__(self, url, port='5000'):
+        self.url = url
+        self.port = port
+
+    def closer_than(self, entity1, entity2):
+        r = requests.post(self.url + ':' + self.port + '/closerthan',
+                          json={'entity1': entity1, 'entity2': entity2})
+        return r.json()
+
+    def distance(self, entity1, entity2):
+        r = requests.post(self.url + ':' + self.port + '/distance',
+                          json={'entity1': entity1, 'entity2': entity2})
+        return r.json()['distance']
+
+    def distances(self, entity1, other_entities=()):
+        r = requests.post(self.url + ':' + self.port + '/distances',
+                          json={'entity1': entity1, 'other_entities': other_entities})
+        return np.array(r.json()['distances'], dtype=np.float32)
+
+    def get_vector(self, entity):
+        r = requests.post(self.url + ':' + self.port + '/get_vector', json={'token': entity})
+        returned_dict = r.json()
+        if 'vector' in returned_dict:
+            return np.array(returned_dict['vector'])
+        else:
+            raise KeyError('The token {} does not exist in the model.'.format(entity))
+
+    def most_similar(self, **kwargs):
+        r = requests.post(self.url + ':' + self.port + '/most_similar', json=kwargs)
+        return [tuple(pair) for pair in r.json()]
+
+    def most_similar_to_given(self, entity1, entities_list):
+        r = requests.post(self.url + ':' + self.port + '/most_similar_to_given',
+                          json={'entity1': entity1, 'entities_list': entities_list})
+        return r.json()['token']
+
+    def rank(self, entity1, entity2):
+        r = requests.post(self.url + ':' + self.port + '/rank',
+                          json={'entity1': entity1, 'entity2': entity2})
+        return r.json()['rank']
+
+    def save(self, fname_or_handle, **kwargs):
+        raise IOError('The class RESTfulKeyedVectors do not persist models to a file.')
+
+    def similarity(self, entity1, entity2):
+        r = requests.post(self.url + ':' + self.port + '/similarity',
+                          json={'entity1': entity1, 'entity2': entity2})
+        return r.json()['similarity']
+
+# reference: https://radimrehurek.com/gensim/models/keyedvectors.html

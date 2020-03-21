@@ -32,7 +32,7 @@ def test_requirements():
 
 
 setup(name='shorttext',
-      version='1.1.7a01',
+      version='1.2.0a01',
       description="Short Text Mining",
       long_description=package_description(),
       long_description_content_type='text/markdown',
@@ -89,7 +89,8 @@ setup(name='shorttext',
       tests_require=test_requirements(),
       scripts=['bin/ShortTextCategorizerConsole',
                'bin/ShortTextWordEmbedSimilarity',
-               'bin/switch_kerasbackend'],
+               'bin/switch_kerasbackend',
+               'bin/WordEmbedAPI'],
       #include_package_data=False,
       test_suite="test",
       zip_safe=False)
