@@ -12,7 +12,7 @@ from shorttext.utils.compactmodel_io import CompactIOMachine, get_model_classifi
 from shorttext.utils import gensim_corpora as gc
 from .LatentTopicModeling import LatentTopicModeler
 from shorttext.utils import textpreprocessing as textpreprocess
-from shorttext.utils.textpreprocessing import spacy_tokenize as tokenize
+from shorttext.utils.textpreprocessing import tokenize
 
 gensim_topic_model_dict = {'lda': LdaModel, 'lsi': LsiModel, 'rp': RpModel}
 

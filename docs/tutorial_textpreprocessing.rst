@@ -76,7 +76,7 @@ Tokenization
 ------------
 
 Users are free to choose any tokenizer they wish. In `shorttext`, the tokenizer is
-implemented with `spaCy`, and can be called:
+simply the space delimiter, and can be called:
 
 >>> shorttext.utils.tokenize('Maryland blue crab')   # output: ['Maryland', 'blue', 'crab']
 

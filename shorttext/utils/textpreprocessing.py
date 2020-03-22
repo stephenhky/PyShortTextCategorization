@@ -2,10 +2,11 @@
 import re
 import os
 import codecs
-import sys
 
 import Stemmer
-import spacy
+
+# tokenizer
+tokenize = lambda s: s.split(' ')
 
 
 # stemmer
@@ -18,35 +19,6 @@ this_dir, _ = os.path.split(__file__)
 f = codecs.open(os.path.join(this_dir, 'stopwords.txt'), 'r', 'utf-8')
 stopwordset = set([stopword.strip() for stopword in f])
 f.close()
-
-
-# initialize spacy
-class SpaCyNLPHolder:
-    def __init__(self):
-        self.nlp = None
-
-    def getNLPInstance(self):
-        if self.nlp==None:
-            self.nlp = spacy.load('en')
-        return self.nlp
-# prepare the singleton
-spaCyNLPHolder = SpaCyNLPHolder()
-
-
-def spacy_tokenize(text):
-    """ Tokenize a sentence with spaCy.
-
-    This works like `nltk.tokenize` which tokenize a sentence, but this runs faster.
-    This returns the strings of tokens.
-
-    :param text: sentence to tokenize
-    :return: list of tokens
-    :type text: str
-    :rtype: list
-    """
-    nlp = spaCyNLPHolder.getNLPInstance()   # lazy loading
-    tokenizer = nlp(unicode(text)) if sys.version_info[0]==2 else nlp(text)
-    return [str(token) for token in tokenizer]
 
 
 def preprocess_text(text, pipeline):
@@ -101,7 +73,7 @@ def standard_text_preprocessor_1():
     pipeline = [lambda s: re.sub('[^\w\s]', '', s),
                 lambda s: re.sub('[\d]', '', s),
                 lambda s: s.lower(),
-                lambda s: ' '.join(filter(lambda s: not (s in stopwordset), spacy_tokenize(s))),
-                lambda s: ' '.join([stemword(stemmed_token) for stemmed_token in spacy_tokenize(s)])
+                lambda s: ' '.join(filter(lambda s: not (s in stopwordset), tokenize(s))),
+                lambda s: ' '.join([stemword(stemmed_token) for stemmed_token in tokenize(s)])
                ]
     return text_preprocessor(pipeline)

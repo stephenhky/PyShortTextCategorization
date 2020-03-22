@@ -25,12 +25,6 @@ On the other hand, to get the development version on Github, you can install fro
 By adding ``-U`` in the command, it automatically installs the required packages. If not,
 you have to install these packages on your own.
 
-Before using, check the language model of spaCy has been installed or updated, by running:
-
-::
-
-    python -m spacy download en
-
 
 Backend for Keras
 -----------------
@@ -84,7 +78,6 @@ Required Packages
 - keras_ (Deep Learning Library for Theano and Tensorflow, version >= 2.3.0)
 - gensim_ (Topic Modeling for Humans, version >= 3.2.0)
 - Pandas_ (Python Data Analysis Library)
-- spaCy_ (Industrial Strenglth Natural Language Processing in Python, version >= 1.7.0)
 - PuLP_ (Optimization with PuLP)
 - PyStemmer_ (Snowball Stemmer, the package stemming_ is no longer used)
 - TensorFlow_ (TensorFlow, >= 2.0.0)
@@ -101,7 +94,6 @@ Home: :doc:`index`
 .. _keras: https://keras.io/
 .. _gensim: https://radimrehurek.com/gensim/
 .. _Pandas: http://pandas.pydata.org/
-.. _spaCy: https://spacy.io/
 .. _stemming: https://pypi.python.org/pypi/stemming/
 .. _PuLP: https://pythonhosted.org/PuLP/
 .. _PyStemmer: http://snowball.tartarus.org/
