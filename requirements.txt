@@ -8,3 +8,4 @@ pandas
 spacy>=1.7.0
 pulp
 PyStemmer
+flask
