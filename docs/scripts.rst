@@ -53,7 +53,8 @@ WordEmbedAPI
 
 ::
 
-    usage: WordEmbedAPI [-h] [--embedtype EMBEDTYPE] [--debug] filepath
+    usage: WordEmbedAPI [-h] [--port PORT] [--embedtype EMBEDTYPE] [--debug]
+                        filepath
 
     Load word-embedding models into memory.
 
@@ -62,10 +63,10 @@ WordEmbedAPI
 
     optional arguments:
       -h, --help            show this help message and exit
+      --port PORT           port number
       --embedtype EMBEDTYPE
                             type of word-embedding algorithm (default: "word2vec),
                             allowing "word2vec", "fasttext", and "poincare"
       --debug               Debug mode (Default: False)
-
 
 Home: :doc:`index`

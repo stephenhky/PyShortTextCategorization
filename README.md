@@ -16,6 +16,7 @@ of these representations, including topic modeling and word-embedding algorithms
 Since release 1.0.0, `shorttext` runs on Python 2.7, 3.5, and 3.6.
 Since release 1.0.7, it runs on Python 3.7 as well, but the backend for `keras` cannot be `TensorFlow`.
 Since release 1.0.8, it runs on Python 3.7 with 'TensorFlow' being the backend for `keras`.
+Since release 1.1.7, support for Python 2.7 was decommissioned.
 
 Characteristics:
 
