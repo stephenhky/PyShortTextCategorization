@@ -34,12 +34,12 @@ class TestDTM(unittest.TestCase):
         dtm = shorttext.utils.DocumentTermMatrix(corpus, docids=docids, tfidf=True)
 
         # check results
-        self.assertEqual(len(dtm.dictionary), 5252)
-        self.assertAlmostEqual(dtm.get_token_occurences(stemmer.stemWord('change'))['2009-Obama'], 0.013937471327928361)
+        self.assertEqual(len(dtm.dictionary), 5253)   # from spacy tokenization to space-delimiation, the number of tokens changed from 5252 to 5253
+        self.assertAlmostEqual(dtm.get_token_occurences(stemmer.stemWord('change'))['2009-Obama'], 0.01387942827805605)
         numdocs, numtokens = dtm.dtm.shape
         self.assertEqual(numdocs, 56)
-        self.assertEqual(numtokens, 5252)
-        self.assertAlmostEqual(dtm.get_total_termfreq('government'), 0.27875478870737563)
+        self.assertEqual(numtokens, 5253)
+        self.assertAlmostEqual(dtm.get_total_termfreq('government'), 0.27872964951168006)
 
 
 if __name__ == '__main__':

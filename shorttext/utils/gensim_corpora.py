@@ -3,7 +3,7 @@ from collections import defaultdict
 
 import gensim
 
-from .textpreprocessing import spacy_tokenize as tokenize
+from .textpreprocessing import tokenize
 
 
 def generate_gensim_corpora(classdict, preprocess_and_tokenize=tokenize):

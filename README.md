@@ -54,12 +54,6 @@ or, if you want the most recent development version on Github, type
 
 Developers are advised to make sure `Keras` >=2 be installed. Users are advised to install the backend `Tensorflow` (preferred) or `Theano` in advance. It is desirable if `Cython` has been previously installed too.
 
-Before using, check the language model of spaCy has been installed or updated, by running:
-
-```
->>> python -m spacy download en
-```
-
 See [installation guide](https://shorttext.readthedocs.io/en/latest/install.html) for more details.
 
 
@@ -137,7 +131,6 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 ## Possible Future Updates
 
 - [ ] Compatibility with Python 3.8;
-- [x] Developing API for word-embedding model (especially on Cloud);
 - [ ] More scalability using `horovod`;
 - [ ] Including BERT models;
 - [ ] Use of DASK;

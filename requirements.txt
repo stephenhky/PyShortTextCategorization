@@ -5,7 +5,6 @@ scikit-learn
 keras>=2.3.0
 gensim>=3.2.0
 pandas
-spacy>=1.7.0
 pulp
 PyStemmer
 flask

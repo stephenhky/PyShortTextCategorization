@@ -32,7 +32,6 @@ Required Packages
 - keras_ (Deep Learning Library for Theano and Tensorflow)
 - gensim_ (Topic Modeling for Humans)
 - Pandas_ (Python Data Analysis Library)
-- spaCy_ (Industrial Strenglth Natural Language Processing in Python)
 - stemming_ (stemming in Python)
 
 .. _Numpy: http://www.numpy.org/
@@ -42,5 +41,4 @@ Required Packages
 .. _keras: https://keras.io/
 .. _gensim: https://radimrehurek.com/gensim/
 .. _Pandas: http://pandas.pydata.org/
-.. _spaCy: https://spacy.io/
 .. _stemming: https://pypi.python.org/pypi/stemming/
