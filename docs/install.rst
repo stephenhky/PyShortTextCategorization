@@ -88,6 +88,7 @@ Required Packages
 - PuLP_ (Optimization with PuLP)
 - PyStemmer_ (Snowball Stemmer, the package stemming_ is no longer used)
 - TensorFlow_ (TensorFlow, >= 2.0.0)
+- Flask_ (Flask)
 
 Home: :doc:`index`
 
@@ -106,3 +107,4 @@ Home: :doc:`index`
 .. _PuLP: https://pythonhosted.org/PuLP/
 .. _PyStemmer: http://snowball.tartarus.org/
 .. _TensorFlow: https://www.tensorflow.org/
+.. _Flask: https://flask.palletsprojects.com/
