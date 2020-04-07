@@ -79,7 +79,7 @@ Required Packages
 - gensim_ (Topic Modeling for Humans, version >= 3.2.0)
 - Pandas_ (Python Data Analysis Library)
 - PuLP_ (Optimization with PuLP)
-- PyStemmer_ (Snowball Stemmer, the package stemming_ is no longer used)
+- snowballstemmer_ (Snowball Stemmer)
 - TensorFlow_ (TensorFlow, >= 2.0.0)
 - Flask_ (Flask)
 
@@ -95,8 +95,7 @@ Home: :doc:`index`
 .. _keras: https://keras.io/
 .. _gensim: https://radimrehurek.com/gensim/
 .. _Pandas: http://pandas.pydata.org/
-.. _stemming: https://pypi.python.org/pypi/stemming/
 .. _PuLP: https://pythonhosted.org/PuLP/
-.. _PyStemmer: http://snowball.tartarus.org/
+.. _snowballstemmer: https://github.com/snowballstem/snowball
 .. _TensorFlow: https://www.tensorflow.org/
 .. _Flask: https://flask.palletsprojects.com/

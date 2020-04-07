@@ -3,14 +3,14 @@ import re
 import os
 import codecs
 
-import Stemmer
+import snowballstemmer
 
 # tokenizer
 tokenize = lambda s: s.split(' ')
 
 
 # stemmer
-stemmer = Stemmer.Stemmer('english')
+stemmer = snowballstemmer.stemmer('porter')
 stemword = lambda s: stemmer.stemWord(s)
 
 
