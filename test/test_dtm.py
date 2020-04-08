@@ -4,7 +4,7 @@ import re
 
 import pandas as pd
 import shorttext
-import Stemmer
+from shorttext.utils import stemword, tokenize
 
 
 class TestDTM(unittest.TestCase):
@@ -16,13 +16,11 @@ class TestDTM(unittest.TestCase):
         usprezdf = pd.DataFrame({'yrprez': docids, 'speech': usprez})
         usprezdf = usprezdf[['yrprez', 'speech']]
 
-        stemmer = Stemmer.Stemmer('english')
-
         # preprocesser defined
         pipeline = [lambda s: re.sub('[^\w\s]', '', s),
                     lambda s: re.sub('[\d]', '', s),
                     lambda s: s.lower(),
-                    lambda s: ' '.join([stemmer.stemWord(token) for token in shorttext.utils.tokenize(s)])
+                    lambda s: ' '.join([stemword(token) for token in tokenize(s)])
                     ]
         txtpreprocessor = shorttext.utils.text_preprocessor(pipeline)
 
