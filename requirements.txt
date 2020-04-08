@@ -6,5 +6,5 @@ keras>=2.3.0
 gensim>=3.2.0
 pandas
 pulp
-PyStemmer
 flask
+snowballstemmer>=2.0.0

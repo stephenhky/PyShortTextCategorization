@@ -4,7 +4,7 @@ import re
 
 import pandas as pd
 import shorttext
-import Stemmer
+from shorttext.utils import stemword, tokenize
 
 
 class TestDTM(unittest.TestCase):
@@ -16,13 +16,11 @@ class TestDTM(unittest.TestCase):
         usprezdf = pd.DataFrame({'yrprez': docids, 'speech': usprez})
         usprezdf = usprezdf[['yrprez', 'speech']]
 
-        stemmer = Stemmer.Stemmer('english')
-
         # preprocesser defined
         pipeline = [lambda s: re.sub('[^\w\s]', '', s),
                     lambda s: re.sub('[\d]', '', s),
                     lambda s: s.lower(),
-                    lambda s: ' '.join([stemmer.stemWord(token) for token in shorttext.utils.tokenize(s)])
+                    lambda s: ' '.join([stemword(token) for token in tokenize(s)])
                     ]
         txtpreprocessor = shorttext.utils.text_preprocessor(pipeline)
 
@@ -34,12 +32,14 @@ class TestDTM(unittest.TestCase):
         dtm = shorttext.utils.DocumentTermMatrix(corpus, docids=docids, tfidf=True)
 
         # check results
-        self.assertEqual(len(dtm.dictionary), 5253)   # from spacy tokenization to space-delimiation, the number of tokens changed from 5252 to 5253
-        self.assertAlmostEqual(dtm.get_token_occurences(stemmer.stemWord('change'))['2009-Obama'], 0.01387942827805605)
+        self.assertEqual(len(dtm.dictionary), 5406)
+        self.assertAlmostEqual(dtm.get_token_occurences(stemword('change'))['2009-Obama'], 0.013801565936022027,
+                               places=4)
         numdocs, numtokens = dtm.dtm.shape
         self.assertEqual(numdocs, 56)
-        self.assertEqual(numtokens, 5253)
-        self.assertAlmostEqual(dtm.get_total_termfreq('government'), 0.27872964951168006)
+        self.assertEqual(numtokens, 5406)
+        self.assertAlmostEqual(dtm.get_total_termfreq('government'), 0.27584786568258396,
+                               places=4)
 
 
 if __name__ == '__main__':

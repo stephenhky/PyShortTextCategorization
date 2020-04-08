@@ -15,7 +15,7 @@ following steps:
 - removing numerals,
 - converting all alphabets to lower cases,
 - removing stop words, and
-- stemming the words (using Porter stemmer).
+- stemming the words (using Snowball Porter stemmer).
 
 To do this, load the preprocesser generator:
 
