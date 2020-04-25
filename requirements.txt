@@ -5,6 +5,6 @@ scikit-learn==0.22.2.post1
 keras>=2.3.0
 gensim>=3.2.0
 pandas==1.0.3
-pulp
+pulp==2.1
 flask
 snowballstemmer>=2.0.0
