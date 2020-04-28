@@ -1,6 +1,7 @@
 News
 ====
 
+* 04/28/2020: `shorttext` 1.2.3 released.
 * 04/07/2020: `shorttext` 1.2.2 released.
 * 03/23/2020: `shorttext` 1.2.1 released.
 * 03/21/2020: `shorttext` 1.2.0 released.
@@ -53,6 +54,12 @@ News
 
 What's New
 ----------
+
+Release 1.2.2 (April 28, 2020)
+-----------------------------
+
+* PyUP scan implemented;
+* Support for Python 3.5 decommissioned.
 
 Release 1.2.2 (April 7, 2020)
 -----------------------------

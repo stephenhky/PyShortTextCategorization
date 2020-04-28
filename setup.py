@@ -28,7 +28,7 @@ def setup_requirements():
 
 
 setup(name='shorttext',
-      version='1.2.3a01',
+      version='1.2.3',
       description="Short Text Mining",
       long_description=package_description(),
       long_description_content_type='text/markdown',
