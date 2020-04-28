@@ -27,10 +27,6 @@ def setup_requirements():
     return [package_string.strip() for package_string in open('setup_requirements.txt', 'r')]
 
 
-def test_requirements():
-    return [package_string.strip() for package_string in open('test_requirements.txt', 'r')]
-
-
 setup(name='shorttext',
       version='1.2.2',
       description="Short Text Mining",
@@ -86,7 +82,6 @@ setup(name='shorttext',
       include_dirs=[np.get_include()],
       setup_requires=setup_requirements(),
       install_requires=install_requirements(),
-      tests_require=test_requirements(),
       scripts=['bin/ShortTextCategorizerConsole',
                'bin/ShortTextWordEmbedSimilarity',
                'bin/WordEmbedAPI'],
