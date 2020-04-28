@@ -1,10 +1,10 @@
-Cython==0.29.16
+Cython>=0.29.0
 numpy>=1.16.0
 scipy>=1.2.0
-scikit-learn==0.22.2.post1
+scikit-learn>=0.22.0
 keras>=2.3.0
 gensim>=3.2.0
-pandas==1.0.3
-pulp==2.1
-flask==1.1.2
+pandas>=1.0.0
+pulp>=2.0
+flask>=1.1.0
 snowballstemmer>=2.0.0
