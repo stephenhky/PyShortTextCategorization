@@ -4,7 +4,7 @@ Installation
 PIP
 ---
 
-Package `shorttext` runs in Python 2.7, 3.5, 3.6, and 3.7. However, for Python 3.7, the backend
+Package `shorttext` runs in Python 3.6, 3.7, and 3.8. However, for Python>=3.7, the backend
 of keras_ cannot be Tensorflow_.
 
 To install the package in Linux or OS X, enter the following in the console:
@@ -44,20 +44,12 @@ you may try one (or more) of the following:
 
 1. Installing Python-dev by typing:
 
-::
-
-    pip install -U python-dev
-
-
-
-for Python 2.7, or
 
 ::
 
     pip install -U python3-dev
 
 
-for Python 3.5, 3.6, and 3.7.
 
 2. Installing `gcc` by entering
 
