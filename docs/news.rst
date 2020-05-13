@@ -60,7 +60,8 @@ Release 1.2.4 (May 13, 2020)
 -----------------------------
 
 * Update on `scikit-learn` requirements to `>=0.23.0`.
-* Directly dependence on `joblib`.
+* Directly dependence on `joblib`;
+* Support for Python 3.8 added.
 
 Release 1.2.3 (April 28, 2020)
 -----------------------------

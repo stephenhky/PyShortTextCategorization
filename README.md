@@ -15,6 +15,7 @@ representation of the texts and documents are needed before they are put into
 any classification algorithm. In this package, it facilitates various types
 of these representations, including topic modeling and word-embedding algorithms.
 
+Since release 1.2.4, it runs on Python 3.8.
 Since release 1.2.3, support for Python 3.5 was decommissioned. 
 Since release 1.1.7, support for Python 2.7 was decommissioned.
 Since release 1.0.8, it runs on Python 3.7 with 'TensorFlow' being the backend for `keras`.
@@ -138,7 +139,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
-- [ ] Compatibility with Python 3.8;
+- [x] Compatibility with Python 3.8;
 - [ ] More scalability using `horovod`;
 - [ ] Including BERT models;
 - [ ] Use of DASK;
