@@ -1,7 +1,7 @@
 
 import os
 
-from sklearn.externals import joblib
+import joblib
 
 from shorttext.utils import textpreprocessing as textpreprocess
 from shorttext.generators import load_autoencoder_topicmodel, load_gensimtopicmodel
