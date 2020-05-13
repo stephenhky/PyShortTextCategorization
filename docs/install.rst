@@ -82,6 +82,7 @@ Required Packages
 - snowballstemmer_ (Snowball Stemmer)
 - TensorFlow_ (TensorFlow, >= 2.0.0)
 - Flask_ (Flask)
+- Joblib_ (Joblib: lightweight Python pipelining)
 
 Home: :doc:`index`
 
@@ -99,3 +100,4 @@ Home: :doc:`index`
 .. _snowballstemmer: https://github.com/snowballstem/snowball
 .. _TensorFlow: https://www.tensorflow.org/
 .. _Flask: https://flask.palletsprojects.com/
+.. _Joblib: https://joblib.readthedocs.io/en/latest/

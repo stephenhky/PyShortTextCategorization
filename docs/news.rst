@@ -1,6 +1,7 @@
 News
 ====
 
+* 05/13/2020: `shorttext` 1.2.4 released.
 * 04/28/2020: `shorttext` 1.2.3 released.
 * 04/07/2020: `shorttext` 1.2.2 released.
 * 03/23/2020: `shorttext` 1.2.1 released.
@@ -55,7 +56,13 @@ News
 What's New
 ----------
 
-Release 1.2.2 (April 28, 2020)
+Release 1.2.4 (May 13, 2020)
+-----------------------------
+
+* Update on `scikit-learn` requirements to `>=0.23.0`.
+* Directly dependence on `joblib`.
+
+Release 1.2.3 (April 28, 2020)
 -----------------------------
 
 * PyUP scan implemented;
