@@ -15,7 +15,7 @@ following steps:
 - removing numerals,
 - converting all alphabets to lower cases,
 - removing stop words, and
-- stemming the words (using Porter stemmer).
+- stemming the words (using Snowball Porter stemmer).
 
 To do this, load the preprocesser generator:
 
@@ -76,7 +76,7 @@ Tokenization
 ------------
 
 Users are free to choose any tokenizer they wish. In `shorttext`, the tokenizer is
-implemented with `spaCy`, and can be called:
+simply the space delimiter, and can be called:
 
 >>> shorttext.utils.tokenize('Maryland blue crab')   # output: ['Maryland', 'blue', 'crab']
 

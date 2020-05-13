@@ -1,10 +1,11 @@
-Cython
+Cython>=0.29.0
 numpy>=1.16.0
 scipy>=1.2.0
-scikit-learn
+joblib>=0.14
+scikit-learn>=0.23.0
 keras>=2.3.0
 gensim>=3.2.0
-pandas
-spacy>=1.7.0
-pulp
-PyStemmer
+pandas>=1.0.0
+pulp>=2.0
+flask>=1.1.0
+snowballstemmer>=2.0.0

@@ -21,6 +21,7 @@ Contents:
    install
    tutorial
    scripts
+   codes
    faq
    refs
    links

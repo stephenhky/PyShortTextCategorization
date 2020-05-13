@@ -1,6 +1,10 @@
 News
 ====
 
+* 04/28/2020: `shorttext` 1.2.3 released.
+* 04/07/2020: `shorttext` 1.2.2 released.
+* 03/23/2020: `shorttext` 1.2.1 released.
+* 03/21/2020: `shorttext` 1.2.0 released.
 * 12/01/2019: `shorttext` 1.1.6 released.
 * 09/24/2019: `shorttext` 1.1.5 released.
 * 07/20/2019: `shorttext` 1.1.4 released.
@@ -51,8 +55,31 @@ News
 What's New
 ----------
 
+Release 1.2.2 (April 28, 2020)
+-----------------------------
+
+* PyUP scan implemented;
+* Support for Python 3.5 decommissioned.
+
+Release 1.2.2 (April 7, 2020)
+-----------------------------
+
+* Removed dependence on `PyStemmer`, which is replaced by `snowballstemmer`.
+
+Release 1.2.1 (March 23, 2020)
+--------------------------------
+
+* Added port number adjustability for word-embedding API;
+* Removal of Spacy dependency.
+
+Release 1.2.0 (March 21, 2020)
+--------------------------------
+
+* API for word-embedding algorithm for one-time loading.
+
+
 Release 1.1.6 (December 1, 2019)
-----------------------------------
+--------------------------------
 
 * Compatibility with TensorFlow 2.0.0.
 
