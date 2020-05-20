@@ -1,6 +1,7 @@
 News
 ====
 
+* 05/20/2020: `shorttext` 1.2.5 released.
 * 05/13/2020: `shorttext` 1.2.4 released.
 * 04/28/2020: `shorttext` 1.2.3 released.
 * 04/07/2020: `shorttext` 1.2.2 released.
@@ -55,6 +56,11 @@ News
 
 What's New
 ----------
+
+Release 1.2.5 (May 20, 2020)
+-----------------------------
+
+* Update on `gensim` package usage and requirements.
 
 Release 1.2.4 (May 13, 2020)
 -----------------------------

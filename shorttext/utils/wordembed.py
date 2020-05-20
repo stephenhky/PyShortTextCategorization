@@ -22,7 +22,7 @@ def load_word2vec_model(path, binary=True):
     return KeyedVectors.load_word2vec_format(path, binary=binary)
 
 
-def load_fasttext_model(path):
+def load_fasttext_model(path, encoding='utf-8'):
     """ Load a pre-trained FastText model.
 
     :param path: path of the file of the pre-trained FastText model
@@ -30,7 +30,7 @@ def load_fasttext_model(path):
     :type path: str
     :rtype: gensim.models.keyedvectors.FastTextKeyedVectors
     """
-    return gensim.models.FastText.load_facebook_vectors(path)
+    return gensim.models.fasttext.load_facebook_vectors(path, encoding=encoding)
 
 
 def load_poincare_model(path, word2vec_format=True, binary=False):
