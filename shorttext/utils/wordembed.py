@@ -51,36 +51,6 @@ def load_poincare_model(path, word2vec_format=True, binary=False):
         return PoincareModel.load(path).kv
 
 
-@deprecated
-def shorttext_to_avgembedvec(shorttext, wvmodel, vecsize):
-    """ Convert the short text into an averaged embedded vector representation. (deprecated, kept for backward compatibility)
-
-    Given a short sentence, it converts all the tokens into embedded vectors according to
-    the given word-embedding model, sums
-    them up, and normalize the resulting vector. It returns the resulting vector
-    that represents this short sentence.
-
-    This function has been deprecated. Please use :func:`shorttext_to_avgvec` instead.
-
-    :param shorttext: a short sentence
-    :param wvmodel: word-embedding model
-    :param vecsize: length of embedded vector
-    :return: an embedded vector that represents the short sentence
-    :type shorttext: str
-    :type wvmodel: gensim.models.keyedvectors.KeyedVectors
-    :type vecsize: int
-    :rtype: numpy.ndarray
-    """
-    vec = np.zeros(vecsize)
-    for token in tokenize(shorttext):
-        if token in wvmodel:
-            vec += wvmodel[token]
-    norm = np.linalg.norm(vec)
-    if norm != 0:
-        vec /= np.linalg.norm(vec)
-    return vec
-
-
 def shorttext_to_avgvec(shorttext, wvmodel):
     """ Convert the short text into an averaged embedded vector representation.
 
