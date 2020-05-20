@@ -86,6 +86,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 05/20/2020: `shorttext` 1.2.5 released.
 * 05/13/2020: `shorttext` 1.2.4 released.
 * 04/28/2020: `shorttext` 1.2.3 released.
 * 04/07/2020: `shorttext` 1.2.2 released.
@@ -139,7 +140,6 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
-- [x] Compatibility with Python 3.8;
 - [ ] More scalability using `horovod`;
 - [ ] Including BERT models;
 - [ ] Use of DASK;
