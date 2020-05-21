@@ -60,7 +60,8 @@ What's New
 Release 1.2.5 (May 20, 2020)
 -----------------------------
 
-* Update on `gensim` package usage and requirements.
+* Update on `gensim` package usage and requirements;
+* Removed some deprecated functions.
 
 Release 1.2.4 (May 13, 2020)
 -----------------------------
