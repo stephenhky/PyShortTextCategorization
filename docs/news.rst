@@ -1,6 +1,7 @@
 News
 ====
 
+* 06/05/2020: `shorttext` 1.2.6 released.
 * 05/20/2020: `shorttext` 1.2.5 released.
 * 05/13/2020: `shorttext` 1.2.4 released.
 * 04/28/2020: `shorttext` 1.2.3 released.
@@ -56,6 +57,11 @@ News
 
 What's New
 ----------
+
+Release 1.2.6 (June 20, 2020)
+-----------------------------
+
+* Removed Python-2 codes (urllib2).
 
 Release 1.2.5 (May 20, 2020)
 -----------------------------
