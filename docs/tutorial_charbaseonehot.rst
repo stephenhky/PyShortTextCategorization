@@ -14,8 +14,8 @@ To use this, import the packages first:
 Then we incorporate a text file as the source of all characters to be coded. In this case, we choose
 the file `big.txt` in Peter Norvig's websites:
 
->>> import urllib2
->>> textfile = urllib2.urlopen('http://norvig.com/big.txt', 'r')
+>>> from urllib.request import urlopen
+>>> textfile = urlopen('http://norvig.com/big.txt', 'r')
 
 Then instantiate the class using the function :func:`shorttext.generators.initSentenceToCharVecEncoder`:
 
