@@ -10,15 +10,17 @@ import shorttext
 
 class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
     def setUp(self):
-        print("Downloading word-embedding model....")
-        link = "https://shorttext-data-northernvirginia.s3.amazonaws.com/trainingdata/test_w2v_model.bin"
-        filename = "test_w2v_model.bin"
-        if not os.path.isfile("test_w2v_model.bin"):
-            if sys.version_info[0]==2:
-                urllib.urlretrieve(link, filename)
-            else:
-                urllib.request.urlretrieve(link, filename)
-        self.w2v_model = shorttext.utils.load_word2vec_model(filename, binary=True)  # load word2vec model
+        # print("Downloading word-embedding model....")
+        # link = "https://shorttext-data-northernvirginia.s3.amazonaws.com/trainingdata/test_w2v_model.bin"
+        # filename = "test_w2v_model.bin"
+        # if not os.path.isfile("test_w2v_model.bin"):
+        #     if sys.version_info[0]==2:
+        #         urllib.urlretrieve(link, filename)
+        #     else:
+        #         urllib.request.urlretrieve(link, filename)
+        # self.w2v_model = shorttext.utils.load_word2vec_model(filename, binary=True)  # load word2vec model
+        print("Loading word-embedding model")
+        self.w2v_model = shorttext.utils.RESTfulKeyedVectors('http://localhost', port='23510')
         self.trainclass_dict = shorttext.data.subjectkeywords()  # load training data
 
     def tearDown(self):
