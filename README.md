@@ -86,6 +86,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 07/23/2020: `shorttext` 1.3.0 released.
 * 06/05/2020: `shorttext` 1.2.6 released.
 * 05/20/2020: `shorttext` 1.2.5 released.
 * 05/13/2020: `shorttext` 1.2.4 released.
@@ -141,7 +142,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
-- [ ] Removing `pulp` dependency;
+- [x] Removing `pulp` dependency;
 - [ ] Including transformer-based models;
 - [ ] Use of DASK;
 - [ ] Dividing components to other packages;

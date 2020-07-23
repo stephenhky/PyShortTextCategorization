@@ -1,6 +1,7 @@
 News
 ====
 
+* 07/23/2020: `shorttext` 1.3.0 released.
 * 06/05/2020: `shorttext` 1.2.6 released.
 * 05/20/2020: `shorttext` 1.2.5 released.
 * 05/13/2020: `shorttext` 1.2.4 released.
@@ -57,6 +58,11 @@ News
 
 What's New
 ----------
+
+Release 1.3.0 (July 23, 2020)
+-----------------------------
+
+* Removed all dependencies on `PuLP`; all computations of word mover's distance (WMD) is performed using `SciPy`.
 
 Release 1.2.6 (June 20, 2020)
 -----------------------------
