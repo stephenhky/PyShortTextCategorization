@@ -91,11 +91,11 @@ def word_mover_distance_linprog(first_sent_tokens, second_sent_tokens, wvmodel, 
     for i in range(nb_tokens_first_sent):
         for j in range(nb_tokens_second_sent):
             Aeq[i, collapsed_idx_func(i, j)] = 1.
-        beq[i] = first_sent_buckets[wordvecs[first_sent_tokens[i]]]
+        beq[i] = first_sent_buckets[first_sent_tokens[i]]
     for j in range(nb_tokens_second_sent):
         for i in range(nb_tokens_first_sent):
             Aeq[j+nb_tokens_first_sent, collapsed_idx_func(i, j)] = 1.
-        beq[j+nb_tokens_first_sent] = second_sent_buckets[wordvecs[second_sent_tokens[j]]]
+        beq[j+nb_tokens_first_sent] = second_sent_buckets[second_sent_tokens[j]]
 
     return linprog(T, A_eq=Aeq, b_eq=beq)
 
