@@ -77,7 +77,7 @@ def word_mover_distance_linprog(first_sent_tokens, second_sent_tokens, wvmodel, 
     collapsed_idx_func = lambda i, j: i*nb_tokens_second_sent + j
 
     # assigning T
-    T = csr_matrix((nb_tokens_first_sent*nb_tokens_second_sent,))
+    T = np.zeros(nb_tokens_first_sent*nb_tokens_second_sent)
     for i, j in product(range(nb_tokens_first_sent), range(nb_tokens_second_sent)):
         T[collapsed_idx_func(i, j)] = distancefunc(wordvecs[first_sent_tokens[i]],
                                                    wordvecs[second_sent_tokens[j]])
@@ -87,7 +87,7 @@ def word_mover_distance_linprog(first_sent_tokens, second_sent_tokens, wvmodel, 
         (nb_tokens_first_sent+nb_tokens_second_sent,
          nb_tokens_first_sent*nb_tokens_second_sent)
     )
-    beq = csr_matrix((nb_tokens_first_sent+nb_tokens_second_sent,))
+    beq = np.zeros(nb_tokens_first_sent+nb_tokens_second_sent)
     for i in range(nb_tokens_first_sent):
         for j in range(nb_tokens_second_sent):
             Aeq[i, collapsed_idx_func(i, j)] = 1.
