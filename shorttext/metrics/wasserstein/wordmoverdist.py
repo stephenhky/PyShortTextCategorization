@@ -76,7 +76,7 @@ def word_mover_distance(first_sent_tokens, second_sent_tokens, wvmodel, distance
     :param second_sent_tokens: second list of tokens.
     :param wvmodel: word-embedding models.
     :param distancefunc: distance function that takes two numpy ndarray.
-    :param lpFile: deprecated, kept for backward incompatibility
+    :param lpFile: deprecated, kept for backward incompatibility. (default: None)
     :return: Word Mover's distance (WMD)
     :type first_sent_tokens: list
     :type second_sent_tokens: list
