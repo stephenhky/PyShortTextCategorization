@@ -21,7 +21,7 @@ class TestWMD(unittest.TestCase):
             os.remove('test_w2v_model.bin')
 
     def calculate_wmd(self, tokens1, tokens2, answer):
-        wdistance = word_mover_distance(tokens1, tokens2, self.w2v_model)
+        wdistance = word_mover_distance(tokens1, tokens2, self.w2v_model, approach='scipy')
         self.assertAlmostEqual(wdistance, answer, delta=1e-3)
 
     def test_metrics(self):
