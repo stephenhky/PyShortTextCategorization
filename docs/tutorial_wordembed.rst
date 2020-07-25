@@ -96,6 +96,8 @@ pre-trained model, run:
 >>> import shorttext
 >>> pemodel = shorttext.utils.load_poincare_model('/path/to/model.txt')
 
+For preloaded word-embedding models, please refer to :doc:`tutorial_wordembed`.
+
 Links
 -----
 

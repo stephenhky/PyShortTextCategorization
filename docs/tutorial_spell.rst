@@ -8,12 +8,7 @@ and another by Keisuke Sakaguchi and his colleagues (using semi-character level 
 
 >>> import shorttext
 
-We use the Norvig's training corpus as an example. To load it, in Python 2.7, enter
-
->>> from urllib2 import urlopen
->>> text = urlopen('https://norvig.com/big.txt').read()
-
-Or in Python 3.5 and 3.6,
+We use the Norvig's training corpus as an example. To load it,
 
 >>> from urllib.request import urlopen
 >>> text = urlopen('https://norvig.com/big.txt').read()

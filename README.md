@@ -2,6 +2,9 @@
 
 [![Build Status](https://travis-ci.org/stephenhky/PyShortTextCategorization.svg?branch=master)](https://travis-ci.org/stephenhky/PyShortTextCategorization)
 [![GitHub release](https://img.shields.io/github/release/stephenhky/PyShortTextCategorization.svg?maxAge=3600)](https://github.com/stephenhky/PyShortTextCategorization/releases)
+[![Documentation Status](https://readthedocs.org/projects/pyqentangle/badge/?version=latest)](https://pyqentangle.readthedocs.io/en/latest/?badge=latest)
+[![Updates](https://pyup.io/repos/github/stephenhky/PyShortTextCategorization/shield.svg)](https://pyup.io/repos/github/stephenhky/PyShortTextCategorization/)
+[![Python 3](https://pyup.io/repos/github/stephenhky/PyShortTextCategorization/python-3-shield.svg)](https://pyup.io/repos/github/stephenhky/PyShortTextCategorization/)
 
 ## Introduction
 
@@ -12,9 +15,12 @@ representation of the texts and documents are needed before they are put into
 any classification algorithm. In this package, it facilitates various types
 of these representations, including topic modeling and word-embedding algorithms.
 
-Since release 1.0.0, `shorttext` runs on Python 2.7, 3.5, and 3.6.
-Since release 1.0.7, it runs on Python 3.7 as well, but the backend for `keras` cannot be `TensorFlow`.
+Since release 1.2.4, it runs on Python 3.8.
+Since release 1.2.3, support for Python 3.5 was decommissioned. 
+Since release 1.1.7, support for Python 2.7 was decommissioned.
 Since release 1.0.8, it runs on Python 3.7 with 'TensorFlow' being the backend for `keras`.
+Since release 1.0.7, it runs on Python 3.7 as well, but the backend for `keras` cannot be `TensorFlow`.
+Since release 1.0.0, `shorttext` runs on Python 2.7, 3.5, and 3.6.
 
 Characteristics:
 
@@ -27,8 +33,9 @@ Characteristics:
 - neural network classification (including ConvNet, and C-LSTM);
 - maximum entropy classification;
 - metrics of phrases differences, including soft Jaccard score (using Damerau-Levenshtein distance), and Word Mover's distance (WMD);
-- character-level sequence-to-sequence (seq2seq) learning; and
-- spell correction.
+- character-level sequence-to-sequence (seq2seq) learning; 
+- spell correction; and
+- API for word-embedding algorithm for one-time loading.
 
 ## Documentation
 
@@ -51,12 +58,6 @@ or, if you want the most recent development version on Github, type
 ```
 
 Developers are advised to make sure `Keras` >=2 be installed. Users are advised to install the backend `Tensorflow` (preferred) or `Theano` in advance. It is desirable if `Cython` has been previously installed too.
-
-Before using, check the language model of spaCy has been installed or updated, by running:
-
-```
->>> python -m spacy download en
-```
 
 See [installation guide](https://shorttext.readthedocs.io/en/latest/install.html) for more details.
 
@@ -85,6 +86,14 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 07/23/2020: `shorttext` 1.3.0 released.
+* 06/05/2020: `shorttext` 1.2.6 released.
+* 05/20/2020: `shorttext` 1.2.5 released.
+* 05/13/2020: `shorttext` 1.2.4 released.
+* 04/28/2020: `shorttext` 1.2.3 released.
+* 04/07/2020: `shorttext` 1.2.2 released.
+* 03/23/2020: `shorttext` 1.2.1 released.
+* 03/21/2020: `shorttext` 1.2.0 released.
 * 12/01/2019: `shorttext` 1.1.6 released.
 * 09/24/2019: `shorttext` 1.1.5 released.
 * 07/20/2019: `shorttext` 1.1.4 released.
@@ -133,11 +142,8 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
-- [x] Decomissioning support for Python 2.7;
-- [ ] Compatibility with Python 3.8;
-- [ ] Using `word2vec-api` for faster loading (especially on Cloud);
-- [ ] More scalability using `horovod`;
-- [ ] Including BERT models;
+- [x] Removing `pulp` dependency;
+- [ ] Including transformer-based models;
 - [ ] Use of DASK;
 - [ ] Dividing components to other packages;
 - [ ] More available corpus.

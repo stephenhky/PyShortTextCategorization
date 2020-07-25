@@ -19,8 +19,16 @@ def package_description():
     return text[startpos:]
 
 
+def install_requirements():
+    return [package_string.strip() for package_string in open('requirements.txt', 'r')]
+
+
+def setup_requirements():
+    return [package_string.strip() for package_string in open('setup_requirements.txt', 'r')]
+
+
 setup(name='shorttext',
-      version='1.2.0a01',
+      version='1.3.0',
       description="Short Text Mining",
       long_description=package_description(),
       long_description_content_type='text/markdown',
@@ -29,9 +37,9 @@ setup(name='shorttext',
           "Topic :: Scientific/Engineering :: Mathematics",
           "Topic :: Text Processing :: Linguistic",
           "Topic :: Software Development :: Libraries :: Python Modules",
-          "Programming Language :: Python :: 3.5",
           "Programming Language :: Python :: 3.6",
           "Programming Language :: Python :: 3.7",
+          "Programming Language :: Python :: 3.8",
           "Programming Language :: Cython",
           "Programming Language :: C",
           "Natural Language :: English",
@@ -72,17 +80,10 @@ setup(name='shorttext',
                                   'metrics/dynprog/*.pyx', 'metrics/dynprog/*.c',
                                   'spell/*.pyx', 'spell/*.c']},
       include_dirs=[np.get_include()],
-      setup_requires=['numpy>=1.16.0', 'scipy>=1.2.0'],
-      install_requires=[
-          'Cython', 'numpy>=1.16.0', 'scipy>=1.2.0',
-          'scikit-learn', 'keras>=2.3.0', 'gensim>=3.2.0',
-          'pandas', 'spacy>=1.7.0', 'pulp', 'PyStemmer',
-      ],
-      tests_require=[
-          'unittest2', 'keras>=2.3.0', 'gensim>=3.2.0',
-      ],
+      setup_requires=setup_requirements(),
+      install_requires=install_requirements(),
       scripts=['bin/ShortTextCategorizerConsole',
-               'bin/ShortTextWordEmbedSimilarity'],
-      #include_package_data=False,
+               'bin/ShortTextWordEmbedSimilarity',
+               'bin/WordEmbedAPI'],
       test_suite="test",
       zip_safe=False)

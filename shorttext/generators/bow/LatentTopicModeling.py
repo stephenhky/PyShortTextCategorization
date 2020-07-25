@@ -2,7 +2,7 @@
 import numpy as np
 
 from shorttext.utils import textpreprocessing as textpreprocess, gensim_corpora as gc, classification_exceptions as e
-from shorttext.utils.textpreprocessing import spacy_tokenize as tokenize
+from shorttext.utils.textpreprocessing import tokenize
 
 # abstract class
 class LatentTopicModeler:

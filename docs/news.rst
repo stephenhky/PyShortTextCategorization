@@ -1,6 +1,14 @@
 News
 ====
 
+* 07/23/2020: `shorttext` 1.3.0 released.
+* 06/05/2020: `shorttext` 1.2.6 released.
+* 05/20/2020: `shorttext` 1.2.5 released.
+* 05/13/2020: `shorttext` 1.2.4 released.
+* 04/28/2020: `shorttext` 1.2.3 released.
+* 04/07/2020: `shorttext` 1.2.2 released.
+* 03/23/2020: `shorttext` 1.2.1 released.
+* 03/21/2020: `shorttext` 1.2.0 released.
 * 12/01/2019: `shorttext` 1.1.6 released.
 * 09/24/2019: `shorttext` 1.1.5 released.
 * 07/20/2019: `shorttext` 1.1.4 released.
@@ -51,8 +59,54 @@ News
 What's New
 ----------
 
+Release 1.3.0 (July 23, 2020)
+-----------------------------
+
+* Removed all dependencies on `PuLP`; all computations of word mover's distance (WMD) is performed using `SciPy`.
+
+Release 1.2.6 (June 20, 2020)
+-----------------------------
+
+* Removed Python-2 codes (urllib2).
+
+Release 1.2.5 (May 20, 2020)
+-----------------------------
+
+* Update on `gensim` package usage and requirements;
+* Removed some deprecated functions.
+
+Release 1.2.4 (May 13, 2020)
+-----------------------------
+
+* Update on `scikit-learn` requirements to `>=0.23.0`.
+* Directly dependence on `joblib`;
+* Support for Python 3.8 added.
+
+Release 1.2.3 (April 28, 2020)
+-----------------------------
+
+* PyUP scan implemented;
+* Support for Python 3.5 decommissioned.
+
+Release 1.2.2 (April 7, 2020)
+-----------------------------
+
+* Removed dependence on `PyStemmer`, which is replaced by `snowballstemmer`.
+
+Release 1.2.1 (March 23, 2020)
+--------------------------------
+
+* Added port number adjustability for word-embedding API;
+* Removal of Spacy dependency.
+
+Release 1.2.0 (March 21, 2020)
+--------------------------------
+
+* API for word-embedding algorithm for one-time loading.
+
+
 Release 1.1.6 (December 1, 2019)
-----------------------------------
+--------------------------------
 
 * Compatibility with TensorFlow 2.0.0.
 

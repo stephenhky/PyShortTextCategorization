@@ -1,11 +1,10 @@
-sudo: true
 dist: xenial
-sudo: required
+sudo: true
 language: python
 python:
-  - "3.5"
   - "3.6"
   - "3.7"
+  - "3.8"
 before_install:
   - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
   - chmod +x miniconda.sh
@@ -26,7 +25,6 @@ install:
   - pip install -U tensorflow>=2.0.0;
   - pip install google-compute-engine
   - pip install -U .
-  - python -m spacy download en
 script:
   - python setup.py test
 
