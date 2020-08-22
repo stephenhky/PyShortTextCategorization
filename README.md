@@ -142,7 +142,6 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
-- [x] Removing `pulp` dependency;
 - [ ] Including transformer-based models;
 - [ ] Use of DASK;
 - [ ] Dividing components to other packages;
