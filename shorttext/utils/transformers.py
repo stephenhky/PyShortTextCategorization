@@ -35,9 +35,9 @@ class WrappedBERTEncoder(BERTObject):
         :param model:
         :param tokenizer:
         """
-        super(BERTObject, self).__init__(model=model, tokenizer=tokenizer)
+        super(WrappedBERTEncoder, self).__init__(model=model, tokenizer=tokenizer)
 
-    def encode_sentences(self, sentences):
+    def encode_sentences(self, sentences, numpy=False):
         """
 
         :param sentences:
@@ -72,6 +72,9 @@ class WrappedBERTEncoder(BERTObject):
         processed_embeddings = alllayers_token_embeddings[:, :, 9:, :]   # we want last 4 layers only
 
         token_embeddings = torch.reshape(processed_embeddings, (len(sentences), 48, -1))
-        token_embeddings = token_embeddings.detach().numpy()
+
+        if numpy:
+            sentences_embeddings = sentences_embeddings.detach().numpy()
+            token_embeddings = token_embeddings.detach().numpy()
 
         return sentences_embeddings, token_embeddings, tokenized_texts

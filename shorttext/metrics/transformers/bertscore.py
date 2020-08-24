@@ -21,9 +21,9 @@ class BERTScorer:
         _, sentence_a_tokens_embeddings, sentence_a_tokens = self.encoder.encode_sentences([sentence_a])
         _, sentence_b_tokens_embeddings, sentence_b_tokens = self.encoder.encode_sentences([sentence_b])
 
-        similarity_matrix = torch.zeros((len(sentence_a_tokens)-2, len(sentence_b_tokens)-2))
+        similarity_matrix = torch.zeros((len(sentence_a_tokens[0])-2, len(sentence_b_tokens[0])-2))
 
-        for i, j in product(range(len(sentence_a_tokens)-2), range(len(sentence_b_tokens)-2)):
+        for i, j in product(range(len(sentence_a_tokens[0])-2), range(len(sentence_b_tokens[0])-2)):
             similarity_matrix[i, j] = cos(sentence_a_tokens_embeddings[0][i+1],
                                           sentence_b_tokens_embeddings[0][j+1])
 
