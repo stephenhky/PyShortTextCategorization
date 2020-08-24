@@ -22,7 +22,7 @@ class BERTObject:
                 warnings.warn("CUDA is not available. Device set to 'cpu'.")
                 self.device = torch.device('cpu')
         else:
-            self.device(device)
+            self.device = torch.device(device)
 
         if model is None:
             self.model = BertModel.from_pretrained('bert-base-uncased',
