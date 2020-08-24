@@ -27,6 +27,11 @@ def setup_requirements():
     return [package_string.strip() for package_string in open('setup_requirements.txt', 'r')]
 
 
+def test_requirements():
+    return [package_string.strip() for package_string in open('test_requirements.txt', 'r')]
+
+
+
 setup(name='shorttext',
       version='1.4.0a01',
       description="Short Text Mining",
@@ -87,4 +92,5 @@ setup(name='shorttext',
                'bin/ShortTextWordEmbedSimilarity',
                'bin/WordEmbedAPI'],
       test_suite="test",
+      tests_requires=test_requirements(),
       zip_safe=False)

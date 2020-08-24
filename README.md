@@ -142,7 +142,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
-- [ ] Including transformer-based models;
+- [x] Including transformer-based models;
 - [ ] Use of DASK;
 - [ ] Dividing components to other packages;
 - [ ] More available corpus.
