@@ -32,10 +32,9 @@ class BERTObject:
             self.model = model.to(self.device)
 
         if tokenizer is None:
-            self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)\
-                                .to(self.device)
+            self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
         else:
-            self.tokenizer = tokenizer.to(self.device)
+            self.tokenizer = tokenizer
 
 
 class WrappedBERTEncoder(BERTObject):
