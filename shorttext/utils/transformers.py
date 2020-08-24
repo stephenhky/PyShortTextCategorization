@@ -1,41 +1,54 @@
 
 # reference: https://towardsdatascience.com/word-embeddings-in-2020-review-with-code-examples-11eb39a1ee6d
 
+import warnings
+
 import numpy as np
 import torch
 from transformers import BertTokenizer, BertModel
 
 
 class BERTObject:
-    def __init__(self, model=None, tokenizer=None):
+    def __init__(self, model=None, tokenizer=None, device='cpu'):
         """
 
         :param model:
         :param tokenizer:
         """
+        if device == 'cuda':
+            if torch.cuda.is_available():
+                self.device = torch.device('cuda')
+            else:
+                warnings.warn("CUDA is not available. Device set to 'cpu'.")
+                self.device = torch.device('cpu')
+        else:
+            self.device(device)
+
         if model is None:
             self.model = BertModel.from_pretrained('bert-base-uncased',
-                                                   output_hidden_states=True)
+                                                   output_hidden_states=True)\
+                            .to(self.device)
         else:
-            self.model = model
+            self.model = model.to(self.device)
 
         if tokenizer is None:
-            self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
+            self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)\
+                                .to(self.device)
         else:
-            self.tokenizer = tokenizer
+            self.tokenizer = tokenizer.to(self.device)
 
 
 class WrappedBERTEncoder(BERTObject):
     """
 
     """
-    def __init__(self, model=None, tokenizer=None):
+    def __init__(self, model=None, tokenizer=None, device='cpu'):
         """
 
         :param model:
         :param tokenizer:
         """
-        super(WrappedBERTEncoder, self).__init__(model=model, tokenizer=tokenizer)
+        super(WrappedBERTEncoder, self).__init__(model=model, tokenizer=tokenizer, device=device)
 
     def encode_sentences(self, sentences, numpy=False):
         """
