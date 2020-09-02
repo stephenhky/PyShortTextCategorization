@@ -27,8 +27,13 @@ def setup_requirements():
     return [package_string.strip() for package_string in open('setup_requirements.txt', 'r')]
 
 
+def test_requirements():
+    return [package_string.strip() for package_string in open('test_requirements.txt', 'r')]
+
+
+
 setup(name='shorttext',
-      version='1.3.0',
+      version='1.4.0a01',
       description="Short Text Mining",
       long_description=package_description(),
       long_description_content_type='text/markdown',
@@ -73,6 +78,7 @@ setup(name='shorttext',
                 'shorttext.metrics',
                 'shorttext.metrics.dynprog',
                 'shorttext.metrics.wasserstein',
+                'shorttext.metrics.transformers',
                 'shorttext.metrics.embedfuzzy',
                 'shorttext.spell'],
       package_dir={'shorttext': 'shorttext'},
@@ -86,4 +92,5 @@ setup(name='shorttext',
                'bin/ShortTextWordEmbedSimilarity',
                'bin/WordEmbedAPI'],
       test_suite="test",
+      tests_requires=test_requirements(),
       zip_safe=False)

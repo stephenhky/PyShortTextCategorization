@@ -98,15 +98,42 @@ pre-trained model, run:
 
 For preloaded word-embedding models, please refer to :doc:`tutorial_wordembed`.
 
+
+BERT
+----
+
+BERT_ (Bidirectional Transformers for Language Understanding)
+is a transformer-based language model. This package supports tokens
+and sentence embeddings using pre-trained language models, supported
+by the package written by HuggingFace_. In `shorttext`, to run:
+
+>>> from shorttext.utils import WrappedBERTEncoder
+>>> encoder = WrappedBERTEncoder()   # the default model and tokenizer are loaded
+>>> sentences_embedding, tokens_embedding, tokens = encoder.encode_sentences(['The car should turn right.', 'The answer is right.'])
+
+The third line returns the embeddings of all sentences, embeddings of all tokens in each sentence,
+and the tokens (with `CLS` and `SEP`) included. Unlike previous embeddings,
+token embeddings depend on the context; in the above example, the embeddings of the
+two "right"'s are different as they have different meanings.
+
+The default BERT models and tokenizers are `bert-base_uncase`.
+If you want to use others, refer to `HuggingFace's model list
+<https://huggingface.co/models>`_ .
+
 Links
 -----
 
 - Word2Vec_
 - GloVe_
 - FastText_
+- BERT_
+- HuggingFace_
 
 Reference
 ---------
+
+Jacob Devlin, Ming-Wei Chang, Kenton Lee, Kristina Toutanova, "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding," arXiv:1810.04805 (2018). [`arXiv
+<https://arxiv.org/abs/1810.04805>`_]
 
 Jayant Jain, "Implementing Poincaré Embeddings," RaRe Technologies (2017). [`RaRe
 <https://rare-technologies.com/implementing-poincare-embeddings/#h2-2>`_]
@@ -140,3 +167,5 @@ Home: :doc:`index`
 .. _Word2Vec: https://code.google.com/archive/p/word2vec/
 .. _GloVe: http://nlp.stanford.edu/projects/glove/
 .. _FastText: https://github.com/facebookresearch/fastText
+.. _BERT: https://arxiv.org/abs/1810.04805
+.. _HuggingFace: https://huggingface.co/
