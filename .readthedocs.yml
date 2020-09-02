@@ -19,5 +19,23 @@ formats: all
 # Optionally set the version of Python and requirements required to build your docs
 python:
   version: 3.6
+  before_install:
+    - wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+    - chmod +x miniconda.sh
+    - ./miniconda.sh -b
+    - export PATH=/home/travis/miniconda3/bin:$PATH;
+    - conda update --yes conda
+    - sudo apt-get update
+    - sudo apt-get install libc6
+    - conda install --yes libgcc
+    - sudo apt-get install python-dev
+    - sudo apt-get install python3-dev
   install:
-    - requirements: requirements.txt
+    - conda create --yes -n shorttext-test python=$TRAVIS_PYTHON_VERSION
+    - source activate shorttext-test
+    - pip install Cython
+    - pip install -U numpy
+    - pip install -U scipy
+    - pip install -U tensorflow>=2.0.0
+    - pip install google-compute-engine
+    - pip install -U .
