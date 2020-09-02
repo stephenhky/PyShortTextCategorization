@@ -21,7 +21,6 @@ python:
   version: 3.8
   install:
     - requirements: requirements.txt
-    - system_packages: true
 
 # conda environment
 #conda:
