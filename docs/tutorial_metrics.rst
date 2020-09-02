@@ -110,6 +110,8 @@ This metrics measures the similarity between sentences. To use it,
 >>> scorer.precision_bertscore('The weather is cold.', 'It is freezing.')   # 0.7700849175453186
 >>> scorer.f1score_bertscore('The weather is cold.', 'It is freezing.')   # 0.7454479746418043
 
+For BERT models, please refer to :doc:`tutorial_wordembed` for more details.
+
 Reference
 ---------
 
