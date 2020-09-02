@@ -26,7 +26,7 @@ python:
       extra_requirements:
         - docs
     - method: setuptools
-      path: another/package
+      path: .
 
 # conda environment
 #conda:
