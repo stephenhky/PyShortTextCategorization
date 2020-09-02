@@ -20,17 +20,19 @@ def textfile_generator(textfile, linebreak=True, encoding=None):
             else:
                 yield t.decode(encoding).strip() + ('\n' if linebreak else '')
 
-def text_input(prompt):
-    """ Get user response from keyboard in stdin.
 
-    :param prompt: prompt
-    :return: user-typed value
-    :type prompt: str
-    :rtype: str
+class SinglePoolExecutor:
+    """ It is a wrapper for Python `map` functions.
+
     """
-    if sys.version[0] == '2':
-        return raw_input(prompt)
-    elif sys.version[0] == '3':
-        return input(prompt)
-    else:
-        return None
+    def map(self, func, *iterables):
+        """ Refer to Python `map` documentation.
+
+        :param func: function
+        :param iterables: iterables to loop
+        :return: generator for the map
+        :type func: function
+        :type iterables: iterables
+        :rtype: map
+        """
+        return map(func, *iterables)

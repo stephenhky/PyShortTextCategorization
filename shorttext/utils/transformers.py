@@ -9,11 +9,23 @@ from transformers import BertTokenizer, BertModel
 
 
 class BERTObject:
-    def __init__(self, model=None, tokenizer=None, device='cpu'):
-        """
+    """ The base class for BERT model that contains the embedding model and the tokenizer.
 
-        :param model:
-        :param tokenizer:
+    For more information, please refer to the following paper:
+
+    Jacob Devlin, Ming-Wei Chang, Kenton Lee, Kristina Toutanova, "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding," arXiv:1810.04805 (2018). [`arXiv
+    <https://arxiv.org/abs/1810.04805>`_]
+
+    """
+    def __init__(self, model=None, tokenizer=None, device='cpu'):
+        """ The base class for BERT model that contains the embedding model and the tokenizer.
+
+        :param model: BERT model (default: None, with model `bert-base-uncase` to be used)
+        :param tokenizer: BERT tokenizer (default: None, with model `bert-base-uncase` to be used)
+        :param device: device the language model is stored (default: `cpu`)
+        :type model: str
+        :type tokenizer: str
+        :type device: str
         """
         if device == 'cuda':
             if torch.cuda.is_available():
@@ -36,24 +48,53 @@ class BERTObject:
         else:
             self.tokenizer = tokenizer
 
+        self.number_hidden_layers = self.model.config.num_hidden_layers
+
 
 class WrappedBERTEncoder(BERTObject):
-    """
+    """ This is the class that encodes sentences with BERT models.
+
+    For more information, please refer to the following paper:
+
+    Jacob Devlin, Ming-Wei Chang, Kenton Lee, Kristina Toutanova, "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding," arXiv:1810.04805 (2018). [`arXiv
+    <https://arxiv.org/abs/1810.04805>`_]
 
     """
-    def __init__(self, model=None, tokenizer=None, device='cpu'):
-        """
+    def __init__(
+            self,
+            model=None,
+            tokenizer=None,
+            max_length=48,
+            nbencodinglayers=4,
+            device='cpu'
+    ):
+        """ This is the constructor of the class that encodes sentences with BERT models.
 
-        :param model:
-        :param tokenizer:
+        :param model: BERT model (default: None, with model `bert-base-uncase` to be used)
+        :param tokenizer: BERT tokenizer (default: None, with model `bert-base-uncase` to be used)
+        :param max_length: maximum number of tokens of each sentence (default: 48)
+        :param nbencodinglayers: number of encoding layers (taking the last layers to encode the sentences, default: 4)
+        :param device: device the language model is stored (default: `cpu`)
+        :type model: str
+        :type tokenizer: str
+        :type max_length: int
+        :type device: str
         """
         super(WrappedBERTEncoder, self).__init__(model=model, tokenizer=tokenizer, device=device)
+        self.max_length = max_length
+        self.nbencodinglayers = nbencodinglayers
 
     def encode_sentences(self, sentences, numpy=False):
-        """
+        """ Encode the sentences into numerical vectors, given by a list of strings.
 
-        :param sentences:
-        :return:
+        It can output either torch tensors or numpy arrays.
+
+        :param sentences: list of strings to encode
+        :param numpy: output a numpy array if `True`; otherwise, output a torch tensor. (Default: `False`)
+        :return: encoded vectors for the sentences
+        :type sentences: list
+        :type numpy: bool
+        :rtype: numpy.array or torch.Tensor
         """
         input_ids = []
         tokenized_texts = []
@@ -65,7 +106,7 @@ class WrappedBERTEncoder(BERTObject):
                 sentence,
                 add_special_tokens=True,
                 truncation=True,
-                max_length=48,
+                max_length=self.max_length,
                 pad_to_max_length=True,
                 return_tensors='pt'
             )
@@ -81,9 +122,9 @@ class WrappedBERTEncoder(BERTObject):
 
         alllayers_token_embeddings = torch.stack(hidden_state, dim=0)
         alllayers_token_embeddings = alllayers_token_embeddings.permute(1, 2, 0, 3)  # swap dimensions to [sentence, tokens, hidden layers, features]
-        processed_embeddings = alllayers_token_embeddings[:, :, 9:, :]   # we want last 4 layers only
+        processed_embeddings = alllayers_token_embeddings[:, :, (self.number_hidden_layers+1-self.nbencodinglayers):, :]
 
-        token_embeddings = torch.reshape(processed_embeddings, (len(sentences), 48, -1))
+        token_embeddings = torch.reshape(processed_embeddings, (len(sentences), self.max_length, -1))
 
         if numpy:
             sentences_embeddings = sentences_embeddings.detach().numpy()
