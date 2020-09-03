@@ -1,6 +1,7 @@
 News
 ====
 
+* 09/02/2020: `shorttext` 1.4.0 released.
 * 07/23/2020: `shorttext` 1.3.0 released.
 * 06/05/2020: `shorttext` 1.2.6 released.
 * 05/20/2020: `shorttext` 1.2.5 released.
@@ -59,6 +60,12 @@ News
 What's New
 ----------
 
+Release 1.4.0 (September 2, 2020)
+---------------------------------
+
+* Provided support BERT-based sentence and tokens embeddings;
+* Implemented support for BERTScores.
+
 Release 1.3.0 (July 23, 2020)
 -----------------------------
 
@@ -67,7 +74,7 @@ Release 1.3.0 (July 23, 2020)
 Release 1.2.6 (June 20, 2020)
 -----------------------------
 
-* Removed Python-2 codes (urllib2).
+* Removed Python-2 codes (`urllib2`).
 
 Release 1.2.5 (May 20, 2020)
 -----------------------------

@@ -18,3 +18,5 @@ from .dtm import load_DocumentTermMatrix
 
 from .dtm import DocumentTermMatrix, load_DocumentTermMatrix
 
+from .transformers import WrappedBERTEncoder
+

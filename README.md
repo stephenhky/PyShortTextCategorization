@@ -34,8 +34,9 @@ Characteristics:
 - maximum entropy classification;
 - metrics of phrases differences, including soft Jaccard score (using Damerau-Levenshtein distance), and Word Mover's distance (WMD);
 - character-level sequence-to-sequence (seq2seq) learning; 
-- spell correction; and
-- API for word-embedding algorithm for one-time loading.
+- spell correction;
+- API for word-embedding algorithm for one-time loading; and
+- Sentence encodings and similarities based on BERT.
 
 ## Documentation
 
@@ -86,6 +87,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 09/02/2020: `shorttext` 1.4.0 released.
 * 07/23/2020: `shorttext` 1.3.0 released.
 * 06/05/2020: `shorttext` 1.2.6 released.
 * 05/20/2020: `shorttext` 1.2.5 released.
@@ -142,8 +144,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
-- [x] Removing `pulp` dependency;
-- [ ] Including transformer-based models;
+- [x] Including transformer-based models;
 - [ ] Use of DASK;
 - [ ] Dividing components to other packages;
 - [ ] More available corpus.
