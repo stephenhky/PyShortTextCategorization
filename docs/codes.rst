@@ -19,6 +19,25 @@ Module `shorttext.utils.textpreprocessing`
 .. automodule:: shorttext.utils.textpreprocessing
    :members:
 
+Document-Term Matrix (DTM)
+--------------------------
+
+Module `shorttext.utils.dtm`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: shorttext.utils.dtm
+   :members:
+
+One-hot Encoding
+----------------
+
+Module `shorttext.generators.charbase.char2vec`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: shorttext.generators.charbase.char2vec
+   :members:
+
+
 Topic Models
 ------------
 

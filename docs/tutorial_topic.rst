@@ -88,6 +88,11 @@ not saved. To load the model, enter:
 
 >>> topicmodeler2 = shorttext.classifiers.load_gensimtopicmodel('/path/to/nihlda128', compact=False)
 
+
+.. automodule:: shorttext.generators.bow.GensimTopicModeling
+   :members:
+
+
 AutoEncoder
 -----------
 
@@ -136,6 +141,11 @@ whether to weigh the terms using tf-idf (term frequency - inverse document frequ
 The default is to weigh. To not weigh, initialize it as:
 
 >>> autoencoder3 = shorttext.generators.AutoencodingTopicModeler(toweigh=False)
+
+
+.. automodule:: shorttext.generators.bow.AutoEncodingTopicModeling
+   :members:
+
 
 Appendix: Unzipping Model I/O
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

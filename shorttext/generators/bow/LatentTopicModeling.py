@@ -1,11 +1,13 @@
 
+from abc import ABC, abstractmethod
+
 import numpy as np
 
 from shorttext.utils import textpreprocessing as textpreprocess, gensim_corpora as gc, classification_exceptions as e
 from shorttext.utils.textpreprocessing import tokenize
 
 # abstract class
-class LatentTopicModeler:
+class LatentTopicModeler(ABC):
     """
     Abstract class for various topic modeler.
     """
@@ -33,7 +35,7 @@ class LatentTopicModeler:
         """
         self.dictionary, self.corpus, self.classlabels = gc.generate_gensim_corpora(classdict,
                                                                                     preprocess_and_tokenize=lambda sent: tokenize(self.preprocessor(sent)))
-
+    @abstractmethod
     def train(self, classdict, nb_topics, *args, **kwargs):
         """ Train the modeler.
 
@@ -79,6 +81,7 @@ class LatentTopicModeler:
             vec /= np.linalg.norm(vec)
         return vec
 
+    @abstractmethod
     def retrieve_topicvec(self, shorttext):
         """ Calculate the topic vector representation of the short text.
 
@@ -92,6 +95,7 @@ class LatentTopicModeler:
         """
         raise e.NotImplementedException()
 
+    @abstractmethod
     def get_batch_cos_similarities(self, shorttext):
         """ Calculate the cosine similarities of the given short text and all the class labels.
 
@@ -113,6 +117,7 @@ class LatentTopicModeler:
             raise e.ModelNotTrainedException()
         return True
 
+    @abstractmethod
     def loadmodel(self, nameprefix):
         """ Load the model from files.
 
@@ -125,6 +130,7 @@ class LatentTopicModeler:
         """
         raise e.NotImplementedException()
 
+    @abstractmethod
     def savemodel(self, nameprefix):
         """ Save the model to files.
 
