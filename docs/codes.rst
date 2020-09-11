@@ -97,12 +97,6 @@ Module `shorttext.utils.gensim_corpora`
 .. automodule:: shorttext.utils.gensim_corpora
    :members:
 
-Module `shorttext.utils.wordembed`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: shorttext.utils.wordembed
-   :members:
-
 Module `shorttext.utils.compactmodel_io`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
