@@ -40,11 +40,7 @@ Module `shorttext.classifiers.topic.SkLearnClassification`
 Supervised Classification using Word Embedding
 ----------------------------------------------
 
-Module `shorttext.classifiers.embed.sumvec.SumEmbedVecClassification`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: shorttext.classifiers.embed.sumvec.SumEmbedVecClassification
-   :members:
 
 Module `shorttext.classifiers.embed.sumvec.VarNNSumEmbedVecClassification`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
