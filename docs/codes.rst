@@ -40,6 +40,11 @@ Module `shorttext.classifiers.topic.SkLearnClassification`
 Supervised Classification using Word Embedding
 ----------------------------------------------
 
+Module `shorttext.generators.seq2seq.s2skeras`
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. automodule:: shorttext.generators.seq2seq.s2skeras
+   :members:
 
 
 Module `shorttext.classifiers.embed.sumvec.VarNNSumEmbedVecClassification`
@@ -121,6 +126,7 @@ Module `shorttext.spell`
 
 .. automodule:: shorttext.spell.sakaguchi
    :members:
+
 
 
 
