@@ -92,17 +92,14 @@ Metrics
 Module `shorttext.metrics.dynprog`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: shorttext.metrics.dynprog.dldist
-   :members:
-
 .. automodule:: shorttext.metrics.dynprog.jaccard
-   :members:
+   :members: soft_intersection_list
 
 Module `shorttext.metrics.wassersterin`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: shorttext.metrics.wasserstein.wordmoverdist
-   :members:
+   :members: word_mover_distance_linprog
 
 Spell Correction
 ----------------
