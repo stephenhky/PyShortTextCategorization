@@ -44,6 +44,11 @@ To load the model to be a classifier, enter:
 
 >>> classifier2 = shorttext.classifiers.load_maxent_classifier('/path/to/filename.bin')
 
+
+.. automodule:: shorttext.classifiers.bow.maxent.MaxEntClassification
+   :members:
+
+
 Reference
 ---------
 
