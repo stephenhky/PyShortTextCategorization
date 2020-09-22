@@ -48,11 +48,6 @@ Module `shorttext.classifiers.embed.sumvec.VarNNSumEmbedVecClassification`
 .. automodule:: shorttext.classifiers.embed.sumvec.VarNNSumEmbedVecClassification
    :members:
 
-Module `shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification
-   :members:
 
 Maximum Entropy Classifiers
 ---------------------------
@@ -72,11 +67,6 @@ Module `shorttext.classifiers.embed.sumvec.frameworks`
 .. automodule:: shorttext.classifiers.embed.sumvec.frameworks
    :members:
 
-Module `shorttext.classifiers.embed.nnlib.frameworks`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: shorttext.classifiers.embed.nnlib.frameworks
-   :members:
 
 Utilities
 ---------
