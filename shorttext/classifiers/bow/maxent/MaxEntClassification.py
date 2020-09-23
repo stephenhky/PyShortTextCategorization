@@ -12,7 +12,6 @@ from shorttext.utils import tokenize
 from shorttext.utils import gensim_corpora as gc
 from shorttext.utils import classification_exceptions as e
 from shorttext.utils.compactmodel_io import CompactIOMachine
-from shorttext.utils import deprecated
 
 
 def logistic_framework(nb_features, nb_outputs, l2reg=0.01, bias_l2reg=0.01, optimizer='adam'):

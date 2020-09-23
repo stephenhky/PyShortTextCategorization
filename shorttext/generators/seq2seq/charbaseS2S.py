@@ -12,7 +12,6 @@ from shorttext.utils import compactmodel_io as cio
 charbases2s_suffices = kerasseq2seq_suffices + ['_dictionary.dict', '_charbases2s.json']
 
 
-# @cio.compactio({'classifier': 'charbases2s'}, 'charbases2s', charbases2s_suffices)
 class CharBasedSeq2SeqGenerator(cio.CompactIOMachine):
     """ Class implementing character-based sequence-to-sequence (seq2seq) learning model.
 

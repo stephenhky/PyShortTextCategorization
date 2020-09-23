@@ -26,6 +26,11 @@ more information.
 >>> norvig_corrector.train(text)
 >>> norvig_corrector.correct('oranhe')   # gives "orange"
 
+.. automodule:: shorttext.spell.norvig
+   :members:
+
+
+
 Sakaguchi (SCRNN - semi-character recurrent neural network)
 -----------------------------------------------------------
 
@@ -55,6 +60,10 @@ We can persist the SCRNN corrector for future use:
 To load,
 
 >>> corrector = shorttext.spell.loadSCRNNSpellCorrector('/path/to/spellscrnn.bin')
+
+.. automodule:: shorttext.spell.sakaguchi
+   :members:
+
 
 Reference
 ---------

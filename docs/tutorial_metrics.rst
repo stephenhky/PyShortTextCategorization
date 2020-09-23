@@ -47,6 +47,11 @@ union has 1.25 elements. Then the similarity between two sets of tokens can be m
 The functions `damerau_levenshtein` and `longest_common_prefix` are implemented using Cython_ .
 (Before release 0.7.2, they were interfaced to Python using SWIG_ (Simplified Wrapper and Interface Generator)).
 
+
+.. automodule:: shorttext.metrics.dynprog.jaccard
+   :members: similarity, soft_jaccard_score
+
+
 Word Mover's Distance
 ---------------------
 
@@ -76,6 +81,9 @@ please refer to their `tutorial
 <https://radimrehurek.com/gensim/models/keyedvectors.html>`_ , and cite the two papers by Ofir Pele and Michael Werman
 if it is used.
 
+.. automodule:: shorttext.metrics.wasserstein.wordmoverdist
+   :members: word_mover_distance
+
 Jaccard Index Due to Cosine Distances
 -------------------------------------
 
@@ -97,6 +105,27 @@ And it can be seen by running it:
 >>> jaccardscore_sents('chief executive', 'computer cluster', wvmodel)   # gives 0.0022515450768836143
 >>> jaccardscore_sents('topological data', 'data of topology', wvmodel)   # gives 0.67588977344632573
 
+.. automodule:: shorttext.metrics.embedfuzzy.jaccard
+   :members:
+
+
+BERTScore
+---------
+
+BERTScore includes a category of metrics that is based on BERT model.
+This metrics measures the similarity between sentences. To use it,
+
+>>> from shorttext.metrics.transformers import BERTScorer
+>>> scorer = BERTScorer()    # using default BERT model and tokenizer
+>>> scorer.recall_bertscore('The weather is cold.', 'It is freezing.')   # 0.7223385572433472
+>>> scorer.precision_bertscore('The weather is cold.', 'It is freezing.')   # 0.7700849175453186
+>>> scorer.f1score_bertscore('The weather is cold.', 'It is freezing.')   # 0.7454479746418043
+
+For BERT models, please refer to :doc:`tutorial_wordembed` for more details.
+
+.. automodule:: shorttext.metrics.transformers.bertscore
+   :members:
+
 Reference
 ---------
 
@@ -116,6 +145,10 @@ Ofir Pele, Michael Werman, "A linear time histogram metric for improved SIFT mat
 
 Ofir Pele, Michael Werman, "Fast and robust earth mover's distances," *Proc. 2009 IEEE 12th Int. Conf. on Computer Vision*, 460-467 (2009). [`IEEE
 <http://ieeexplore.ieee.org/document/5459199/>`_]
+
+Tianyi Zhang, Varsha Kishore, Felix Wu, Kilian Q. Weinberger, Yoav Artzi,
+"BERTScore: Evaluating Text Generation with BERT," arXiv:1904.09675 (2019). [`arXiv
+<https://arxiv.org/abs/1904.09675>`_]
 
 "Word Mover’s Distance as a Linear Programming Problem," *Everything About Data Analytics*, WordPress (2017). [`WordPress
 <https://datawarrior.wordpress.com/2017/08/16/word-movers-distance-as-a-linear-programming-problem/>`_]

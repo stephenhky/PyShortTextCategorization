@@ -32,6 +32,10 @@ the subject keywords, as below:
       'Holy Trinity', 'eschatology', 'scripture', 'ecclesiology', 'predestination',
       'divine degree', 'creedal confessionalism', 'scholasticism', 'prayer', 'eucharist']}
 
+
+.. automodule:: shorttext.data.data_retrieval
+    :members: subjectkeywords
+
 Example Training Data 2: NIH RePORT
 -----------------------------------
 
@@ -55,31 +59,9 @@ randomly drawn from the original data.
 
 However, there are other configurations:
 
-nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512)
-    Return an example data set, sampled from NIH RePORT (Research Portfolio
-    Online Reporting Tools).
+.. automodule:: shorttext.data.data_retrieval
+    :members: nihreports
 
-    Return an example data set from NIH (National Institutes of Health),
-    data publicly available from their RePORT
-    website. (`link
-    <https://exporter.nih.gov/ExPORTER_Catalog.aspx>`_).
-    The data is with `txt_col` being either project titles ('PROJECT_TITLE')
-    or proposal abstracts ('ABSTRACT_TEXT'), and label_col being the names of the ICs (Institutes or Centers),
-    with 'IC_NAME' the whole form, and 'FUNDING_ICs' the abbreviated form).
-
-    Dataset directly adapted from the NIH data from `R` package `textmineR
-    <https://cran.r-project.org/web/packages/textmineR/index.html>`_.
-
-    :param txt_col: column for the text (Default: 'PROJECT_TITLE')
-    :param label_col: column for the labels (Default: 'FUNDING_ICs')
-    :param sample_size: size of the sample. Set to None if all rows. (Default: 512)
-    :return: example data set
-    :type txt_col: str
-    :type label_col: str
-    :type sample_size: int
-    :rtype: dict
-
-If `sample_size` is specified to be `None`, all the data will be retrieved without sampling.
 
 Example Training Data 3: Inaugural Addresses
 --------------------------------------------
@@ -94,6 +76,9 @@ The addresses are available publicly, and I extracted them from `nltk
 Enter:
 
 >>> trainclassdict = shorttext.data.inaugural()
+
+.. automodule:: shorttext.data.data_retrieval
+    :members: inaugural
 
 
 User-Provided Training Data
@@ -129,5 +114,9 @@ An excerpt of this type of data is as follow:
 To load this data file, just enter:
 
 >>> trainclassdict = shorttext.data.retrieve_csvdata_as_dict('/path/to/file.csv')
+
+.. automodule:: shorttext.data.data_retrieval
+    :members: retrieve_csvdata_as_dict
+
 
 Home: :doc:`index`

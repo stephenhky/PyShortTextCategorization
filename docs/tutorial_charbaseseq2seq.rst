@@ -16,6 +16,10 @@ To use it, create an instance of the class :class:`shorttext.generators.Sentence
 
 The above code is the same as :doc:`tutorial_charbaseonehot` .
 
+.. automodule:: shorttext.generators.charbase.char2vec
+   :members: initSentenceToCharVecEncoder
+
+
 Training
 --------
 
@@ -29,6 +33,10 @@ And then train this neural network model:
 >>> seq2seqer.train(text, epochs=100)
 
 This model takes several hours to train on a laptop.
+
+
+.. autoclass:: shorttext.generators.seq2seq.charbaseS2S.CharBasedSeq2SeqGenerator
+   :members:
 
 Decoding
 --------
@@ -50,6 +58,10 @@ This model can be saved by entering:
 And can be loaded by:
 
 >>> seq2seqer2 = shorttext.generators.seq2seq.charbaseS2S.loadCharBasedSeq2SeqGenerator('/path/to/norvigtxt_iter5model.bin')
+
+.. automodule:: shorttext.generators.seq2seq.charbaseS2S
+   :members: loadCharBasedSeq2SeqGenerator
+
 
 Reference
 ---------

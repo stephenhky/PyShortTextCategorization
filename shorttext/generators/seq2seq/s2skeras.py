@@ -12,7 +12,7 @@ import shorttext.utils.classification_exceptions as e
 
 kerasseq2seq_suffices = ['.h5', '.json', '_s2s_hyperparam.json', '_encoder.h5', '_encoder.json', '_decoder.h5', '_decoder.json']
 
-# @cio.compactio({'classifier': 'kerasseq2seq'}, 'kerasseq2seq', kerasseq2seq_suffices)
+
 class Seq2SeqWithKeras(cio.CompactIOMachine):
     """ Class implementing sequence-to-sequence (seq2seq) learning with keras.
 

@@ -21,8 +21,7 @@ def CNNWordEmbed(nb_labels,
                  final_activation='softmax',
                  dense_wl2reg=0.0,
                  dense_bl2reg=0.0,
-                 optimizer='adam',
-                 with_gensim=False):
+                 optimizer='adam'):
     """ Returns the convolutional neural network (CNN/ConvNet) for word-embedded vectors.
 
     Reference: Yoon Kim, "Convolutional Neural Networks for Sentence Classification,"
@@ -40,7 +39,6 @@ def CNNWordEmbed(nb_labels,
     :param dense_wl2reg: L2 regularization coefficient (Default: 0.0)
     :param dense_bl2reg: L2 regularization coefficient for bias (Default: 0.0)
     :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: adam)
-    :param with_gensim: boolean variable to indicate if the word-embeddings being used derived from a Gensim's Word2Vec model. (Default: True)
     :return: keras model (`Sequential` or`Model`) for CNN/ConvNet for Word-Embeddings
     :type nb_labels: int
     :type wvmodel: gensim.models.keyedvectors.KeyedVectors
@@ -53,7 +51,6 @@ def CNNWordEmbed(nb_labels,
     :type dense_wl2reg: float
     :type dense_bl2reg: float
     :type optimizer: str
-    :type with_gensim: bool
     :rtype: keras.models.Model
     """
     if wvmodel != None:
@@ -90,8 +87,7 @@ def DoubleCNNWordEmbed(nb_labels,
                        final_activation='softmax',
                        dense_wl2reg=0.0,
                        dense_bl2reg=0.0,
-                       optimizer='adam',
-                       with_gensim=False):
+                       optimizer='adam'):
     """ Returns the double-layered convolutional neural network (CNN/ConvNet) for word-embedded vectors.
 
     :param nb_labels: number of class labels
@@ -123,7 +119,6 @@ def DoubleCNNWordEmbed(nb_labels,
     :type dense_wl2reg: float
     :type dense_bl2reg: float
     :type optimizer: str
-    :type with_gensim: bool
     :rtype: keras.models.Model
     """
     if wvmodel != None:
@@ -167,8 +162,7 @@ def CLSTMWordEmbed(nb_labels,
                    final_activation='softmax',
                    dense_wl2reg=0.0,
                    dense_bl2reg=0.0,
-                   optimizer='adam',
-                   with_gensim=False):
+                   optimizer='adam'):
     """ Returns the C-LSTM neural networks for word-embedded vectors.
 
     Reference: Chunting Zhou, Chonglin Sun, Zhiyuan Liu, Francis Lau,
@@ -203,7 +197,6 @@ def CLSTMWordEmbed(nb_labels,
     :type dense_wl2reg: float
     :type dense_bl2reg: float
     :type optimizer: str
-    :type with_gensim: bool
     :rtype: keras.models.Model
     """
     if wvmodel != None:
