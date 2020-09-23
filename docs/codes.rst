@@ -6,36 +6,7 @@ API
 Topic Models
 ------------
 
-Module `shorttext.generators.bow.LatentTopicModeling`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. automodule:: shorttext.generators.bow.LatentTopicModeling
-   :members:
-
-Module `shorttext.generators.bow.GensimTopicModeling`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: shorttext.generators.bow.GensimTopicModeling
-   :members:
-
-Module `shorttext.generators.bow.AutoEncodingTopicModeling`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: shorttext.generators.bow.AutoEncodingTopicModeling
-   :members:
-
-
-Module `shorttext.classifiers.topic.TopicVectorDistanceClassification`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: shorttext.classifiers.bow.topic.TopicVectorDistanceClassification
-   :members:
-
-Module `shorttext.classifiers.topic.SkLearnClassification`
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. automodule:: shorttext.classifiers.bow.topic.SkLearnClassification
-   :members:
 
 Supervised Classification using Word Embedding
 ----------------------------------------------

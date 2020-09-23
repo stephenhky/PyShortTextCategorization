@@ -188,6 +188,12 @@ an abstract class virtually. If user wants to develop its own topic model that e
 this, he has to define the methods `train`, `retrieve_topic_vec`, `loadmodel`, and
 `savemodel`.
 
+.. automodule:: shorttext.generators.bow.LatentTopicModeling
+   :members:
+
+.. automodule:: shorttext.generators.bow.GensimTopicModeling
+   :members:
+
 Appendix: Namespaces for Topic Modeler in Previous Versions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -242,6 +248,10 @@ The same thing for autoencoder, but the classifier based on autoencoder can be l
 
 >>> cos_classifier = shorttext.classifiers.load_autoencoder_cosineClassifier('/path/to/sub_autoencoder8.bin')
 
+.. automodule:: shorttext.classifiers.bow.topic.TopicVectorDistanceClassification
+   :members:
+
+
 Classification Using Scikit-Learn Classifiers
 ---------------------------------------------
 
@@ -284,6 +294,10 @@ will still do the work. However, to load the saved classifier with an autoencode
 
 Compact model files saved by `TopicVectorSkLearnClassifier` in `shorttext` >= 1.0.0 cannot be read
 by earlier version of `shorttext`; vice versa is not true though: old compact model files can be read in.
+
+.. automodule:: shorttext.classifiers.bow.topic.SkLearnClassification
+   :members:
+
 
 Notes about Text Preprocessing
 ------------------------------
