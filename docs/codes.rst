@@ -1,12 +1,7 @@
 API
 ===
 
-
-
-Topic Models
-------------
-
-
+API unlisted in tutorials are listed here.
 
 Supervised Classification using Word Embedding
 ----------------------------------------------
