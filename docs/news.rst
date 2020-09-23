@@ -61,7 +61,7 @@ News
 What's New
 ----------
 
-Release 1.4.0 (September 23, 2020)
+Release 1.4.1 (September 23, 2020)
 ----------------------------------
 
 * Documentation and codes cleaned up.
