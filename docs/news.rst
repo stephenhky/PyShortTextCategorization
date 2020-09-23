@@ -1,6 +1,7 @@
 News
 ====
 
+* 09/23/2020: `shorttext` 1.4.1 released.
 * 09/02/2020: `shorttext` 1.4.0 released.
 * 07/23/2020: `shorttext` 1.3.0 released.
 * 06/05/2020: `shorttext` 1.2.6 released.
@@ -60,6 +61,11 @@ News
 What's New
 ----------
 
+Release 1.4.0 (September 23, 2020)
+----------------------------------
+
+* Documentation and codes cleaned up.
+
 Release 1.4.0 (September 2, 2020)
 ---------------------------------
 
@@ -77,20 +83,20 @@ Release 1.2.6 (June 20, 2020)
 * Removed Python-2 codes (`urllib2`).
 
 Release 1.2.5 (May 20, 2020)
------------------------------
+----------------------------
 
 * Update on `gensim` package usage and requirements;
 * Removed some deprecated functions.
 
 Release 1.2.4 (May 13, 2020)
------------------------------
+----------------------------
 
 * Update on `scikit-learn` requirements to `>=0.23.0`.
 * Directly dependence on `joblib`;
 * Support for Python 3.8 added.
 
 Release 1.2.3 (April 28, 2020)
------------------------------
+------------------------------
 
 * PyUP scan implemented;
 * Support for Python 3.5 decommissioned.
@@ -101,13 +107,13 @@ Release 1.2.2 (April 7, 2020)
 * Removed dependence on `PyStemmer`, which is replaced by `snowballstemmer`.
 
 Release 1.2.1 (March 23, 2020)
---------------------------------
+------------------------------
 
 * Added port number adjustability for word-embedding API;
 * Removal of Spacy dependency.
 
 Release 1.2.0 (March 21, 2020)
---------------------------------
+------------------------------
 
 * API for word-embedding algorithm for one-time loading.
 
@@ -141,7 +147,7 @@ Release 1.1.2 (June 5, 2019)
 * Updated codes for Fasttext moddel loading as the previous function was deprecated.
 
 Release 1.1.1 (April 23, 2019)
------------------------------
+------------------------------
 
 * Bug fixed. (Acknowledgement: `Hamish Dickson
   <https://github.com/hamishdickson>`_ )
@@ -154,7 +160,7 @@ Release 1.1.0 (March 3, 2019)
 
 
 Release 1.0.8 (February 14, 2019)
---------------------------------
+---------------------------------
 
 * Minor bugs fixed.
 
@@ -185,7 +191,7 @@ Release 1.0.5 (January 13, 2019)
 
 
 Release 1.0.4 (October 3, 2018)
-------------------------------
+-------------------------------
 
 * Package `keras` requirement updated;
 * Less dependence on `pandas`.

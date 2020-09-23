@@ -10,13 +10,12 @@ their page. To load the model, call:
 >>> import shorttext
 >>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
 
-It is a binary file, and the default is set to be `binary=True`. In fact, it is equivalent to calling,
-if you have `gensim` version before 1.0.0:
+It is a binary file, and the default is set to be `binary=True`.
 
->>> import gensim
->>> wvmodel = gensim.models.Word2Vec.load_word2vec_format('/path/to/GoogleNews-vectors-negative300.bin.gz', binary=True)
+.. automodule:: shorttext.utils.wordembed
+   :members: load_word2vec_model
 
-Or beyond version 1.0.0,
+It is equivalent to calling,
 
 >>> import gensim
 >>> wvmodel = gensim.models.KeyedVectors.load_word2vec_format('/path/to/GoogleNews-vectors-negative300.bin.gz', binary=True)
@@ -87,6 +86,9 @@ To load a pre-trained FastText model, run:
 
 And it is used exactly the same way as Word2Vec.
 
+.. automodule:: shorttext.utils.wordembed
+   :members: load_fasttext_model
+
 Poincaré Embeddings
 -------------------
 
@@ -98,6 +100,8 @@ pre-trained model, run:
 
 For preloaded word-embedding models, please refer to :doc:`tutorial_wordembed`.
 
+.. automodule:: shorttext.utils.wordembed
+   :members: load_poincare_model
 
 BERT
 ----
@@ -119,6 +123,20 @@ two "right"'s are different as they have different meanings.
 The default BERT models and tokenizers are `bert-base_uncase`.
 If you want to use others, refer to `HuggingFace's model list
 <https://huggingface.co/models>`_ .
+
+.. autoclass:: shorttext.utils.transformers.BERTObject
+   :members:
+
+.. autoclass:: shorttext.utils.transformers.WrappedBERTEncoder
+   :members:
+
+
+Other Functions
+---------------
+
+.. automodule:: shorttext.utils.wordembed
+   :members: shorttext_to_avgvec
+
 
 Links
 -----

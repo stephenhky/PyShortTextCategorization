@@ -32,6 +32,8 @@ using `RESTfulKeyedVectors`:
 
 This model can be used like other `gensim` `KeyedVectors`.
 
+.. autoclass:: shorttext.utils.wordembed.RESTfulKeyedVectors
+   :members:
 
 
 Home: :doc:`index`

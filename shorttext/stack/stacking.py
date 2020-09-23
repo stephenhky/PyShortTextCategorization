@@ -1,4 +1,5 @@
 import pickle
+from abc import ABC, abstractmethod
 
 import numpy as np
 from keras.layers import Dense, Reshape
@@ -11,7 +12,7 @@ from shorttext.utils.compactmodel_io import CompactIOMachine
 
 
 # abstract class
-class StackedGeneralization:
+class StackedGeneralization(ABC):
     """
     This is an abstract class for any stacked generalization method. It is an intermediate model
     that takes the results of other classifiers as the input features, and perform another classification.
@@ -136,6 +137,7 @@ class StackedGeneralization:
                 X = self.translate_shorttext_intfeature_matrix(shorttext)
                 yield X, y
 
+    @abstractmethod
     def train(self, classdict, *args, **kwargs):
         """ Train the stacked generalization.
 
@@ -152,6 +154,7 @@ class StackedGeneralization:
         """
         raise e.NotImplementedException()
 
+    @abstractmethod
     def score(self, shorttext, *args, **kwargs):
         """ Calculate the scores for each class labels.
 

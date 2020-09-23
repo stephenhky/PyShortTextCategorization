@@ -87,6 +87,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 09/23/2020: `shorttext` 1.4.1 released.
 * 09/02/2020: `shorttext` 1.4.0 released.
 * 07/23/2020: `shorttext` 1.3.0 released.
 * 06/05/2020: `shorttext` 1.2.6 released.
@@ -144,7 +145,6 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
-- [x] Including transformer-based models;
 - [ ] Use of DASK;
 - [ ] Dividing components to other packages;
 - [ ] More available corpus.
