@@ -110,11 +110,6 @@ Module `shorttext.spell`
 .. automodule:: shorttext.spell.basespellcorrector
    :members:
 
-.. automodule:: shorttext.spell.norvig
-   :members:
-
-.. automodule:: shorttext.spell.sakaguchi
-   :members:
 
 
 
