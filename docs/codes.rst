@@ -3,6 +3,12 @@ API
 
 API unlisted in tutorials are listed here.
 
+Shorttext Models Smart Loading
+------------------------------
+
+.. automodule:: shorttext.smartload
+   :members:
+
 Supervised Classification using Word Embedding
 ----------------------------------------------
 
