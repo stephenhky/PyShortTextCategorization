@@ -1,6 +1,7 @@
 News
 ====
 
+* 10/18/2020: `shorttext` 1.4.2 released.
 * 09/23/2020: `shorttext` 1.4.1 released.
 * 09/02/2020: `shorttext` 1.4.0 released.
 * 07/23/2020: `shorttext` 1.3.0 released.
@@ -60,6 +61,11 @@ News
 
 What's New
 ----------
+
+Release 1.4.2 (October 18, 2020)
+----------------------------------
+
+* Documentation requirements and PyUp configs cleaned up.
 
 Release 1.4.1 (September 23, 2020)
 ----------------------------------
