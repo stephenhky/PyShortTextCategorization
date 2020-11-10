@@ -1,6 +1,7 @@
 News
 ====
 
+* 11/10/2020: `shorttext` 1.4.3 released.
 * 10/18/2020: `shorttext` 1.4.2 released.
 * 09/23/2020: `shorttext` 1.4.1 released.
 * 09/02/2020: `shorttext` 1.4.0 released.
@@ -61,6 +62,11 @@ News
 
 What's New
 ----------
+
+Release 1.4.3 (November 10, 2020)
+---------------------------------
+
+* Bugs about transformer-based model on different devices resolved.
 
 Release 1.4.2 (October 18, 2020)
 ----------------------------------
