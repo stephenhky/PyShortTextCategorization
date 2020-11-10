@@ -116,6 +116,8 @@ class WrappedBERTEncoder(BERTObject):
 
         input_ids = torch.cat(input_ids, dim=0)
         segments_id = torch.LongTensor(np.array(input_ids > 0))
+        input_ids = input_ids.to(self.device)
+        segments_id = segments_id.to(self.device)
 
         with torch.no_grad():
             _, sentences_embeddings, hidden_state = self.model(input_ids, segments_id)
