@@ -34,3 +34,7 @@ class TestWMD(unittest.TestCase):
         tokens2 = ['apple', 'orange']
         known_answer = 1.8019972145557404
         self.calculate_wmd(tokens1, tokens2, known_answer)
+
+
+if __name__ == '__main__':
+    unittest.main()
