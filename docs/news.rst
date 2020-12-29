@@ -1,6 +1,7 @@
 News
 ====
 
+* 12/28/2020: `shorttext` 1.4.5 released.
 * 12/24/2020: `shorttext` 1.4.4 released.
 * 11/10/2020: `shorttext` 1.4.3 released.
 * 10/18/2020: `shorttext` 1.4.2 released.
@@ -63,6 +64,11 @@ News
 
 What's New
 ----------
+
+Release 1.4.5 (December 28, 2020)
+---------------------------------
+
+* Bugs fixed about Python 2 to 3 updates, `filter` in `shorttext.metrics.embedfuzzy`.
 
 Release 1.4.4 (December 24, 2020)
 ---------------------------------
