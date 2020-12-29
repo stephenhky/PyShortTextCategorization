@@ -1,6 +1,7 @@
 News
 ====
 
+* 12/24/2020: `shorttext` 1.4.4 released.
 * 11/10/2020: `shorttext` 1.4.3 released.
 * 10/18/2020: `shorttext` 1.4.2 released.
 * 09/23/2020: `shorttext` 1.4.1 released.
@@ -62,6 +63,13 @@ News
 
 What's New
 ----------
+
+Release 1.4.4 (December 24, 2020)
+---------------------------------
+
+* Bugs regarding `SumEmbedVeccClassification.py`;
+* Fixing bugs due to Python 3.6 restriction on `scipy`.
+
 
 Release 1.4.3 (November 10, 2020)
 ---------------------------------
