@@ -130,7 +130,7 @@ def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512
                                                  asbytes=True),
                             'r',
                             zipfile.ZIP_DEFLATED)
-    nih = pd.read_csv(zfile.open('nih_full.csv'), na_filter=False, usecols=[label_col, txt_col])
+    nih = pd.read_csv(zfile.open('nih_full.csv'), na_filter=False, usecols=[label_col, txt_col], encoding='cp437')
     zfile.close()
     nb_data = len(nih)
     sample_size = nb_data if sample_size==None else min(nb_data, sample_size)

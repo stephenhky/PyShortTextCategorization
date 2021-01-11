@@ -39,3 +39,7 @@ class TestRepresentations(unittest.TestCase):
 
         np.testing.assert_almost_equal(sent_representations1, sent_representations2)
         np.testing.assert_almost_equal(token_representations1, token_representations2)
+
+
+if __name__ == '__main__':
+    unittest.main()
