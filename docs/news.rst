@@ -1,6 +1,8 @@
 News
 ====
 
+* 01/11/2021: `shorttext` 1.4.7 released.
+* 01/03/2021: `shorttext` 1.4.6 released.
 * 12/28/2020: `shorttext` 1.4.5 released.
 * 12/24/2020: `shorttext` 1.4.4 released.
 * 11/10/2020: `shorttext` 1.4.3 released.
@@ -64,6 +66,18 @@ News
 
 What's New
 ----------
+
+Release 1.4.7 (January 11, 2021)
+--------------------------------
+
+* Updated version of `transformers` in `requirement.txt`;
+* Updated BERT encoder for the change of implementation;
+* Fixed unit tests.
+
+Release 1.4.6 (January 3, 2021)
+-------------------------------
+
+* Bug regarding Python 3.6 requirement for `scipy`.
 
 Release 1.4.5 (December 28, 2020)
 ---------------------------------

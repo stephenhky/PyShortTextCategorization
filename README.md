@@ -87,6 +87,8 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 01/11/2021: `shorttext` 1.4.7 released.
+* 01/03/2021: `shorttext` 1.4.6 released.
 * 12/28/2020: `shorttext` 1.4.5 released.
 * 12/24/2020: `shorttext` 1.4.4 released.
 * 11/10/2020: `shorttext` 1.4.3 released.
@@ -149,6 +151,5 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
-- [ ] Use of DASK;
 - [ ] Dividing components to other packages;
 - [ ] More available corpus.
