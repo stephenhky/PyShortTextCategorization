@@ -1,6 +1,7 @@
 News
 ====
 
+* 02/11/2021: `shorttext` 1.4.8 released.
 * 01/11/2021: `shorttext` 1.4.7 released.
 * 01/03/2021: `shorttext` 1.4.6 released.
 * 12/28/2020: `shorttext` 1.4.5 released.
@@ -66,6 +67,11 @@ News
 
 What's New
 ----------
+
+Release 1.4.8 (February 11, 2021)
+---------------------------------
+
+* Updated requirements for `scipy` for Python 3.7 or above.
 
 Release 1.4.7 (January 11, 2021)
 --------------------------------

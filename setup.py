@@ -40,7 +40,7 @@ def test_requirements():
 
 
 setup(name='shorttext',
-      version='1.4.7',
+      version='1.4.8',
       description="Short Text Mining",
       long_description=package_description(),
       long_description_content_type='text/markdown',
