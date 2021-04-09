@@ -1,6 +1,5 @@
 include README.md
 include requirements.txt
-include py36requirements.txt
 include setup_requirements.txt
 include test_requirements.txt
 include shorttext/data/shorttext_exampledata.csv

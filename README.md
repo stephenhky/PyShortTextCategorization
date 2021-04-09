@@ -15,6 +15,7 @@ representation of the texts and documents are needed before they are put into
 any classification algorithm. In this package, it facilitates various types
 of these representations, including topic modeling and word-embedding algorithms.
 
+Since release 1.5.0, support for Python 3.6 was decommissioned.
 Since release 1.2.4, it runs on Python 3.8.
 Since release 1.2.3, support for Python 3.5 was decommissioned. 
 Since release 1.1.7, support for Python 2.7 was decommissioned.
@@ -87,6 +88,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 04/09/2021: `shorttext` 1.5.0 released.
 * 02/11/2021: `shorttext` 1.4.8 released.
 * 01/11/2021: `shorttext` 1.4.7 released.
 * 01/03/2021: `shorttext` 1.4.6 released.

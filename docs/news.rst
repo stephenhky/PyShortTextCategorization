@@ -1,6 +1,7 @@
 News
 ====
 
+* 04/09/2021: `shorttext` 1.5.0 released.
 * 02/11/2021: `shorttext` 1.4.8 released.
 * 01/11/2021: `shorttext` 1.4.7 released.
 * 01/03/2021: `shorttext` 1.4.6 released.
@@ -67,6 +68,12 @@ News
 
 What's New
 ----------
+
+Release 1.5.0 (April 09, 2021)
+------------------------------
+
+* Removed support for Python 3.6.
+* Removed buggy BERT representations unit test.
 
 Release 1.4.8 (February 11, 2021)
 ---------------------------------

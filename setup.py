@@ -1,6 +1,5 @@
 
 from setuptools import setup, Extension
-import sys
 
 import numpy as np
 
@@ -26,10 +25,6 @@ def install_requirements():
     return [package_string.strip() for package_string in open('requirements.txt', 'r')]
 
 
-def install_py36requirements():
-    return [package_string.strip() for package_string in open('py36requirements.txt', 'r')]
-
-
 def setup_requirements():
     return [package_string.strip() for package_string in open('setup_requirements.txt', 'r')]
 
@@ -40,7 +35,7 @@ def test_requirements():
 
 
 setup(name='shorttext',
-      version='1.4.8',
+      version='1.5.0',
       description="Short Text Mining",
       long_description=package_description(),
       long_description_content_type='text/markdown',
@@ -49,7 +44,6 @@ setup(name='shorttext',
           "Topic :: Scientific/Engineering :: Mathematics",
           "Topic :: Text Processing :: Linguistic",
           "Topic :: Software Development :: Libraries :: Python Modules",
-          "Programming Language :: Python :: 3.6",
           "Programming Language :: Python :: 3.7",
           "Programming Language :: Python :: 3.8",
           "Programming Language :: Cython",
@@ -93,9 +87,9 @@ setup(name='shorttext',
                                   'metrics/dynprog/*.pyx', 'metrics/dynprog/*.c',
                                   'spell/*.pyx', 'spell/*.c']},
       include_dirs=[np.get_include()],
-      python_requires='>=3.6',
+      python_requires='>=3.7',
       setup_requires=setup_requirements(),
-      install_requires=install_requirements() if sys.version >= "3.7" else install_py36requirements(),
+      install_requires=install_requirements(),
       scripts=['bin/ShortTextCategorizerConsole',
                'bin/ShortTextWordEmbedSimilarity',
                'bin/WordEmbedAPI'],
