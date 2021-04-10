@@ -12,7 +12,6 @@ shared: &shared
         command: |
           sudo apt-get update
           sudo apt-get install libc6
-          conda install --yes libgcc
           sudo apt-get install python3-dev
 
     - run:
