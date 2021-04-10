@@ -27,7 +27,7 @@ shared: &shared
         name: Installing Packages
         command: |
           conda create --yes -n shorttext-test python=$TRAVIS_PYTHON_VERSION
-          source activate shorttext-test
+          conda activate shorttext-test
           pip install Cython
           pip install -U numpy
           pip install -U scipy
