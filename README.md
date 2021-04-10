@@ -1,6 +1,6 @@
 # Short Text Mining in Python
 
-[![Build Status](https://travis-ci.com/stephenhky/PyShortTextCategorization.svg?branch=master)](https://travis-ci.com/stephenhky/PyShortTextCategorization)
+[![CircleCI](https://circleci.com/gh/stephenhky/PyShortTextCategorization.svg?style=svg)](https://circleci.com/gh/stephenhky/PyShortTextCategorization.svg)
 [![GitHub release](https://img.shields.io/github/release/stephenhky/PyShortTextCategorization.svg?maxAge=3600)](https://github.com/stephenhky/PyShortTextCategorization/releases)
 [![Documentation Status](https://readthedocs.org/projects/pyqentangle/badge/?version=latest)](https://pyqentangle.readthedocs.io/en/latest/?badge=latest)
 [![Updates](https://pyup.io/repos/github/stephenhky/PyShortTextCategorization/shield.svg)](https://pyup.io/repos/github/stephenhky/PyShortTextCategorization/)
@@ -88,6 +88,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 04/10/2021: `shorttext` 1.5.1 released.
 * 04/09/2021: `shorttext` 1.5.0 released.
 * 02/11/2021: `shorttext` 1.4.8 released.
 * 01/11/2021: `shorttext` 1.4.7 released.
