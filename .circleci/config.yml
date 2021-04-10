@@ -13,7 +13,6 @@ shared: &shared
           sudo apt-get update
           sudo apt-get install libc6
           conda install --yes libgcc
-          sudo apt-get install python-dev
           sudo apt-get install python3-dev
 
     - run:
@@ -46,11 +45,15 @@ shared: &shared
 
 jobs:
   py37:
+    machine: # executor type
+      image: ubuntu-2004:202010-01
     <<: *shared
     docker:
       -image: circleci/python:3.7
 
   py38:
+    machine: # executor type
+      image: ubuntu-2004:202010-01
     <<: *shared
     docker:
       -image: circleci/python:3.8
