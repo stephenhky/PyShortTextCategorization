@@ -1,0 +1,51 @@
+version: 2
+
+
+shared: &shared
+  working_directory: ~/shorttext
+
+  steps:
+    - checkout
+
+    - run:
+        name: Apt Install
+        command: |
+          sudo apt-get update
+          sudo apt-get install libc6
+          sudo apt-get install python3-dev
+
+    - run:
+        name: Installing Miniconda and Packages
+        command: |
+          pip install --upgrade --user Cython
+          pip install --upgrade --user  numpy
+          pip install --upgrade --user  scipy
+          pip install --upgrade --user  tensorflow>=2.0.0
+          pip install --upgrade --user google-compute-engine
+          pip install --upgrade --user  .
+
+    - run:
+        name: Run Unit Tests
+        command: |
+          pip install -r test_requirements.txt
+          python setup.py test
+
+
+jobs:
+  py37:
+    <<: *shared
+    docker:
+      - image: circleci/python:3.7
+
+  py38:
+    <<: *shared
+    docker:
+      - image: circleci/python:3.8
+
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - py37
+      - py38

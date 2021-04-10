@@ -1,6 +1,7 @@
 News
 ====
 
+* 04/10/2021: `shorttext` 1.5.1 released.
 * 04/09/2021: `shorttext` 1.5.0 released.
 * 02/11/2021: `shorttext` 1.4.8 released.
 * 01/11/2021: `shorttext` 1.4.7 released.
@@ -68,6 +69,11 @@ News
 
 What's New
 ----------
+
+Release 1.5.1 (April 10, 2021)
+------------------------------
+
+* Replaced TravisCI with CircleCI in the continuous integration pipeline.
 
 Release 1.5.0 (April 09, 2021)
 ------------------------------
