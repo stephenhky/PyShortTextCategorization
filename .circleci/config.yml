@@ -1,47 +1,64 @@
 version: 2
+
+
+shared: &shared
+  working_directory: ~/shorttext
+
+  steps:
+    - checkout
+
+    - run:
+        name: Apt Install
+        command: |
+          sudo apt-get update
+          sudo apt-get install libc6
+          conda install --yes libgcc
+          sudo apt-get install python-dev
+          sudo apt-get install python3-dev
+
+    - run:
+        name: Installing Miniconda
+        command: |
+          wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+          chmod +x miniconda.sh
+          ./miniconda.sh -b
+          export PATH=/home/travis/miniconda3/bin:$PATH;
+          conda update --yes conda
+
+    - run:
+        name: Installing Packages
+        command: |
+          conda create --yes -n shorttext-test python=$TRAVIS_PYTHON_VERSION
+          source activate shorttext-test
+          pip install Cython
+          pip install -U numpy
+          pip install -U scipy
+          pip install -U tensorflow>=2.0.0
+          pip install google-compute-engine
+          pip install -U .
+
+    - run:
+        name: Run Unit Tests
+        command: |
+          pip install -r test_requirements.txt
+          python setup.py test
+
+
 jobs:
-  build:
+  py37:
+    <<: *shared
     docker:
-      - image: circleci/python:3.7.4
+      -image: circleci/python:3.7
 
-    working_directory: ~/shorttext
+  py38:
+    <<: *shared
+    docker:
+      -image: circleci/python:3.8
 
-    steps:
-      - checkout
 
-      - run:
-          name: Apt Install
-          command: |
-            sudo apt-get update
-            sudo apt-get install libc6
-            conda install --yes libgcc
-            sudo apt-get install python-dev
-            sudo apt-get install python3-dev
-
-      - run:
-          name: Installing Miniconda
-          command: |
-            wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-            chmod +x miniconda.sh
-            ./miniconda.sh -b
-            export PATH=/home/travis/miniconda3/bin:$PATH;
-            conda update --yes conda
-
-      - run:
-          name: Installing Packages
-          command: |
-            conda create --yes -n shorttext-test python=$TRAVIS_PYTHON_VERSION
-            source activate shorttext-test
-            pip install Cython
-            pip install -U numpy
-            pip install -U scipy
-            pip install -U tensorflow>=2.0.0
-            pip install google-compute-engine
-            pip install -U .
-
-      - run:
-          name: Run Unit Tests
-          command: |
-            pip install -r test_requirements.txt
-            python setup.py test
-
+workflows:
+  version: 2
+  build:
+    jobs:
+      - py37
+      - py38
