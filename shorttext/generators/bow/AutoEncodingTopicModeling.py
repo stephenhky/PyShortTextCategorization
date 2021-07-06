@@ -7,7 +7,7 @@ from operator import add
 import numpy as np
 from gensim.corpora import Dictionary
 from keras import Input
-from keras.engine import Model
+from keras import Model
 from keras.layers import Dense
 from scipy.spatial.distance import cosine
 
