@@ -75,6 +75,7 @@ Release 1.5.2 (July 6, 2021)
 ----------------------------
 
 * Resolved bugs regarding `keras` import.
+* Support for Python 3.9.
 
 Release 1.5.1 (April 10, 2021)
 ------------------------------
