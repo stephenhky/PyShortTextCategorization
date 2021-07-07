@@ -88,6 +88,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 07/06/2021: `shorttext` 1.5.2 released.
 * 04/10/2021: `shorttext` 1.5.1 released.
 * 04/09/2021: `shorttext` 1.5.0 released.
 * 02/11/2021: `shorttext` 1.4.8 released.
