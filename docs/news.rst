@@ -1,6 +1,7 @@
 News
 ====
 
+* 07/06/2021: `shorttext` 1.5.2 released.
 * 04/10/2021: `shorttext` 1.5.1 released.
 * 04/09/2021: `shorttext` 1.5.0 released.
 * 02/11/2021: `shorttext` 1.4.8 released.
@@ -69,6 +70,11 @@ News
 
 What's New
 ----------
+
+Release 1.5.2 (July 6, 2021)
+----------------------------
+
+* Resolved bugs regarding `keras` import.
 
 Release 1.5.1 (April 10, 2021)
 ------------------------------
