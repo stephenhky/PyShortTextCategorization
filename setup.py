@@ -1,4 +1,6 @@
+
 from setuptools import setup, Extension
+
 import numpy as np
 
 
@@ -33,7 +35,7 @@ def test_requirements():
 
 
 setup(name='shorttext',
-      version='1.4.2a1',
+      version='1.5.2',
       description="Short Text Mining",
       long_description=package_description(),
       long_description_content_type='text/markdown',
@@ -42,10 +44,8 @@ setup(name='shorttext',
           "Topic :: Scientific/Engineering :: Mathematics",
           "Topic :: Text Processing :: Linguistic",
           "Topic :: Software Development :: Libraries :: Python Modules",
-          "Programming Language :: Python :: 3.6",
           "Programming Language :: Python :: 3.7",
           "Programming Language :: Python :: 3.8",
-          "Programming Language :: Python :: 3.9",
           "Programming Language :: Cython",
           "Programming Language :: C",
           "Natural Language :: English",
@@ -87,6 +87,7 @@ setup(name='shorttext',
                                   'metrics/dynprog/*.pyx', 'metrics/dynprog/*.c',
                                   'spell/*.pyx', 'spell/*.c']},
       include_dirs=[np.get_include()],
+      python_requires='>=3.7',
       setup_requires=setup_requirements(),
       install_requires=install_requirements(),
       scripts=['bin/ShortTextCategorizerConsole',

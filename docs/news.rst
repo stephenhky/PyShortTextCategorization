@@ -1,6 +1,16 @@
 News
 ====
 
+* 07/06/2021: `shorttext` 1.5.2 released.
+* 04/10/2021: `shorttext` 1.5.1 released.
+* 04/09/2021: `shorttext` 1.5.0 released.
+* 02/11/2021: `shorttext` 1.4.8 released.
+* 01/11/2021: `shorttext` 1.4.7 released.
+* 01/03/2021: `shorttext` 1.4.6 released.
+* 12/28/2020: `shorttext` 1.4.5 released.
+* 12/24/2020: `shorttext` 1.4.4 released.
+* 11/10/2020: `shorttext` 1.4.3 released.
+* 10/18/2020: `shorttext` 1.4.2 released.
 * 09/23/2020: `shorttext` 1.4.1 released.
 * 09/02/2020: `shorttext` 1.4.0 released.
 * 07/23/2020: `shorttext` 1.3.0 released.
@@ -60,6 +70,61 @@ News
 
 What's New
 ----------
+
+Release 1.5.2 (July 6, 2021)
+----------------------------
+
+* Resolved bugs regarding `keras` import.
+
+Release 1.5.1 (April 10, 2021)
+------------------------------
+
+* Replaced TravisCI with CircleCI in the continuous integration pipeline.
+
+Release 1.5.0 (April 09, 2021)
+------------------------------
+
+* Removed support for Python 3.6.
+* Removed buggy BERT representations unit test.
+
+Release 1.4.8 (February 11, 2021)
+---------------------------------
+
+* Updated requirements for `scipy` for Python 3.7 or above.
+
+Release 1.4.7 (January 11, 2021)
+--------------------------------
+
+* Updated version of `transformers` in `requirement.txt`;
+* Updated BERT encoder for the change of implementation;
+* Fixed unit tests.
+
+Release 1.4.6 (January 3, 2021)
+-------------------------------
+
+* Bug regarding Python 3.6 requirement for `scipy`.
+
+Release 1.4.5 (December 28, 2020)
+---------------------------------
+
+* Bugs fixed about Python 2 to 3 updates, `filter` in `shorttext.metrics.embedfuzzy`.
+
+Release 1.4.4 (December 24, 2020)
+---------------------------------
+
+* Bugs regarding `SumEmbedVeccClassification.py`;
+* Fixing bugs due to Python 3.6 restriction on `scipy`.
+
+
+Release 1.4.3 (November 10, 2020)
+---------------------------------
+
+* Bugs about transformer-based model on different devices resolved.
+
+Release 1.4.2 (October 18, 2020)
+----------------------------------
+
+* Documentation requirements and PyUp configs cleaned up.
 
 Release 1.4.1 (September 23, 2020)
 ----------------------------------

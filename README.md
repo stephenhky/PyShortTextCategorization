@@ -1,6 +1,6 @@
 # Short Text Mining in Python
 
-[![Build Status](https://travis-ci.org/stephenhky/PyShortTextCategorization.svg?branch=master)](https://travis-ci.org/stephenhky/PyShortTextCategorization)
+[![CircleCI](https://circleci.com/gh/stephenhky/PyShortTextCategorization.svg?style=svg)](https://circleci.com/gh/stephenhky/PyShortTextCategorization.svg)
 [![GitHub release](https://img.shields.io/github/release/stephenhky/PyShortTextCategorization.svg?maxAge=3600)](https://github.com/stephenhky/PyShortTextCategorization/releases)
 [![Documentation Status](https://readthedocs.org/projects/pyqentangle/badge/?version=latest)](https://pyqentangle.readthedocs.io/en/latest/?badge=latest)
 [![Updates](https://pyup.io/repos/github/stephenhky/PyShortTextCategorization/shield.svg)](https://pyup.io/repos/github/stephenhky/PyShortTextCategorization/)
@@ -15,6 +15,7 @@ representation of the texts and documents are needed before they are put into
 any classification algorithm. In this package, it facilitates various types
 of these representations, including topic modeling and word-embedding algorithms.
 
+Since release 1.5.0, support for Python 3.6 was decommissioned.
 Since release 1.2.4, it runs on Python 3.8.
 Since release 1.2.3, support for Python 3.5 was decommissioned. 
 Since release 1.1.7, support for Python 2.7 was decommissioned.
@@ -87,6 +88,15 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 04/10/2021: `shorttext` 1.5.1 released.
+* 04/09/2021: `shorttext` 1.5.0 released.
+* 02/11/2021: `shorttext` 1.4.8 released.
+* 01/11/2021: `shorttext` 1.4.7 released.
+* 01/03/2021: `shorttext` 1.4.6 released.
+* 12/28/2020: `shorttext` 1.4.5 released.
+* 12/24/2020: `shorttext` 1.4.4 released.
+* 11/10/2020: `shorttext` 1.4.3 released.
+* 10/18/2020: `shorttext` 1.4.2 released.
 * 09/23/2020: `shorttext` 1.4.1 released.
 * 09/02/2020: `shorttext` 1.4.0 released.
 * 07/23/2020: `shorttext` 1.3.0 released.
@@ -145,6 +155,5 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
-- [ ] Use of DASK;
 - [ ] Dividing components to other packages;
 - [ ] More available corpus.

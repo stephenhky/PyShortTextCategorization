@@ -23,8 +23,8 @@ def jaccardscore_sents(sent1, sent2, wvmodel, sim_words=lambda vec1, vec2: 1-cos
     """
     tokens1 = tokenize(sent1)
     tokens2 = tokenize(sent2)
-    tokens1 = filter(lambda w: w in wvmodel, tokens1)
-    tokens2 = filter(lambda w: w in wvmodel, tokens2)
+    tokens1 = list(filter(lambda w: w in wvmodel, tokens1))
+    tokens2 = list(filter(lambda w: w in wvmodel, tokens2))
     allowable1 = [True] * len(tokens1)
     allowable2 = [True] * len(tokens2)
 

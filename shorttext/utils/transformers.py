@@ -17,7 +17,7 @@ class BERTObject:
     <https://arxiv.org/abs/1810.04805>`_]
 
     """
-    def __init__(self, model=None, tokenizer=None, device='cpu'):
+    def __init__(self, model=None, tokenizer=None, trainable=False, device='cpu'):
         """ The base class for BERT model that contains the embedding model and the tokenizer.
 
         :param model: BERT model (default: None, with model `bert-base-uncase` to be used)
@@ -36,12 +36,17 @@ class BERTObject:
         else:
             self.device = torch.device(device)
 
+        self.trainable = trainable
+
         if model is None:
             self.model = BertModel.from_pretrained('bert-base-uncased',
                                                    output_hidden_states=True)\
                             .to(self.device)
         else:
             self.model = model.to(self.device)
+
+        if self.trainable:
+            self.model.train()
 
         if tokenizer is None:
             self.tokenizer = BertTokenizer.from_pretrained('bert-base-uncased', do_lower_case=True)
@@ -66,6 +71,7 @@ class WrappedBERTEncoder(BERTObject):
             tokenizer=None,
             max_length=48,
             nbencodinglayers=4,
+            trainable=False,
             device='cpu'
     ):
         """ This is the constructor of the class that encodes sentences with BERT models.
@@ -80,7 +86,12 @@ class WrappedBERTEncoder(BERTObject):
         :type max_length: int
         :type device: str
         """
-        super(WrappedBERTEncoder, self).__init__(model=model, tokenizer=tokenizer, device=device)
+        super(WrappedBERTEncoder, self).__init__(
+            model=model,
+            tokenizer=tokenizer,
+            trainable=trainable,
+            device=device
+        )
         self.max_length = max_length
         self.nbencodinglayers = nbencodinglayers
 
@@ -107,7 +118,7 @@ class WrappedBERTEncoder(BERTObject):
                 add_special_tokens=True,
                 truncation=True,
                 max_length=self.max_length,
-                pad_to_max_length=True,
+                padding='max_length',
                 return_tensors='pt'
             )
 
@@ -116,9 +127,18 @@ class WrappedBERTEncoder(BERTObject):
 
         input_ids = torch.cat(input_ids, dim=0)
         segments_id = torch.LongTensor(np.array(input_ids > 0))
+        input_ids = input_ids.to(self.device)
+        segments_id = segments_id.to(self.device)
 
-        with torch.no_grad():
-            _, sentences_embeddings, hidden_state = self.model(input_ids, segments_id)
+        if self.trainable:
+            output = self.model(input_ids, segments_id)
+            sentences_embeddings = output[1]
+            hidden_state = output[2]
+        else:
+            with torch.no_grad():
+                output = self.model(input_ids, segments_id)
+                sentences_embeddings = output[1]
+                hidden_state = output[2]
 
         alllayers_token_embeddings = torch.stack(hidden_state, dim=0)
         alllayers_token_embeddings = alllayers_token_embeddings.permute(1, 2, 0, 3)  # swap dimensions to [sentence, tokens, hidden layers, features]
