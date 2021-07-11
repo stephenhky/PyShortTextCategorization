@@ -1,6 +1,7 @@
 News
 ====
 
+* 07/11/2021: `shorttext` 1.5.3 released.
 * 07/06/2021: `shorttext` 1.5.2 released.
 * 04/10/2021: `shorttext` 1.5.1 released.
 * 04/09/2021: `shorttext` 1.5.0 released.
@@ -70,6 +71,11 @@ News
 
 What's New
 ----------
+
+Release 1.5.3 (July 11, 2021)
+-----------------------------
+
+* Documentation updated.
 
 Release 1.5.2 (July 6, 2021)
 ----------------------------
