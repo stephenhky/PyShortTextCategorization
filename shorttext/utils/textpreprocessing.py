@@ -120,6 +120,6 @@ def standard_text_preprocessor_2():
     """
     # load stop words
     this_dir, _ = os.path.split(__file__)
-    stopwordsfile = codecs.open(os.path.join(this_dir, 'noneg_stopwords.txt'), 'r', 'utf-8')
+    stopwordsfile = codecs.open(os.path.join(this_dir, 'nonneg_stopwords.txt'), 'r', 'utf-8')
 
     return oldschool_standard_text_preprocessor(stopwordsfile)
