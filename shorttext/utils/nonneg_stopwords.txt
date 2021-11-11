@@ -302,9 +302,6 @@ most
 other
 some
 such
-no
-nor
-not
 only
 own
 same
