@@ -35,7 +35,7 @@ def test_requirements():
 
 
 setup(name='shorttext',
-      version='1.5.4',
+      version='1.5.4a2',
       description="Short Text Mining",
       long_description=package_description(),
       long_description_content_type='text/markdown',
@@ -47,6 +47,7 @@ setup(name='shorttext',
           "Programming Language :: Python :: 3.7",
           "Programming Language :: Python :: 3.8",
           "Programming Language :: Python :: 3.9",
+          "Programming Language :: Python :: 3.10"
           "Programming Language :: Cython",
           "Programming Language :: C",
           "Natural Language :: English",
