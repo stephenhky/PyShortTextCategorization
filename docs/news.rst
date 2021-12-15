@@ -1,6 +1,7 @@
 News
 ====
 
+* 12/15/2021: `shorttext` 1.5.4 released.
 * 07/11/2021: `shorttext` 1.5.3 released.
 * 07/06/2021: `shorttext` 1.5.2 released.
 * 04/10/2021: `shorttext` 1.5.1 released.
@@ -71,6 +72,11 @@ News
 
 What's New
 ----------
+
+Release 1.5.4 (December 15, 2021)
+-----------------------------
+
+* Non-negative stop words.
 
 Release 1.5.3 (July 11, 2021)
 -----------------------------

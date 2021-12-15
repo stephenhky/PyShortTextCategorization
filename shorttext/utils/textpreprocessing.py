@@ -14,13 +14,6 @@ stemmer = snowballstemmer.stemmer('porter')
 stemword = lambda s: stemmer.stemWord(s)
 
 
-# load stop words
-this_dir, _ = os.path.split(__file__)
-f = codecs.open(os.path.join(this_dir, 'stopwords.txt'), 'r', 'utf-8')
-stopwordset = set([stopword.strip() for stopword in f])
-f.close()
-
-
 def preprocess_text(text, pipeline):
     """ Preprocess the text according to the given pipeline.
 
@@ -54,7 +47,7 @@ def text_preprocessor(pipeline):
     return lambda text: preprocess_text(text, pipeline)
 
 
-def standard_text_preprocessor_1():
+def oldschool_standard_text_preprocessor(stopwordsfile):
     """ Return a commonly used text preprocessor.
 
     Return a text preprocessor that is commonly used, with the following steps:
@@ -67,9 +60,16 @@ def standard_text_preprocessor_1():
 
     This function calls :func:`~text_preprocessor`.
 
+    :param stopwordsfile: file object of the list of stop words
+    :type stopwordsfile: file
     :return: a function that preprocesses text according to the pipeline
     :rtype: function
     """
+    # load stop words file
+    stopwordset = set([stopword.strip() for stopword in stopwordsfile])
+    stopwordsfile.close()
+
+    # the pipeline
     pipeline = [lambda s: re.sub('[^\w\s]', '', s),
                 lambda s: re.sub('[\d]', '', s),
                 lambda s: s.lower(),
@@ -77,3 +77,49 @@ def standard_text_preprocessor_1():
                 lambda s: ' '.join([stemword(stemmed_token) for stemmed_token in tokenize(s)])
                ]
     return text_preprocessor(pipeline)
+
+
+def standard_text_preprocessor_1():
+    """ Return a commonly used text preprocessor.
+
+    Return a text preprocessor that is commonly used, with the following steps:
+
+    - removing special characters,
+    - removing numerals,
+    - converting all alphabets to lower cases,
+    - removing stop words (NLTK list), and
+    - stemming the words (using Porter stemmer).
+
+    This function calls :func:`~oldschool_standard_text_preprocessor`.
+
+    :return: a function that preprocesses text according to the pipeline
+    :rtype: function
+    """
+    # load stop words
+    this_dir, _ = os.path.split(__file__)
+    stopwordsfile = codecs.open(os.path.join(this_dir, 'stopwords.txt'), 'r', 'utf-8')
+
+    return oldschool_standard_text_preprocessor(stopwordsfile)
+
+
+def standard_text_preprocessor_2():
+    """ Return a commonly used text preprocessor.
+
+    Return a text preprocessor that is commonly used, with the following steps:
+
+    - removing special characters,
+    - removing numerals,
+    - converting all alphabets to lower cases,
+    - removing stop words (NLTK list minus negation terms), and
+    - stemming the words (using Porter stemmer).
+
+    This function calls :func:`~oldschool_standard_text_preprocessor`.
+
+    :return: a function that preprocesses text according to the pipeline
+    :rtype: function
+    """
+    # load stop words
+    this_dir, _ = os.path.split(__file__)
+    stopwordsfile = codecs.open(os.path.join(this_dir, 'nonneg_stopwords.txt'), 'r', 'utf-8')
+
+    return oldschool_standard_text_preprocessor(stopwordsfile)
