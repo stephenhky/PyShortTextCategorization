@@ -66,15 +66,14 @@ Required Packages
 
 - Numpy_ (Numerical Python, version >= 1.16.0)
 - SciPy_ (Scientific Python, version >= 1.2.0)
-- Scikit-Learn_ (Machine Learning in Python)
+- Scikit-Learn_ (Machine Learning in Python, version >= 0.23.0)
 - keras_ (Deep Learning Library for Theano and Tensorflow, version >= 2.3.0)
-- gensim_ (Topic Modeling for Humans, version >= 3.2.0)
-- Pandas_ (Python Data Analysis Library)
-- PuLP_ (Optimization with PuLP)
-- snowballstemmer_ (Snowball Stemmer)
-- TensorFlow_ (TensorFlow, >= 2.0.0)
-- Flask_ (Flask)
-- Joblib_ (Joblib: lightweight Python pipelining)
+- gensim_ (Topic Modeling for Humans, version >= 3.8.0)
+- Pandas_ (Python Data Analysis Library, version >= 1.0.0)
+- snowballstemmer_ (Snowball Stemmer, version >= 2.0.0)
+- TensorFlow_ (TensorFlow, version >= 2.0.0)
+- Flask_ (Flask, version >= 1.1.0)
+- Joblib_ (Joblib: lightweight Python pipelining, version >= 0.14)
 
 Home: :doc:`index`
 
@@ -88,7 +87,6 @@ Home: :doc:`index`
 .. _keras: https://keras.io/
 .. _gensim: https://radimrehurek.com/gensim/
 .. _Pandas: http://pandas.pydata.org/
-.. _PuLP: https://pythonhosted.org/PuLP/
 .. _snowballstemmer: https://github.com/snowballstem/snowball
 .. _TensorFlow: https://www.tensorflow.org/
 .. _Flask: https://flask.palletsprojects.com/

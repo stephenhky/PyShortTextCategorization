@@ -33,6 +33,9 @@ With the corpus ready in this form, we can create a `DocumentTermMatrix` class f
 
 >>> usprez_dtm = shorttext.utils.DocumentTermMatrix(corpus, docids=docids)
 
+.. autoclass:: shorttext.utils.dtm.DocumentTermMatrix
+   :members:
+
 One can get the document frequency of any token (the number of documents that the given
 token is in) by:
 
@@ -63,6 +66,9 @@ To save the class, enter:
 To load this class later, enter:
 
 >>> usprez_dtm2 = shorttext.utils.load_DocumentTermMatrix('/path/to/whatever.bin')
+
+.. automodule:: shorttext.utils.dtm
+   :members: load_DocumentTermMatrix
 
 Reference
 ---------

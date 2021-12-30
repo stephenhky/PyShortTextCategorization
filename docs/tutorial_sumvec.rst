@@ -69,6 +69,10 @@ And with the same pre-trained Word2Vec model, this classifier can be loaded:
 
 >>> classifier2 = shorttext.classifiers.load_sumword2vec_classifier(wvmodel, '/path/to/sumvec_nihdata_model.bin')
 
+.. autoclass:: shorttext.classifiers.embed.sumvec.SumEmbedVecClassification.SumEmbeddedVecClassifier
+   :members:
+
+
 Appendix: Model I/O in Previous Versions
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 

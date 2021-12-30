@@ -1,10 +1,13 @@
 # Short Text Mining in Python
 
-[![Build Status](https://travis-ci.org/stephenhky/PyShortTextCategorization.svg?branch=master)](https://travis-ci.org/stephenhky/PyShortTextCategorization)
+[![CircleCI](https://circleci.com/gh/stephenhky/PyShortTextCategorization.svg?style=svg)](https://circleci.com/gh/stephenhky/PyShortTextCategorization.svg)
 [![GitHub release](https://img.shields.io/github/release/stephenhky/PyShortTextCategorization.svg?maxAge=3600)](https://github.com/stephenhky/PyShortTextCategorization/releases)
 [![Documentation Status](https://readthedocs.org/projects/pyqentangle/badge/?version=latest)](https://pyqentangle.readthedocs.io/en/latest/?badge=latest)
 [![Updates](https://pyup.io/repos/github/stephenhky/PyShortTextCategorization/shield.svg)](https://pyup.io/repos/github/stephenhky/PyShortTextCategorization/)
 [![Python 3](https://pyup.io/repos/github/stephenhky/PyShortTextCategorization/python-3-shield.svg)](https://pyup.io/repos/github/stephenhky/PyShortTextCategorization/)
+[![pypi](https://img.shields.io/pypi/v/shorttext.svg?maxAge=3600)](https://pypi.org/project/shorttext/)
+[![download](https://img.shields.io/pypi/dm/shorttext.svg?maxAge=2592000&label=installs&color=%2327B1FF)](https://pypi.org/project/shorttext/)
+[![stars](https://img.shields.io/github/stars/stephenhky/PyShortTextCategorization.svg?style=social&label=Star&maxAge=60)](https://github.com/stephenhky/PyShortTextCategorization)
 
 ## Introduction
 
@@ -15,6 +18,8 @@ representation of the texts and documents are needed before they are put into
 any classification algorithm. In this package, it facilitates various types
 of these representations, including topic modeling and word-embedding algorithms.
 
+Since release 1.5.2, it runs on Python 3.9.
+Since release 1.5.0, support for Python 3.6 was decommissioned.
 Since release 1.2.4, it runs on Python 3.8.
 Since release 1.2.3, support for Python 3.5 was decommissioned. 
 Since release 1.1.7, support for Python 2.7 was decommissioned.
@@ -34,8 +39,9 @@ Characteristics:
 - maximum entropy classification;
 - metrics of phrases differences, including soft Jaccard score (using Damerau-Levenshtein distance), and Word Mover's distance (WMD);
 - character-level sequence-to-sequence (seq2seq) learning; 
-- spell correction; and
-- API for word-embedding algorithm for one-time loading.
+- spell correction;
+- API for word-embedding algorithm for one-time loading; and
+- Sentence encodings and similarities based on BERT.
 
 ## Documentation
 
@@ -86,6 +92,21 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 12/15/2021: `shorttext` 1.5.4 released.
+* 07/11/2021: `shorttext` 1.5.3 released.
+* 07/06/2021: `shorttext` 1.5.2 released.
+* 04/10/2021: `shorttext` 1.5.1 released.
+* 04/09/2021: `shorttext` 1.5.0 released.
+* 02/11/2021: `shorttext` 1.4.8 released.
+* 01/11/2021: `shorttext` 1.4.7 released.
+* 01/03/2021: `shorttext` 1.4.6 released.
+* 12/28/2020: `shorttext` 1.4.5 released.
+* 12/24/2020: `shorttext` 1.4.4 released.
+* 11/10/2020: `shorttext` 1.4.3 released.
+* 10/18/2020: `shorttext` 1.4.2 released.
+* 09/23/2020: `shorttext` 1.4.1 released.
+* 09/02/2020: `shorttext` 1.4.0 released.
+* 07/23/2020: `shorttext` 1.3.0 released.
 * 06/05/2020: `shorttext` 1.2.6 released.
 * 05/20/2020: `shorttext` 1.2.5 released.
 * 05/13/2020: `shorttext` 1.2.4 released.
@@ -141,8 +162,5 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## Possible Future Updates
 
-- [ ] Removing `pulp` dependency;
-- [ ] Including transformer-based models;
-- [ ] Use of DASK;
 - [ ] Dividing components to other packages;
 - [ ] More available corpus.

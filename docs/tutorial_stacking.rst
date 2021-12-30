@@ -77,6 +77,11 @@ offered in this package. To load them, initialize it in the same way:
 >>> stacker2 = shorttext.stack.LogisticStackedGeneralization(intermediate_classifiers={'clstm': clstm_classifier, 'lda128': lda128_svm_classifier})
 >>> stacker2.load_compact_model('/path/to/logitmodel.bin')
 
+
+.. automodule:: shorttext.stack.stacking
+   :members:
+
+
 Reference
 ---------
 

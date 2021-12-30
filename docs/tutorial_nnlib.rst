@@ -48,6 +48,10 @@ Initialize the classifier:
 
 >>> classifier = shorttext.classifiers.VarNNEmbeddedVecClassifier(wvmodel)
 
+.. autoclass:: shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification.VarNNEmbeddedVecClassifier
+   :members:
+
+
 Then train the classifier:
 
 >>> classifier.train(trainclassdict, kmodel)
@@ -85,12 +89,20 @@ To load it, enter:
 
 >>> classifier2 = shorttext.classifiers.load_varnnlibvec_classifier(wvmodel, '/path/to/nnlibvec_convnet_subdata.bin')
 
+.. automodule:: shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification
+   :members: load_varnnlibvec_classifier
+
+
 Provided Neural Networks
 ------------------------
 
 There are three neural networks available in this package for the use in
 :class:`shorttext.classifiers.VarNNEmbeddedVecClassifier`,
-and they are available in the module :module:`shorttext.classifiers.frameworks`.
+and they are available in the module `shorttext.classifiers.frameworks`.
+
+.. automodule:: shorttext.classifiers.embed.nnlib.frameworks
+   :members:
+
 
 ConvNet (Convolutional Neural Network)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

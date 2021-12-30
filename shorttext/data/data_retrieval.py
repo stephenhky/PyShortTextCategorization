@@ -6,10 +6,7 @@ import os
 import zipfile
 import sys
 import csv
-if sys.version_info[0]==2:
-    from urllib import urlretrieve
-else:
-    from urllib.request import urlretrieve
+from urllib.request import urlretrieve
 
 import pandas as pd
 import numpy as np
@@ -47,21 +44,6 @@ def retrieve_csvdata_as_dict(filepath):
     #     if type(descp)==str:
     #         shorttextdict[category] += [descp]
     return dict(shorttextdict)
-
-
-# deprecated, kept for backward compatibility
-@deprecated
-def retrieve_data_as_dict(filepath):
-    """ Retrieve the training data in a CSV file.
-
-    This calls :func:`~retrieve_csvdata_as_dict` for backward compatibility.
-
-    :param filepath: path of the training data (CSV)
-    :return: a dictionary with class labels as keys, and lists of short texts
-    :type filepath: str
-    :rtype: dict
-    """
-    return retrieve_csvdata_as_dict(filepath)
 
 
 def retrieve_jsondata_as_dict(filepath):
@@ -108,7 +90,7 @@ def inaugural():
                             )
     address_jsonstr = zfile.open("addresses.json").read()
     zfile.close()
-    return json.loads(address_jsonstr) if sys.version_info[0]==2 else json.loads(address_jsonstr.decode('utf-8'))
+    return json.loads(address_jsonstr.decode('utf-8'))
 
 
 def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512):
@@ -148,7 +130,7 @@ def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512
                                                  asbytes=True),
                             'r',
                             zipfile.ZIP_DEFLATED)
-    nih = pd.read_csv(zfile.open('nih_full.csv'), na_filter=False, usecols=[label_col, txt_col])
+    nih = pd.read_csv(zfile.open('nih_full.csv'), na_filter=False, usecols=[label_col, txt_col], encoding='cp437')
     zfile.close()
     nb_data = len(nih)
     sample_size = nb_data if sample_size==None else min(nb_data, sample_size)

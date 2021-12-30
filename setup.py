@@ -1,4 +1,6 @@
+
 from setuptools import setup, Extension
+
 import numpy as np
 
 
@@ -27,8 +29,13 @@ def setup_requirements():
     return [package_string.strip() for package_string in open('setup_requirements.txt', 'r')]
 
 
+def test_requirements():
+    return [package_string.strip() for package_string in open('test_requirements.txt', 'r')]
+
+
+
 setup(name='shorttext',
-      version='1.2.7a01',
+      version='1.5.4',
       description="Short Text Mining",
       long_description=package_description(),
       long_description_content_type='text/markdown',
@@ -37,9 +44,9 @@ setup(name='shorttext',
           "Topic :: Scientific/Engineering :: Mathematics",
           "Topic :: Text Processing :: Linguistic",
           "Topic :: Software Development :: Libraries :: Python Modules",
-          "Programming Language :: Python :: 3.6",
           "Programming Language :: Python :: 3.7",
           "Programming Language :: Python :: 3.8",
+          "Programming Language :: Python :: 3.9",
           "Programming Language :: Cython",
           "Programming Language :: C",
           "Natural Language :: English",
@@ -73,6 +80,7 @@ setup(name='shorttext',
                 'shorttext.metrics',
                 'shorttext.metrics.dynprog',
                 'shorttext.metrics.wasserstein',
+                'shorttext.metrics.transformers',
                 'shorttext.metrics.embedfuzzy',
                 'shorttext.spell'],
       package_dir={'shorttext': 'shorttext'},
@@ -80,10 +88,12 @@ setup(name='shorttext',
                                   'metrics/dynprog/*.pyx', 'metrics/dynprog/*.c',
                                   'spell/*.pyx', 'spell/*.c']},
       include_dirs=[np.get_include()],
+      python_requires='>=3.7',
       setup_requires=setup_requirements(),
       install_requires=install_requirements(),
       scripts=['bin/ShortTextCategorizerConsole',
                'bin/ShortTextWordEmbedSimilarity',
                'bin/WordEmbedAPI'],
       test_suite="test",
+      tests_requires=test_requirements(),
       zip_safe=False)

@@ -25,6 +25,9 @@ Then define the preprocessor, a function, by just calling:
 
 >>> preprocessor1 = standard_text_preprocessor_1()
 
+.. automodule:: shorttext.utils.textpreprocessing
+    :members: standard_text_preprocessor_1
+
 It is a function that perform the preprocessing in the steps above:
 
 >>> preprocessor1('Maryland Blue Crab')  # output:  'maryland blue crab'
@@ -71,6 +74,9 @@ Some examples are:
 
 >>> preprocessor2('Maryland blue crab in Annapolis')  # output: 'MARYLAND-8 BLUE-4 CRAB-4 IN-2 ANNAPOLIS-9'
 >>> preprocessor2('generative adversarial networks')  # output: 'GENERATIVE-10 ADVERSARIAL-11 NETWORK-7'
+
+.. automodule:: shorttext.utils.textpreprocessing
+    :members: text_preprocessor
 
 Tokenization
 ------------

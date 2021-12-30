@@ -44,6 +44,11 @@ We can also convert a list of sentences by
 
 You can decide whether or not to output a sparse matrix by specifiying the parameter `sparse`.
 
+
+.. automodule:: shorttext.generators.charbase.char2vec
+   :members:
+
+
 Reference
 ---------
 

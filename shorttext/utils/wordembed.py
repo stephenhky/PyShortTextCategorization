@@ -2,11 +2,11 @@
 import numpy as np
 import gensim
 from gensim.models import KeyedVectors
-from gensim.models.keyedvectors import BaseKeyedVectors
+from gensim.models.keyedvectors import KeyedVectors
 from gensim.models.poincare import PoincareModel, PoincareKeyedVectors
 import requests
 
-from shorttext.utils import tokenize, deprecated
+from shorttext.utils import tokenize
 
 
 def load_word2vec_model(path, binary=True):
@@ -76,11 +76,11 @@ def shorttext_to_avgvec(shorttext, wvmodel):
     return vec
 
 
-class RESTfulKeyedVectors(BaseKeyedVectors):
+class RESTfulKeyedVectors(KeyedVectors):
     """ RESTfulKeyedVectors, for connecting to the API of the preloaded word-embedding vectors loaded
         by `WordEmbedAPI`.
 
-        This class inherits from :class:`gensim.models.keyedvectors.BaseKeyedVectors`.
+        This class inherits from :class:`gensim.models.keyedvectors.KeyedVectors`.
 
     """
     def __init__(self, url, port='5000'):

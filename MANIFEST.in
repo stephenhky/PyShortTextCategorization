@@ -4,6 +4,7 @@ include setup_requirements.txt
 include test_requirements.txt
 include shorttext/data/shorttext_exampledata.csv
 include shorttext/utils/stopwords.txt
+include shorttext/utils/nonneg_stopwords.txt
 include shorttext/metrics/dynprog/dldist.pyx
 include shorttext/metrics/dynprog/dldist.c
 include shorttext/metrics/dynprog/lcp.pyx
