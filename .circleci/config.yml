@@ -43,6 +43,16 @@ jobs:
     docker:
       - image: circleci/python:3.8
 
+  py39:
+    <<: *shared
+    docker:
+      - image: circleci/python:3.9
+
+  py310:
+    <<: *shared
+    docker:
+      - image: circleci/python:3.10
+
 
 workflows:
   version: 2
@@ -50,3 +60,5 @@ workflows:
     jobs:
       - py37
       - py38
+      - py39
+      - py310

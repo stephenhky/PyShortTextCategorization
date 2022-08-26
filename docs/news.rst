@@ -1,6 +1,10 @@
 News
 ====
 
+* 05/28/2022: `shorttext` 1.5.5 released.
+* 12/15/2021: `shorttext` 1.5.4 released.
+* 07/11/2021: `shorttext` 1.5.3 released.
+* 07/06/2021: `shorttext` 1.5.2 released.
 * 04/10/2021: `shorttext` 1.5.1 released.
 * 04/09/2021: `shorttext` 1.5.0 released.
 * 02/11/2021: `shorttext` 1.4.8 released.
@@ -69,6 +73,28 @@ News
 
 What's New
 ----------
+
+Release 1.5.5 (May 28, 2022)
+-----------------------------
+
+* Support for Python 3.10.
+
+
+Release 1.5.4 (December 15, 2021)
+-----------------------------
+
+* Non-negative stop words.
+
+Release 1.5.3 (July 11, 2021)
+-----------------------------
+
+* Documentation updated.
+
+Release 1.5.2 (July 6, 2021)
+----------------------------
+
+* Resolved bugs regarding `keras` import.
+* Support for Python 3.9.
 
 Release 1.5.1 (April 10, 2021)
 ------------------------------
