@@ -9,6 +9,7 @@ import shorttext.utils.kerasmodel_io as kerasio
 import shorttext.utils.classification_exceptions as e
 from shorttext.utils import tokenize
 from shorttext.utils.compactmodel_io import CompactIOMachine
+from typing import Union, List
 
 
 class VarNNEmbeddedVecClassifier(CompactIOMachine):
@@ -208,7 +209,7 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
             matrix[i] = self.word_to_embedvec(tokens[i])
         return matrix
 
-    def score(self, shorttext):
+    def score(self, shorttexts: Union[str, List[str]]):
         """ Calculate the scores for all the class labels for the given short sentence.
 
         Given a short sentence, calculate the classification scores for all class labels,
@@ -222,20 +223,27 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         :rtype: dict
         :raise: ModelNotTrainedException
         """
+        is_multiple = True
+        if instanceof(shorttexts, str):
+            is_multiple = False
+            shorttexts = [shorttexts]
+        
         if not self.trained:
             raise e.ModelNotTrainedException()
 
         # retrieve vector
-        matrix = np.array([self.shorttext_to_matrix(shorttext)])
+        matrix = np.array([self.shorttext_to_matrix(shorttext) for shorttext in shorttexts])
 
         # classification using the neural network
         predictions = self.model.predict(matrix)
 
         # wrangle output result
-        scoredict = {classlabel: predictions[0][idx]
-                     for idx, classlabel in zip(range(len(self.classlabels)), self.classlabels)}
-
-        return scoredict
+        df = pd.DataFrame(predictions, columns=self.classlabels)
+        
+        if not is_multiple:
+            return df.to_dict('records')[0]
+        
+        return scoredict.to_dict('records')
 
 
 def load_varnnlibvec_classifier(wvmodel, name, compact=True, vecsize=None):
