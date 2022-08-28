@@ -35,7 +35,7 @@ def test_requirements():
 
 
 setup(name='shorttext',
-      version='1.5.5',
+      version='1.5.6',
       description="Short Text Mining",
       long_description=package_description(),
       long_description_content_type='text/markdown',
