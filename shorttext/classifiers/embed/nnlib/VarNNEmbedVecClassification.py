@@ -209,7 +209,7 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
             matrix[i] = self.word_to_embedvec(tokens[i])
         return matrix
 
-    def score(self, shorttexts: Union[str, List[str]]):
+    def score(self, shorttexts: Union[str, List[str]], verbose: int = 0):
         """ Calculate the scores for all the class labels for the given short sentence.
 
         Given a short sentence, calculate the classification scores for all class labels,
@@ -235,7 +235,7 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         matrix = np.array([self.shorttext_to_matrix(shorttext) for shorttext in shorttexts])
 
         # classification using the neural network
-        predictions = self.model.predict(matrix)
+        predictions = self.model.predict(matrix, verbose=verbose)
 
         # wrangle output result
         df = pd.DataFrame(predictions, columns=self.classlabels)
