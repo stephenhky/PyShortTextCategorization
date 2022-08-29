@@ -245,7 +245,7 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         if not is_multiple:
             return df.to_dict('records')[0]
         
-        return scoredict.to_dict('records')
+        return df.to_dict('records')
 
 
 def load_varnnlibvec_classifier(wvmodel, name, compact=True, vecsize=None):
