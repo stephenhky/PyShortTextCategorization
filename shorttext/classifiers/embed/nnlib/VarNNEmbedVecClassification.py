@@ -9,7 +9,7 @@ import shorttext.utils.kerasmodel_io as kerasio
 import shorttext.utils.classification_exceptions as e
 from shorttext.utils import tokenize
 from shorttext.utils.compactmodel_io import CompactIOMachine
-from typing import Union, List
+from typing import Union, List, Dict
 
 
 class VarNNEmbeddedVecClassifier(CompactIOMachine):
