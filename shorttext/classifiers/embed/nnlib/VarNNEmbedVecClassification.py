@@ -4,6 +4,7 @@ import os
 import warnings
 
 import numpy as np
+import pandas as pd
 
 import shorttext.utils.kerasmodel_io as kerasio
 import shorttext.utils.classification_exceptions as e
@@ -225,7 +226,7 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         :raise: ModelNotTrainedException
         """
         is_multiple = True
-        if instanceof(shorttexts, str):
+        if isinstance(shorttexts, str):
             is_multiple = False
             shorttexts = [shorttexts]
         
