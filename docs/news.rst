@@ -1,6 +1,7 @@
 News
 ====
 
+* 08/29/2022: `shorttext` 1.5.6 released.
 * 05/28/2022: `shorttext` 1.5.5 released.
 * 12/15/2021: `shorttext` 1.5.4 released.
 * 07/11/2021: `shorttext` 1.5.3 released.
@@ -73,6 +74,11 @@ News
 
 What's New
 ----------
+
+Release 1.5.6 (August 29, 2022)
+-------------------------------
+
+* Speeding up inference of `VarNNEmbeddedVecClassifier`. (Acknowledgement: Ritesh Agrawal)
 
 Release 1.5.5 (May 28, 2022)
 -----------------------------

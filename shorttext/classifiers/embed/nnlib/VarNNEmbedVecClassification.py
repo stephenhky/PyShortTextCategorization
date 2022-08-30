@@ -4,11 +4,13 @@ import os
 import warnings
 
 import numpy as np
+import pandas as pd
 
 import shorttext.utils.kerasmodel_io as kerasio
 import shorttext.utils.classification_exceptions as e
 from shorttext.utils import tokenize
 from shorttext.utils.compactmodel_io import CompactIOMachine
+from typing import Union, List, Dict, Any
 
 
 class VarNNEmbeddedVecClassifier(CompactIOMachine):
@@ -208,7 +210,7 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
             matrix[i] = self.word_to_embedvec(tokens[i])
         return matrix
 
-    def score(self, shorttext):
+    def score(self, shorttexts: Union[str, List[str]], model_params: Dict[str, Any] = {}):
         """ Calculate the scores for all the class labels for the given short sentence.
 
         Given a short sentence, calculate the classification scores for all class labels,
@@ -217,25 +219,33 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
 
         :param shorttext: a short sentence
+        :param model_params: additional parameters to be passed to the model object 
         :return: a dictionary with keys being the class labels, and values being the corresponding classification scores
         :type shorttext: str
         :rtype: dict
         :raise: ModelNotTrainedException
         """
+        is_multiple = True
+        if isinstance(shorttexts, str):
+            is_multiple = False
+            shorttexts = [shorttexts]
+        
         if not self.trained:
             raise e.ModelNotTrainedException()
 
         # retrieve vector
-        matrix = np.array([self.shorttext_to_matrix(shorttext)])
+        matrix = np.array([self.shorttext_to_matrix(shorttext) for shorttext in shorttexts])
 
         # classification using the neural network
-        predictions = self.model.predict(matrix)
+        predictions = self.model.predict(matrix, **model_params)
 
         # wrangle output result
-        scoredict = {classlabel: predictions[0][idx]
-                     for idx, classlabel in zip(range(len(self.classlabels)), self.classlabels)}
-
-        return scoredict
+        df = pd.DataFrame(predictions, columns=self.classlabels)
+        
+        if not is_multiple:
+            return df.to_dict('records')[0]
+        
+        return df.to_dict('records')
 
 
 def load_varnnlibvec_classifier(wvmodel, name, compact=True, vecsize=None):
