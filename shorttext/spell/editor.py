@@ -20,7 +20,7 @@ def edits1_comb(word):
 
 
 def compute_set_edits1(word):
-    return edits1_comb.edits1_comb(word)
+    return edits1_comb(word)
 
 
 def compute_set_edits2(word):
