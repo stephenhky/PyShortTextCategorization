@@ -1,13 +1,11 @@
 
-from setuptools import setup, Extension
-
+from setuptools import setup
 import numpy as np
 from Cython.Build import cythonize
 
 
 ext_modules = cythonize(['shorttext/metrics/dynprog/dldist.pyx',
-                         'shorttext/metrics/dynprog/lcp.pyx',
-                         'shorttext/spell/edits1_comb.pyx'])
+                         'shorttext/metrics/dynprog/lcp.pyx'])
 
 
 def package_description():

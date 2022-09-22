@@ -1,11 +1,9 @@
 
 import numba as nb
 
-# from . import edits1_comb
-
 
 @nb.njit
-def edits1_comb(word):
+def compute_set_edits1(word):
     letters = 'abcdefghijklmnopqrstuvwxyz'
 
     splits = [(word[:i], word[i:]) for i in range(len(word) + 1)]
@@ -19,9 +17,6 @@ def edits1_comb(word):
     return returned_set
 
 
-def compute_set_edits1(word):
-    return edits1_comb(word)
-
-
+@nb.njit
 def compute_set_edits2(word):
     return (e2 for e1 in compute_set_edits1(word) for e2 in compute_set_edits1(e1))
