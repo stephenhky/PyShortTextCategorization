@@ -17,13 +17,8 @@ shared: &shared
     - run:
         name: Installing Miniconda and Packages
         command: |
-          pip install --upgrade --user Cython
-          pip install --upgrade --user  numpy
-          pip install --upgrade --user  scipy
-          pip install --upgrade --user keras>=2.4.0
-          pip install --upgrade --user  tensorflow>=2.5.0
-          pip install --upgrade --user google-compute-engine
           pip install --upgrade --user  .
+          pip install --upgrade --user google-compute-engine
 
     - run:
         name: Run Unit Tests
