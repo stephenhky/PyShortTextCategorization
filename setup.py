@@ -1,18 +1,11 @@
 
-from setuptools import setup, Extension
-
+from setuptools import setup
 import numpy as np
+from Cython.Build import cythonize
 
 
-try:
-    from Cython.Build import cythonize
-    ext_modules = cythonize(['shorttext/metrics/dynprog/dldist.pyx',
-                             'shorttext/metrics/dynprog/lcp.pyx',
-                             'shorttext/spell/edits1_comb.pyx'])
-except ImportError:
-    ext_modules = [Extension('shorttext.metrics.dynprog.dldist', ['shorttext/metrics/dynprog/dldist.c']),
-                   Extension('shorttext.metrics.dynprog.lcp', ['shorttext/metrics/dynprog/lcp.c']),
-                   Extension('shorttext.spell.edits1_comb', ['shorttext/spell/edits1_comb.c'])]
+ext_modules = cythonize(['shorttext/metrics/dynprog/dldist.pyx',
+                         'shorttext/metrics/dynprog/lcp.pyx'])
 
 
 def package_description():
@@ -35,7 +28,7 @@ def test_requirements():
 
 
 setup(name='shorttext',
-      version='1.5.6',
+      version='1.5.7a1',
       description="Short Text Mining",
       long_description=package_description(),
       long_description_content_type='text/markdown',
