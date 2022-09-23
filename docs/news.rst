@@ -1,6 +1,7 @@
 News
 ====
 
+* 09/23/2022: `shorttext` 1.5.8 released.
 * 09/22/2022: `shorttext` 1.5.7 released.
 * 08/29/2022: `shorttext` 1.5.6 released.
 * 05/28/2022: `shorttext` 1.5.5 released.
@@ -75,6 +76,11 @@ News
 
 What's New
 ----------
+
+Release 1.5.8 (September 23, 2022)
+----------------------------------
+
+* Package administration.
 
 Release 1.5.7 (September 22, 2022)
 ----------------------------------
