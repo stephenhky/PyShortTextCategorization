@@ -77,8 +77,7 @@ def shorttext_to_avgvec(shorttext, wvmodel):
 
 
 class RESTfulKeyedVectors(KeyedVectors):
-    """ RESTfulKeyedVectors, for connecting to the API of the preloaded word-embedding vectors loaded
-        by `WordEmbedAPI`.
+    """ RESTfulKeyedVectors, for connecting to the API of the preloaded word-embedding vectors.
 
         This class inherits from :class:`gensim.models.keyedvectors.KeyedVectors`.
 
