@@ -48,7 +48,7 @@ jobs:
     docker:
       - image: cimg/python:3.10
 
-  pu311:
+  py311:
     <<: *shared
       docker:
         - image: cimg/python:3.11
