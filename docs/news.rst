@@ -1,6 +1,9 @@
 News
 ====
 
+* 09/23/2022: `shorttext` 1.5.8 released.
+* 09/22/2022: `shorttext` 1.5.7 released.
+* 08/29/2022: `shorttext` 1.5.6 released.
 * 05/28/2022: `shorttext` 1.5.5 released.
 * 12/15/2021: `shorttext` 1.5.4 released.
 * 07/11/2021: `shorttext` 1.5.3 released.
@@ -73,6 +76,21 @@ News
 
 What's New
 ----------
+
+Release 1.5.8 (September 23, 2022)
+----------------------------------
+
+* Package administration.
+
+Release 1.5.7 (September 22, 2022)
+----------------------------------
+
+* Removal of requirement of pre-installation of `numpy` and `Cython`.
+
+Release 1.5.6 (August 29, 2022)
+-------------------------------
+
+* Speeding up inference of `VarNNEmbeddedVecClassifier`. (Acknowledgement: Ritesh Agrawal)
 
 Release 1.5.5 (May 28, 2022)
 -----------------------------
