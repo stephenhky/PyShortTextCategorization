@@ -72,7 +72,6 @@ Required Packages
 - Pandas_ (Python Data Analysis Library, version >= 1.0.0)
 - snowballstemmer_ (Snowball Stemmer, version >= 2.0.0)
 - TensorFlow_ (TensorFlow, version >= 2.0.0)
-- Flask_ (Flask, version >= 1.1.0)
 - Joblib_ (Joblib: lightweight Python pipelining, version >= 0.14)
 
 Home: :doc:`index`
@@ -88,6 +87,4 @@ Home: :doc:`index`
 .. _gensim: https://radimrehurek.com/gensim/
 .. _Pandas: http://pandas.pydata.org/
 .. _snowballstemmer: https://github.com/snowballstem/snowball
-.. _TensorFlow: https://www.tensorflow.org/
-.. _Flask: https://flask.palletsprojects.com/
 .. _Joblib: https://joblib.readthedocs.io/en/latest/
