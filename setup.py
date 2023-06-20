@@ -28,7 +28,7 @@ def test_requirements():
 
 
 setup(name='shorttext',
-      version='1.5.8',
+      version='1.5.9a1',
       description="Short Text Mining",
       long_description=package_description(),
       long_description_content_type='text/markdown',
@@ -86,8 +86,7 @@ setup(name='shorttext',
       setup_requires=setup_requirements(),
       install_requires=install_requirements(),
       scripts=['bin/ShortTextCategorizerConsole',
-               'bin/ShortTextWordEmbedSimilarity',
-               'bin/WordEmbedAPI'],
+               'bin/ShortTextWordEmbedSimilarity'],
       test_suite="test",
       tests_requires=test_requirements(),
       zip_safe=False)

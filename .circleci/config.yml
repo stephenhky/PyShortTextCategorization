@@ -48,6 +48,11 @@ jobs:
     docker:
       - image: cimg/python:3.10
 
+  py311:
+    <<: *shared
+    docker:
+      - image: cimg/python:3.11
+
 
 workflows:
   version: 2
@@ -57,3 +62,4 @@ workflows:
       - py38
       - py39
       - py310
+      - py311
