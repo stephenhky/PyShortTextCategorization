@@ -1,6 +1,7 @@
 News
 ====
 
+* 06/19/2023: `shorttext` 1.5.9 released.
 * 09/23/2022: `shorttext` 1.5.8 released.
 * 09/22/2022: `shorttext` 1.5.7 released.
 * 08/29/2022: `shorttext` 1.5.6 released.
@@ -76,6 +77,12 @@ News
 
 What's New
 ----------
+
+Release 1.5.9 (June 19, 2023)
+-----------------------------
+
+* Support for Python 3.11;
+* Removing flask.
 
 Release 1.5.8 (September 23, 2022)
 ----------------------------------
