@@ -66,7 +66,7 @@ class DocumentTermMatrix(CompactIOMachine):
         :type tfidf: bool
         """
         self.dictionary = Dictionary(corpus)
-        self.dtm = dok_matrix((len(corpus), len(self.dictionary)), dtype=np.float)
+        self.dtm = dok_matrix((len(corpus), len(self.dictionary)), dtype=np.float_)
         bow_corpus = [self.dictionary.doc2bow(doctokens) for doctokens in corpus]
         if tfidf:
             weighted_model = TfidfModel(bow_corpus)
