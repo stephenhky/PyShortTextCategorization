@@ -11,4 +11,4 @@ snowballstemmer==2.1.0
 transformers==4.4.0
 torch==1.8.1
 python-Levenshtein>=0.21.1
-numba==0.56.0
+numba==0.57.1

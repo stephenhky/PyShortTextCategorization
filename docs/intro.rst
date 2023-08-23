@@ -8,12 +8,7 @@ representation of the texts and documents are needed before they are put into
 any classification algorithm. In this package, it facilitates various types
 of these representations, including topic modeling and word-embedding algorithms.
 
-The package `shorttext` runs on Python 3.7, 3.8, and 3.9.
-
-Since release 1.0.0, `shorttext` runs on Python 2.7, 3.5, and 3.6. Since release 1.0.7,
-it runs also in Python 3.7. Since release 1.1.7, the support for Python 2.7 was decommissioned.
-Since release 1.2.3, the support for Python 3.5 is decommissioned.
-Since release 1.5.0, the support for Python 3.6 is decommissioned.
+The package `shorttext` runs on Python 3.8, 3.9, 3.10, and 3.11.
 
 Characteristics:
 
@@ -35,7 +30,7 @@ Before release 0.7.2, part of the package was implemented using C, and it is int
 Python using SWIG_ (Simplified Wrapper and Interface Generator). Since 1.0.0, these implementations
 were replaced with Cython_.
 
-Author: Kwan-Yuet Ho (LinkedIn_, ResearchGate_, Twitter_)
+Author: Kwan Yuet Stephen Ho (LinkedIn_, ResearchGate_, Twitter_)
 
 Home: :doc:`index`
 
