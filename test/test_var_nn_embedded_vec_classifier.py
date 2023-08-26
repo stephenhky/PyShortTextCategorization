@@ -86,13 +86,17 @@ class TestVarNNEmbeddedVecClassifier(unittest.TestCase):
 
         # compute
         self.comparedict(classifier.score('linear algebra'),
-                         {'mathematics': 0.9986082046096036,
-                          'physics': 0.9976047404871671,
-                          'theology': 0.9923434326310248})
+                         {'mathematics': 0.9044698253778962,
+                          'physics': 0.7586816549044926,
+                          'theology': 0.1817602793151848})
         self.comparedict(classifier.score('learning'),
-                         {'mathematics': 0.998968177605999,
-                          'physics': 0.9995439648885027,
-                          'theology': 0.9965552994894663})
+                         {'mathematics': 0.9037142562255835,
+                          'physics': 0.7588376500004107,
+                          'theology': 0.18039468994239538})
+        self.comparedict(classifier.score('eschatology'),
+                         {'mathematics': 0.3658578123294476,
+                          'physics': 0.5996711864493821,
+                          'theology': 0.9694560847986978})
 
 
 if __name__ == '__main__':
