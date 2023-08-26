@@ -1,6 +1,7 @@
 News
 ====
 
+* 08/26/2023: `shorttext` 1.6.0 released.
 * 06/19/2023: `shorttext` 1.5.9 released.
 * 09/23/2022: `shorttext` 1.5.8 released.
 * 09/22/2022: `shorttext` 1.5.7 released.
@@ -77,6 +78,14 @@ News
 
 What's New
 ----------
+
+Released 1.6.0 (August 26, 2023)
+--------------------------------
+
+* Pinned requirements for ReadTheDocs documentation;
+* Fixed bugs in word-embedding model mean pooling classifiers;
+* Updated package requirements.
+
 
 Release 1.5.9 (June 19, 2023)
 -----------------------------
