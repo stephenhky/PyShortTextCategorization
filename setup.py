@@ -1,11 +1,17 @@
 
 from setuptools import setup
 import numpy as np
-from Cython.Build import cythonize
 
-
-ext_modules = cythonize(['shorttext/metrics/dynprog/dldist.pyx',
-                         'shorttext/metrics/dynprog/lcp.pyx'])
+try:
+    from Cython.Build import cythonize
+    ext_modules = cythonize(['shorttext/metrics/dynprog/dldist.pyx',
+                             'shorttext/metrics/dynprog/lcp.pyx'])
+except ImportError:
+    from setuptools import Extension
+    ext_modules = [
+        Extension('shorttext.metrics.dynprog.dldist', ['shorttext/metrics/dynprog/dldist.c']),
+        Extension('shorttext.metrics.dynprog.lcp', ['shorttext/metrics/dynprog/lcp.c'])
+    ]
 
 
 def package_description():
@@ -28,7 +34,7 @@ def test_requirements():
 
 
 setup(name='shorttext',
-      version='1.5.9',
+      version='1.6.0',
       description="Short Text Mining",
       long_description=package_description(),
       long_description_content_type='text/markdown',
@@ -37,10 +43,10 @@ setup(name='shorttext',
           "Topic :: Scientific/Engineering :: Mathematics",
           "Topic :: Text Processing :: Linguistic",
           "Topic :: Software Development :: Libraries :: Python Modules",
-          "Programming Language :: Python :: 3.7",
           "Programming Language :: Python :: 3.8",
           "Programming Language :: Python :: 3.9",
           "Programming Language :: Python :: 3.10",
+          "Programming Language :: Python :: 3.11",
           "Programming Language :: Cython",
           "Programming Language :: C",
           "Natural Language :: English",
@@ -52,7 +58,7 @@ setup(name='shorttext',
       ],
       keywords="shorttext natural language processing text mining",
       url="https://github.com/stephenhky/PyShortTextCategorization",
-      author="Kwan-Yuet Ho",
+      author="Kwan Yuet Stephen Ho",
       author_email="stephenhky@yahoo.com.hk",
       license='MIT',
       ext_modules=ext_modules,

@@ -66,7 +66,15 @@ def shorttext_to_avgvec(shorttext, wvmodel):
     :type wvmodel: gensim.models.keyedvectors.KeyedVectors
     :rtype: numpy.ndarray
     """
-    vec = np.sum([wvmodel[token] for token in tokenize(shorttext) if token in wvmodel], axis=0)
+    vec = np.sum(
+        [
+            wvmodel[token]
+            if token in wvmodel
+            else np.array([1.]*wvmodel.vector_size) / np.sqrt(wvmodel.vector_size)
+            for token in tokenize(shorttext)
+        ],
+        axis=0
+    )
 
     # normalize
     norm = np.linalg.norm(vec)

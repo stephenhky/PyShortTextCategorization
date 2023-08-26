@@ -18,15 +18,7 @@ representation of the texts and documents are needed before they are put into
 any classification algorithm. In this package, it facilitates various types
 of these representations, including topic modeling and word-embedding algorithms.
 
-Since release 1.5.2, it runs on Python 3.9.
-Since release 1.5.0, support for Python 3.6 was decommissioned.
-Since release 1.2.4, it runs on Python 3.8.
-Since release 1.2.3, support for Python 3.5 was decommissioned. 
-Since release 1.1.7, support for Python 2.7 was decommissioned.
-Since release 1.0.8, it runs on Python 3.7 with 'TensorFlow' being the backend for `keras`.
-Since release 1.0.7, it runs on Python 3.7 as well, but the backend for `keras` cannot be `TensorFlow`.
-Since release 1.0.0, `shorttext` runs on Python 2.7, 3.5, and 3.6.
-
+The package `shorttext` runs on Python 3.8, 3.9, 3.10, and 3.11.
 Characteristics:
 
 - example data provided (including subject keywords and NIH RePORT);
@@ -92,6 +84,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 08/26/2023: `shorttext` 1.6.0 released.
 * 06/19/2023: `shorttext` 1.5.9 released.
 * 09/23/2022: `shorttext` 1.5.8 released.
 * 09/22/2022: `shorttext` 1.5.7 released.

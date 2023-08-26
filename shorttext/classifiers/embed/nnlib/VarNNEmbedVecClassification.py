@@ -78,7 +78,7 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         for i in range(len(phrases)):
             for j in range(min(self.maxlen, len(phrases[i]))):
                 train_embedvec[i, j] = self.word_to_embedvec(phrases[i][j])
-        indices = np.array(indices, dtype=np.int)
+        indices = np.array(indices, dtype=np.int_)
 
         return classlabels, train_embedvec, indices
 

@@ -117,7 +117,7 @@ class StackedGeneralization(ABC):
         :type label: str
         :rtype: numpy.ndarray
         """
-        buckets = np.zeros(len(self.labels2idx), dtype=np.int)
+        buckets = np.zeros(len(self.labels2idx), dtype=np.int_)
         buckets[self.labels2idx[label]] = 1
         return buckets
 
