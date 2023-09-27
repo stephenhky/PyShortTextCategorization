@@ -8,7 +8,7 @@ keras==2.13.1
 gensim==4.0.0
 pandas==2.1.0
 snowballstemmer==2.1.0
-transformers==4.33.1
+transformers==4.33.3
 torch==2.0.1
 python-Levenshtein==0.21.1
 numba==0.57.1
