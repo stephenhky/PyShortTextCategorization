@@ -17,6 +17,7 @@ shared: &shared
     - run:
         name: Installing Miniconda and Packages
         command: |
+          pip install --upgrade --user pip
           pip install --upgrade --user  .
           pip install --upgrade --user google-compute-engine
 
