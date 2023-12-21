@@ -34,7 +34,7 @@ def test_requirements():
 
 
 setup(name='shorttext',
-      version='1.6.0',
+      version='1.6.1',
       description="Short Text Mining",
       long_description=package_description(),
       long_description_content_type='text/markdown',
@@ -88,7 +88,7 @@ setup(name='shorttext',
                                   'metrics/dynprog/*.pyx', 'metrics/dynprog/*.c',
                                   'spell/*.pyx', 'spell/*.c']},
       include_dirs=[np.get_include()],
-      python_requires='>=3.7',
+      python_requires='>=3.8',
       setup_requires=setup_requirements(),
       install_requires=install_requirements(),
       scripts=['bin/ShortTextCategorizerConsole',
