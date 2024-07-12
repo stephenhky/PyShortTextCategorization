@@ -115,7 +115,7 @@ class SCRNNSpellCorrector(SpellCorrector, CompactIOMachine):
 
         # neural network here
         model = Sequential()
-        model.add(LSTM(self.nb_hiddenunits, return_sequences=True, batch_input_shape=(None, self.batchsize, len(self.concatcharvec_encoder)*3)))
+        model.add(LSTM(self.nb_hiddenunits, return_sequences=True))
         model.add(Dropout(dropout_rate))
         model.add(TimeDistributed(Dense(len(self.dictionary))))
         model.add(Activation('softmax'))
