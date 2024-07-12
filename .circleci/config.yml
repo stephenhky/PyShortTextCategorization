@@ -63,4 +63,4 @@ workflows:
       - py39
       - py310
       - py311
-      - py12
+      - py312
