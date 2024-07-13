@@ -17,8 +17,8 @@ from shorttext.utils.compactmodel_io import CompactIOMachine
 from shorttext.utils.classification_exceptions import ModelNotTrainedException
 
 
-autoencoder_suffices = ['.gensimdict', '_encoder.json', '_encoder.h5', '_classtopicvecs.pkl',
-                        '_decoder.json', '_decoder.h5', '_autoencoder.json', '_autoencoder.h5',
+autoencoder_suffices = ['.gensimdict', '_encoder.json', '_encoder.weights.h5', '_classtopicvecs.pkl',
+                        '_decoder.json', '_decoder.weights.h5', '_autoencoder.json', '_autoencoder.weights.h5',
                         '.json']
 
 
@@ -147,11 +147,11 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         """ Save the model with names according to the prefix.
 
         Given the prefix of the file paths, save the model into files, with name given by the prefix.
-        There are files with names ending with "_encoder.json" and "_encoder.h5", which are
+        There are files with names ending with "_encoder.json" and "_encoder.weights.h5", which are
         the JSON and HDF5 files for the encoder respectively. They also include a gensim dictionary (.gensimdict).
 
         If `save_complete_autoencoder` is True,
-        then there are also files with names ending with "_decoder.json" and "_decoder.h5".
+        then there are also files with names ending with "_decoder.json" and "_decoder.weights.h5".
 
         If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
 
@@ -180,7 +180,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         """ Save the model with names according to the prefix.
 
         Given the prefix of the file paths, load the model into files, with name given by the prefix.
-        There are files with names ending with "_encoder.json" and "_encoder.h5", which are
+        There are files with names ending with "_encoder.json" and "_encoder.weights.h5", which are
         the JSON and HDF5 files for the encoder respectively.
         They also include a gensim dictionary (.gensimdict).
 
