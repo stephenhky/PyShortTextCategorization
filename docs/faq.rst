@@ -1,10 +1,9 @@
 Frequently Asked Questions (FAQ)
 ================================
 
-**Q1. Can we use TensorFlow backend?**
+**Q1. Can we use backends other than TensorFlow?**
 
-Ans: Yes, users can use TensorFlow and CNTK backend instead of Theano backend. Refer to `Keras Backend
-<https://keras.io/backend/>`_ for information about switching backends.
+Ans: No.
 
 
 **Q2. Can we use word-embedding algorithms other than Word2Vec?**
@@ -12,10 +11,9 @@ Ans: Yes, users can use TensorFlow and CNTK backend instead of Theano backend. R
 Ans: Yes. Besides Word2Vec, you can use FastText and Poincaré embedding. See: :doc:`tutorial_wordembed` .
 
 
-**Q3. Can this package work on Python 3?**
+**Q3. Can this package work on Python 2?**
 
-Ans: Since release 1.0.0, this package can be run in Python 2.7, 3.5, and 3.6. (Before that, it operates only under Python 2.7.)
-     Since release 1.0.7, this package can also be run in Python 3.7 as well.
+Ans: No.
 
 
 **Q4. Warning or messages pop up when running models involving neural networks. What is the problem?**
@@ -47,7 +45,9 @@ Ans: This functionality is removed since release 0.5.11, due to the following re
 
 Ans: There is no "Python.h". Run: `sudo apt-get install python3-dev` in SSH shell of the VM instance.
 
+**Q8. My model files were created by `shorttext` version < 2.0.0. How do I make them readable for version >= 2.0.0?
 
+Ans: Simply make those files with names ending with `.h5` to `.weights.h5`.
 
 
 

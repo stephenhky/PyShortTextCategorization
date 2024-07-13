@@ -60,7 +60,7 @@ class MaxEntClassifier(CompactIOMachine):
         CompactIOMachine.__init__(self,
                                   {'classifier': 'maxent'},
                                   'maxent',
-                                  ['_classlabels.txt', '.json', '.h5', '_labelidx.pkl', '_dictionary.dict'])
+                                  ['_classlabels.txt', '.json', '.weights.h5', '_labelidx.pkl', '_dictionary.dict'])
         self.preprocessor = preprocessor
         self.trained = False
 
@@ -158,7 +158,7 @@ class MaxEntClassifier(CompactIOMachine):
 
         Given the prefix of the file paths, save the model into files, with name given by the prefix.
         There will be give files produced, one name ending with "_classlabels.txt", one with ".json",
-        one with ".h5", one with "_labelidx.pkl", and one with "_dictionary.dict".
+        one with ".weights.h5", one with "_labelidx.pkl", and one with "_dictionary.dict".
 
         If there is no trained model, a `ModelNotTrainedException` will be thrown.
 
@@ -184,7 +184,7 @@ class MaxEntClassifier(CompactIOMachine):
         """ Load a trained model from files.
 
         Given the prefix of the file paths, load the model from files with name given by the prefix
-        followed by "_classlabels.txt", ".json", ".h5", "_labelidx.pkl", and "_dictionary.dict".
+        followed by "_classlabels.txt", ".json", ".weights.h5", "_labelidx.pkl", and "_dictionary.dict".
 
         If this has not been run, or a model was not trained by :func:`~train`,
         a `ModelNotTrainedException` will be raised while performing prediction or saving the model.

@@ -171,7 +171,7 @@ def load_autoencoder_cosineClassifier(name,
     """ Load an autoencoder from files for topic modeling, and return a cosine classifier.
 
     Given the prefix of the file paths, load the model into files, with name given by the prefix.
-    There are files with names ending with "_encoder.json" and "_encoder.h5", which are
+    There are files with names ending with "_encoder.json" and "_encoder.weights.h5", which are
     the JSON and HDF5 files for the encoder respectively.
     They also include a gensim dictionary (.gensimdict).
 

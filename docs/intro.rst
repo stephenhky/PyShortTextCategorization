@@ -8,7 +8,7 @@ representation of the texts and documents are needed before they are put into
 any classification algorithm. In this package, it facilitates various types
 of these representations, including topic modeling and word-embedding algorithms.
 
-The package `shorttext` runs on Python 3.8, 3.9, 3.10, and 3.11.
+The package `shorttext` runs on Python 3.9, 3.10, 3.11, and 3.12.
 
 Characteristics:
 

@@ -50,7 +50,7 @@ class SCRNNSpellCorrector(SpellCorrector, CompactIOMachine):
         :type batchsize: int
         :type nb_hiddenunits: int
         """
-        CompactIOMachine.__init__(self, {'classifier': 'scrnn_spell'}, 'scrnn_spell', ['_config.json', '_vocabs.gensimdict', '.h5', '.json'])
+        CompactIOMachine.__init__(self, {'classifier': 'scrnn_spell'}, 'scrnn_spell', ['_config.json', '_vocabs.gensimdict', '.weights.h5', '.json'])
         self.operation = operation
         self.alph = alph
         self.specialsignals = specialsignals
@@ -115,7 +115,7 @@ class SCRNNSpellCorrector(SpellCorrector, CompactIOMachine):
 
         # neural network here
         model = Sequential()
-        model.add(LSTM(self.nb_hiddenunits, return_sequences=True, batch_input_shape=(None, self.batchsize, len(self.concatcharvec_encoder)*3)))
+        model.add(LSTM(self.nb_hiddenunits, return_sequences=True))
         model.add(Dropout(dropout_rate))
         model.add(TimeDistributed(Dense(len(self.dictionary))))
         model.add(Activation('softmax'))

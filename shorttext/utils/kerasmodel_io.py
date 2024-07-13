@@ -16,7 +16,7 @@ def save_model(nameprefix, model):
     """
     model_json = model.to_json()
     open(nameprefix+'.json', 'w').write(model_json)
-    model.save_weights(nameprefix+'.h5')
+    model.save_weights(nameprefix+'.weights.h5')
 
 
 def load_model(nameprefix):
@@ -31,5 +31,5 @@ def load_model(nameprefix):
     :rtype: keras.models.Model
     """
     model = model_from_json(open(nameprefix+'.json', 'r').read())
-    model.load_weights(nameprefix+'.h5')
+    model.load_weights(nameprefix+'.weights.h5')
     return model
