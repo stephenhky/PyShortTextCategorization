@@ -50,7 +50,7 @@ class SCRNNSpellCorrector(SpellCorrector, CompactIOMachine):
         :type batchsize: int
         :type nb_hiddenunits: int
         """
-        CompactIOMachine.__init__(self, {'classifier': 'scrnn_spell'}, 'scrnn_spell', ['_config.json', '_vocabs.gensimdict', '.h5', '.json'])
+        CompactIOMachine.__init__(self, {'classifier': 'scrnn_spell'}, 'scrnn_spell', ['_config.json', '_vocabs.gensimdict', '.weights.h5', '.json'])
         self.operation = operation
         self.alph = alph
         self.specialsignals = specialsignals
