@@ -11,7 +11,7 @@ To install the package in Linux or OS X, enter the following in the console:
 
 ::
 
-   pip install -U shorttext
+   pip install shorttext
 
 It is very possible that you have to do it as root, that you have to add ``sudo`` in
 front of the command.
@@ -20,10 +20,7 @@ On the other hand, to get the development version on Github, you can install fro
 
 ::
 
-    pip install -U git+https://github.com/stephenhky/PyShortTextCategorization@master
-
-By adding ``-U`` in the command, it automatically installs the required packages. If not,
-you have to install these packages on your own.
+    pip install git+https://github.com/stephenhky/PyShortTextCategorization@master
 
 
 Backend for Keras

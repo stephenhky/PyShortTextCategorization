@@ -46,13 +46,13 @@ See [tutorial](http://shorttext.readthedocs.io/en/latest/tutorial.html) for how 
 To install it, in a console, use `pip`.
 
 ```
->>> pip install -U shorttext
+>>> pip install shorttext
 ```
 
 or, if you want the most recent development version on Github, type
 
 ```
->>> pip install -U git+https://github.com/stephenhky/PyShortTextCategorization@master
+>>> pip install git+https://github.com/stephenhky/PyShortTextCategorization@master
 ```
 
 Developers are advised to make sure `Keras` >=2 be installed. Users are advised to install the backend `Tensorflow` (preferred) or `Theano` in advance. It is desirable if `Cython` has been previously installed too.
