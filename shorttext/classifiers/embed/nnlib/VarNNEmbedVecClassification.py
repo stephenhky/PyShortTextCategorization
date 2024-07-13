@@ -41,7 +41,7 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         :type vecsize: int
         :type maxlen: int
         """
-        CompactIOMachine.__init__(self, {'classifier': 'nnlibvec'}, 'nnlibvec', ['_classlabels.txt', '.json', '.h5', '_config.json'])
+        CompactIOMachine.__init__(self, {'classifier': 'nnlibvec'}, 'nnlibvec', ['_classlabels.txt', '.json', '.weights.h5', '_config.json'])
         self.wvmodel = wvmodel
         self.vecsize = self.wvmodel.vector_size if vecsize == None else vecsize
         self.maxlen = maxlen
@@ -113,7 +113,7 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
 
         Given the prefix of the file paths, save the model into files, with name given by the prefix.
         There will be three files produced, one name ending with "_classlabels.txt", one name
-        ending with ".json", and one name ending with ".h5". For shorttext>=0.4.0, another file
+        ending with ".json", and one name ending with ".weights.h5". For shorttext>=0.4.0, another file
         with extension "_config.json" would be created.
 
         If there is no trained model, a `ModelNotTrainedException` will be thrown.
@@ -136,7 +136,7 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         """ Load a trained model from files.
 
         Given the prefix of the file paths, load the model from files with name given by the prefix
-        followed by "_classlabels.txt", ".json" and ".h5". For shorttext>=0.4.0, a file with
+        followed by "_classlabels.txt", ".json" and ".weights.h5". For shorttext>=0.4.0, a file with
         extension "_config.json" would also be used.
 
         If this has not been run, or a model was not trained by :func:`~train`,

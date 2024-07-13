@@ -36,7 +36,7 @@ class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
         :type vecsize: int
         :type maxlen: int
         """
-        CompactIOMachine.__init__(self, {'classifier': 'sumnnlibvec'}, 'sumnnlibvec', ['_classlabels.txt', '.json', '.h5'])
+        CompactIOMachine.__init__(self, {'classifier': 'sumnnlibvec'}, 'sumnnlibvec', ['_classlabels.txt', '.json', '.weights.h5'])
         self.wvmodel = wvmodel
         self.vecsize = self.wvmodel.vector_size if vecsize==None else vecsize
         self.maxlen = maxlen
@@ -106,7 +106,7 @@ class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
 
         Given the prefix of the file paths, save the model into files, with name given by the prefix.
         There will be three files produced, one name ending with "_classlabels.txt", one name
-        ending with ".json", and one name ending with ".h5".
+        ending with ".json", and one name ending with ".weights.h5".
         If there is no trained model, a `ModelNotTrainedException` will be thrown.
 
         :param nameprefix: prefix of the file path
@@ -125,7 +125,7 @@ class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
         """ Load a trained model from files.
 
         Given the prefix of the file paths, load the model from files with name given by the prefix
-        followed by "_classlabels.txt", ".json", and ".h5".
+        followed by "_classlabels.txt", ".json", and ".weights.h5".
 
         If this has not been run, or a model was not trained by :func:`~train`,
         a `ModelNotTrainedException` will be raised while performing prediction and saving the model.

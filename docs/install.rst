@@ -4,7 +4,7 @@ Installation
 PIP
 ---
 
-Package `shorttext` runs in Python 3.6, 3.7, and 3.8. However, for Python>=3.7, the backend
+Package `shorttext` runs in Python 3.9, 3.10, 3.11, and 3.12. However, for Python>=3.7, the backend
 of keras_ cannot be Tensorflow_.
 
 To install the package in Linux or OS X, enter the following in the console:
@@ -29,10 +29,7 @@ you have to install these packages on your own.
 Backend for Keras
 -----------------
 
-The package keras_ (version >= 2.0.0) uses either Tensorflow_, Theano_, or CNTK_ as the backend, while Theano is usually
-the default. However, it is highly recommended to use Tensorflow as the backend.
-Users are advised to install the backend Tensorflow_ (preferred for Python 2.7, 3.5, and 3.6) or
-Theano_ (preferred for Python 3.7) in advance. Refer to
+The package keras_ (version >= 2.0.0) uses Tensorflow_ as the backend. Refer to
 :doc:`faq` for how to switch the backend. It is also desirable if the package Cython_ has been previously installed.
 
 

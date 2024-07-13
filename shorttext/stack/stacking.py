@@ -188,7 +188,7 @@ class LogisticStackedGeneralization(StackedGeneralization, CompactIOMachine):
         CompactIOMachine.__init__(self,
                                   {'classifier': 'stacked_logistics'},
                                   'stacked_logistics',
-                                  ['_stackedlogistics.pkl', '_stackedlogistics.h5', '_stackedlogistics.json'])
+                                  ['_stackedlogistics.pkl', '_stackedlogistics.weights.h5', '_stackedlogistics.json'])
         StackedGeneralization.__init__(self, intermediate_classifiers=intermediate_classifiers)
 
     def train(self, classdict, optimizer='adam', l2reg=0.01, bias_l2reg=0.01, nb_epoch=1000):

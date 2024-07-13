@@ -10,7 +10,7 @@ import shorttext.utils.classification_exceptions as e
 
 # Reference: https://blog.keras.io/a-ten-minute-introduction-to-sequence-to-sequence-learning-in-keras.html
 
-kerasseq2seq_suffices = ['.h5', '.json', '_s2s_hyperparam.json', '_encoder.h5', '_encoder.json', '_decoder.h5', '_decoder.json']
+kerasseq2seq_suffices = ['.weights.h5', '.json', '_s2s_hyperparam.json', '_encoder.weights.h5', '_encoder.json', '_decoder.h5', '_decoder.weights.json']
 
 
 class Seq2SeqWithKeras(cio.CompactIOMachine):
@@ -144,18 +144,18 @@ class Seq2SeqWithKeras(cio.CompactIOMachine):
 
         # save whole model
         if final:
-            self.model.save_weights(prefix+'.h5')
+            self.model.save_weights(prefix+'.weights.h5')
         else:
-            self.model.save(prefix+'.h5')
+            self.model.save(prefix+'.weights.h5')
         open(prefix+'.json', 'w').write(self.model.to_json())
 
         # save encoder and decoder
         if final:
-            self.encoder_model.save_weights(prefix+'_encoder.h5')
-            self.decoder_model.save_weights(prefix + '_decoder.h5')
+            self.encoder_model.save_weights(prefix+'_encoder.weights.h5')
+            self.decoder_model.save_weights(prefix + '_decoder.weights.h5')
         else:
-            self.encoder_model.save(prefix + '_encoder.h5')
-            self.decoder_model.save(prefix+'_decoder.h5')
+            self.encoder_model.save(prefix + '_encoder.weights.h5')
+            self.decoder_model.save(prefix+'_decoder.weights.h5')
         open(prefix+'_encoder.json', 'w').write(self.encoder_model.to_json())
         open(prefix+'_decoder.json', 'w').write(self.decoder_model.to_json())
 
@@ -170,9 +170,9 @@ class Seq2SeqWithKeras(cio.CompactIOMachine):
         """
         hyperparameters = json.load(open(prefix+'_s2s_hyperparam.json', 'r'))
         self.vecsize, self.latent_dim = hyperparameters['vecsize'], hyperparameters['latent_dim']
-        self.model = load_model(prefix+'.h5')
-        self.encoder_model = load_model(prefix+'_encoder.h5')
-        self.decoder_model = load_model(prefix+'_decoder.h5')
+        self.model = load_model(prefix+'.weights.h5')
+        self.encoder_model = load_model(prefix+'_encoder.weights.h5')
+        self.decoder_model = load_model(prefix+'_decoder.weights.h5')
         self.trained = True
 
 
