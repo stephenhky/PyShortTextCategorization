@@ -5,7 +5,7 @@ joblib==1.4.2
 scikit-learn==1.5.1
 tensorflow==2.17.0
 keras==3.4.1
-gensim==4.0.0
+gensim==4.3.3
 pandas==2.2.2
 snowballstemmer==2.1.0
 transformers==4.42.4
