@@ -1,4 +1,4 @@
-Cython==3.0.10
+Cython==3.0.11
 numpy==2.0.1
 scipy==1.14.0
 joblib==1.4.2
