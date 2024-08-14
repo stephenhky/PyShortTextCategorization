@@ -25,7 +25,9 @@ shared: &shared
         name: Run Unit Tests
         command: |
           pip install -r test_requirements.txt
-          python setup.py test
+          pip install pytest
+          pip install pytest-cython
+          pytest --doctest-cython
 
 
 jobs:
