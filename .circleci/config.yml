@@ -18,15 +18,15 @@ shared: &shared
         name: Installing Miniconda and Packages
         command: |
           pip install --upgrade --user pip
-          pip install --upgrade --user  .
           pip install --upgrade --user google-compute-engine
+          pip install --user  .
 
     - run:
         name: Run Unit Tests
         command: |
           pip install -r test_requirements.txt
-          pip install pytest
-          pip install pytest-cython
+          pip install --user pytest
+          pip install --user pytest-cython
           pytest --doctest-cython
 
 
