@@ -1,17 +1,10 @@
 
 from setuptools import setup
 import numpy as np
+from Cython.Build import cythonize
 
-try:
-    from Cython.Build import cythonize
-    ext_modules = cythonize(['shorttext/metrics/dynprog/dldist.pyx',
-                             'shorttext/metrics/dynprog/lcp.pyx'])
-except ImportError:
-    from setuptools import Extension
-    ext_modules = [
-        Extension('shorttext.metrics.dynprog.dldist', ['shorttext/metrics/dynprog/dldist.c']),
-        Extension('shorttext.metrics.dynprog.lcp', ['shorttext/metrics/dynprog/lcp.c'])
-    ]
+ext_modules = cythonize(['shorttext/metrics/dynprog/dldist.pyx',
+                         'shorttext/metrics/dynprog/lcp.pyx'])
 
 
 def package_description():
