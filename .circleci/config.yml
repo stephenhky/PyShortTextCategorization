@@ -13,6 +13,7 @@ shared: &shared
           sudo apt-get update
           sudo apt-get install libc6
           sudo apt-get install python3-dev
+          sudo apt-get install -y g++
 
     - run:
         name: Installing Miniconda and Packages
