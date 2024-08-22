@@ -66,10 +66,10 @@ if __name__ == '__main__':
     print('Initializing the classifier...')
     classifier = None
     if classifier_name in topicmodels:
-        topicmodel = shorttext.smartload_compact_model(args.model_filepath, wvmodel, vecsize=args.vecsize)
+        topicmodel = shorttext.smartload.smartload_compact_model(args.model_filepath, wvmodel, vecsize=args.vecsize)
         classifier = shorttext.classifiers.TopicVectorCosineDistanceClassifier(topicmodel)
     else:
-        classifier = shorttext.smartload_compact_model(args.model_filepath, wvmodel, vecsize=args.vecsize)
+        classifier = shorttext.smartload.smartload_compact_model(args.model_filepath, wvmodel, vecsize=args.vecsize)
 
 
     if args.inputtext != None:

@@ -22,7 +22,7 @@ from shorttext.metrics.embedfuzzy import jaccardscore_sents
 from shorttext.utils import tokenize, load_word2vec_model, load_fasttext_model, load_poincare_model
 from shorttext.utils import shorttext_to_avgvec
 from shorttext.metrics.wasserstein import word_mover_distance
-from shorttext.metrics.dynprog import soft_jaccard_score
+from shorttext.metrics.dynprog.jaccard import soft_jaccard_score
 
 
 typedict = {'word2vec': load_word2vec_model,
