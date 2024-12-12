@@ -1,7 +1,4 @@
 include README.md
-include requirements.txt
-include setup_requirements.txt
-include test_requirements.txt
 include pyproject.toml
 include shorttext/data/shorttext_exampledata.csv
 include shorttext/utils/stopwords.txt
