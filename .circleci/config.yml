@@ -25,9 +25,7 @@ shared: &shared
     - run:
         name: Run Unit Tests
         command: |
-          pip install -r test_requirements.txt
-          pip install --user pytest 
-          pip install --user pytest-cython
+          pip install --upgrade --user .[test]
           pytest --doctest-cython 
 
 
