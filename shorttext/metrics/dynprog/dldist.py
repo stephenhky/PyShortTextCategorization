@@ -12,7 +12,7 @@ import numba as nb
 def damerau_levenshtein(word1, word2):
     len1 = len(word1)
     len2 = len(word2)
-    matrix = np.zeros((len1, len2), dtype=np.int8)
+    matrix = np.zeros((len1+1, len2+1), dtype=np.int8)
 
     for i in range(len1+1):
         matrix[i, 0] = i
