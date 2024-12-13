@@ -32,6 +32,8 @@ def damerau_levenshtein(word1, word2):
                 score = min(score, matrix[i-2, j-2] + cost)
             matrix[i, j] = score
 
+    print(matrix)
+
     return matrix[len1, len2]
 
 
