@@ -1,7 +1,7 @@
 
-from shorttext.utils import textpreprocessing as textpreprocess
-from shorttext.generators import LatentTopicModeler, GensimTopicModeler, AutoencodingTopicModeler
-from shorttext.generators import load_autoencoder_topicmodel, load_gensimtopicmodel
+from ....utils import textpreprocessing as textpreprocess
+from ....generators import LatentTopicModeler, GensimTopicModeler, AutoencodingTopicModeler
+from ....generators import load_autoencoder_topicmodel, load_gensimtopicmodel
 
 
 class TopicVecCosineDistanceClassifier:
