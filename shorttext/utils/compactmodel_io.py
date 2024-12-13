@@ -13,7 +13,7 @@ import os
 from functools import partial
 
 from . import classification_exceptions as e
-from .deprecation import deprecated
+from deprecation import deprecated
 
 
 def removedir(dir):
