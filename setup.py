@@ -3,8 +3,7 @@ from setuptools import setup
 import numpy as np
 from Cython.Build import cythonize
 
-ext_modules = cythonize(['shorttext/metrics/dynprog/dldist.pyx',
-                         'shorttext/metrics/dynprog/lcp.pyx'])
+ext_modules = cythonize(['shorttext/metrics/dynprog/dldist.pyx'])
 
 
 setup(
