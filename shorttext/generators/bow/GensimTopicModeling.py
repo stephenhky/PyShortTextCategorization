@@ -7,12 +7,12 @@ from gensim.corpora import Dictionary
 from gensim.models import TfidfModel, LdaModel, LsiModel, RpModel
 from gensim.similarities import MatrixSimilarity
 
-import shorttext.utils.classification_exceptions as e
-from shorttext.utils.compactmodel_io import CompactIOMachine, get_model_classifier_name
-from shorttext.utils import gensim_corpora as gc
+from ...utils import classification_exceptions as e
+from ...utils.compactmodel_io import CompactIOMachine, get_model_classifier_name
+from ...utils import gensim_corpora as gc
 from .LatentTopicModeling import LatentTopicModeler
-from shorttext.utils import textpreprocessing as textpreprocess
-from shorttext.utils.textpreprocessing import tokenize
+from ...utils import textpreprocessing as textpreprocess
+from ...utils.textpreprocessing import tokenize
 
 gensim_topic_model_dict = {'lda': LdaModel, 'lsi': LsiModel, 'rp': RpModel}
 

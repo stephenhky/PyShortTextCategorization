@@ -11,8 +11,6 @@ from urllib.request import urlretrieve
 import pandas as pd
 import numpy as np
 
-from shorttext.utils.deprecation import deprecated
-
 
 def retrieve_csvdata_as_dict(filepath):
     """ Retrieve the training data in a CSV file.

@@ -7,7 +7,7 @@ from scipy.spatial.distance import euclidean
 from scipy.sparse import csr_matrix
 from scipy.optimize import linprog
 
-from shorttext.utils.gensim_corpora import tokens_to_fracdict
+from ...utils.gensim_corpora import tokens_to_fracdict
 
 
 def word_mover_distance_linprog(first_sent_tokens, second_sent_tokens, wvmodel, distancefunc=euclidean):

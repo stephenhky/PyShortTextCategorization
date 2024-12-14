@@ -5,8 +5,8 @@ from keras.models import load_model
 from keras.models import Model
 from keras.layers import Input, LSTM, Dense
 
-from shorttext.utils import compactmodel_io as cio
-import shorttext.utils.classification_exceptions as e
+from ...utils import compactmodel_io as cio
+from ...utils import classification_exceptions as e
 
 # Reference: https://blog.keras.io/a-ten-minute-introduction-to-sequence-to-sequence-learning-in-keras.html
 
