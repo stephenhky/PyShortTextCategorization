@@ -25,8 +25,8 @@ shared: &shared
     - run:
         name: Run Unit Tests
         command: |
-          pip install --upgrade --user .[test]
-          pytest --doctest-cython 
+          pip install --user .[test]
+          pytest
 
 
 jobs:

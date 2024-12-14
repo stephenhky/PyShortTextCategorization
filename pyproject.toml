@@ -82,4 +82,4 @@ ShortTextCategorizerConsole = "shorttext.cli.categorization:main"
 ShortTextWordEmbedSimilarity = "shorttext.cli.wordembedsim:main"
 
 [project.optional-dependencies]
-test = ["unittest2", "pytest", "pytest-cython", "simplerepresentations>=0.0.4"]
+test = ["unittest2", "pytest", "simplerepresentations>=0.0.4"]
