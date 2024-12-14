@@ -4,7 +4,16 @@ import numba as nb
 
 
 @nb.njit
-def damerau_levenshtein(word1, word2):
+def damerau_levenshtein(word1: str, word2: str) -> int:
+    """ Calculate the Demarau-Levenshtein (DL) distance between two words.
+
+    :param word1: first word
+    :param word2: seccond word
+    :return: Damerau-Levenshtein (DL) distance
+    :type word1: str
+    :type word2: str
+    :rtype: int
+    """
     len1 = len(word1)
     len2 = len(word2)
     matrix = np.zeros((len1+1, len2+1), dtype=np.int8)
