@@ -1,7 +1,29 @@
-#!/usr/bin/env python
 
-# argument parsing
+import os
+from functools import partial
 import argparse
+
+from ..utils.compactmodel_io import get_model_classifier_name
+from ..utils.classification_exceptions import AlgorithmNotExistException, WordEmbeddingModelNotExistException
+from ..utils import load_word2vec_model, load_fasttext_model, load_poincare_model
+from ..smartload import smartload_compact_model
+from ..classifiers import TopicVectorCosineDistanceClassifier
+
+
+allowed_classifiers = ['ldatopic', 'lsitopic', 'rptopic', 'kerasautoencoder', 'topic_sklearn',
+                       'nnlibvec', 'sumvec', 'maxent']
+needembedded_classifiers = ['nnlibvec', 'sumvec']
+topicmodels = ['ldatopic', 'lsitopic', 'rptopic', 'kerasautoencoder']
+
+load_word2vec_nonbinary_model = partial(load_word2vec_model, binary=False)
+load_poincare_binary_model = partial(load_poincare_model, binary=True)
+
+typedict = {'word2vec': load_word2vec_model,
+            'word2vec_nonbinary': load_word2vec_nonbinary_model,
+            'fasttext': load_fasttext_model,
+            'poincare': load_poincare_model,
+            'poincare_binary': load_poincare_binary_model}
+
 
 def get_argparser():
     argparser = argparse.ArgumentParser(description='Perform prediction on short text with a given trained model.')
@@ -14,41 +36,18 @@ def get_argparser():
                            help='Type of word-embedding model (default: "word2vec"; other options: "fasttext", "poincare", "word2vec_nonbinary", "poincare_binary")')
     return argparser
 
-argparser = get_argparser()
-args = argparser.parse_args()
-
-allowed_classifiers = ['ldatopic', 'lsitopic', 'rptopic', 'kerasautoencoder', 'topic_sklearn',
-                       'nnlibvec', 'sumvec', 'maxent']
-needembedded_classifiers = ['nnlibvec', 'sumvec']
-topicmodels = ['ldatopic', 'lsitopic', 'rptopic', 'kerasautoencoder']
-
-# library loading
-import os
-
-import shorttext
-from shorttext.utils.classification_exceptions import AlgorithmNotExistException, WordEmbeddingModelNotExistException
-from shorttext.utils import load_word2vec_model, load_fasttext_model, load_poincare_model
-
-from functools import partial
-
-load_word2vec_nonbinary_model = partial(load_word2vec_model, binary=False)
-load_poincare_binary_model = partial(load_poincare_model, binary=True)
-
-typedict = {'word2vec': load_word2vec_model,
-            'word2vec_nonbinary': load_word2vec_nonbinary_model,
-            'fasttext': load_fasttext_model,
-            'poincare': load_poincare_model,
-            'poincare_binary': load_poincare_binary_model}
-
 # main block
-if __name__ == '__main__':
+def main():
+    # argument parsing
+    args = get_argparser().parse_args()
+
     # check if the model file is given
     if not os.path.exists(args.model_filepath):
         raise IOError('Model file '+args.model_filepath+' not found!')
 
     # get the name of the classifier
     print('Retrieving classifier name...')
-    classifier_name = shorttext.utils.compactmodel_io.get_model_classifier_name(args.model_filepath)
+    classifier_name = get_model_classifier_name(args.model_filepath)
     if not (classifier_name in allowed_classifiers):
         raise AlgorithmNotExistException(classifier_name)
 
@@ -66,10 +65,10 @@ if __name__ == '__main__':
     print('Initializing the classifier...')
     classifier = None
     if classifier_name in topicmodels:
-        topicmodel = shorttext.smartload.smartload_compact_model(args.model_filepath, wvmodel, vecsize=args.vecsize)
-        classifier = shorttext.classifiers.TopicVectorCosineDistanceClassifier(topicmodel)
+        topicmodel = smartload_compact_model(args.model_filepath, wvmodel, vecsize=args.vecsize)
+        classifier = TopicVectorCosineDistanceClassifier(topicmodel)
     else:
-        classifier = shorttext.smartload.smartload_compact_model(args.model_filepath, wvmodel, vecsize=args.vecsize)
+        classifier = smartload_compact_model(args.model_filepath, wvmodel, vecsize=args.vecsize)
 
 
     if args.inputtext != None:

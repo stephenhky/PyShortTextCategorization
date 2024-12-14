@@ -53,6 +53,7 @@ Documentation = "https://shorttext.readthedocs.io"
 [tool.setuptools]
 packages = [
     "shorttext",
+    "shorttext.cli",
     "shorttext.utils",
     "shorttext.classifiers",
     "shorttext.classifiers.embed",
@@ -77,7 +78,8 @@ packages = [
 zip-safe = false
 
 [project.scripts]
-#retrieve_stock_symbols = "finsim.retrieve_stock_symbols_cli:main_cli"
+ShortTextCategorizerConsole = "shorttext.cli.categorization:main"
+ShortTextWordEmbedSimilarity = "shorttext.cli.wordembedsim:main"
 
 [project.optional-dependencies]
 test = ["unittest2", "pytest", "pytest-cython", "simplerepresentations>=0.0.4"]

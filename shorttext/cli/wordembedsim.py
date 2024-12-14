@@ -1,7 +1,22 @@
-#!/usr/bin/env python
 
-# argument parsing
 import argparse
+import time
+
+from scipy.spatial.distance import cosine
+
+from ..metrics.embedfuzzy import jaccardscore_sents
+from ..utils import tokenize, load_word2vec_model, load_fasttext_model, load_poincare_model
+from ..utils import shorttext_to_avgvec
+from ..metrics.wasserstein import word_mover_distance
+from ..metrics.dynprog.jaccard import soft_jaccard_score
+
+
+typedict = {
+    'word2vec': load_word2vec_model,
+    'fasttext': load_fasttext_model,
+    'poincare': load_poincare_model
+}
+
 
 def getargparser():
     parser = argparse.ArgumentParser(description='Find the similarities between two short sentences using Word2Vec.')
@@ -10,27 +25,11 @@ def getargparser():
                         help='Type of word-embedding model (default: "word2vec"; other options: "fasttext", "poincare")')
     return parser
 
-parser = getargparser()
-args = parser.parse_args()
 
+def main():
+    # argument parsing
+    args = getargparser().parse_args()
 
-import time
-
-from scipy.spatial.distance import cosine
-
-from shorttext.metrics.embedfuzzy import jaccardscore_sents
-from shorttext.utils import tokenize, load_word2vec_model, load_fasttext_model, load_poincare_model
-from shorttext.utils import shorttext_to_avgvec
-from shorttext.metrics.wasserstein import word_mover_distance
-from shorttext.metrics.dynprog.jaccard import soft_jaccard_score
-
-
-typedict = {'word2vec': load_word2vec_model,
-            'fasttext': load_fasttext_model,
-            'poincare': load_poincare_model}
-
-
-if __name__ == '__main__':
     # preload tokenizer
     tokenize('Mogu is cute.')
 
