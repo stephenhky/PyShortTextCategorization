@@ -41,7 +41,7 @@ you may try one (or more) of the following:
 
 ::
 
-    pip install -U python3-dev
+    pip install python3-dev
 
 
 

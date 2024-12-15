@@ -12,6 +12,7 @@ ShortTextCategorizerConsole
 
     usage: ShortTextCategorizerConsole [-h] [--wv WV] [--vecsize VECSIZE]
                                        [--topn TOPN] [--inputtext INPUTTEXT]
+                                       [--type TYPE]
                                        model_filepath
 
     Perform prediction on short text with a given trained model.
@@ -19,7 +20,7 @@ ShortTextCategorizerConsole
     positional arguments:
       model_filepath        Path of the trained (compact) model.
 
-    optional arguments:
+    options:
       -h, --help            show this help message and exit
       --wv WV               Path of the pre-trained Word2Vec model. (None if not
                             needed)
@@ -28,6 +29,9 @@ ShortTextCategorizerConsole
       --inputtext INPUTTEXT
                             single input text for classification. Run console if
                             set to None. (Default: None)
+      --type TYPE           Type of word-embedding model (default: "word2vec";
+                            other options: "fasttext", "poincare",
+                            "word2vec_nonbinary", "poincare_binary")
 
 
 ShortTextWordEmbedSimilarity

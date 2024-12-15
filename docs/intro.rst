@@ -23,7 +23,6 @@ Characteristics:
 - metrics of phrases differences, including soft Jaccard score (using Damerau-Levenshtein distance), and Word Mover's distance (WMD); (see :doc:`tutorial_metrics`)
 - character-level sequence-to-sequence (seq2seq) learning; (see :doc:`tutorial_charbaseseq2seq`)
 - spell correction; (see :doc:`tutorial_spell`)
-- API for word-embedding algorithm for one-time loading; (see :doc:`tutorial_wordembedAPI`) and
 - Sentence encodings and similarities based on BERT (see :doc:`tutorial_wordembed` and :doc:`tutorial_metrics`).
 
 Author: Kwan Yuet Stephen Ho (LinkedIn_, ResearchGate_, Twitter_)
