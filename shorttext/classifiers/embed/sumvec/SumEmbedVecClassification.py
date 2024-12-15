@@ -4,9 +4,9 @@ from collections import defaultdict
 import numpy as np
 from scipy.spatial.distance import cosine
 
-from shorttext.utils.classification_exceptions import ModelNotTrainedException
-from shorttext.utils import shorttext_to_avgvec
-from shorttext.utils.compactmodel_io import CompactIOMachine
+from ....utils.classification_exceptions import ModelNotTrainedException
+from ....utils import shorttext_to_avgvec
+from ....utils.compactmodel_io import CompactIOMachine
 
 
 class SumEmbeddedVecClassifier(CompactIOMachine):

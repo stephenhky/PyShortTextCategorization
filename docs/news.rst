@@ -1,6 +1,7 @@
 News
 ====
 
+* 12/14/2024: `shorttext` 2.1.0 released.
 * 07/12/2024: `shorttext` 2.0.0 released.
 * 12/21/2023: `shorttext` 1.6.1 released.
 * 08/26/2023: `shorttext` 1.6.0 released.
@@ -80,6 +81,13 @@ News
 
 What's New
 ----------
+
+Released 2.1.0 (December 14, 2024)
+------------------------------
+
+* Use of `pyproject.toml` for package distribution.
+* Removed Cython components.
+* Huge relative import refactoring.
 
 Released 2.0.0 (July 13, 2024)
 ------------------------------
