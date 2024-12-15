@@ -6,7 +6,7 @@ import gensim
 
 from .s2skeras import Seq2SeqWithKeras, loadSeq2SeqWithKeras, kerasseq2seq_suffices
 from ..charbase.char2vec import SentenceToCharVecEncoder
-from shorttext.utils import compactmodel_io as cio
+from ...utils import compactmodel_io as cio
 
 
 charbases2s_suffices = kerasseq2seq_suffices + ['_dictionary.dict', '_charbases2s.json']

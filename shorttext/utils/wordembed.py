@@ -6,7 +6,7 @@ from gensim.models.keyedvectors import KeyedVectors
 from gensim.models.poincare import PoincareModel, PoincareKeyedVectors
 import requests
 
-from shorttext.utils import tokenize
+from .textpreprocessing import tokenize
 
 
 def load_word2vec_model(path, binary=True):

@@ -23,12 +23,7 @@ Characteristics:
 - metrics of phrases differences, including soft Jaccard score (using Damerau-Levenshtein distance), and Word Mover's distance (WMD); (see :doc:`tutorial_metrics`)
 - character-level sequence-to-sequence (seq2seq) learning; (see :doc:`tutorial_charbaseseq2seq`)
 - spell correction; (see :doc:`tutorial_spell`)
-- API for word-embedding algorithm for one-time loading; (see :doc:`tutorial_wordembedAPI`) and
 - Sentence encodings and similarities based on BERT (see :doc:`tutorial_wordembed` and :doc:`tutorial_metrics`).
-
-Before release 0.7.2, part of the package was implemented using C, and it is interfaced to
-Python using SWIG_ (Simplified Wrapper and Interface Generator). Since 1.0.0, these implementations
-were replaced with Cython_.
 
 Author: Kwan Yuet Stephen Ho (LinkedIn_, ResearchGate_, Twitter_)
 
@@ -37,5 +32,3 @@ Home: :doc:`index`
 .. _LinkedIn: https://www.linkedin.com/in/kwan-yuet-ho-19882530
 .. _ResearchGate: https://www.researchgate.net/profile/Kwan-yuet_Ho
 .. _Twitter: https://twitter.com/stephenhky
-.. _SWIG: http://www.swig.org/
-.. _Cython: http://cython.org/

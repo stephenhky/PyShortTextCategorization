@@ -12,9 +12,9 @@ from keras.layers import Dense
 from scipy.spatial.distance import cosine
 
 from .LatentTopicModeling import LatentTopicModeler
-from shorttext.utils import kerasmodel_io as kerasio, textpreprocessing as textpreprocess
-from shorttext.utils.compactmodel_io import CompactIOMachine
-from shorttext.utils.classification_exceptions import ModelNotTrainedException
+from ...utils import kerasmodel_io as kerasio, textpreprocessing as textpreprocess
+from ...utils.compactmodel_io import CompactIOMachine
+from ...utils.classification_exceptions import ModelNotTrainedException
 
 
 autoencoder_suffices = ['.gensimdict', '_encoder.json', '_encoder.weights.h5', '_classtopicvecs.pkl',
