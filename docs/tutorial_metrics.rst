@@ -14,7 +14,9 @@ Each of this change causes a distance of 1. The algorithm was written in C.
 
 First import the package:
 
->>> from shorttext.metrics.dynprog import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext.metrics.dynprog.dldist import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext.metrics.dynprog.lcp import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext.metrics.dynprog import similarity, soft_jaccard_score
 
 The distance can be calculated by:
 

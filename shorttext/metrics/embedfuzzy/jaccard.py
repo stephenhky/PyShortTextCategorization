@@ -4,7 +4,7 @@ from itertools import product
 import numpy as np
 from scipy.spatial.distance import cosine
 
-from shorttext.utils import tokenize
+from ...utils import tokenize
 
 
 def jaccardscore_sents(sent1, sent2, wvmodel, sim_words=lambda vec1, vec2: 1-cosine(vec1, vec2)):

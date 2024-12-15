@@ -3,11 +3,11 @@ import os
 
 import joblib
 
-from shorttext.utils import textpreprocessing as textpreprocess
-from shorttext.generators import load_autoencoder_topicmodel, load_gensimtopicmodel
-from shorttext.generators import LDAModeler, LSIModeler, RPModeler, AutoencodingTopicModeler
-import shorttext.utils.classification_exceptions as e
-import shorttext.utils.compactmodel_io as cio
+from ....utils import textpreprocessing as textpreprocess
+from ....generators import load_autoencoder_topicmodel, load_gensimtopicmodel
+from ....generators import LDAModeler, LSIModeler, RPModeler, AutoencodingTopicModeler
+from ....utils import classification_exceptions as e
+from ....utils import compactmodel_io as cio
 
 
 class TopicVectorSkLearnClassifier:

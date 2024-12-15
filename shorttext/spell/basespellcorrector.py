@@ -1,7 +1,7 @@
 
 from abc import ABC, abstractmethod
 
-from shorttext.utils.classification_exceptions import NotImplementedException
+from ..utils.classification_exceptions import NotImplementedException
 
 
 class SpellCorrector(ABC):
