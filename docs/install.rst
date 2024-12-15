@@ -27,7 +27,7 @@ Backend for Keras
 -----------------
 
 The package keras_ (version >= 2.0.0) uses Tensorflow_ as the backend. Refer to
-:doc:`faq` for how to switch the backend. It is also desirable if the package Cython_ has been previously installed.
+:doc:`faq` for how to switch the backend.
 
 
 Possible Solutions for Installation Failures
@@ -41,7 +41,7 @@ you may try one (or more) of the following:
 
 ::
 
-    pip install -U python3-dev
+    pip install python3-dev
 
 
 
@@ -70,7 +70,6 @@ Required Packages
 
 Home: :doc:`index`
 
-.. _Cython: http://cython.org/
 .. _Numpy: http://www.numpy.org/
 .. _SciPy: https://www.scipy.org/
 .. _Scikit-Learn: http://scikit-learn.org/stable/

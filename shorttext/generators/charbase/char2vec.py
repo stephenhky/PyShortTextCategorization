@@ -6,7 +6,7 @@ from scipy.sparse import csc_matrix
 from gensim.corpora import Dictionary
 from sklearn.preprocessing import OneHotEncoder
 
-from shorttext.utils.misc import textfile_generator
+from ...utils.misc import textfile_generator
 
 
 class SentenceToCharVecEncoder:
