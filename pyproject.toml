@@ -1,2 +1,85 @@
 [build-system]
-requires = ["setuptools", "wheel", "Cython>=3.0.0", "numpy >= 1.23.3"]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "shorttext"
+version = "2.1.0"
+authors = [
+    {name = "Kwan Yuet Stephen Ho", email = "stephenhky@yahoo.com.hk"}
+]
+description = "Short Text Mining"
+readme = {file = "README.md", content-type = "text/markdown"}
+license = {text = "MIT"}
+keywords = ["shorttext", "natural language processing", "text mining"]
+requires-python = ">=3.9"
+classifiers = [
+      "Topic :: Scientific/Engineering :: Artificial Intelligence",
+      "Topic :: Scientific/Engineering :: Mathematics",
+      "Topic :: Text Processing :: Linguistic",
+      "Topic :: Software Development :: Libraries :: Python Modules",
+      "Programming Language :: Python :: 3.9",
+      "Programming Language :: Python :: 3.10",
+      "Programming Language :: Python :: 3.11",
+      "Programming Language :: Python :: 3.12",
+      "Natural Language :: English",
+      "License :: OSI Approved :: MIT License",
+      "Intended Audience :: Developers",
+      "Intended Audience :: Education",
+      "Intended Audience :: Information Technology",
+      "Intended Audience :: Science/Research"
+]
+dependencies = [
+    "numpy>=1.23.3",
+    "scipy>=1.12.0",
+    "joblib>=1.3.0",
+    "scikit-learn>=1.2.0",
+    "tensorflow>=2.13.0",
+    "keras>=2.13.0",
+    "gensim>=4.0.0",
+    "pandas>=1.2.0",
+    "snowballstemmer>=2.0.0",
+    "transformers>=4.39.0",
+    "torch>=2.0.0",
+    "numba>=0.57.0",
+    "deprecation>=2.0.0"
+]
+
+[project.urls]
+Repository = "https://github.com/stephenhky/PyShortTextCategorization"
+Issues = "https://github.com/stephenhky/PyShortTextCategorization/issues"
+Documentation = "https://shorttext.readthedocs.io"
+
+[tool.setuptools]
+packages = [
+    "shorttext",
+    "shorttext.cli",
+    "shorttext.utils",
+    "shorttext.classifiers",
+    "shorttext.classifiers.embed",
+    "shorttext.classifiers.embed.nnlib",
+    "shorttext.classifiers.embed.sumvec",
+    "shorttext.classifiers.bow",
+    "shorttext.classifiers.bow.topic",
+    "shorttext.classifiers.bow.maxent",
+    "shorttext.data",
+    "shorttext.stack",
+    "shorttext.generators",
+    "shorttext.generators.bow",
+    "shorttext.generators.charbase",
+    "shorttext.generators.seq2seq",
+    "shorttext.metrics",
+    "shorttext.metrics.dynprog",
+    "shorttext.metrics.wasserstein",
+    "shorttext.metrics.transformers",
+    "shorttext.metrics.embedfuzzy",
+    "shorttext.spell"
+]
+zip-safe = false
+
+[project.scripts]
+ShortTextCategorizerConsole = "shorttext.cli.categorization:main"
+ShortTextWordEmbedSimilarity = "shorttext.cli.wordembedsim:main"
+
+[project.optional-dependencies]
+test = ["unittest2", "pytest", "simplerepresentations>=0.0.4"]
