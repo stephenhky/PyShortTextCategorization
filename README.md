@@ -18,7 +18,7 @@ representation of the texts and documents are needed before they are put into
 any classification algorithm. In this package, it facilitates various types
 of these representations, including topic modeling and word-embedding algorithms.
 
-The package `shorttext` runs on Python 3.8, 3.9, 3.10, and 3.11.
+The package `shorttext` runs on Python 3.9, 3.10, 3.11, and 3.12.
 Characteristics:
 
 - example data provided (including subject keywords and NIH RePORT);
@@ -31,8 +31,7 @@ Characteristics:
 - maximum entropy classification;
 - metrics of phrases differences, including soft Jaccard score (using Damerau-Levenshtein distance), and Word Mover's distance (WMD);
 - character-level sequence-to-sequence (seq2seq) learning; 
-- spell correction;
-- API for word-embedding algorithm for one-time loading; and
+- spell correction; and
 - Sentence encodings and similarities based on BERT.
 
 ## Documentation
@@ -84,6 +83,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 12/14/2024: `shorttext` 2.1.0 released.
 * 07/12/2024: `shorttext` 2.0.0 released.
 * 12/21/2023: `shorttext` 1.6.1 released.
 * 08/26/2023: `shorttext` 1.6.0 released.
@@ -159,8 +159,3 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 * 12/21/2016: `shorttext` 0.2.0 released.
 * 11/25/2016: `shorttext` 0.1.2 released.
 * 11/21/2016: `shorttext` 0.1.1 released.
-
-## Possible Future Updates
-
-- [ ] Dividing components to other packages;
-- [ ] More available corpus.
