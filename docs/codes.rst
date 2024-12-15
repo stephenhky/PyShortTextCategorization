@@ -65,7 +65,13 @@ Module `shorttext.metrics.dynprog`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: shorttext.metrics.dynprog.jaccard
-   :members: soft_intersection_list
+   :members:
+
+.. automodule:: shorttext.metrics.dynprog.dldist
+   :members:
+
+.. automodule:: shorttext.metrics.dynprog.lcp
+   :members:
 
 Module `shorttext.metrics.wassersterin`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

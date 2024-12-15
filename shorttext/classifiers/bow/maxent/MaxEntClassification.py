@@ -8,10 +8,10 @@ from keras.layers import Dense
 from keras.regularizers import l2
 
 import shorttext.utils.kerasmodel_io as kerasio
-from shorttext.utils import tokenize
-from shorttext.utils import gensim_corpora as gc
-from shorttext.utils import classification_exceptions as e
-from shorttext.utils.compactmodel_io import CompactIOMachine
+from ....utils import tokenize
+from ....utils import gensim_corpora as gc
+from ....utils import classification_exceptions as e
+from ....utils.compactmodel_io import CompactIOMachine
 
 
 def logistic_framework(nb_features, nb_outputs, l2reg=0.01, bias_l2reg=0.01, optimizer='adam'):

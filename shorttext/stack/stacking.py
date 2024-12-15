@@ -1,3 +1,4 @@
+
 import pickle
 from abc import ABC, abstractmethod
 
@@ -6,9 +7,9 @@ from keras.layers import Dense, Reshape
 from keras.models import Sequential
 from keras.regularizers import l2
 
-import shorttext.utils.classification_exceptions as e
-import shorttext.utils.kerasmodel_io as kerasio
-from shorttext.utils.compactmodel_io import CompactIOMachine
+from ..utils import classification_exceptions as e
+from ..utils import kerasmodel_io as kerasio
+from ..utils.compactmodel_io import CompactIOMachine
 
 
 # abstract class

@@ -13,19 +13,20 @@ shared: &shared
           sudo apt-get update
           sudo apt-get install libc6
           sudo apt-get install python3-dev
+          sudo apt-get install -y g++
 
     - run:
         name: Installing Miniconda and Packages
         command: |
           pip install --upgrade --user pip
-          pip install --upgrade --user  .
           pip install --upgrade --user google-compute-engine
+          pip install --user  .
 
     - run:
         name: Run Unit Tests
         command: |
-          pip install -r test_requirements.txt
-          python setup.py test
+          pip install --user .[test]
+          pytest
 
 
 jobs:
