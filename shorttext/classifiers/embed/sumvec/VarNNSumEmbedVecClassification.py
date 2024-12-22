@@ -1,10 +1,10 @@
 
 import numpy as np
 
-import shorttext.utils.kerasmodel_io as kerasio
-from shorttext.utils.classification_exceptions import ModelNotTrainedException
-from shorttext.utils.textpreprocessing import tokenize
-from shorttext.utils.compactmodel_io import CompactIOMachine
+from ....utils import kerasmodel_io as kerasio
+from ....utils.classification_exceptions import ModelNotTrainedException
+from ....utils.textpreprocessing import tokenize
+from ....utils.compactmodel_io import CompactIOMachine
 
 
 class VarNNSumEmbeddedVecClassifier(CompactIOMachine):

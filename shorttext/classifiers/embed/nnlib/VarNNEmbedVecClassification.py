@@ -8,8 +8,8 @@ import pandas as pd
 
 import shorttext.utils.kerasmodel_io as kerasio
 import shorttext.utils.classification_exceptions as e
-from shorttext.utils import tokenize
-from shorttext.utils.compactmodel_io import CompactIOMachine
+from ....utils import tokenize
+from ....utils.compactmodel_io import CompactIOMachine
 from typing import Union, List, Dict, Any
 
 
