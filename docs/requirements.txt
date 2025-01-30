@@ -1,5 +1,5 @@
-numpy==2.2.1
-scipy==1.15.0
+numpy==2.2.2
+scipy==1.15.1
 joblib==1.4.2
 scikit-learn==1.6.1
 tensorflow==2.18.0
@@ -7,6 +7,6 @@ keras==3.8.0
 gensim==4.3.3
 pandas==2.2.3
 snowballstemmer==2.1.0
-transformers==4.48.0
+transformers==4.48.1
 torch==2.6.0
-numba==0.60.0
+numba==0.61.0
