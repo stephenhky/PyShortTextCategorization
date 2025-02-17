@@ -7,6 +7,6 @@ keras==3.8.0
 gensim==4.3.3
 pandas==2.2.3
 snowballstemmer==2.1.0
-transformers==4.48.3
+transformers==4.49.0
 torch==2.6.0
 numba==0.61.0
