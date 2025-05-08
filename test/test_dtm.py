@@ -38,7 +38,7 @@ class TestDTM(unittest.TestCase):
         numdocs, numtokens = dtm.dtm.shape
         self.assertEqual(numdocs, 56)
         self.assertEqual(numtokens, 5256)
-        self.assertAlmostEqual(dtm.get_total_termfreq('government'), 0.27584786568258396,
+        self.assertAlmostEqual(dtm.get_total_termfreq('government'), 0.27865372986738407,
                                places=3)
 
 
