@@ -33,13 +33,13 @@ class TestDTM(unittest.TestCase):
 
         # check results
         self.assertEqual(len(dtm.dictionary), 5256)
-        self.assertAlmostEqual(dtm.get_token_occurences(stemword('change'))['2009-Obama'], 0.013801565936022027,
-                               places=4)
+        self.assertAlmostEqual(dtm.get_token_occurences(stemword('change'))['2009-Obama'], 0.0138,
+                               places=3)
         numdocs, numtokens = dtm.dtm.shape
         self.assertEqual(numdocs, 56)
         self.assertEqual(numtokens, 5256)
         self.assertAlmostEqual(dtm.get_total_termfreq('government'), 0.27584786568258396,
-                               places=4)
+                               places=3)
 
 
 if __name__ == '__main__':

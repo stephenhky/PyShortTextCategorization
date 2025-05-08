@@ -3,13 +3,8 @@ import unittest
 
 import shorttext
 
+
 class TestFuzzyLogic(unittest.TestCase):
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
-
     def test_similarity(self):
         self.assertEqual(shorttext.metrics.dynprog.dldist.damerau_levenshtein('debug', 'deubg'), 1)
         self.assertEqual(shorttext.metrics.dynprog.dldist.damerau_levenshtein('intrdependence', 'interdpeendencae'), 3)

@@ -5,13 +5,8 @@ import os
 from shorttext.spell.sakaguchi import SCRNNSpellCorrector
 from shorttext.smartload import smartload_compact_model
 
+
 class TestSCRNN(unittest.TestCase):
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
-
     def generalproc(self, operation, typo='langudge', recommendation='language'):
         corrector = SCRNNSpellCorrector(operation)
         corrector.train('I am a nerd . Natural language processing is sosad .')
