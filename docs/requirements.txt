@@ -1,6 +1,6 @@
 numpy==2.2.5
 scipy==1.15.2
-joblib==1.4.2
+joblib==1.5.0
 scikit-learn==1.6.1
 tensorflow==2.19.0
 keras==3.9.2
