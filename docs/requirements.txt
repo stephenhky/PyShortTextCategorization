@@ -6,7 +6,7 @@ tensorflow==2.19.0
 keras==3.9.2
 gensim==4.3.3
 pandas==2.2.3
-snowballstemmer==2.1.0
+snowballstemmer==3.0.0
 transformers==4.51.3
 torch==2.7.0
 numba==0.61.2
