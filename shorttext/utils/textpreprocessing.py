@@ -10,7 +10,7 @@ tokenize = lambda s: s.split(' ')
 
 
 # stemmer
-stemmer = snowballstemmer.stemmer('porter')
+stemmer = snowballstemmer.stemmer('english')
 stemword = lambda s: stemmer.stemWord(s)
 
 
