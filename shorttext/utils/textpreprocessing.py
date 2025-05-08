@@ -6,12 +6,23 @@ import codecs
 import snowballstemmer
 
 # tokenizer
-tokenize = lambda s: s.split(' ')
+def tokenize(s: str) -> list[str]:
+    return s.split(' ')
 
 
 # stemmer
-stemmer = snowballstemmer.stemmer('english')
-stemword = lambda s: stemmer.stemWord(s)
+class StemmerSingleton:
+    def __new__(cls):
+        if not hasattr(cls, 'instance'):
+            cls.instance = super(StemmerSingleton, cls).__new__(cls)
+            cls.stemmer = snowballstemmer.stemmer('english')
+        return cls.instance
+
+    def __call__(cls, s: str) -> str:
+        return cls.stemmer.stemWord(s)
+
+def stemword(s: str) -> str:
+    return StemmerSingleton()(s)
 
 
 def preprocess_text(text, pipeline):
