@@ -7,6 +7,7 @@ from shorttext.stack import LogisticStackedGeneralization
 from shorttext.smartload import smartload_compact_model
 from sklearn.svm import SVC
 
+
 class TestStacking(unittest.TestCase):
     def setUp(self):
         self.nihdict = shorttext.data.nihreports(sample_size=None)

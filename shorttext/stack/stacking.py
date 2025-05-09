@@ -27,13 +27,13 @@ class StackedGeneralization(ABC):
     M. Paz Sesmero, Agapito I. Ledezma, Araceli Sanchis, "Generating ensembles of heterogeneous classifiers using Stacked Generalization,"
     *WIREs Data Mining and Knowledge Discovery* 5: 21-34 (2015).
     """
-    def __init__(self, intermediate_classifiers={}):
+    def __init__(self, intermediate_classifiers=None):
         """ Initialize the stacking class instance.
 
         :param intermediate_classifiers: dictionary, with key being a string, and the values intermediate classifiers, that have the method :func:`~score`, which takes a string as the input argument.
         :type intermediate_classifiers: dict
         """
-        self.classifiers = intermediate_classifiers
+        self.classifiers = intermediate_classifiers if intermediate_classifiers is not None else {}
         self.classlabels = []
         self.trained = False
 

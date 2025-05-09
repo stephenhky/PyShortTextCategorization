@@ -4,12 +4,6 @@ import unittest
 import shorttext
 
 class TestTextPreprocessing(unittest.TestCase):
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
-
     def testStandardPipeline(self):
         preprocessor = shorttext.utils.standard_text_preprocessor_1()
         self.assertEqual(preprocessor('I love you.'), 'love')
