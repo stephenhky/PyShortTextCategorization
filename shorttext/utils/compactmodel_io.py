@@ -16,7 +16,7 @@ from . import classification_exceptions as e
 from deprecation import deprecated
 
 
-def removedir(dir):
+def removedir(dir: str):
     """ Remove all subdirectories and files under the specified path.
 
     :param dir: path of the directory to be clean
@@ -25,9 +25,9 @@ def removedir(dir):
     for filename in os.listdir(dir):
         if os.path.isdir(filename):
             removedir(os.path.join(dir, filename))
-            os.rmdir(os.path.isdir(filename))
+            os.rmdir(os.path.join(filename))
         else:
-            os.remove(dir+'/'+filename)
+            os.remove(os.path.join(dir, filename))
     os.rmdir(dir)
 
 

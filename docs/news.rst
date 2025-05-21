@@ -1,6 +1,7 @@
 News
 ====
 
+* 05/08/2025: `shorttext` 2.1.1 released.
 * 12/14/2024: `shorttext` 2.1.0 released.
 * 07/12/2024: `shorttext` 2.0.0 released.
 * 12/21/2023: `shorttext` 1.6.1 released.
@@ -82,27 +83,33 @@ News
 What's New
 ----------
 
-Released 2.1.0 (December 14, 2024)
-------------------------------
+Release 2.1.1 (May 8, 2025)
+---------------------------
+
+* Update of Snowball stemmer;
+* Codes cleaned up.
+
+Release 2.1.0 (December 14, 2024)
+---------------------------------
 
 * Use of `pyproject.toml` for package distribution.
 * Removed Cython components.
 * Huge relative import refactoring.
 
-Released 2.0.0 (July 13, 2024)
-------------------------------
+Release 2.0.0 (July 13, 2024)
+-----------------------------
 
 * Decommissioned support for Python 3.8.
 * Added support for Python 3.12.
 * Updated file extensions for model files.
 
-Released 1.6.1 (December 21, 2023)
-----------------------------------
+Release 1.6.1 (December 21, 2023)
+---------------------------------
 
 * Updated package requirements.
 
-Released 1.6.0 (August 26, 2023)
---------------------------------
+Release 1.6.0 (August 26, 2023)
+-------------------------------
 
 * Pinned requirements for ReadTheDocs documentation;
 * Fixed bugs in word-embedding model mean pooling classifiers;
