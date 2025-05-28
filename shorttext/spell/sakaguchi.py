@@ -7,8 +7,8 @@ import json
 import numpy as np
 from gensim.corpora import Dictionary
 from sklearn.preprocessing import OneHotEncoder
-from keras.models import Sequential
-from keras.layers import LSTM, Activation, Dropout, Dense, TimeDistributed
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Activation, Dropout, Dense, TimeDistributed
 
 import shorttext.utils.kerasmodel_io as kerasio
 from . import SpellCorrector
