@@ -33,9 +33,7 @@ def get_argparser():
     argparser.add_argument('--topn', type=int, default=10, help='Number of top-scored results displayed. (Default: 10)')
     argparser.add_argument('--inputtext', default=None, help='single input text for classification. Run console if set to None. (Default: None)')
     argparser.add_argument('--type', default='word2vec',
-                       choices=['word2vec', 'fasttext', 'poincare', 'word2vec_nonbinary', 'poincare_binary'],
-                       help='Type of word-embedding model ...')
-
+                           help='Type of word-embedding model (default: "word2vec"; other options: "fasttext", "poincare", "word2vec_nonbinary", "poincare_binary")')
     return argparser
 
 # main block
