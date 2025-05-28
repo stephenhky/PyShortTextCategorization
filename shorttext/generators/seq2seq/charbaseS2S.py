@@ -49,7 +49,7 @@ class CharBasedSeq2SeqGenerator(cio.CompactIOMachine):
         """ Compile the keras model.
 
         :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: rmsprop)
-        :param loss: loss function available from keras (Default: 'categorical_crossentropy`)
+        :param loss: loss function available from tensorflow.keras (Default: 'categorical_crossentropy`)
         :return: None
         :type optimizer: str
         :type loss: str
@@ -79,7 +79,7 @@ class CharBasedSeq2SeqGenerator(cio.CompactIOMachine):
         :param batch_size: batch size (Default: 64)
         :param epochs: number of epochs (Default: 100)
         :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: rmsprop)
-        :param loss: loss function available from keras (Default: 'categorical_crossentropy`)
+        :param loss: loss function available from tensorflow.keras (Default: 'categorical_crossentropy`)
         :return: None
         :type txtseq: str
         :type batch_size: int

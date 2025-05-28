@@ -1,7 +1,7 @@
 
-from keras.layers import Conv1D, MaxPooling1D, Flatten, Dense, Dropout, LSTM, Activation
-from keras.models import Sequential
-from keras.regularizers import l2
+from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense, Dropout, LSTM, Activation
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.regularizers import l2
 
 
 # Codes were changed because of Keras.

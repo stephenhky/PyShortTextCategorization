@@ -3,9 +3,9 @@ import pickle
 
 from scipy.sparse import dok_matrix
 from gensim.corpora import Dictionary
-from keras.models import Sequential
-from keras.layers import Dense
-from keras.regularizers import l2
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.regularizers import l2
 
 import shorttext.utils.kerasmodel_io as kerasio
 from ....utils import tokenize

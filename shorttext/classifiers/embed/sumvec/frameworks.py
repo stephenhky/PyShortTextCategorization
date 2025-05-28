@@ -1,7 +1,7 @@
 
-from keras.layers import Dense, Activation
-from keras.models import Sequential
-from keras.regularizers import l2
+from tensorflow.keras.layers import Dense, Activation
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.regularizers import l2
 
 from ....utils.classification_exceptions import UnequalArrayLengthsException
 

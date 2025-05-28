@@ -3,9 +3,9 @@ import pickle
 from abc import ABC, abstractmethod
 
 import numpy as np
-from keras.layers import Dense, Reshape
-from keras.models import Sequential
-from keras.regularizers import l2
+from tensorflow.keras.layers import Dense, Reshape
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.regularizers import l2
 
 from ..utils import classification_exceptions as e
 from ..utils import kerasmodel_io as kerasio
