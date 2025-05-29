@@ -1,6 +1,7 @@
 News
 ====
 
+* 05/29/2025: `shorttext` 2.2.0 released.
 * 05/08/2025: `shorttext` 2.1.1 released.
 * 12/14/2024: `shorttext` 2.1.0 released.
 * 07/12/2024: `shorttext` 2.0.0 released.
@@ -82,6 +83,12 @@ News
 
 What's New
 ----------
+
+Release 2.2.0 (May 20, 2025)
+----------------------------
+
+* Update `keras` to `tensorflow.keras`.
+
 
 Release 2.1.1 (May 8, 2025)
 ---------------------------
