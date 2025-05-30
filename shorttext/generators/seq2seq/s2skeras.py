@@ -1,9 +1,9 @@
 
 import json
 
-from keras.models import load_model
-from keras.models import Model
-from keras.layers import Input, LSTM, Dense
+from tensorflow.keras.models import load_model
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Input, LSTM, Dense
 
 from ...utils import compactmodel_io as cio
 from ...utils import classification_exceptions as e
@@ -92,7 +92,7 @@ class Seq2SeqWithKeras(cio.CompactIOMachine):
         """ Compile the keras model after preparation running :func:`~prepare_model`.
 
         :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: rmsprop)
-        :param loss: loss function available from keras (Default: 'categorical_crossentropy`)
+        :param loss: loss function available from tensorflow.keras (Default: 'categorical_crossentropy`)
         :type optimizer: str
         :type loss: str
         :return: None

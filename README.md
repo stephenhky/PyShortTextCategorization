@@ -54,8 +54,6 @@ or, if you want the most recent development version on Github, type
 >>> pip install git+https://github.com/stephenhky/PyShortTextCategorization@master
 ```
 
-Developers are advised to make sure `Keras` >=2 be installed. Users are advised to install the backend `Tensorflow` (preferred) or `Theano` in advance. It is desirable if `Cython` has been previously installed too.
-
 See [installation guide](https://shorttext.readthedocs.io/en/latest/install.html) for more details.
 
 
@@ -83,6 +81,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 05/29/2025: `shorttext` 2.2.0 released.
 * 05/08/2025: `shorttext` 2.1.1 released.
 * 12/14/2024: `shorttext` 2.1.0 released.
 * 07/12/2024: `shorttext` 2.0.0 released.
@@ -160,3 +159,8 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 * 12/21/2016: `shorttext` 0.2.0 released.
 * 11/25/2016: `shorttext` 0.1.2 released.
 * 11/21/2016: `shorttext` 0.1.1 released.
+
+# Acknowledgements
+
+* [Chinmaya Pancholi](https://www.linkedin.com/in/cpancholi/)
+* [Minseo Kim](https://kmingseo.github.io/)

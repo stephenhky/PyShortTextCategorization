@@ -26,6 +26,7 @@ Characteristics:
 - Sentence encodings and similarities based on BERT (see :doc:`tutorial_wordembed` and :doc:`tutorial_metrics`).
 
 Author: Kwan Yuet Stephen Ho (LinkedIn_, ResearchGate_, Twitter_)
+Other contributors: `Chinmaya Pancholi <https://www.linkedin.com/in/cpancholi>`_, `Minseo Kim <https://kmingseo.github.io/>`_
 
 Home: :doc:`index`
 

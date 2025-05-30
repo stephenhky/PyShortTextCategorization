@@ -26,9 +26,7 @@ On the other hand, to get the development version on Github, you can install fro
 Backend for Keras
 -----------------
 
-The package keras_ (version >= 2.0.0) uses Tensorflow_ as the backend. Refer to
-:doc:`faq` for how to switch the backend.
-
+We use TensorFlow for `keras`.
 
 Possible Solutions for Installation Failures
 --------------------------------------------
@@ -55,18 +53,6 @@ you may try one (or more) of the following:
 
 .. _Github: https://github.com/stephenhky/PyShortTextCategorization
 
-Required Packages
------------------
-
-- Numpy_ (Numerical Python, version >= 1.16.0)
-- SciPy_ (Scientific Python, version >= 1.2.0)
-- Scikit-Learn_ (Machine Learning in Python, version >= 0.23.0)
-- keras_ (Deep Learning Library for Theano and Tensorflow, version >= 2.3.0)
-- gensim_ (Topic Modeling for Humans, version >= 3.8.0)
-- Pandas_ (Python Data Analysis Library, version >= 1.0.0)
-- snowballstemmer_ (Snowball Stemmer, version >= 2.0.0)
-- TensorFlow_ (TensorFlow, version >= 2.0.0)
-- Joblib_ (Joblib: lightweight Python pipelining, version >= 0.14)
 
 Home: :doc:`index`
 
