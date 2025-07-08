@@ -5,7 +5,7 @@ scikit-learn==1.7.0
 tensorflow==2.19.0
 keras==3.10.0
 gensim==4.3.3
-pandas==2.3.0
+pandas==2.3.1
 snowballstemmer==3.0.1
 transformers==4.53.0
 torch==2.7.1
