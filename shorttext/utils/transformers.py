@@ -2,13 +2,14 @@
 # reference: https://towardsdatascience.com/word-embeddings-in-2020-review-with-code-examples-11eb39a1ee6d
 
 import warnings
+from abc import ABC, abstractmethod
 
 import numpy as np
 import torch
 from transformers import BertTokenizer, BertModel
 
 
-class BERTObject:
+class BERTObject(ABC):
     """ The base class for BERT model that contains the embedding model and the tokenizer.
 
     For more information, please refer to the following paper:
@@ -54,6 +55,10 @@ class BERTObject:
             self.tokenizer = tokenizer
 
         self.number_hidden_layers = self.model.config.num_hidden_layers
+
+    @abstractmethod
+    def encode_sentences(self, sentences, numpy=False):
+        raise NotImplemented()
 
 
 class WrappedBERTEncoder(BERTObject):
