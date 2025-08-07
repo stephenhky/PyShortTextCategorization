@@ -3,7 +3,7 @@ import unittest
 import urllib
 
 from shorttext.metrics.wasserstein import word_mover_distance
-from src.shorttext.utils import load_word2vec_model
+from shorttext.utils import load_word2vec_model
 
 
 class TestWMD(unittest.TestCase):
