@@ -1,6 +1,6 @@
 include README.md
 include LICENSE
 include pyproject.toml
-include shorttext/data/shorttext_exampledata.csv
-include shorttext/utils/stopwords.txt
-include shorttext/utils/nonneg_stopwords.txt
+include shorttext/src/data/shorttext_exampledata.csv
+include shorttext/src/utils/stopwords.txt
+include shorttext/src/utils/nonneg_stopwords.txt
