@@ -193,42 +193,42 @@ is a transformer-based language model. This package supports tokens
 and sentence embeddings using pre-trained language models, supported
 by the package written by HuggingFace_. In `shorttext`, to run:
 
->>> from src.shorttext import WrappedBERTEncoder
+>>> from shorttext import WrappedBERTEncoder
 >>> encoder = WrappedBERTEncoder()   # the default model and tokenizer are loaded
 >>> sentences_embedding, tokens_embedding, tokens = encoder.encode_sentences(['The car should turn right.', 'The answer is right.'])
 
 The third line returns the embeddings of all sentences, embeddings of all tokens in each sentence,
 and the tokens (with
 
->>> from src.shorttext import WrappedBERTEncoder
+>>> from shorttext import WrappedBERTEncoder
 >>> encoder = WrappedBERTEncoder()   # the default model and tokenizer are loaded
 >>> sentences_embedding, tokens_embedding, tokens = encoder.encode_sentences(['The car should turn right.', 'The answer is right.'])
 
 The third line returns the embeddings of all sentences, embeddings of all tokens in each sentence,
 and the tokens (with
 
->>> from src.shorttext import WrappedBERTEncoder
+>>> from shorttext import WrappedBERTEncoder
 >>> encoder = WrappedBERTEncoder()   # the default model and tokenizer are loaded
 >>> sentences_embedding, tokens_embedding, tokens = encoder.encode_sentences(['The car should turn right.', 'The answer is right.'])
 
 The third line returns the embeddings of all sentences, embeddings of all tokens in each sentence,
 and the tokens (with
 
->>> from src.shorttext import WrappedBERTEncoder
+>>> from shorttext import WrappedBERTEncoder
 >>> encoder = WrappedBERTEncoder()   # the default model and tokenizer are loaded
 >>> sentences_embedding, tokens_embedding, tokens = encoder.encode_sentences(['The car should turn right.', 'The answer is right.'])
 
 The third line returns the embeddings of all sentences, embeddings of all tokens in each sentence,
 and the tokens (with
 
->>> from src.shorttext import WrappedBERTEncoder
+>>> from shorttext import WrappedBERTEncoder
 >>> encoder = WrappedBERTEncoder()   # the default model and tokenizer are loaded
 >>> sentences_embedding, tokens_embedding, tokens = encoder.encode_sentences(['The car should turn right.', 'The answer is right.'])
 
 The third line returns the embeddings of all sentences, embeddings of all tokens in each sentence,
 and the tokens (with
 
->>> from src.shorttext import WrappedBERTEncoder
+>>> from shorttext import WrappedBERTEncoder
 >>> encoder = WrappedBERTEncoder()   # the default model and tokenizer are loaded
 >>> sentences_embedding, tokens_embedding, tokens = encoder.encode_sentences(['The car should turn right.', 'The answer is right.'])
 

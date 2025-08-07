@@ -4,8 +4,8 @@ import string
 from functools import reduce
 
 import numpy as np
-from src.shorttext.generators.charbase.char2vec import initSentenceToCharVecEncoder
-from src.shorttext.utils import OperationNotDefinedException
+from shorttext.generators.charbase.char2vec import initSentenceToCharVecEncoder
+from shorttext.utils import OperationNotDefinedException
 
 
 default_alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz.,:;'*!?`$%&(){}[]-/\@_#"

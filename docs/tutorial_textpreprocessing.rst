@@ -19,7 +19,7 @@ following steps:
 
 To do this, load the preprocesser generator:
 
->>> from src.shorttext import standard_text_preprocessor_1
+>>> from shorttext import standard_text_preprocessor_1
 
 Then define the preprocessor, a function, by just calling:
 
@@ -38,7 +38,7 @@ following steps:
 
 To do this, load the preprocesser generator:
 
->>> from src.shorttext import standard_text_preprocessor_1
+>>> from shorttext import standard_text_preprocessor_1
 
 Then define the preprocessor, a function, by just calling:
 
@@ -57,7 +57,7 @@ following steps:
 
 To do this, load the preprocesser generator:
 
->>> from src.shorttext import standard_text_preprocessor_1
+>>> from shorttext import standard_text_preprocessor_1
 
 Then define the preprocessor, a function, by just calling:
 
@@ -76,7 +76,7 @@ following steps:
 
 To do this, load the preprocesser generator:
 
->>> from src.shorttext import standard_text_preprocessor_1
+>>> from shorttext import standard_text_preprocessor_1
 
 Then define the preprocessor, a function, by just calling:
 
@@ -95,7 +95,7 @@ following steps:
 
 To do this, load the preprocesser generator:
 
->>> from src.shorttext import standard_text_preprocessor_1
+>>> from shorttext import standard_text_preprocessor_1
 
 Then define the preprocessor, a function, by just calling:
 
@@ -114,7 +114,7 @@ following steps:
 
 To do this, load the preprocesser generator:
 
->>> from src.shorttext import standard_text_preprocessor_1
+>>> from shorttext import standard_text_preprocessor_1
 
 Then define the preprocessor, a function, by just calling:
 
@@ -162,7 +162,7 @@ let's develop a preprocessor that 1) convert it to base form if it is a verb, or
 
 Load the function that generates the preprocessor function:
 
->>> from src.shorttext import text_preprocessor
+>>> from shorttext import text_preprocessor
 
 Initialize a WordNet lemmatizer using
 but some users may want to define their own preprocessors for their own purposes.
@@ -176,7 +176,7 @@ let's develop a preprocessor that 1) convert it to base form if it is a verb, or
 
 Load the function that generates the preprocessor function:
 
->>> from src.shorttext import text_preprocessor
+>>> from shorttext import text_preprocessor
 
 Initialize a WordNet lemmatizer using
 but some users may want to define their own preprocessors for their own purposes.
@@ -190,7 +190,7 @@ let's develop a preprocessor that 1) convert it to base form if it is a verb, or
 
 Load the function that generates the preprocessor function:
 
->>> from src.shorttext import text_preprocessor
+>>> from shorttext import text_preprocessor
 
 Initialize a WordNet lemmatizer using
 but some users may want to define their own preprocessors for their own purposes.
@@ -204,7 +204,7 @@ let's develop a preprocessor that 1) convert it to base form if it is a verb, or
 
 Load the function that generates the preprocessor function:
 
->>> from src.shorttext import text_preprocessor
+>>> from shorttext import text_preprocessor
 
 Initialize a WordNet lemmatizer using
 but some users may want to define their own preprocessors for their own purposes.
@@ -218,7 +218,7 @@ let's develop a preprocessor that 1) convert it to base form if it is a verb, or
 
 Load the function that generates the preprocessor function:
 
->>> from src.shorttext import text_preprocessor
+>>> from shorttext import text_preprocessor
 
 Initialize a WordNet lemmatizer using
 but some users may want to define their own preprocessors for their own purposes.
@@ -232,7 +232,7 @@ let's develop a preprocessor that 1) convert it to base form if it is a verb, or
 
 Load the function that generates the preprocessor function:
 
->>> from src.shorttext import text_preprocessor
+>>> from shorttext import text_preprocessor
 
 Initialize a WordNet lemmatizer using
 but some users may want to define their own preprocessors for their own purposes.

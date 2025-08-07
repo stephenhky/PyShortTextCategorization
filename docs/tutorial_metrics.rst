@@ -14,7 +14,7 @@ Each of this change causes a distance of 1. The algorithm was written in C.
 
 First import the package:
 
->>> from src.shorttext import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
 >>> from shorttext.metrics.dynprog.lcp import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
 >>> from shorttext.metrics.dynprog import similarity, soft_jaccard_score
 
@@ -36,7 +36,7 @@ Each of this change causes a distance of 1. The algorithm was written in C.
 
 First import the package:
 
->>> from src.shorttext import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
 >>> from shorttext.metrics.dynprog.lcp import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
 >>> from shorttext.metrics.dynprog import similarity, soft_jaccard_score
 
@@ -58,7 +58,7 @@ Each of this change causes a distance of 1. The algorithm was written in C.
 
 First import the package:
 
->>> from src.shorttext import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
 >>> from shorttext.metrics.dynprog.lcp import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
 >>> from shorttext.metrics.dynprog import similarity, soft_jaccard_score
 
@@ -80,7 +80,7 @@ Each of this change causes a distance of 1. The algorithm was written in C.
 
 First import the package:
 
->>> from src.shorttext import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
 >>> from shorttext.metrics.dynprog.lcp import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
 >>> from shorttext.metrics.dynprog import similarity, soft_jaccard_score
 
@@ -102,7 +102,7 @@ Each of this change causes a distance of 1. The algorithm was written in C.
 
 First import the package:
 
->>> from src.shorttext import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
 >>> from shorttext.metrics.dynprog.lcp import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
 >>> from shorttext.metrics.dynprog import similarity, soft_jaccard_score
 
@@ -124,7 +124,7 @@ Each of this change causes a distance of 1. The algorithm was written in C.
 
 First import the package:
 
->>> from src.shorttext import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
 >>> from shorttext.metrics.dynprog.lcp import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
 >>> from shorttext.metrics.dynprog import similarity, soft_jaccard_score
 
@@ -196,7 +196,7 @@ words are the Euclidean distance by default (not cosine distance), but user can 
 
 Import the modules, and load the word-embedding models:
 
->>> from src.shorttext import word_mover_distance
+>>> from shorttext import word_mover_distance
 >>> from shorttext.utils import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
 
@@ -212,7 +212,7 @@ words are the Euclidean distance by default (not cosine distance), but user can 
 
 Import the modules, and load the word-embedding models:
 
->>> from src.shorttext import word_mover_distance
+>>> from shorttext import word_mover_distance
 >>> from shorttext.utils import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
 
@@ -228,7 +228,7 @@ words are the Euclidean distance by default (not cosine distance), but user can 
 
 Import the modules, and load the word-embedding models:
 
->>> from src.shorttext import word_mover_distance
+>>> from shorttext import word_mover_distance
 >>> from shorttext.utils import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
 
@@ -244,7 +244,7 @@ words are the Euclidean distance by default (not cosine distance), but user can 
 
 Import the modules, and load the word-embedding models:
 
->>> from src.shorttext import word_mover_distance
+>>> from shorttext import word_mover_distance
 >>> from shorttext.utils import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
 
@@ -260,7 +260,7 @@ words are the Euclidean distance by default (not cosine distance), but user can 
 
 Import the modules, and load the word-embedding models:
 
->>> from src.shorttext import word_mover_distance
+>>> from shorttext import word_mover_distance
 >>> from shorttext.utils import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
 
@@ -276,7 +276,7 @@ words are the Euclidean distance by default (not cosine distance), but user can 
 
 Import the modules, and load the word-embedding models:
 
->>> from src.shorttext import word_mover_distance
+>>> from shorttext import word_mover_distance
 >>> from shorttext.utils import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
 
@@ -320,7 +320,7 @@ Jaccard Index Due to Cosine Distances
 In the above section of edit distance, the Jaccard score was calculated by considering soft membership
 using spelling. However, we can also compute the soft membership by cosine similarity with
 
->>> from src.shorttext import load_word2vec_model
+>>> from shorttext import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
 >>> from shorttext.metrics.embedfuzzy import jaccardscore_sents
 
@@ -328,7 +328,7 @@ For example, the number of words between the set containing 'doctor' and that co
 is 0.78060223420956831 (according to Google model), and therefore the Jaccard score is
 using spelling. However, we can also compute the soft membership by cosine similarity with
 
->>> from src.shorttext import load_word2vec_model
+>>> from shorttext import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
 >>> from shorttext.metrics.embedfuzzy import jaccardscore_sents
 
@@ -336,7 +336,7 @@ For example, the number of words between the set containing 'doctor' and that co
 is 0.78060223420956831 (according to Google model), and therefore the Jaccard score is
 using spelling. However, we can also compute the soft membership by cosine similarity with
 
->>> from src.shorttext import load_word2vec_model
+>>> from shorttext import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
 >>> from shorttext.metrics.embedfuzzy import jaccardscore_sents
 
@@ -344,7 +344,7 @@ For example, the number of words between the set containing 'doctor' and that co
 is 0.78060223420956831 (according to Google model), and therefore the Jaccard score is
 using spelling. However, we can also compute the soft membership by cosine similarity with
 
->>> from src.shorttext import load_word2vec_model
+>>> from shorttext import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
 >>> from shorttext.metrics.embedfuzzy import jaccardscore_sents
 
@@ -352,7 +352,7 @@ For example, the number of words between the set containing 'doctor' and that co
 is 0.78060223420956831 (according to Google model), and therefore the Jaccard score is
 using spelling. However, we can also compute the soft membership by cosine similarity with
 
->>> from src.shorttext import load_word2vec_model
+>>> from shorttext import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
 >>> from shorttext.metrics.embedfuzzy import jaccardscore_sents
 
@@ -360,7 +360,7 @@ For example, the number of words between the set containing 'doctor' and that co
 is 0.78060223420956831 (according to Google model), and therefore the Jaccard score is
 using spelling. However, we can also compute the soft membership by cosine similarity with
 
->>> from src.shorttext import load_word2vec_model
+>>> from shorttext import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
 >>> from shorttext.metrics.embedfuzzy import jaccardscore_sents
 
@@ -393,7 +393,7 @@ BERTScore
 BERTScore includes a category of metrics that is based on BERT model.
 This metrics measures the similarity between sentences. To use it,
 
->>> from src.shorttext import BERTScorer
+>>> from shorttext import BERTScorer
 >>> scorer = BERTScorer()    # using default BERT model and tokenizer
 >>> scorer.recall_bertscore('The weather is cold.', 'It is freezing.')   # 0.7223385572433472
 >>> scorer.precision_bertscore('The weather is cold.', 'It is freezing.')   # 0.7700849175453186
@@ -402,7 +402,7 @@ This metrics measures the similarity between sentences. To use it,
 For BERT models, please refer to
 This metrics measures the similarity between sentences. To use it,
 
->>> from src.shorttext import BERTScorer
+>>> from shorttext import BERTScorer
 >>> scorer = BERTScorer()    # using default BERT model and tokenizer
 >>> scorer.recall_bertscore('The weather is cold.', 'It is freezing.')   # 0.7223385572433472
 >>> scorer.precision_bertscore('The weather is cold.', 'It is freezing.')   # 0.7700849175453186
@@ -411,7 +411,7 @@ This metrics measures the similarity between sentences. To use it,
 For BERT models, please refer to
 This metrics measures the similarity between sentences. To use it,
 
->>> from src.shorttext import BERTScorer
+>>> from shorttext import BERTScorer
 >>> scorer = BERTScorer()    # using default BERT model and tokenizer
 >>> scorer.recall_bertscore('The weather is cold.', 'It is freezing.')   # 0.7223385572433472
 >>> scorer.precision_bertscore('The weather is cold.', 'It is freezing.')   # 0.7700849175453186
@@ -420,7 +420,7 @@ This metrics measures the similarity between sentences. To use it,
 For BERT models, please refer to
 This metrics measures the similarity between sentences. To use it,
 
->>> from src.shorttext import BERTScorer
+>>> from shorttext import BERTScorer
 >>> scorer = BERTScorer()    # using default BERT model and tokenizer
 >>> scorer.recall_bertscore('The weather is cold.', 'It is freezing.')   # 0.7223385572433472
 >>> scorer.precision_bertscore('The weather is cold.', 'It is freezing.')   # 0.7700849175453186
@@ -429,7 +429,7 @@ This metrics measures the similarity between sentences. To use it,
 For BERT models, please refer to
 This metrics measures the similarity between sentences. To use it,
 
->>> from src.shorttext import BERTScorer
+>>> from shorttext import BERTScorer
 >>> scorer = BERTScorer()    # using default BERT model and tokenizer
 >>> scorer.recall_bertscore('The weather is cold.', 'It is freezing.')   # 0.7223385572433472
 >>> scorer.precision_bertscore('The weather is cold.', 'It is freezing.')   # 0.7700849175453186
@@ -438,7 +438,7 @@ This metrics measures the similarity between sentences. To use it,
 For BERT models, please refer to
 This metrics measures the similarity between sentences. To use it,
 
->>> from src.shorttext import BERTScorer
+>>> from shorttext import BERTScorer
 >>> scorer = BERTScorer()    # using default BERT model and tokenizer
 >>> scorer.recall_bertscore('The weather is cold.', 'It is freezing.')   # 0.7223385572433472
 >>> scorer.precision_bertscore('The weather is cold.', 'It is freezing.')   # 0.7700849175453186

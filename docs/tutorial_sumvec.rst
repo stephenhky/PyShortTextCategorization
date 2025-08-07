@@ -23,7 +23,7 @@ Import the package:
 
 To load the Word2Vec model,
 
->>> from src.shorttext import load_word2vec_model
+>>> from shorttext import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
 
 Then we load a set of data:
@@ -75,7 +75,7 @@ Import the package:
 
 To load the Word2Vec model,
 
->>> from src.shorttext import load_word2vec_model
+>>> from shorttext import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
 
 Then we load a set of data:
@@ -127,7 +127,7 @@ Import the package:
 
 To load the Word2Vec model,
 
->>> from src.shorttext import load_word2vec_model
+>>> from shorttext import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
 
 Then we load a set of data:
@@ -179,7 +179,7 @@ Import the package:
 
 To load the Word2Vec model,
 
->>> from src.shorttext import load_word2vec_model
+>>> from shorttext import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
 
 Then we load a set of data:
@@ -231,7 +231,7 @@ Import the package:
 
 To load the Word2Vec model,
 
->>> from src.shorttext import load_word2vec_model
+>>> from shorttext import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
 
 Then we load a set of data:
@@ -283,7 +283,7 @@ Import the package:
 
 To load the Word2Vec model,
 
->>> from src.shorttext import load_word2vec_model
+>>> from shorttext import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
 
 Then we load a set of data:
