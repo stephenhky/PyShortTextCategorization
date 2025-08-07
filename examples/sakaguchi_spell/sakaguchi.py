@@ -10,12 +10,12 @@ from sklearn.preprocessing import OneHotEncoder
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Activation, Dropout, Dense, TimeDistributed
 
-import shorttext.utils.kerasmodel_io as kerasio
-from shorttext.spell import SpellCorrector
+import src.shorttext.utils.kerasmodel_io as kerasio
+from src.shorttext.spell import SpellCorrector
 from .binarize import default_alph, default_specialsignals
-from shorttext.utils import classification_exceptions as ce
+from src.shorttext.utils import classification_exceptions as ce
 from .binarize import SpellingToConcatCharVecEncoder, SCRNNBinarizer
-from shorttext.utils.compactmodel_io import CompactIOMachine
+from src.shorttext.utils import CompactIOMachine
 
 
 nospace_tokenize = lambda sentence: [t.strip() for t in sentence.split() if len(t.strip())>0]

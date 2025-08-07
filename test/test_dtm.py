@@ -4,7 +4,7 @@ import re
 
 import pandas as pd
 import shorttext
-from shorttext.utils import stemword, tokenize
+from src.shorttext.utils import stemword, tokenize
 
 
 class TestDTM(unittest.TestCase):

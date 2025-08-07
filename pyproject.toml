@@ -71,11 +71,11 @@ packages = [
     "shorttext.metrics",
     "shorttext.metrics.dynprog",
     "shorttext.metrics.wasserstein",
-    "shorttext.metrics.transformers",
     "shorttext.metrics.embedfuzzy",
     "shorttext.spell"
 ]
 zip-safe = false
+package-dir = {"" = "src"}
 
 [project.scripts]
 ShortTextCategorizerConsole = "shorttext.cli.categorization:main"

@@ -14,6 +14,138 @@ Each of this change causes a distance of 1. The algorithm was written in C.
 
 First import the package:
 
+>>> from src.shorttext import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext.metrics.dynprog.lcp import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext.metrics.dynprog import similarity, soft_jaccard_score
+
+The distance can be calculated by:
+
+>>> damerau_levenshtein('diver', 'driver')        # insertion, gives 1
+>>> damerau_levenshtein('driver', 'diver')        # deletion, gives 1
+>>> damerau_levenshtein('topology', 'tooplogy')   # transposition, gives 1
+>>> damerau_levenshtein('book', 'blok')           # subsitution, gives 1
+
+The longest common prefix finds the length of common prefix:
+
+>>> longest_common_prefix('topology', 'topological')    # gives 7
+>>> longest_common_prefix('police', 'policewoman')      # gives 6
+
+The similarity between words is defined as the larger of the following:
+between two words due to insertion, deletion, transposition, substitution etc.
+Each of this change causes a distance of 1. The algorithm was written in C.
+
+First import the package:
+
+>>> from src.shorttext import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext.metrics.dynprog.lcp import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext.metrics.dynprog import similarity, soft_jaccard_score
+
+The distance can be calculated by:
+
+>>> damerau_levenshtein('diver', 'driver')        # insertion, gives 1
+>>> damerau_levenshtein('driver', 'diver')        # deletion, gives 1
+>>> damerau_levenshtein('topology', 'tooplogy')   # transposition, gives 1
+>>> damerau_levenshtein('book', 'blok')           # subsitution, gives 1
+
+The longest common prefix finds the length of common prefix:
+
+>>> longest_common_prefix('topology', 'topological')    # gives 7
+>>> longest_common_prefix('police', 'policewoman')      # gives 6
+
+The similarity between words is defined as the larger of the following:
+between two words due to insertion, deletion, transposition, substitution etc.
+Each of this change causes a distance of 1. The algorithm was written in C.
+
+First import the package:
+
+>>> from src.shorttext import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext.metrics.dynprog.lcp import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext.metrics.dynprog import similarity, soft_jaccard_score
+
+The distance can be calculated by:
+
+>>> damerau_levenshtein('diver', 'driver')        # insertion, gives 1
+>>> damerau_levenshtein('driver', 'diver')        # deletion, gives 1
+>>> damerau_levenshtein('topology', 'tooplogy')   # transposition, gives 1
+>>> damerau_levenshtein('book', 'blok')           # subsitution, gives 1
+
+The longest common prefix finds the length of common prefix:
+
+>>> longest_common_prefix('topology', 'topological')    # gives 7
+>>> longest_common_prefix('police', 'policewoman')      # gives 6
+
+The similarity between words is defined as the larger of the following:
+between two words due to insertion, deletion, transposition, substitution etc.
+Each of this change causes a distance of 1. The algorithm was written in C.
+
+First import the package:
+
+>>> from src.shorttext import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext.metrics.dynprog.lcp import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext.metrics.dynprog import similarity, soft_jaccard_score
+
+The distance can be calculated by:
+
+>>> damerau_levenshtein('diver', 'driver')        # insertion, gives 1
+>>> damerau_levenshtein('driver', 'diver')        # deletion, gives 1
+>>> damerau_levenshtein('topology', 'tooplogy')   # transposition, gives 1
+>>> damerau_levenshtein('book', 'blok')           # subsitution, gives 1
+
+The longest common prefix finds the length of common prefix:
+
+>>> longest_common_prefix('topology', 'topological')    # gives 7
+>>> longest_common_prefix('police', 'policewoman')      # gives 6
+
+The similarity between words is defined as the larger of the following:
+between two words due to insertion, deletion, transposition, substitution etc.
+Each of this change causes a distance of 1. The algorithm was written in C.
+
+First import the package:
+
+>>> from src.shorttext import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext.metrics.dynprog.lcp import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext.metrics.dynprog import similarity, soft_jaccard_score
+
+The distance can be calculated by:
+
+>>> damerau_levenshtein('diver', 'driver')        # insertion, gives 1
+>>> damerau_levenshtein('driver', 'diver')        # deletion, gives 1
+>>> damerau_levenshtein('topology', 'tooplogy')   # transposition, gives 1
+>>> damerau_levenshtein('book', 'blok')           # subsitution, gives 1
+
+The longest common prefix finds the length of common prefix:
+
+>>> longest_common_prefix('topology', 'topological')    # gives 7
+>>> longest_common_prefix('police', 'policewoman')      # gives 6
+
+The similarity between words is defined as the larger of the following:
+between two words due to insertion, deletion, transposition, substitution etc.
+Each of this change causes a distance of 1. The algorithm was written in C.
+
+First import the package:
+
+>>> from src.shorttext import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext.metrics.dynprog.lcp import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
+>>> from shorttext.metrics.dynprog import similarity, soft_jaccard_score
+
+The distance can be calculated by:
+
+>>> damerau_levenshtein('diver', 'driver')        # insertion, gives 1
+>>> damerau_levenshtein('driver', 'diver')        # deletion, gives 1
+>>> damerau_levenshtein('topology', 'tooplogy')   # transposition, gives 1
+>>> damerau_levenshtein('book', 'blok')           # subsitution, gives 1
+
+The longest common prefix finds the length of common prefix:
+
+>>> longest_common_prefix('topology', 'topological')    # gives 7
+>>> longest_common_prefix('police', 'policewoman')      # gives 6
+
+The similarity between words is defined as the larger of the following:
+between two words due to insertion, deletion, transposition, substitution etc.
+Each of this change causes a distance of 1. The algorithm was written in C.
+
+First import the package:
+
 >>> from shorttext.metrics.dynprog.dldist import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
 >>> from shorttext.metrics.dynprog.lcp import damerau_levenshtein, longest_common_prefix, similarity, soft_jaccard_score
 >>> from shorttext.metrics.dynprog import similarity, soft_jaccard_score
@@ -64,6 +196,102 @@ words are the Euclidean distance by default (not cosine distance), but user can 
 
 Import the modules, and load the word-embedding models:
 
+>>> from src.shorttext import word_mover_distance
+>>> from shorttext.utils import load_word2vec_model
+>>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
+
+Examples:
+
+>>> word_mover_distance(['police', 'station'], ['policeman'], wvmodel)                      # gives 3.060708999633789
+>>> word_mover_distance(['physician', 'assistant'], ['doctor', 'assistants'], wvmodel)      # gives 2.276337146759033
+
+More examples can be found in this
+the embedded word vectors. WMD is a special case for Earth Mover's distance (EMD), or Wasserstein
+distance. The calculation of WMD in this package is based on linear programming, and the distance between
+words are the Euclidean distance by default (not cosine distance), but user can set it accordingly.
+
+Import the modules, and load the word-embedding models:
+
+>>> from src.shorttext import word_mover_distance
+>>> from shorttext.utils import load_word2vec_model
+>>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
+
+Examples:
+
+>>> word_mover_distance(['police', 'station'], ['policeman'], wvmodel)                      # gives 3.060708999633789
+>>> word_mover_distance(['physician', 'assistant'], ['doctor', 'assistants'], wvmodel)      # gives 2.276337146759033
+
+More examples can be found in this
+the embedded word vectors. WMD is a special case for Earth Mover's distance (EMD), or Wasserstein
+distance. The calculation of WMD in this package is based on linear programming, and the distance between
+words are the Euclidean distance by default (not cosine distance), but user can set it accordingly.
+
+Import the modules, and load the word-embedding models:
+
+>>> from src.shorttext import word_mover_distance
+>>> from shorttext.utils import load_word2vec_model
+>>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
+
+Examples:
+
+>>> word_mover_distance(['police', 'station'], ['policeman'], wvmodel)                      # gives 3.060708999633789
+>>> word_mover_distance(['physician', 'assistant'], ['doctor', 'assistants'], wvmodel)      # gives 2.276337146759033
+
+More examples can be found in this
+the embedded word vectors. WMD is a special case for Earth Mover's distance (EMD), or Wasserstein
+distance. The calculation of WMD in this package is based on linear programming, and the distance between
+words are the Euclidean distance by default (not cosine distance), but user can set it accordingly.
+
+Import the modules, and load the word-embedding models:
+
+>>> from src.shorttext import word_mover_distance
+>>> from shorttext.utils import load_word2vec_model
+>>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
+
+Examples:
+
+>>> word_mover_distance(['police', 'station'], ['policeman'], wvmodel)                      # gives 3.060708999633789
+>>> word_mover_distance(['physician', 'assistant'], ['doctor', 'assistants'], wvmodel)      # gives 2.276337146759033
+
+More examples can be found in this
+the embedded word vectors. WMD is a special case for Earth Mover's distance (EMD), or Wasserstein
+distance. The calculation of WMD in this package is based on linear programming, and the distance between
+words are the Euclidean distance by default (not cosine distance), but user can set it accordingly.
+
+Import the modules, and load the word-embedding models:
+
+>>> from src.shorttext import word_mover_distance
+>>> from shorttext.utils import load_word2vec_model
+>>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
+
+Examples:
+
+>>> word_mover_distance(['police', 'station'], ['policeman'], wvmodel)                      # gives 3.060708999633789
+>>> word_mover_distance(['physician', 'assistant'], ['doctor', 'assistants'], wvmodel)      # gives 2.276337146759033
+
+More examples can be found in this
+the embedded word vectors. WMD is a special case for Earth Mover's distance (EMD), or Wasserstein
+distance. The calculation of WMD in this package is based on linear programming, and the distance between
+words are the Euclidean distance by default (not cosine distance), but user can set it accordingly.
+
+Import the modules, and load the word-embedding models:
+
+>>> from src.shorttext import word_mover_distance
+>>> from shorttext.utils import load_word2vec_model
+>>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
+
+Examples:
+
+>>> word_mover_distance(['police', 'station'], ['policeman'], wvmodel)                      # gives 3.060708999633789
+>>> word_mover_distance(['physician', 'assistant'], ['doctor', 'assistants'], wvmodel)      # gives 2.276337146759033
+
+More examples can be found in this
+the embedded word vectors. WMD is a special case for Earth Mover's distance (EMD), or Wasserstein
+distance. The calculation of WMD in this package is based on linear programming, and the distance between
+words are the Euclidean distance by default (not cosine distance), but user can set it accordingly.
+
+Import the modules, and load the word-embedding models:
+
 >>> from shorttext.metrics.wasserstein import word_mover_distance
 >>> from shorttext.utils import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
@@ -92,6 +320,54 @@ Jaccard Index Due to Cosine Distances
 In the above section of edit distance, the Jaccard score was calculated by considering soft membership
 using spelling. However, we can also compute the soft membership by cosine similarity with
 
+>>> from src.shorttext import load_word2vec_model
+>>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
+>>> from shorttext.metrics.embedfuzzy import jaccardscore_sents
+
+For example, the number of words between the set containing 'doctor' and that containing 'physician'
+is 0.78060223420956831 (according to Google model), and therefore the Jaccard score is
+using spelling. However, we can also compute the soft membership by cosine similarity with
+
+>>> from src.shorttext import load_word2vec_model
+>>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
+>>> from shorttext.metrics.embedfuzzy import jaccardscore_sents
+
+For example, the number of words between the set containing 'doctor' and that containing 'physician'
+is 0.78060223420956831 (according to Google model), and therefore the Jaccard score is
+using spelling. However, we can also compute the soft membership by cosine similarity with
+
+>>> from src.shorttext import load_word2vec_model
+>>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
+>>> from shorttext.metrics.embedfuzzy import jaccardscore_sents
+
+For example, the number of words between the set containing 'doctor' and that containing 'physician'
+is 0.78060223420956831 (according to Google model), and therefore the Jaccard score is
+using spelling. However, we can also compute the soft membership by cosine similarity with
+
+>>> from src.shorttext import load_word2vec_model
+>>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
+>>> from shorttext.metrics.embedfuzzy import jaccardscore_sents
+
+For example, the number of words between the set containing 'doctor' and that containing 'physician'
+is 0.78060223420956831 (according to Google model), and therefore the Jaccard score is
+using spelling. However, we can also compute the soft membership by cosine similarity with
+
+>>> from src.shorttext import load_word2vec_model
+>>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
+>>> from shorttext.metrics.embedfuzzy import jaccardscore_sents
+
+For example, the number of words between the set containing 'doctor' and that containing 'physician'
+is 0.78060223420956831 (according to Google model), and therefore the Jaccard score is
+using spelling. However, we can also compute the soft membership by cosine similarity with
+
+>>> from src.shorttext import load_word2vec_model
+>>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
+>>> from shorttext.metrics.embedfuzzy import jaccardscore_sents
+
+For example, the number of words between the set containing 'doctor' and that containing 'physician'
+is 0.78060223420956831 (according to Google model), and therefore the Jaccard score is
+using spelling. However, we can also compute the soft membership by cosine similarity with
+
 >>> from shorttext.utils import load_word2vec_model
 >>> wvmodel = load_word2vec_model('/path/to/model_file.bin')
 >>> from shorttext.metrics.embedfuzzy import jaccardscore_sents
@@ -115,6 +391,60 @@ BERTScore
 ---------
 
 BERTScore includes a category of metrics that is based on BERT model.
+This metrics measures the similarity between sentences. To use it,
+
+>>> from src.shorttext import BERTScorer
+>>> scorer = BERTScorer()    # using default BERT model and tokenizer
+>>> scorer.recall_bertscore('The weather is cold.', 'It is freezing.')   # 0.7223385572433472
+>>> scorer.precision_bertscore('The weather is cold.', 'It is freezing.')   # 0.7700849175453186
+>>> scorer.f1score_bertscore('The weather is cold.', 'It is freezing.')   # 0.7454479746418043
+
+For BERT models, please refer to
+This metrics measures the similarity between sentences. To use it,
+
+>>> from src.shorttext import BERTScorer
+>>> scorer = BERTScorer()    # using default BERT model and tokenizer
+>>> scorer.recall_bertscore('The weather is cold.', 'It is freezing.')   # 0.7223385572433472
+>>> scorer.precision_bertscore('The weather is cold.', 'It is freezing.')   # 0.7700849175453186
+>>> scorer.f1score_bertscore('The weather is cold.', 'It is freezing.')   # 0.7454479746418043
+
+For BERT models, please refer to
+This metrics measures the similarity between sentences. To use it,
+
+>>> from src.shorttext import BERTScorer
+>>> scorer = BERTScorer()    # using default BERT model and tokenizer
+>>> scorer.recall_bertscore('The weather is cold.', 'It is freezing.')   # 0.7223385572433472
+>>> scorer.precision_bertscore('The weather is cold.', 'It is freezing.')   # 0.7700849175453186
+>>> scorer.f1score_bertscore('The weather is cold.', 'It is freezing.')   # 0.7454479746418043
+
+For BERT models, please refer to
+This metrics measures the similarity between sentences. To use it,
+
+>>> from src.shorttext import BERTScorer
+>>> scorer = BERTScorer()    # using default BERT model and tokenizer
+>>> scorer.recall_bertscore('The weather is cold.', 'It is freezing.')   # 0.7223385572433472
+>>> scorer.precision_bertscore('The weather is cold.', 'It is freezing.')   # 0.7700849175453186
+>>> scorer.f1score_bertscore('The weather is cold.', 'It is freezing.')   # 0.7454479746418043
+
+For BERT models, please refer to
+This metrics measures the similarity between sentences. To use it,
+
+>>> from src.shorttext import BERTScorer
+>>> scorer = BERTScorer()    # using default BERT model and tokenizer
+>>> scorer.recall_bertscore('The weather is cold.', 'It is freezing.')   # 0.7223385572433472
+>>> scorer.precision_bertscore('The weather is cold.', 'It is freezing.')   # 0.7700849175453186
+>>> scorer.f1score_bertscore('The weather is cold.', 'It is freezing.')   # 0.7454479746418043
+
+For BERT models, please refer to
+This metrics measures the similarity between sentences. To use it,
+
+>>> from src.shorttext import BERTScorer
+>>> scorer = BERTScorer()    # using default BERT model and tokenizer
+>>> scorer.recall_bertscore('The weather is cold.', 'It is freezing.')   # 0.7223385572433472
+>>> scorer.precision_bertscore('The weather is cold.', 'It is freezing.')   # 0.7700849175453186
+>>> scorer.f1score_bertscore('The weather is cold.', 'It is freezing.')   # 0.7454479746418043
+
+For BERT models, please refer to
 This metrics measures the similarity between sentences. To use it,
 
 >>> from shorttext.metrics.transformers import BERTScorer
