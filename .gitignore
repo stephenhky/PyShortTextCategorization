@@ -371,7 +371,6 @@ fabric.properties
 *.sig
 
 pkg/
-src/
 
 ### Fortran template
 # Prerequisites

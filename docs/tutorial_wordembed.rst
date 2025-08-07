@@ -7,6 +7,88 @@ Word2Vec
 The most commonly used word-embedding model is Word2Vec. Its model can be downloaded from
 their page. To load the model, call:
 
+>>> import shorttextfrom src import shorttext
+>>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
+
+It is a binary file, and the default is set to be
+their page. To load the model, call:
+
+>>> import shorttextfrom src import shorttext
+>>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
+
+It is a binary file, and the default is set to be
+their page. To load the model, call:
+
+>>> import shorttext
+from src import shorttext
+>>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
+
+It is a binary file, and the default is set to be
+their page. To load the model, call:
+
+>>> import shorttext
+from src import shorttext
+>>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
+
+It is a binary file, and the default is set to be
+their page. To load the model, call:
+
+>>> import shorttext
+from src import shorttext
+>>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
+
+It is a binary file, and the default is set to be
+their page. To load the model, call:
+
+>>> import shorttext
+from src import shorttext
+>>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
+
+It is a binary file, and the default is set to be
+their page. To load the model, call:
+
+>>>
+from src import shorttext
+>>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
+
+It is a binary file, and the default is set to be
+their page. To load the model, call:
+
+>>>
+from src import shorttext
+>>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
+
+It is a binary file, and the default is set to be
+their page. To load the model, call:
+
+>>>
+from src import shorttext
+>>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
+
+It is a binary file, and the default is set to be
+their page. To load the model, call:
+
+>>>
+from src import shorttext
+>>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
+
+It is a binary file, and the default is set to be
+their page. To load the model, call:
+
+>>>
+from src import shorttext
+>>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
+
+It is a binary file, and the default is set to be
+their page. To load the model, call:
+
+>>>
+from src import shorttext
+>>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
+
+It is a binary file, and the default is set to be
+their page. To load the model, call:
+
 >>> import shorttext
 >>> wvmodel = shorttext.utils.load_word2vec_model('/path/to/GoogleNews-vectors-negative300.bin.gz')
 
@@ -110,6 +192,48 @@ BERT_ (Bidirectional Transformers for Language Understanding)
 is a transformer-based language model. This package supports tokens
 and sentence embeddings using pre-trained language models, supported
 by the package written by HuggingFace_. In `shorttext`, to run:
+
+>>> from src.shorttext import WrappedBERTEncoder
+>>> encoder = WrappedBERTEncoder()   # the default model and tokenizer are loaded
+>>> sentences_embedding, tokens_embedding, tokens = encoder.encode_sentences(['The car should turn right.', 'The answer is right.'])
+
+The third line returns the embeddings of all sentences, embeddings of all tokens in each sentence,
+and the tokens (with
+
+>>> from src.shorttext import WrappedBERTEncoder
+>>> encoder = WrappedBERTEncoder()   # the default model and tokenizer are loaded
+>>> sentences_embedding, tokens_embedding, tokens = encoder.encode_sentences(['The car should turn right.', 'The answer is right.'])
+
+The third line returns the embeddings of all sentences, embeddings of all tokens in each sentence,
+and the tokens (with
+
+>>> from src.shorttext import WrappedBERTEncoder
+>>> encoder = WrappedBERTEncoder()   # the default model and tokenizer are loaded
+>>> sentences_embedding, tokens_embedding, tokens = encoder.encode_sentences(['The car should turn right.', 'The answer is right.'])
+
+The third line returns the embeddings of all sentences, embeddings of all tokens in each sentence,
+and the tokens (with
+
+>>> from src.shorttext import WrappedBERTEncoder
+>>> encoder = WrappedBERTEncoder()   # the default model and tokenizer are loaded
+>>> sentences_embedding, tokens_embedding, tokens = encoder.encode_sentences(['The car should turn right.', 'The answer is right.'])
+
+The third line returns the embeddings of all sentences, embeddings of all tokens in each sentence,
+and the tokens (with
+
+>>> from src.shorttext import WrappedBERTEncoder
+>>> encoder = WrappedBERTEncoder()   # the default model and tokenizer are loaded
+>>> sentences_embedding, tokens_embedding, tokens = encoder.encode_sentences(['The car should turn right.', 'The answer is right.'])
+
+The third line returns the embeddings of all sentences, embeddings of all tokens in each sentence,
+and the tokens (with
+
+>>> from src.shorttext import WrappedBERTEncoder
+>>> encoder = WrappedBERTEncoder()   # the default model and tokenizer are loaded
+>>> sentences_embedding, tokens_embedding, tokens = encoder.encode_sentences(['The car should turn right.', 'The answer is right.'])
+
+The third line returns the embeddings of all sentences, embeddings of all tokens in each sentence,
+and the tokens (with
 
 >>> from shorttext.utils import WrappedBERTEncoder
 >>> encoder = WrappedBERTEncoder()   # the default model and tokenizer are loaded

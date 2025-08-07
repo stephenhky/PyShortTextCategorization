@@ -3,6 +3,7 @@ import os
 from functools import partial
 import argparse
 import logging
+from operator import itemgetter
 
 from ..utils.compactmodel_io import get_model_classifier_name
 from ..utils.classification_exceptions import AlgorithmNotExistException, WordEmbeddingModelNotExistException
@@ -85,7 +86,7 @@ def main():
             print('No input text provided.')
             return
         scoredict = classifier.score(args.inputtext)
-        for label, score in sorted(scoredict.items(), key=lambda x: x[1], reverse=True)[:args.topn]:
+        for label, score in sorted(scoredict.items(), key=itemgetter(1), reverse=True)[:args.topn]:
             print(f'{label} : {score:.4f}')
     else:
         # Console 
@@ -95,7 +96,7 @@ def main():
             if not shorttext:
                 break
             scoredict = classifier.score(shorttext)
-            for label, score in sorted(scoredict.items(), key=lambda x: x[1], reverse=True)[:args.topn]:
+            for label, score in sorted(scoredict.items(), key=itemgetter(1), reverse=True)[:args.topn]:
                 print(f'{label} : {score:.4f}')
         print('Done.')
 

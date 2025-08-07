@@ -7,7 +7,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.regularizers import l2
 
-import shorttext.utils.kerasmodel_io as kerasio
+import src.shorttext.utils.kerasmodel_io as kerasio
 from ....utils import tokenize
 from ....utils import gensim_corpora as gc
 from ....utils import classification_exceptions as e

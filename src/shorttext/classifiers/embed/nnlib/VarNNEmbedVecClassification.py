@@ -6,8 +6,8 @@ import warnings
 import numpy as np
 import pandas as pd
 
-import shorttext.utils.kerasmodel_io as kerasio
-import shorttext.utils.classification_exceptions as e
+import src.shorttext.utils.kerasmodel_io as kerasio
+import src.shorttext.utils.classification_exceptions as e
 from ....utils import tokenize
 from ....utils.compactmodel_io import CompactIOMachine
 from typing import Union, List, Dict, Any

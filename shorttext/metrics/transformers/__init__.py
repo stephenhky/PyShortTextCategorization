@@ -1,2 +1,0 @@
-
-from .bertscore import BERTScorer

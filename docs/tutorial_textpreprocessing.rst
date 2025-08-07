@@ -19,6 +19,120 @@ following steps:
 
 To do this, load the preprocesser generator:
 
+>>> from src.shorttext import standard_text_preprocessor_1
+
+Then define the preprocessor, a function, by just calling:
+
+>>> preprocessor1 = standard_text_preprocessor_1()
+specify how the text is preprocessed before it is passed to the trainers or the
+classifiers.
+
+This package provides a standard way of text preprocessing, which goes through the
+following steps:
+
+- removing special characters,
+- removing numerals,
+- converting all alphabets to lower cases,
+- removing stop words, and
+- stemming the words (using Snowball Porter stemmer).
+
+To do this, load the preprocesser generator:
+
+>>> from src.shorttext import standard_text_preprocessor_1
+
+Then define the preprocessor, a function, by just calling:
+
+>>> preprocessor1 = standard_text_preprocessor_1()
+specify how the text is preprocessed before it is passed to the trainers or the
+classifiers.
+
+This package provides a standard way of text preprocessing, which goes through the
+following steps:
+
+- removing special characters,
+- removing numerals,
+- converting all alphabets to lower cases,
+- removing stop words, and
+- stemming the words (using Snowball Porter stemmer).
+
+To do this, load the preprocesser generator:
+
+>>> from src.shorttext import standard_text_preprocessor_1
+
+Then define the preprocessor, a function, by just calling:
+
+>>> preprocessor1 = standard_text_preprocessor_1()
+specify how the text is preprocessed before it is passed to the trainers or the
+classifiers.
+
+This package provides a standard way of text preprocessing, which goes through the
+following steps:
+
+- removing special characters,
+- removing numerals,
+- converting all alphabets to lower cases,
+- removing stop words, and
+- stemming the words (using Snowball Porter stemmer).
+
+To do this, load the preprocesser generator:
+
+>>> from src.shorttext import standard_text_preprocessor_1
+
+Then define the preprocessor, a function, by just calling:
+
+>>> preprocessor1 = standard_text_preprocessor_1()
+specify how the text is preprocessed before it is passed to the trainers or the
+classifiers.
+
+This package provides a standard way of text preprocessing, which goes through the
+following steps:
+
+- removing special characters,
+- removing numerals,
+- converting all alphabets to lower cases,
+- removing stop words, and
+- stemming the words (using Snowball Porter stemmer).
+
+To do this, load the preprocesser generator:
+
+>>> from src.shorttext import standard_text_preprocessor_1
+
+Then define the preprocessor, a function, by just calling:
+
+>>> preprocessor1 = standard_text_preprocessor_1()
+specify how the text is preprocessed before it is passed to the trainers or the
+classifiers.
+
+This package provides a standard way of text preprocessing, which goes through the
+following steps:
+
+- removing special characters,
+- removing numerals,
+- converting all alphabets to lower cases,
+- removing stop words, and
+- stemming the words (using Snowball Porter stemmer).
+
+To do this, load the preprocesser generator:
+
+>>> from src.shorttext import standard_text_preprocessor_1
+
+Then define the preprocessor, a function, by just calling:
+
+>>> preprocessor1 = standard_text_preprocessor_1()
+specify how the text is preprocessed before it is passed to the trainers or the
+classifiers.
+
+This package provides a standard way of text preprocessing, which goes through the
+following steps:
+
+- removing special characters,
+- removing numerals,
+- converting all alphabets to lower cases,
+- removing stop words, and
+- stemming the words (using Snowball Porter stemmer).
+
+To do this, load the preprocesser generator:
+
 >>> from shorttext.utils import standard_text_preprocessor_1
 
 Then define the preprocessor, a function, by just calling:
@@ -37,6 +151,90 @@ Customized Text Preprocessor
 ----------------------------
 
 The standard preprocessor is good for many general natural language processing tasks,
+but some users may want to define their own preprocessors for their own purposes.
+This preprocessor is used in topic modeling, and is desired to be *a function that takes
+a string, and returns a string*.
+
+If the user wants to develop a preprocessor that contains a few steps, he can make it by providing
+the pipeline, which is a list of functions that input a string and return a string. For example,
+let's develop a preprocessor that 1) convert it to base form if it is a verb, or keep it original;
+2) convert it to upper case; and 3) tag the number of characters after each token.
+
+Load the function that generates the preprocessor function:
+
+>>> from src.shorttext import text_preprocessor
+
+Initialize a WordNet lemmatizer using
+but some users may want to define their own preprocessors for their own purposes.
+This preprocessor is used in topic modeling, and is desired to be *a function that takes
+a string, and returns a string*.
+
+If the user wants to develop a preprocessor that contains a few steps, he can make it by providing
+the pipeline, which is a list of functions that input a string and return a string. For example,
+let's develop a preprocessor that 1) convert it to base form if it is a verb, or keep it original;
+2) convert it to upper case; and 3) tag the number of characters after each token.
+
+Load the function that generates the preprocessor function:
+
+>>> from src.shorttext import text_preprocessor
+
+Initialize a WordNet lemmatizer using
+but some users may want to define their own preprocessors for their own purposes.
+This preprocessor is used in topic modeling, and is desired to be *a function that takes
+a string, and returns a string*.
+
+If the user wants to develop a preprocessor that contains a few steps, he can make it by providing
+the pipeline, which is a list of functions that input a string and return a string. For example,
+let's develop a preprocessor that 1) convert it to base form if it is a verb, or keep it original;
+2) convert it to upper case; and 3) tag the number of characters after each token.
+
+Load the function that generates the preprocessor function:
+
+>>> from src.shorttext import text_preprocessor
+
+Initialize a WordNet lemmatizer using
+but some users may want to define their own preprocessors for their own purposes.
+This preprocessor is used in topic modeling, and is desired to be *a function that takes
+a string, and returns a string*.
+
+If the user wants to develop a preprocessor that contains a few steps, he can make it by providing
+the pipeline, which is a list of functions that input a string and return a string. For example,
+let's develop a preprocessor that 1) convert it to base form if it is a verb, or keep it original;
+2) convert it to upper case; and 3) tag the number of characters after each token.
+
+Load the function that generates the preprocessor function:
+
+>>> from src.shorttext import text_preprocessor
+
+Initialize a WordNet lemmatizer using
+but some users may want to define their own preprocessors for their own purposes.
+This preprocessor is used in topic modeling, and is desired to be *a function that takes
+a string, and returns a string*.
+
+If the user wants to develop a preprocessor that contains a few steps, he can make it by providing
+the pipeline, which is a list of functions that input a string and return a string. For example,
+let's develop a preprocessor that 1) convert it to base form if it is a verb, or keep it original;
+2) convert it to upper case; and 3) tag the number of characters after each token.
+
+Load the function that generates the preprocessor function:
+
+>>> from src.shorttext import text_preprocessor
+
+Initialize a WordNet lemmatizer using
+but some users may want to define their own preprocessors for their own purposes.
+This preprocessor is used in topic modeling, and is desired to be *a function that takes
+a string, and returns a string*.
+
+If the user wants to develop a preprocessor that contains a few steps, he can make it by providing
+the pipeline, which is a list of functions that input a string and return a string. For example,
+let's develop a preprocessor that 1) convert it to base form if it is a verb, or keep it original;
+2) convert it to upper case; and 3) tag the number of characters after each token.
+
+Load the function that generates the preprocessor function:
+
+>>> from src.shorttext import text_preprocessor
+
+Initialize a WordNet lemmatizer using
 but some users may want to define their own preprocessors for their own purposes.
 This preprocessor is used in topic modeling, and is desired to be *a function that takes
 a string, and returns a string*.
