@@ -11,11 +11,11 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Activation, Dropout, Dense, TimeDistributed
 
 import shorttext.utils.kerasmodel_io as kerasio
-from . import SpellCorrector
+from shorttext.spell import SpellCorrector
 from .binarize import default_alph, default_specialsignals
-from ..utils import classification_exceptions as ce
+from shorttext.utils import classification_exceptions as ce
 from .binarize import SpellingToConcatCharVecEncoder, SCRNNBinarizer
-from ..utils.compactmodel_io import CompactIOMachine
+from shorttext.utils import CompactIOMachine
 
 
 nospace_tokenize = lambda sentence: [t.strip() for t in sentence.split() if len(t.strip())>0]

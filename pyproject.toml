@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "shorttext"
-version = "2.2.1"
+version = "3.0.0"
 authors = [
     {name = "Kwan Yuet Stephen Ho", email = "stephenhky@yahoo.com.hk"}
 ]
@@ -39,8 +39,6 @@ dependencies = [
     "gensim>=4.0.0",
     "pandas>=1.2.0",
     "snowballstemmer>=3.0.0",
-    "transformers>=4.39.0",
-    "torch>=2.0.0",
     "numba>=0.57.0",
     "deprecation>=2.0.0"
 ]
@@ -71,15 +69,15 @@ packages = [
     "shorttext.metrics",
     "shorttext.metrics.dynprog",
     "shorttext.metrics.wasserstein",
-    "shorttext.metrics.transformers",
     "shorttext.metrics.embedfuzzy",
     "shorttext.spell"
 ]
 zip-safe = false
+package-dir = {"" = "src"}
 
 [project.scripts]
 ShortTextCategorizerConsole = "shorttext.cli.categorization:main"
 ShortTextWordEmbedSimilarity = "shorttext.cli.wordembedsim:main"
 
 [project.optional-dependencies]
-test = ["unittest2", "pytest", "simplerepresentations>=0.0.4"]
+test = ["unittest2", "pytest"]

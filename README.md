@@ -30,9 +30,8 @@ Characteristics:
 - neural network classification (including ConvNet, and C-LSTM);
 - maximum entropy classification;
 - metrics of phrases differences, including soft Jaccard score (using Damerau-Levenshtein distance), and Word Mover's distance (WMD);
-- character-level sequence-to-sequence (seq2seq) learning; 
-- spell correction; and
-- Sentence encodings and similarities based on BERT.
+- character-level sequence-to-sequence (seq2seq) learning; and 
+- spell correction.
 
 ## Documentation
 
@@ -65,8 +64,8 @@ to fix any errors.
 
 ## Contributors
 
-If you would like to contribute, feel free to submit the pull requests. You can talk to me in advance through e-mails or the
-[Issues](https://github.com/stephenhky/PyShortTextCategorization/issues) page.
+If you would like to contribute, feel free to submit the pull requests to the `develop` branch. 
+You can talk to me in advance through e-mails or the [Issues](https://github.com/stephenhky/PyShortTextCategorization/issues) page.
 
 ## Useful Links
 
@@ -81,6 +80,7 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 08/10/2025: `shorttext` 3.0.0 released.
 * 06/02/2025: `shorttext` 2.2.1 released. (Acknowledgement:  [Minseo Kim](https://kmingseo.github.io/))
 * 05/29/2025: `shorttext` 2.2.0 released. (Acknowledgement:  [Minseo Kim](https://kmingseo.github.io/))
 * 05/08/2025: `shorttext` 2.1.1 released.

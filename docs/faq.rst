@@ -26,10 +26,25 @@ mentioned, cite those papers. For example, if you use `CNNWordEmbed` in `framewo
 according to the docstring, cite Yoon Kim's paper. Refer to this documentation for the reference too.
 
 
-
 **Q5. I am having trouble in install `shorttext` on Google Cloud Platform. What should I do?**
 
 Ans: There is no "Python.h". Run: `sudo apt-get install python3-dev` in SSH shell of the VM instance.
+
+
+
+**Q6. Where is the Sakiguchi spell corrector? **
+
+Ans: It was removed since release 3.0.0, but you can refer to the `examples\` folder in the
+Github repository for the codes.
+
+
+
+**Q7. Where are `WrappedBERTEncoder` and `BERTScorer`?**
+
+Ans: It was removed since release 3.0.0, but you can install another package `shorttext-bert`
+to get the same functionality.
+
+
 
 **Q8. My model files were created by `shorttext` version < 2.0.0. How do I make them readable for version >= 2.0.0?
 
