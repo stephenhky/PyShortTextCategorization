@@ -64,8 +64,8 @@ to fix any errors.
 
 ## Contributors
 
-If you would like to contribute, feel free to submit the pull requests. You can talk to me in 
-advance through e-mails or the [Issues](https://github.com/stephenhky/PyShortTextCategorization/issues) page.
+If you would like to contribute, feel free to submit the pull requests to the `develop` branch. 
+You can talk to me in advance through e-mails or the [Issues](https://github.com/stephenhky/PyShortTextCategorization/issues) page.
 
 ## Useful Links
 

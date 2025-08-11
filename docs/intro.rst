@@ -27,6 +27,13 @@ Characteristics:
 Author: Kwan Yuet Stephen Ho (LinkedIn_, ResearchGate_)
 Other contributors: `Chinmaya Pancholi <https://www.linkedin.com/in/cpancholi>`_, `Minseo Kim <https://kmingseo.github.io/>`_
 
+Contribution
+------------
+
+If you would like to contribute, feel free to submit the pull requests to the `develop` branch.
+You can talk to me in advance through e-mails or the `Issues
+<https://github.com/stephenhky/PyShortTextCategorization/issues>`_ page.
+
 Home: :doc:`index`
 
 .. _LinkedIn: https://www.linkedin.com/in/kwan-yuet-ho-19882530
