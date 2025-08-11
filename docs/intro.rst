@@ -23,13 +23,11 @@ Characteristics:
 - metrics of phrases differences, including soft Jaccard score (using Damerau-Levenshtein distance), and Word Mover's distance (WMD); (see :doc:`tutorial_metrics`)
 - character-level sequence-to-sequence (seq2seq) learning; (see :doc:`tutorial_charbaseseq2seq`)
 - spell correction; (see :doc:`tutorial_spell`)
-- Sentence encodings and similarities based on BERT (see :doc:`tutorial_wordembed` and :doc:`tutorial_metrics`).
 
-Author: Kwan Yuet Stephen Ho (LinkedIn_, ResearchGate_, Twitter_)
+Author: Kwan Yuet Stephen Ho (LinkedIn_, ResearchGate_)
 Other contributors: `Chinmaya Pancholi <https://www.linkedin.com/in/cpancholi>`_, `Minseo Kim <https://kmingseo.github.io/>`_
 
 Home: :doc:`index`
 
 .. _LinkedIn: https://www.linkedin.com/in/kwan-yuet-ho-19882530
 .. _ResearchGate: https://www.researchgate.net/profile/Kwan-yuet_Ho
-.. _Twitter: https://twitter.com/stephenhky
