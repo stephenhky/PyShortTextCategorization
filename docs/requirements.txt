@@ -2,7 +2,7 @@ numpy==2.3.2
 scipy==1.16.1
 joblib==1.5.1
 scikit-learn==1.7.1
-tensorflow==2.19.0
+tensorflow==2.20.0
 keras==3.11.2
 gensim==4.3.3
 pandas==2.3.1
