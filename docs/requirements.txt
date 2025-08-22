@@ -10,3 +10,4 @@ snowballstemmer==3.0.1
 transformers==4.55.2
 torch==2.8.0
 numba==0.61.2
+npdict==0.0.4

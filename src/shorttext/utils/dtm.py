@@ -1,10 +1,11 @@
 
+import pickle
+
 import numpy as np
 from gensim.corpora import Dictionary
 from gensim.models import TfidfModel
 from scipy.sparse import dok_matrix
-
-import pickle
+from deprecation import deprecated
 
 from .compactmodel_io import CompactIOMachine
 from .classification_exceptions import NotImplementedException
@@ -12,6 +13,8 @@ from .classification_exceptions import NotImplementedException
 
 dtm_suffices = ['_docids.pkl', '_dictionary.dict', '_dtm.pkl']
 
+
+@deprecated
 class DocumentTermMatrix(CompactIOMachine):
     """ Document-term matrix for corpus.
 
@@ -183,6 +186,7 @@ class DocumentTermMatrix(CompactIOMachine):
         self.dtm = pickle.load(open(prefix+'_dtm.pkl', 'rb'))
 
 
+@deprecated
 def load_DocumentTermMatrix(filename, compact=True):
     """ Load presaved Document-Term Matrix (DTM).
 
