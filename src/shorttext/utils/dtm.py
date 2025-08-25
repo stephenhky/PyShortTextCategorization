@@ -14,7 +14,8 @@ from .classification_exceptions import NotImplementedException
 dtm_suffices = ['_docids.pkl', '_dictionary.dict', '_dtm.pkl']
 
 
-@deprecated
+@deprecated(deprecated_in="3.0.1", removed_in="4.0.0",
+            details="Use `npdict` instead")
 class DocumentTermMatrix(CompactIOMachine):
     """ Document-term matrix for corpus.
 
@@ -186,7 +187,8 @@ class DocumentTermMatrix(CompactIOMachine):
         self.dtm = pickle.load(open(prefix+'_dtm.pkl', 'rb'))
 
 
-@deprecated
+@deprecated(deprecated_in="3.0.1", removed_in="4.0.0",
+            details="Use `npdict` instead")
 def load_DocumentTermMatrix(filename, compact=True):
     """ Load presaved Document-Term Matrix (DTM).
 
