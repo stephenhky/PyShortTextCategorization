@@ -1,6 +1,7 @@
 
 import pickle
 from typing import Optional, Any
+from types import FunctionType
 
 import numpy as np
 import npdict
@@ -8,42 +9,80 @@ from gensim.corpora import Dictionary
 from gensim.models import TfidfModel
 from scipy.sparse import dok_matrix
 from deprecation import deprecated
+from nptyping import NDArray, Shape, Int
 
 from .compactmodel_io import CompactIOMachine
 from .classification_exceptions import NotImplementedException
+from .textpreprocessing import advanced_text_tokenizer_1
 
 
 dtm_suffices = ['_docids.pkl', '_dictionary.dict', '_dtm.pkl']
 npdtm_suffices = []
 
 
+def generate_npdict_document_term_matrix(
+        corpus: list[str],
+        doc_ids: list[Any],
+        tokenize_func: FunctionType
+) -> npdict.NumpyNDArrayWrappedDict:
+    # grabbing tokens from each document in the corpus
+    doc_tokens = [tokenize_func(document) for document in corpus]
+    tokens_set = set([
+        token
+        for document in doc_tokens
+        for token in document
+    ])
+    npdtm = npdict.SparseArrayWrappedDict(
+        [doc_ids, sorted(list(tokens_set))],
+        default_initial_value=0.0
+    )
+    for doc_id, document in zip(doc_ids, doc_tokens):
+        for token in document:
+            npdtm[doc_id, token] += 1
+    return npdtm
+
+
+def compute_document_frequency(
+        npdtm: npdict.NumpyNDArrayWrappedDict
+) -> NDArray[Shape["*"], Int]:
+    if isinstance(npdtm, npdict.SparseArrayWrappedDict):
+        return np.sum(npdtm.to_coo() > 0, axis=0).todense()
+    else:
+        return np.sum(npdtm.to_numpy() > 0, axis=0)
+
+
+def compute_tfidf_document_term_matrix(
+        npdtm: npdict.NumpyNDArrayWrappedDict,
+        sparse: bool=True
+) -> npdict.NumpyNDArrayWrappedDict:
+    doc_frequencies = compute_document_frequency(npdtm)
+    nbdocs = npdtm.dimension_sizes[0]
+    if isinstance(npdtm, npdict.SparseArrayWrappedDict):
+        new_dtm_sparray = npdtm.to_coo() * np.log(nbdocs / doc_frequencies)
+        return npdict.SparseArrayWrappedDict.generate_dict(new_dtm_sparray, dense=not sparse)
+    else:
+        new_dtm_nparray = npdtm.to_numpy() * np.log(nbdocs / doc_frequencies)
+        if sparse:
+            # TODO: update npdict package
+            pass
+        else:
+            return npdict.NumpyNDArrayWrappedDict.generate_dict(new_dtm_nparray)
+
+
 class NumpyDocumentTermMatrix(CompactIOMachine):
     def __init__(
             self,
-            corpus: list[str],
+            corpus: Optional[list[str]]=None,
             docids: Optional[list[Any]]=None,
-            tfidf: bool=False
+            tfidf: bool=False,
+            tokenize_func: Optional[FunctionType]=None
     ):
         CompactIOMachine.__init__(self, {'classifier': 'npdtm'}, 'dtm', dtm_suffices)
-
-        if docids is None:
-            self.docid_dict = {i: i for i in range(len(corpus))}
-            self.docids = range(len(corpus))
-        else:
-            if len(docids) == len(corpus):
-                self.docid_dict = {docid: i for i, docid in enumerate(docids)}
-                self.docids = docids
-            elif len(docids) > len(corpus):
-                self.docid_dict = {docid: i for i, docid in zip(range(len(corpus)), docids[:len(corpus)])}
-                self.docids = docids[:len(corpus)]
-            else:
-                self.docid_dict = {docid: i for i, docid in enumerate(docids)}
-                self.docid_dict = {i: i for i in range(len(docids), range(corpus))}
-                self.docids = docids + range(len(docids), range(corpus))
+        self.tokenize_func = tokenize_func if tokenize_func is not None else advanced_text_tokenizer_1
 
         # generate DTM
-        self._npdict = npdict.SparseArrayWrappedDict
-        self.generate_dtm(corpus, tfidf=tfidf)
+        if corpus is not None:
+            self.generate_dtm(corpus, docids=docids, tfidf=tfidf)
 
     def generate_dtm(
             self,
@@ -51,25 +90,21 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
             docids: Optional[list[Any]]=None,
             tfidf: bool=False
     ):
+        # wrangling document IDs
         if docids is None:
-            self.docids = [i for i in range(len(corpus))]
+            doc_ids = [f"doc{i}" for i in range(len(corpus))]
         else:
             if len(docids) == len(corpus):
-                self.docids = docids
+                doc_ids = docids
             elif len(docids) > len(corpus):
-                self.docids = docids[:len(corpus)]
+                doc_ids = docids[:len(corpus)]
             else:
-                self.docids = docids + [i for i in range(len(docids), len(corpus))]
+                doc_ids = docids + [f"doc{i}" for i in range(len(docids), len(corpus))]
 
-        self.dictionary = Dictionary(corpus)
-        self.dtm = dok_matrix((len(corpus), len(self.dictionary)), dtype=np.float_)
-        bow_corpus = [self.dictionary.doc2bow(doctokens) for doctokens in corpus]
+        self.npdtm = generate_npdict_document_term_matrix(corpus, doc_ids, self.tokenize_func)
+
         if tfidf:
-            weighted_model = TfidfModel(bow_corpus)
-            bow_corpus = weighted_model[bow_corpus]
-        for docid in self.docids:
-            for tokenid, count in bow_corpus[self.docid_dict[docid]]:
-                self.dtm[self.docid_dict[docid], tokenid] = count
+            self.npdtm = compute_tfidf_document_term_matrix(self.npdtm, sparse=True)
 
 
 @deprecated(deprecated_in="3.0.1", removed_in="4.0.0",
@@ -113,7 +148,7 @@ class DocumentTermMatrix(CompactIOMachine):
             else:
                 self.docid_dict = {docid: i for i, docid in enumerate(docids)}
                 self.docid_dict = {i: i for i in range(len(docids), len(corpus))}
-                self.docids = docids + [for i in range(len(docids), len(corpus))]
+                self.docids = docids + [i for i in range(len(docids), len(corpus))]
         # generate DTM
         self.generate_dtm(corpus, tfidf=tfidf)
 

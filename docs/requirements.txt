@@ -11,3 +11,4 @@ transformers==4.55.4
 torch==2.8.0
 numba==0.61.2
 npdict==0.0.4
+nptyping==2.5.0
