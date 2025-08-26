@@ -1,7 +1,9 @@
 
 import pickle
+from typing import Optional, Any
 
 import numpy as np
+import npdict
 from gensim.corpora import Dictionary
 from gensim.models import TfidfModel
 from scipy.sparse import dok_matrix
@@ -12,6 +14,62 @@ from .classification_exceptions import NotImplementedException
 
 
 dtm_suffices = ['_docids.pkl', '_dictionary.dict', '_dtm.pkl']
+npdtm_suffices = []
+
+
+class NumpyDocumentTermMatrix(CompactIOMachine):
+    def __init__(
+            self,
+            corpus: list[str],
+            docids: Optional[list[Any]]=None,
+            tfidf: bool=False
+    ):
+        CompactIOMachine.__init__(self, {'classifier': 'npdtm'}, 'dtm', dtm_suffices)
+
+        if docids is None:
+            self.docid_dict = {i: i for i in range(len(corpus))}
+            self.docids = range(len(corpus))
+        else:
+            if len(docids) == len(corpus):
+                self.docid_dict = {docid: i for i, docid in enumerate(docids)}
+                self.docids = docids
+            elif len(docids) > len(corpus):
+                self.docid_dict = {docid: i for i, docid in zip(range(len(corpus)), docids[:len(corpus)])}
+                self.docids = docids[:len(corpus)]
+            else:
+                self.docid_dict = {docid: i for i, docid in enumerate(docids)}
+                self.docid_dict = {i: i for i in range(len(docids), range(corpus))}
+                self.docids = docids + range(len(docids), range(corpus))
+
+        # generate DTM
+        self._npdict = npdict.SparseArrayWrappedDict
+        self.generate_dtm(corpus, tfidf=tfidf)
+
+    def generate_dtm(
+            self,
+            corpus: list[str],
+            docids: Optional[list[Any]]=None,
+            tfidf: bool=False
+    ):
+        if docids is None:
+            self.docids = [i for i in range(len(corpus))]
+        else:
+            if len(docids) == len(corpus):
+                self.docids = docids
+            elif len(docids) > len(corpus):
+                self.docids = docids[:len(corpus)]
+            else:
+                self.docids = docids + [i for i in range(len(docids), len(corpus))]
+
+        self.dictionary = Dictionary(corpus)
+        self.dtm = dok_matrix((len(corpus), len(self.dictionary)), dtype=np.float_)
+        bow_corpus = [self.dictionary.doc2bow(doctokens) for doctokens in corpus]
+        if tfidf:
+            weighted_model = TfidfModel(bow_corpus)
+            bow_corpus = weighted_model[bow_corpus]
+        for docid in self.docids:
+            for tokenid, count in bow_corpus[self.docid_dict[docid]]:
+                self.dtm[self.docid_dict[docid], tokenid] = count
 
 
 @deprecated(deprecated_in="3.0.1", removed_in="4.0.0",
@@ -42,9 +100,9 @@ class DocumentTermMatrix(CompactIOMachine):
         :type tfidf: bool
         """
         CompactIOMachine.__init__(self, {'classifier': 'dtm'}, 'dtm', dtm_suffices)
-        if docids == None:
+        if docids is None:
             self.docid_dict = {i: i for i in range(len(corpus))}
-            self.docids = range(len(corpus))
+            self.docids = [i for i in range(len(corpus))]
         else:
             if len(docids) == len(corpus):
                 self.docid_dict = {docid: i for i, docid in enumerate(docids)}
@@ -54,8 +112,8 @@ class DocumentTermMatrix(CompactIOMachine):
                 self.docids = docids[:len(corpus)]
             else:
                 self.docid_dict = {docid: i for i, docid in enumerate(docids)}
-                self.docid_dict = {i: i for i in range(len(docids), range(corpus))}
-                self.docids = docids + range(len(docids), range(corpus))
+                self.docid_dict = {i: i for i in range(len(docids), len(corpus))}
+                self.docids = docids + [for i in range(len(docids), len(corpus))]
         # generate DTM
         self.generate_dtm(corpus, tfidf=tfidf)
 
