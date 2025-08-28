@@ -7,6 +7,7 @@ import numpy as np
 import npdict
 from gensim.corpora import Dictionary
 from gensim.models import TfidfModel
+from npdict import SparseArrayWrappedDict
 from scipy.sparse import dok_matrix
 from deprecation import deprecated
 from nptyping import NDArray, Shape, Int
@@ -109,9 +110,41 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
         if tfidf:
             self.npdtm = compute_tfidf_document_term_matrix(self.npdtm, sparse=True)
 
+    def get_termfreq(self, docid: str, token: str) -> float:
+        return self.npdtm[docid, token]
+
+    def get_total_termfreq(self, token: str) -> float:
+        token_index = self.npdtm._keystrings_to_indices[1][token]
+        if isinstance(self.npdtm, SparseArrayWrappedDict):
+            matrix = self.npdtm.to_coo()
+        else:
+            matrix = self.npdtm.to_numpy()
+        return np.sum(matrix[:, token_index])
+
+    def get_doc_frequency(self, token) -> int:
+        token_index = self.npdtm._keystrings_to_indices[1][token]
+        if isinstance(self.npdtm, npdict.SparseArrayWrappedDict):
+            freq_array = self.npdtm.to_coo()[:, token_index]
+            return np.sum(freq_array > 0, axis=0).todense()
+        else:
+            freq_array = self.npdtm.to_numpy()[:, token_index]
+            return np.sum(freq_array > 0, axis=0)
+
+    def get_token_occurences(self, token: str) -> dict[str, float]:
+        return {
+            docid: self.npdtm[docid, token]
+            for docid in self.npdtm._lists_keystrings[0]
+        }
+
+    def get_doc_tokens(self, docid: str) -> dict[str, float]:
+        return {
+            token: self.npdtm[docid, token]
+            for token in self.npdtm._lists_keystrings[1]
+        }
+
 
 @deprecated(deprecated_in="3.0.1", removed_in="4.0.0",
-            details="Use `npdict` instead")
+            details="Use `NumpyDocumentTermMatrix` instead")
 class DocumentTermMatrix(CompactIOMachine):
     """ Document-term matrix for corpus.
 
