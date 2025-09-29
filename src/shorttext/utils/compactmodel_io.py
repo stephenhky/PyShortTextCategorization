@@ -169,7 +169,8 @@ class CompactIOMachine:
 
 
 # decorator that adds compact model methods to classifier dynamically (deprecated)
-@deprecated
+@deprecated(deprecated_in="3.0.1", removed_in="4.0.0",
+            details="Use `CompactIOMachine` instead")
 def CompactIOClassifier(Classifier, infodict, prefix, suffices):
     """ Returns a decorated class object with additional methods for compact model I/O.
 
@@ -208,7 +209,8 @@ def CompactIOClassifier(Classifier, infodict, prefix, suffices):
 
 
 # decorator for use (deprecated)
-@deprecated
+@deprecated(deprecated_in="3.0.1", removed_in="4.0.0",
+            details="Use `CompactIOMachine` instead")
 def compactio(infodict, prefix, suffices):
     """ Returns a decorator that performs the decoration by :func:`CompactIOClassifier`.
 
