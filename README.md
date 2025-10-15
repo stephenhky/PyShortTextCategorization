@@ -30,9 +30,8 @@ Characteristics:
 - neural network classification (including ConvNet, and C-LSTM);
 - maximum entropy classification;
 - metrics of phrases differences, including soft Jaccard score (using Damerau-Levenshtein distance), and Word Mover's distance (WMD);
-- character-level sequence-to-sequence (seq2seq) learning; 
-- spell correction; and
-- Sentence encodings and similarities based on BERT.
+- character-level sequence-to-sequence (seq2seq) learning; and 
+- spell correction.
 
 ## Documentation
 
@@ -54,8 +53,6 @@ or, if you want the most recent development version on Github, type
 >>> pip install git+https://github.com/stephenhky/PyShortTextCategorization@master
 ```
 
-Developers are advised to make sure `Keras` >=2 be installed. Users are advised to install the backend `Tensorflow` (preferred) or `Theano` in advance. It is desirable if `Cython` has been previously installed too.
-
 See [installation guide](https://shorttext.readthedocs.io/en/latest/install.html) for more details.
 
 
@@ -67,8 +64,8 @@ to fix any errors.
 
 ## Contributors
 
-If you would like to contribute, feel free to submit the pull requests. You can talk to me in advance through e-mails or the
-[Issues](https://github.com/stephenhky/PyShortTextCategorization/issues) page.
+If you would like to contribute, feel free to submit the pull requests to the `develop` branch. 
+You can talk to me in advance through e-mails or the [Issues](https://github.com/stephenhky/PyShortTextCategorization/issues) page.
 
 ## Useful Links
 
@@ -83,6 +80,9 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 
 ## News
 
+* 08/10/2025: `shorttext` 3.0.0 released.
+* 06/02/2025: `shorttext` 2.2.1 released. (Acknowledgement:  [Minseo Kim](https://kmingseo.github.io/))
+* 05/29/2025: `shorttext` 2.2.0 released. (Acknowledgement:  [Minseo Kim](https://kmingseo.github.io/))
 * 05/08/2025: `shorttext` 2.1.1 released.
 * 12/14/2024: `shorttext` 2.1.0 released.
 * 07/12/2024: `shorttext` 2.0.0 released.
@@ -160,3 +160,8 @@ If you would like to contribute, feel free to submit the pull requests. You can 
 * 12/21/2016: `shorttext` 0.2.0 released.
 * 11/25/2016: `shorttext` 0.1.2 released.
 * 11/21/2016: `shorttext` 0.1.1 released.
+
+# Acknowledgements
+
+* [Chinmaya Pancholi](https://www.linkedin.com/in/cpancholi/)
+* [Minseo Kim](https://kmingseo.github.io/)

@@ -1,6 +1,9 @@
 News
 ====
 
+* 08/10/2025: `shorttext` 3.0.0 released.
+* 06/02/2025: `shorttext` 2.2.1 released.
+* 05/29/2025: `shorttext` 2.2.0 released.
 * 05/08/2025: `shorttext` 2.1.1 released.
 * 12/14/2024: `shorttext` 2.1.0 released.
 * 07/12/2024: `shorttext` 2.0.0 released.
@@ -82,6 +85,28 @@ News
 
 What's New
 ----------
+
+Release 3.0.0 (August 10, 2025)
+-------------------------------
+
+* Introduction of Github workflow, publishing package directly to PyPI from Github;
+* Removal of Sakiguchi spell corrector; (refer to the `examples\` folder in the repository)
+* Removal of `WrappedBERTEncoder` and `BERTScorer`; (they can be installed from the package `shorttext-bert
+<https://pypi.org/project/shorttext-bert/>`_)
+* Update of documentation.
+
+
+Release 2.2.1 (June 2, 2025)
+----------------------------
+
+* Code cleanup for token categorization. (Acknowledgements: Minseo Kim)
+
+
+Release 2.2.0 (May 29, 2025)
+----------------------------
+
+* Update `keras` to `tensorflow.keras`. (Acknowledgements: Minseo Kim)
+
 
 Release 2.1.1 (May 8, 2025)
 ---------------------------
