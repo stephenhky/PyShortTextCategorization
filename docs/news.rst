@@ -1,6 +1,7 @@
 News
 ====
 
+* 10/27/2025: `shorttext` 3.0.1 released.
 * 08/10/2025: `shorttext` 3.0.0 released.
 * 06/02/2025: `shorttext` 2.2.1 released.
 * 05/29/2025: `shorttext` 2.2.0 released.
@@ -85,6 +86,11 @@ News
 
 What's New
 ----------
+
+Release 3.0.1 (October 25, 2025)
+--------------------------------
+
+* Small bugs fixed.
 
 Release 3.0.0 (August 10, 2025)
 -------------------------------
