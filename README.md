@@ -80,6 +80,7 @@ You can talk to me in advance through e-mails or the [Issues](https://github.com
 
 ## News
 
+* 10/27/2025: `shorttext` 3.0.1 released.
 * 08/10/2025: `shorttext` 3.0.0 released.
 * 06/02/2025: `shorttext` 2.2.1 released. (Acknowledgement:  [Minseo Kim](https://kmingseo.github.io/))
 * 05/29/2025: `shorttext` 2.2.0 released. (Acknowledgement:  [Minseo Kim](https://kmingseo.github.io/))
