@@ -2,8 +2,12 @@
 import re
 import os
 import codecs
+from io import TextIOWrapper
+from types import FunctionType
+from functools import partial
 
 import snowballstemmer
+
 
 # tokenizer
 def tokenize(s: str) -> list[str]:
@@ -25,7 +29,7 @@ def stemword(s: str) -> str:
     return StemmerSingleton()(s)
 
 
-def preprocess_text(text, pipeline):
+def preprocess_text(text: str, pipeline: list[FunctionType]) -> str:
     """ Preprocess the text according to the given pipeline.
 
     Given the pipeline, which is a list of functions that process an
@@ -42,7 +46,32 @@ def preprocess_text(text, pipeline):
     return text if len(pipeline)==0 else preprocess_text(pipeline[0](text), pipeline[1:])
 
 
-def text_preprocessor(pipeline):
+def tokenize_text(
+        text: str,
+        presplit_pipeline: list[FunctionType],
+        primitize_tokenizer: FunctionType,
+        prosplit_pipeline: list[FunctionType],
+        stopwordsfile: TextIOWrapper
+) -> list[str]:
+    # load stop words file
+    stopwordset = set([stopword.strip() for stopword in stopwordsfile])
+
+    # done
+    presplit_text = text
+    for func in presplit_pipeline:
+        presplit_text = func(presplit_text)
+    postsplit_tokens = primitize_tokenizer(presplit_text)
+    for func in prosplit_pipeline:
+        for i, token in enumerate(postsplit_tokens):
+            postsplit_tokens[i] = func(token)
+    postsplit_tokens = [
+        token for token in postsplit_tokens
+        if token not in stopwordset
+    ]
+    return postsplit_tokens
+
+
+def text_preprocessor(pipeline: list[FunctionType]) -> FunctionType:
     """ Return the function that preprocesses text according to the pipeline.
 
     Given the pipeline, which is a list of functions that process an
@@ -55,10 +84,10 @@ def text_preprocessor(pipeline):
     :type pipeline: list
     :rtype: function
     """
-    return lambda text: preprocess_text(text, pipeline)
+    return partial(preprocess_text, pipeline=pipeline)
 
 
-def oldschool_standard_text_preprocessor(stopwordsfile):
+def oldschool_standard_text_preprocessor(stopwordsfile: TextIOWrapper) -> FunctionType:
     """ Return a commonly used text preprocessor.
 
     Return a text preprocessor that is commonly used, with the following steps:
@@ -90,7 +119,7 @@ def oldschool_standard_text_preprocessor(stopwordsfile):
     return text_preprocessor(pipeline)
 
 
-def standard_text_preprocessor_1():
+def standard_text_preprocessor_1() -> FunctionType:
     """ Return a commonly used text preprocessor.
 
     Return a text preprocessor that is commonly used, with the following steps:
@@ -113,7 +142,7 @@ def standard_text_preprocessor_1():
     return oldschool_standard_text_preprocessor(stopwordsfile)
 
 
-def standard_text_preprocessor_2():
+def standard_text_preprocessor_2() -> FunctionType:
     """ Return a commonly used text preprocessor.
 
     Return a text preprocessor that is commonly used, with the following steps:
@@ -134,3 +163,23 @@ def standard_text_preprocessor_2():
     stopwordsfile = codecs.open(os.path.join(this_dir, 'nonneg_stopwords.txt'), 'r', 'utf-8')
 
     return oldschool_standard_text_preprocessor(stopwordsfile)
+
+
+def advanced_text_tokenizer_1() -> FunctionType:
+    presplit_pipeline = [
+        lambda s: re.sub('[^\w\s]', '', s),
+        lambda s: re.sub('[\d]', '', s),
+        lambda s: s.lower()
+    ]
+    tokenizer = tokenize
+    postsplit_pipeline = [
+        lambda s: ' '.join([stemword(stemmed_token) for stemmed_token in tokenize(s)])
+    ]
+    this_dir, _ = os.path.split(__file__)
+    return partial(
+        tokenize_text,
+        presplit_pipeline=presplit_pipeline,
+        tokenizer=tokenizer,
+        postsplit_pipeline=postsplit_pipeline,
+        stopwordsfile=codecs.open(os.path.join(this_dir, 'nonneg_stopwords.txt'), 'r', 'utf-8')
+    )
