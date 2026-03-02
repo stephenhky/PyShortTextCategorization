@@ -18,7 +18,7 @@ representation of the texts and documents are needed before they are put into
 any classification algorithm. In this package, it facilitates various types
 of these representations, including topic modeling and word-embedding algorithms.
 
-The package `shorttext` runs on Python 3.9, 3.10, 3.11, and 3.12.
+The package `shorttext` runs on Python 3.9, 3.10, 3.11, 3.12, and 3.13.
 Characteristics:
 
 - example data provided (including subject keywords and NIH RePORT);
@@ -80,6 +80,7 @@ You can talk to me in advance through e-mails or the [Issues](https://github.com
 
 ## News
 
+* 03/02/2026: `shorttext` 3.1.0 reelased.
 * 10/27/2025: `shorttext` 3.0.1 released.
 * 08/10/2025: `shorttext` 3.0.0 released.
 * 06/02/2025: `shorttext` 2.2.1 released. (Acknowledgement:  [Minseo Kim](https://kmingseo.github.io/))
