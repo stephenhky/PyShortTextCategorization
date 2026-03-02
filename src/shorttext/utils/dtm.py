@@ -4,13 +4,13 @@ from typing import Optional, Any
 from types import FunctionType
 
 import numpy as np
+import numpy.typing as npt
 import npdict
 from gensim.corpora import Dictionary
 from gensim.models import TfidfModel
 from npdict import SparseArrayWrappedDict
 from scipy.sparse import dok_matrix
 from deprecation import deprecated
-from nptyping import NDArray, Shape, Int
 
 from .compactmodel_io import CompactIOMachine
 from .classification_exceptions import NotImplementedException
@@ -45,7 +45,7 @@ def generate_npdict_document_term_matrix(
 
 def compute_document_frequency(
         npdtm: npdict.NumpyNDArrayWrappedDict
-) -> NDArray[Shape["*"], Int]:
+) -> npt.NDArray[np.int32]:
     if isinstance(npdtm, npdict.SparseArrayWrappedDict):
         return np.sum(npdtm.to_coo() > 0, axis=0).todense()
     else:
