@@ -1,6 +1,7 @@
 News
 ====
 
+* 03/02/2026: `shorttext` 3.1.0 reelased.
 * 10/27/2025: `shorttext` 3.0.1 released.
 * 08/10/2025: `shorttext` 3.0.0 released.
 * 06/02/2025: `shorttext` 2.2.1 released.
@@ -86,6 +87,12 @@ News
 
 What's New
 ----------
+
+Release 3.1.0 (March, 2, 2026)
+------------------------------
+
+* Support for Python 3.13;
+* Removal of dependence on `nptyping`.
 
 Release 3.0.1 (October 25, 2025)
 --------------------------------

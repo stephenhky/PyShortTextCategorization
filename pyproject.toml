@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "shorttext"
-version = "3.0.2a1"
+version = "3.1.0"
 authors = [
     {name = "Kwan Yuet Stephen Ho", email = "stephenhky@yahoo.com.hk"}
 ]
@@ -22,6 +22,7 @@ classifiers = [
       "Programming Language :: Python :: 3.10",
       "Programming Language :: Python :: 3.11",
       "Programming Language :: Python :: 3.12",
+      "Programming Language :: Python :: 3.13",
       "Natural Language :: English",
       "License :: OSI Approved :: MIT License",
       "Intended Audience :: Developers",
@@ -41,8 +42,7 @@ dependencies = [
     "snowballstemmer>=3.0.0",
     "numba>=0.57.0",
     "deprecation>=2.0.0",
-    "npdict>=0.0.5",
-    "nptyping>=2.0.0"
+    "npdict>=0.0.5"
 ]
 
 [project.urls]
