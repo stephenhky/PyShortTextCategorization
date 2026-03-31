@@ -7,7 +7,6 @@ import gensim
 from .utils import standard_text_preprocessor_1
 from .utils import compactmodel_io as cio
 from .utils import classification_exceptions as e
-from .utils import load_DocumentTermMatrix
 from .classifiers import  load_varnnlibvec_classifier, load_sumword2vec_classifier
 from .generators import load_autoencoder_topicmodel, load_gensimtopicmodel
 from .generators import loadSeq2SeqWithKeras, loadCharBasedSeq2SeqGenerator
