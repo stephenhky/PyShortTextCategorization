@@ -1,12 +1,16 @@
 
 from collections import defaultdict
+from typing import Optional
 
 import gensim
 
 from .textpreprocessing import tokenize
 
 
-def generate_gensim_corpora(classdict, preprocess_and_tokenize=tokenize):
+def generate_gensim_corpora(
+        classdict: dict[str, list[str]],
+        preprocess_and_tokenize: Optional[callable] = None
+) -> tuple[gensim.corpora.Dictionary, list[list[tuple[int, int]]], list[str]]:
     """ Generate gensim bag-of-words dictionary and corpus.
 
     Given a text data, a dict with keys being the class labels, and the values
@@ -20,6 +24,9 @@ def generate_gensim_corpora(classdict, preprocess_and_tokenize=tokenize):
     :type proprocess_and_tokenize: function
     :rtype: (gensim.corpora.Dictionary, list, list)
     """
+    if preprocess_and_tokenize is None:
+        preprocess_and_tokenize = tokenize
+
     classlabels = sorted(classdict.keys())
     doc = [preprocess_and_tokenize(' '.join(classdict[classlabel])) for classlabel in classlabels]
     dictionary = gensim.corpora.Dictionary(doc)
@@ -27,7 +34,11 @@ def generate_gensim_corpora(classdict, preprocess_and_tokenize=tokenize):
     return dictionary, corpus, classlabels
 
 
-def save_corpus(dictionary, corpus, prefix):
+def save_corpus(
+        dictionary: gensim.corpora.Dictionary,
+        corpus: list[list[tuple[int, int]]],
+        prefix: str
+) -> None:
     """ Save gensim corpus and dictionary.
 
     :param dictionary: dictionary to save
@@ -42,7 +53,7 @@ def save_corpus(dictionary, corpus, prefix):
     gensim.corpora.MmCorpus.serialize(prefix+'_corpus.mm', corpus)
 
 
-def load_corpus(prefix):
+def load_corpus(prefix: str) -> tuple[gensim.corpora.MmCorpus, gensim.corpora.Dictionary]:
     """ Load gensim corpus and dictionary.
 
     :param prefix: prefix of the file to load
@@ -55,7 +66,12 @@ def load_corpus(prefix):
     return corpus, dictionary
 
 
-def update_corpus_labels(dictionary, corpus, newclassdict, preprocess_and_tokenize=tokenize):
+def update_corpus_labels(
+        dictionary: gensim.corpora.Dictionary,
+        corpus: list[list[tuple[int, int]]],
+        newclassdict: dict[str, list[str]],
+        preprocess_and_tokenize: Optional[callable] = None
+) -> tuple[list[list[tuple[int, int]]], list[list[tuple[int, int]]]]:
     """ Update corpus with additional training data.
     
     With the additional training data, the dictionary and corpus are updated.
@@ -71,6 +87,8 @@ def update_corpus_labels(dictionary, corpus, newclassdict, preprocess_and_tokeni
     :type preprocess_and_tokenize: function
     :rtype: tuple
     """
+    if preprocess_and_tokenize is None:
+        preprocess_and_tokenize = tokenize
 
     newdoc = [preprocess_and_tokenize(' '.join(newclassdict[classlabel])) for classlabel in sorted(newclassdict.keys())]
     newcorpus = [dictionary.doc2bow(doctokens) for doctokens in newdoc]
@@ -79,7 +97,7 @@ def update_corpus_labels(dictionary, corpus, newclassdict, preprocess_and_tokeni
     return corpus, newcorpus
 
 
-def tokens_to_fracdict(tokens):
+def tokens_to_fracdict(tokens: list[str]) -> dict[str, float]:
     """ Return normalized bag-of-words (BOW) vectors.
 
     :param tokens: list of tokens.
@@ -91,4 +109,4 @@ def tokens_to_fracdict(tokens):
     for token in tokens:
         cntdict[token] += 1
     totalcnt = sum(cntdict.values())
-    return {token: float(cnt)/totalcnt for token, cnt in cntdict.items()}
+    return {token: cnt / totalcnt for token, cnt in cntdict.items()}
