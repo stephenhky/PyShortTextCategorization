@@ -6,6 +6,7 @@ The methods and decorators in this module are called by other codes. It is not r
 to call them directly.
 """
 
+from abc import ABC, abstractmethod
 from tempfile import mkdtemp
 import zipfile
 import json
@@ -95,7 +96,7 @@ def load_compact_model(filename, loadfunc, prefix, infodict):
     return returnobj
 
 
-class CompactIOMachine:
+class CompactIOMachine(ABC):
     """ Base class that implements compact model I/O.
 
     This is to replace the original :func:`compactio` decorator.
@@ -115,21 +116,23 @@ class CompactIOMachine:
         self.prefix = prefix
         self.suffices = suffices
 
+    @abstractmethod
     def savemodel(self, nameprefix):
         """ Abstract method for `savemodel`.
 
         :param nameprefix: prefix of the model path
         :type nameprefix: str
         """
-        raise e.OperationNotDefinedException()
+        raise NotImplemented()
 
+    @abstractmethod
     def loadmodel(self, nameprefix):
         """ Abstract method for `loadmodel`.
 
         :param nameprefix: prefix of the model path
         :type nameprefix: str
         """
-        raise e.OperationNotDefinedException()
+        raise NotImplemented()
 
     def save_compact_model(self, filename, *args, **kwargs):
         """ Save the model in a compressed binary format.

@@ -71,6 +71,7 @@ packages = [
     "shorttext.metrics.dynprog",
     "shorttext.metrics.wasserstein",
     "shorttext.metrics.embedfuzzy",
+    "shorttext.schemas",
     "shorttext.spell"
 ]
 zip-safe = false
