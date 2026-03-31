@@ -10,13 +10,11 @@ from tempfile import mkdtemp
 import zipfile
 import json
 import os
-from functools import partial
 
 from . import classification_exceptions as e
-from deprecation import deprecated
 
 
-def removedir(dir: str):
+def removedir(dir: str) -> None:
     """ Remove all subdirectories and files under the specified path.
 
     :param dir: path of the directory to be clean
@@ -166,64 +164,6 @@ class CompactIOMachine:
         return {'classifier': self.infodict['classifier'],
                 'prefix': self.prefix,
                 'suffices': self.suffices}
-
-
-# decorator that adds compact model methods to classifier dynamically (deprecated)
-@deprecated(deprecated_in="3.0.1", removed_in="4.0.0",
-            details="Use `CompactIOMachine` instead")
-def CompactIOClassifier(Classifier, infodict, prefix, suffices):
-    """ Returns a decorated class object with additional methods for compact model I/O.
-
-    The class itself must have methods :func:`loadmodel` and :func:`savemodel` that
-    takes the prefix of the model files as the argument.
-
-    :param Classifier: class to be decorated
-    :param infodict: information about the model. Must contain the key 'classifier'.
-    :param prefix: prefix of names of the model file
-    :param suffices: suffices of the names of the model file
-    :return: the decorated class
-    :type Classifier: classobj
-    :type infodict: dict
-    :type prefix: str
-    :type suffices: list
-    :rtype: classobj
-    """
-    # define the inherit class
-    class DressedClassifier(Classifier):
-        def save_compact_model(self, filename, *args, **kwargs):
-            save_compact_model(filename, self.savemodel, prefix, suffices, infodict, *args, **kwargs)
-
-        def load_compact_model(self, filename, *args, **kwargs):
-            return load_compact_model(filename, self.loadmodel, prefix, infodict, *args, **kwargs)
-
-        def get_info(self):
-            return {'classifier': infodict['classifier'],
-                    'prefix': prefix,
-                    'suffices': suffices}
-
-    DressedClassifier.__name__ = Classifier.__name__
-    DressedClassifier.__doc__ = Classifier.__doc__
-
-    # return decorated classifier
-    return DressedClassifier
-
-
-# decorator for use (deprecated)
-@deprecated(deprecated_in="3.0.1", removed_in="4.0.0",
-            details="Use `CompactIOMachine` instead")
-def compactio(infodict, prefix, suffices):
-    """ Returns a decorator that performs the decoration by :func:`CompactIOClassifier`.
-
-    :param infodict: information about the model. Must contain the key 'classifier'.
-    :param prefix: prefix of names of the model file
-    :param suffices: suffices of the names of the model file
-    :return: the decorator
-    :type infodict: dict
-    :type prefix: str
-    :type suffices: list
-    :rtype: function
-    """
-    return partial(CompactIOClassifier, infodict=infodict, prefix=prefix, suffices=suffices)
 
 
 def get_model_config_field(filename, parameter):
