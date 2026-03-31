@@ -9,7 +9,7 @@ import shorttext
 from shorttext.utils import stemword, tokenize
 
 
-def test_inaugural(self):
+def test_inaugural():
     # preparing data
     usprez = shorttext.data.inaugural()
     docids = sorted(usprez.keys())
