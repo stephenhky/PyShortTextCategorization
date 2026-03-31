@@ -14,7 +14,6 @@ import os
 from os import PathLike
 from typing import Any
 
-from shorttext.utils.compactmodel_io import CompactIOMachine
 from typing_extensions import Self
 
 from . import classification_exceptions as e
@@ -76,7 +75,7 @@ def load_compact_model(
         loadfunc: callable,
         prefix: str,
         infodict: dict[str, Any]
-) -> CompactIOMachine:
+) -> Any:     # returning CompactModelIO obj
     """ Load a model from a compact file that contains multiple files related to the model.
 
     :param filename: name of the model file
