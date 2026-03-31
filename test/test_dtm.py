@@ -18,8 +18,8 @@ class TestDTM(unittest.TestCase):
 
         # preprocesser defined
         pipeline = [
-            lambda s: re.sub('[^\w\s]', '', s),
-            lambda s: re.sub('[\d]', '', s),
+            lambda s: re.sub(r'[^\w\s]', '', s),
+            lambda s: re.sub(r'[0-9]', '', s),
             lambda s: s.lower(),
             lambda s: ' '.join([stemword(token) for token in tokenize(s)])
         ]
