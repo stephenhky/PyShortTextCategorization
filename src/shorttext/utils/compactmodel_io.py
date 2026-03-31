@@ -11,6 +11,11 @@ from tempfile import mkdtemp
 import zipfile
 import json
 import os
+from os import PathLike
+from typing import Any
+
+from shorttext.utils.compactmodel_io import CompactIOMachine
+from typing_extensions import Self
 
 from . import classification_exceptions as e
 
@@ -30,7 +35,13 @@ def removedir(dir: str) -> None:
     os.rmdir(dir)
 
 
-def save_compact_model(filename, savefunc, prefix, suffices, infodict):
+def save_compact_model(
+        filename: str,
+        savefunc: callable,
+        prefix: str,
+        suffices: str,
+        infodict: dict[str, Any]
+) -> None:
     """ Save the model in one compact file by zipping all the related files.
 
     :param filename: name of the model file
@@ -47,12 +58,12 @@ def save_compact_model(filename, savefunc, prefix, suffices, infodict):
     """
     # create temporary directory
     tempdir = mkdtemp()
-    savefunc(tempdir+'/'+prefix)
+    savefunc(os.path.join(tempdir, prefix))
 
     # zipping
     outputfile = zipfile.ZipFile(filename, mode='w', allowZip64 = True)
     for suffix in suffices:
-        outputfile.write(tempdir+'/'+prefix+suffix, prefix+suffix)
+        outputfile.write(os.path.join(tempdir, prefix+suffix), prefix+suffix)
     outputfile.writestr('modelconfig.json', json.dumps(infodict))
     outputfile.close()
 
@@ -60,7 +71,12 @@ def save_compact_model(filename, savefunc, prefix, suffices, infodict):
     removedir(tempdir)
 
 
-def load_compact_model(filename, loadfunc, prefix, infodict):
+def load_compact_model(
+        filename: str,
+        loadfunc: callable,
+        prefix: str,
+        infodict: dict[str, Any]
+) -> CompactIOMachine:
     """ Load a model from a compact file that contains multiple files related to the model.
 
     :param filename: name of the model file
@@ -82,13 +98,15 @@ def load_compact_model(filename, loadfunc, prefix, infodict):
     inputfile.close()
 
     # check model config
-    readinfodict = json.load(open(tempdir+'/modelconfig.json', 'r'))
+    readinfodict = json.load(open(os.path.join(tempdir, 'modelconfig.json'), 'r'))
     if readinfodict['classifier'] != infodict['classifier']:
-        raise e.IncorrectClassificationModelFileException(infodict['classifier'],
-                                                          readinfodict['classifier'])
+        raise e.IncorrectClassificationModelFileException(
+            infodict['classifier'],
+            readinfodict['classifier']
+        )
 
     # load the model
-    returnobj = loadfunc(tempdir+'/'+prefix)
+    returnobj = loadfunc(os.path.join(tempdir, prefix))
 
     # delete temporary files
     removedir(tempdir)
@@ -102,7 +120,12 @@ class CompactIOMachine(ABC):
     This is to replace the original :func:`compactio` decorator.
 
     """
-    def __init__(self, infodict, prefix, suffices):
+    def __init__(
+            self,
+            infodict: dict[str, Any],
+            prefix: str,
+            suffices: list[str]
+    ):
         """
 
         :param infodict: information about the model. Must contain the key 'classifier'.
@@ -117,7 +140,7 @@ class CompactIOMachine(ABC):
         self.suffices = suffices
 
     @abstractmethod
-    def savemodel(self, nameprefix):
+    def savemodel(self, nameprefix: str) -> None:
         """ Abstract method for `savemodel`.
 
         :param nameprefix: prefix of the model path
@@ -126,7 +149,7 @@ class CompactIOMachine(ABC):
         raise NotImplemented()
 
     @abstractmethod
-    def loadmodel(self, nameprefix):
+    def loadmodel(self, nameprefix: str) -> Self:
         """ Abstract method for `loadmodel`.
 
         :param nameprefix: prefix of the model path
@@ -134,7 +157,7 @@ class CompactIOMachine(ABC):
         """
         raise NotImplemented()
 
-    def save_compact_model(self, filename, *args, **kwargs):
+    def save_compact_model(self, filename: str, *args, **kwargs) -> None:
         """ Save the model in a compressed binary format.
 
         :param filename: name of the model file
@@ -146,7 +169,7 @@ class CompactIOMachine(ABC):
         """
         save_compact_model(filename, self.savemodel, self.prefix, self.suffices, self.infodict, *args, **kwargs)
 
-    def load_compact_model(self, filename, *args, **kwargs):
+    def load_compact_model(self, filename: str, *args, **kwargs) -> Self:
         """ Load the model in a compressed binary format.
 
         :param filename: name of the model file
@@ -158,7 +181,7 @@ class CompactIOMachine(ABC):
         """
         return load_compact_model(filename, self.loadmodel, self.prefix, self.infodict, *args, **kwargs)
 
-    def get_info(self):
+    def get_info(self) -> dict[str, Any]:
         """ Getting information for the dressed machine.
 
         :return: dictionary of the information for the dressed machine.
@@ -169,7 +192,7 @@ class CompactIOMachine(ABC):
                 'suffices': self.suffices}
 
 
-def get_model_config_field(filename, parameter):
+def get_model_config_field(filename: str | PathLike, parameter: str) -> str:
     """ Return the configuration parameter of a model file.
 
     Read the file `modelconfig.json` in the compact model file, and return
@@ -192,7 +215,7 @@ def get_model_config_field(filename, parameter):
     return readinfodict[parameter]
 
 
-def get_model_classifier_name(filename):
+def get_model_classifier_name(filename: str| PathLike) -> str:
     """ Return the name of the classifier from a model file.
 
     Read the file `modelconfig.json` in the compact model file, and return

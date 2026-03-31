@@ -17,11 +17,12 @@ class TestDTM(unittest.TestCase):
         usprezdf = usprezdf[['yrprez', 'speech']]
 
         # preprocesser defined
-        pipeline = [lambda s: re.sub('[^\w\s]', '', s),
-                    lambda s: re.sub('[\d]', '', s),
-                    lambda s: s.lower(),
-                    lambda s: ' '.join([stemword(token) for token in tokenize(s)])
-                    ]
+        pipeline = [
+            lambda s: re.sub('[^\w\s]', '', s),
+            lambda s: re.sub('[\d]', '', s),
+            lambda s: s.lower(),
+            lambda s: ' '.join([stemword(token) for token in tokenize(s)])
+        ]
         txtpreprocessor = shorttext.utils.text_preprocessor(pipeline)
 
         # corpus making
@@ -29,13 +30,13 @@ class TestDTM(unittest.TestCase):
         corpus = [txtpreprocessor(speech).split(' ') for speech in usprezdf['speech']]
 
         # making DTM
-        dtm = shorttext.utils.DocumentTermMatrix(corpus, docids=docids, tfidf=True)
+        dtm = shorttext.utils.NumpyDocumentTermMatrix(corpus, docids, tfidf=True)
 
         # check results
-        self.assertEqual(len(dtm.dictionary), 5256)
+        self.assertEqual(len(dtm.npdtm), 5256)
         self.assertAlmostEqual(dtm.get_token_occurences(stemword('change'))['2009-Obama'], 0.0138,
                                places=3)
-        numdocs, numtokens = dtm.dtm.shape
+        numdocs, numtokens = dtm.npdtm.shape
         self.assertEqual(numdocs, 56)
         self.assertEqual(numtokens, 5256)
         self.assertAlmostEqual(dtm.get_total_termfreq('government'), 0.27865372986738407,

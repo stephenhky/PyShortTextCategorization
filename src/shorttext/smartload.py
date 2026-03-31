@@ -59,8 +59,6 @@ def smartload_compact_model(
             return load_sumword2vec_classifier(wvmodel, filename, compact=True, vecsize=vecsize)
         case 'maxent':
             return load_maxent_classifier(filename, compact=True)
-        case 'dtm':
-            return load_DocumentTermMatrix(filename, compact=True)
         case 'kerasseq2seq':
             return loadSeq2SeqWithKeras(filename, compact=True)
         case 'charbases2s':

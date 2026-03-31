@@ -41,7 +41,8 @@ dependencies = [
     "snowballstemmer>=3.0.0",
     "numba>=0.57.0",
     "deprecation>=2.0.0",
-    "npdict>=0.0.5"
+    "npdict>=0.0.5",
+    "typing-extensions>=1.0.0"
 ]
 
 [project.urls]
