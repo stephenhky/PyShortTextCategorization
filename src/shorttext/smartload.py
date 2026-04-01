@@ -16,7 +16,7 @@ from .classifiers import load_maxent_classifier
 
 def smartload_compact_model(
         filename: str | PathLike,
-        wvmodel: gensim.models.keyedvectors.KeyedVectors,
+        wvmodel: Optional[gensim.models.keyedvectors.KeyedVectors],
         preprocessor: Optional[callable] = None,
         vecsize: Optional[int] = None
 ):

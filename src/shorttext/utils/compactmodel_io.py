@@ -12,9 +12,7 @@ import zipfile
 import json
 import os
 from os import PathLike
-from typing import Any
-
-from typing_extensions import Self
+from typing import Any, Self
 
 from . import classification_exceptions as e
 

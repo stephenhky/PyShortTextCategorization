@@ -18,7 +18,6 @@ classifiers = [
       "Topic :: Scientific/Engineering :: Mathematics",
       "Topic :: Text Processing :: Linguistic",
       "Topic :: Software Development :: Libraries :: Python Modules",
-      "Programming Language :: Python :: 3.10",
       "Programming Language :: Python :: 3.11",
       "Programming Language :: Python :: 3.12",
       "Programming Language :: Python :: 3.13",
@@ -42,7 +41,6 @@ dependencies = [
     "numba>=0.57.0",
     "deprecation>=2.0.0",
     "npdict>=0.0.10",
-    "typing-extensions>=1.0.0"
 ]
 
 [project.urls]
