@@ -1,6 +1,5 @@
 
-from typing import Optional, Any
-from types import FunctionType
+from typing import Optional, Any, Self
 
 import numpy as np
 import numpy.typing as npt
@@ -11,8 +10,7 @@ from .compactmodel_io import CompactIOMachine
 from .textpreprocessing import advanced_text_tokenizer_1
 
 
-dtm_suffices = ['_docids.pkl', '_dictionary.dict', '_dtm.pkl']
-npdtm_suffices = []
+npdtm_suffices = ["_npdict.npy"]
 
 
 def generate_npdict_document_term_matrix(
@@ -55,16 +53,16 @@ def compute_tfidf_document_term_matrix(
     if isinstance(npdtm, npdict.SparseArrayWrappedDict):
         new_dtm_sparray = npdtm.to_coo() * np.log(nbdocs / doc_frequencies)
         return npdict.SparseArrayWrappedDict.generate_dict(new_dtm_sparray, dense=not sparse)
+
+    new_dtm_nparray = npdtm.to_numpy() * np.log(nbdocs / doc_frequencies)
+    new_npdtm = npdict.NumpyNDArrayWrappedDict.generate_dict(new_dtm_nparray)
+    if sparse:
+        new_sparse_dtm = npdict.SparseArrayWrappedDict.from_NumpyNDArrayWrappedDict(
+            new_npdtm, default_initial_value=0.0
+        )
+        return new_sparse_dtm
     else:
-        new_dtm_nparray = npdtm.to_numpy() * np.log(nbdocs / doc_frequencies)
-        new_npdtm = npdict.NumpyNDArrayWrappedDict.generate_dict(new_dtm_nparray)
-        if sparse:
-            new_sparse_dtm = npdict.SparseArrayWrappedDict.from_NumpyNDArrayWrappedDict(
-                new_npdtm, default_initial_value=0.0
-            )
-            return new_sparse_dtm
-        else:
-            return new_npdtm
+        return new_npdtm
 
 
 class NumpyDocumentTermMatrix(CompactIOMachine):
@@ -73,9 +71,9 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
             corpus: Optional[list[str]]=None,
             docids: Optional[list[Any]]=None,
             tfidf: bool=False,
-            tokenize_func: Optional[FunctionType]=None
+            tokenize_func: Optional[callable]=None
     ):
-        CompactIOMachine.__init__(self, {'classifier': 'npdtm'}, 'dtm', dtm_suffices)
+        CompactIOMachine.__init__(self, {'classifier': 'npdtm'}, 'npdtm', npdtm_suffices)
         self.tokenize_func = tokenize_func if tokenize_func is not None else advanced_text_tokenizer_1
 
         # generate DTM
@@ -135,3 +133,9 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
             token: self.npdtm[docid, token]
             for token in self.npdtm._lists_keystrings[1]
         }
+
+    def savemodel(self, nameprefix: str) -> None:
+        self.npdtm.save(nameprefix+"_npdict.npy")
+
+    def loadmodel(self, nameprefix: str) -> Self:
+        self.npdtm = SparseArrayWrappedDict.load(nameprefix+"_npdict.npy")
