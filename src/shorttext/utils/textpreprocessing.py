@@ -49,7 +49,7 @@ def tokenize_text(
         text: str,
         presplit_pipeline: list[callable],
         primitize_tokenizer: callable,
-        prosplit_pipeline: list[callable],
+        postsplit_pipeline: list[callable],
         stopwordsfile: TextIOWrapper
 ) -> list[str]:
     # load stop words file
@@ -60,7 +60,7 @@ def tokenize_text(
     for func in presplit_pipeline:
         presplit_text = func(presplit_text)
     postsplit_tokens = primitize_tokenizer(presplit_text)
-    for func in prosplit_pipeline:
+    for func in postsplit_pipeline:
         for i, token in enumerate(postsplit_tokens):
             postsplit_tokens[i] = func(token)
     postsplit_tokens = [
