@@ -9,6 +9,6 @@ pandas==3.0.2
 snowballstemmer==3.0.1
 transformers==5.4.0
 torch==2.11.0
-numba==0.64.0
+numba==0.65.0
 npdict==0.0.9
 typing-extensions==0.0.1
