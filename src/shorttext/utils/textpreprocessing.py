@@ -24,6 +24,7 @@ class StemmerSingleton:
     def __call__(cls, s: str) -> str:
         return cls.stemmer.stemWord(s)
 
+
 def stemword(s: str) -> str:
     return StemmerSingleton()(s)
 
