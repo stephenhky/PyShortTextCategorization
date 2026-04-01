@@ -1,15 +1,22 @@
 
+from os import PathLike
+from typing import Any, Annotated, Optional, TextIO
+
 import numpy as np
+import numpy.typing as npt
 import gensim
-from gensim.models import KeyedVectors
 from gensim.models.keyedvectors import KeyedVectors
+from gensim.models.fasttext import FastTextKeyedVectors
 from gensim.models.poincare import PoincareModel, PoincareKeyedVectors
 import requests
 
 from .textpreprocessing import tokenize
 
 
-def load_word2vec_model(path, binary=True):
+def load_word2vec_model(
+        path: str | PathLike,
+        binary: bool = True
+) -> KeyedVectors:
     """ Load a pre-trained Word2Vec model.
 
     :param path: path of the file of the pre-trained Word2Vec model
@@ -22,7 +29,10 @@ def load_word2vec_model(path, binary=True):
     return KeyedVectors.load_word2vec_format(path, binary=binary)
 
 
-def load_fasttext_model(path, encoding='utf-8'):
+def load_fasttext_model(
+        path: str | PathLike,
+        encoding: Any = 'utf-8'
+) -> FastTextKeyedVectors:
     """ Load a pre-trained FastText model.
 
     :param path: path of the file of the pre-trained FastText model
@@ -33,7 +43,11 @@ def load_fasttext_model(path, encoding='utf-8'):
     return gensim.models.fasttext.load_facebook_vectors(path, encoding=encoding)
 
 
-def load_poincare_model(path, word2vec_format=True, binary=False):
+def load_poincare_model(
+        path: str | PathLike,
+        word2vec_format: bool = True,
+        binary: bool = False
+) -> PoincareKeyedVectors:
     """ Load a Poincare embedding model.
 
     :param path: path of the file of the pre-trained Poincare embedding model
@@ -51,7 +65,10 @@ def load_poincare_model(path, word2vec_format=True, binary=False):
         return PoincareModel.load(path).kv
 
 
-def shorttext_to_avgvec(shorttext, wvmodel):
+def shorttext_to_avgvec(
+        shorttext: str,
+        wvmodel: KeyedVectors
+) -> Annotated[npt.NDArray[np.float64], "1D array"]:
     """ Convert the short text into an averaged embedded vector representation.
 
     Given a short sentence, it converts all the tokens into embedded vectors according to
@@ -91,7 +108,7 @@ class RESTfulKeyedVectors(KeyedVectors):
         This class inherits from :class:`gensim.models.keyedvectors.KeyedVectors`.
 
     """
-    def __init__(self, url, port='5000'):
+    def __init__(self, url: str, port: str | int='5000'):
         """ Initialize the class.
 
         :param url: URL of the API, usually `http://localhost`
@@ -102,7 +119,7 @@ class RESTfulKeyedVectors(KeyedVectors):
         self.url = url
         self.port = port
 
-    def closer_than(self, entity1, entity2):
+    def closer_than(self, entity1: str, entity2: str) -> list | dict:
         """
 
         :param entity1: word 1
@@ -116,7 +133,7 @@ class RESTfulKeyedVectors(KeyedVectors):
                           json={'entity1': entity1, 'entity2': entity2})
         return r.json()
 
-    def distance(self, entity1, entity2):
+    def distance(self, entity1: str, entity2: str) -> float:
         """
 
         :param entity1: word 1
@@ -130,7 +147,11 @@ class RESTfulKeyedVectors(KeyedVectors):
                           json={'entity1': entity1, 'entity2': entity2})
         return r.json()['distance']
 
-    def distances(self, entity1, other_entities=()):
+    def distances(
+            self,
+            entity1: str,
+            other_entities: Optional[list[str]] = None
+    ) -> Annotated[npt.NDArray[np.float64], "1D array"]:
         """
 
         :param entity1: word
@@ -140,11 +161,14 @@ class RESTfulKeyedVectors(KeyedVectors):
         :return: list of distances between `entity1` and each word in `other_entities`
         :rtype: list
         """
+        if other_entities is None:
+            other_entities = []
+
         r = requests.post(self.url + ':' + self.port + '/distances',
                           json={'entity1': entity1, 'other_entities': other_entities})
         return np.array(r.json()['distances'], dtype=np.float32)
 
-    def get_vector(self, entity):
+    def get_vector(self, entity: str) -> Annotated[npt.NDArray[np.float64], "1D array"]:
         """
 
         :param entity: word
@@ -157,9 +181,9 @@ class RESTfulKeyedVectors(KeyedVectors):
         if 'vector' in returned_dict:
             return np.array(returned_dict['vector'])
         else:
-            raise KeyError('The token {} does not exist in the model.'.format(entity))
+            raise KeyError(f'The token {entity} does not exist in the model.')
 
-    def most_similar(self, **kwargs):
+    def most_similar(self, **kwargs) -> list[tuple[str, float]]:
         """
 
         :param kwargs:
@@ -168,7 +192,7 @@ class RESTfulKeyedVectors(KeyedVectors):
         r = requests.post(self.url + ':' + self.port + '/most_similar', json=kwargs)
         return [tuple(pair) for pair in r.json()]
 
-    def most_similar_to_given(self, entity1, entities_list):
+    def most_similar_to_given(self, entity1: str, entities_list: list[str]) -> list[str]:
         """
 
         :param entity1: word
@@ -182,7 +206,7 @@ class RESTfulKeyedVectors(KeyedVectors):
                           json={'entity1': entity1, 'entities_list': entities_list})
         return r.json()['token']
 
-    def rank(self, entity1, entity2):
+    def rank(self, entity1: str, entity2: str) -> int:
         """
 
         :param entity1: word 1
@@ -196,7 +220,7 @@ class RESTfulKeyedVectors(KeyedVectors):
                           json={'entity1': entity1, 'entity2': entity2})
         return r.json()['rank']
 
-    def save(self, fname_or_handle, **kwargs):
+    def save(self, fname_or_handle: TextIO, **kwargs) -> None:
         """
 
         :param fname_or_handle:
@@ -205,7 +229,7 @@ class RESTfulKeyedVectors(KeyedVectors):
         """
         raise IOError('The class RESTfulKeyedVectors do not persist models to a file.')
 
-    def similarity(self, entity1, entity2):
+    def similarity(self, entity1: str, entity2: str) -> float:
         """
 
         :param entity1: word 1
