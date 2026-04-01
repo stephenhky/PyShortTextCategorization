@@ -1,12 +1,14 @@
 
-from collections import defaultdict
+from collections import Counter
 from typing import Optional
 
 import gensim
+from deprecation import deprecated
 
 from .textpreprocessing import tokenize
 
 
+@deprecated(deprecated_in="5.0.0", removed_in="6.0.0")
 def generate_gensim_corpora(
         classdict: dict[str, list[str]],
         preprocess_and_tokenize: Optional[callable] = None
@@ -34,6 +36,7 @@ def generate_gensim_corpora(
     return dictionary, corpus, classlabels
 
 
+@deprecated(deprecated_in="5.0.0", removed_in="6.0.0")
 def save_corpus(
         dictionary: gensim.corpora.Dictionary,
         corpus: list[list[tuple[int, int]]],
@@ -53,6 +56,7 @@ def save_corpus(
     gensim.corpora.MmCorpus.serialize(prefix+'_corpus.mm', corpus)
 
 
+@deprecated(deprecated_in="5.0.0", removed_in="6.0.0")
 def load_corpus(prefix: str) -> tuple[gensim.corpora.MmCorpus, gensim.corpora.Dictionary]:
     """ Load gensim corpus and dictionary.
 
@@ -66,6 +70,7 @@ def load_corpus(prefix: str) -> tuple[gensim.corpora.MmCorpus, gensim.corpora.Di
     return corpus, dictionary
 
 
+@deprecated(deprecated_in="5.0.0", removed_in="6.0.0")
 def update_corpus_labels(
         dictionary: gensim.corpora.Dictionary,
         corpus: list[list[tuple[int, int]]],
@@ -105,8 +110,6 @@ def tokens_to_fracdict(tokens: list[str]) -> dict[str, float]:
     :return: normalized vectors of counts of tokens as a `dict`
     :rtype: dict
     """
-    cntdict = defaultdict(lambda : 0)
-    for token in tokens:
-        cntdict[token] += 1
+    cntdict = Counter(tokens)
     totalcnt = sum(cntdict.values())
     return {token: cnt / totalcnt for token, cnt in cntdict.items()}
