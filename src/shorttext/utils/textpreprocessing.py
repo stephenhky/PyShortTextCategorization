@@ -110,8 +110,8 @@ def oldschool_standard_text_preprocessor(stopwordsfile: TextIOWrapper) -> callab
     stopwordsfile.close()
 
     # the pipeline
-    pipeline = [lambda s: re.sub('[^\w\s]', '', s),
-                lambda s: re.sub('[\d]', '', s),
+    pipeline = [lambda s: re.sub(r'[^\w\s]', '', s),
+                lambda s: re.sub(r'[0-9]', '', s),
                 lambda s: s.lower(),
                 lambda s: ' '.join(filter(lambda s: not (s in stopwordset), tokenize(s))),
                 lambda s: ' '.join([stemword(stemmed_token) for stemmed_token in tokenize(s)])
