@@ -96,15 +96,14 @@ def compute_tfidf_document_term_matrix(
     nbdocs = npdtm.dimension_sizes[0]
     if isinstance(npdtm, npdict.SparseArrayWrappedDict):
         new_dtm_sparray = npdtm.to_coo() * np.log(nbdocs / doc_frequencies)
-        return npdict.SparseArrayWrappedDict.generate_dict(new_dtm_sparray, dense=not sparse)
+        return npdtm.generate_dict(new_dtm_sparray, dense=not sparse)
 
     new_dtm_nparray = npdtm.to_numpy() * np.log(nbdocs / doc_frequencies)
-    new_npdtm = npdict.NumpyNDArrayWrappedDict.generate_dict(new_dtm_nparray)
+    new_npdtm = npdtm.generate_dict(new_dtm_nparray)
     if sparse:
-        new_sparse_dtm = npdict.SparseArrayWrappedDict.from_NumpyNDArrayWrappedDict(
+        return npdict.SparseArrayWrappedDict.from_NumpyNDArrayWrappedDict(
             new_npdtm, default_initial_value=0.0
         )
-        return new_sparse_dtm
     else:
         return new_npdtm
 
