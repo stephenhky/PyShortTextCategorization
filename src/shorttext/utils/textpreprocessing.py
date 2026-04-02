@@ -2,7 +2,7 @@
 import re
 import os
 import codecs
-from io import TextIOWrapper
+from typing import TextIO
 from functools import partial
 
 import snowballstemmer
@@ -51,7 +51,7 @@ def tokenize_text(
         presplit_pipeline: list[callable],
         primitize_tokenizer: callable,
         postsplit_pipeline: list[callable],
-        stopwordsfile: TextIOWrapper
+        stopwordsfile: TextIO
 ) -> list[str]:
     # load stop words file
     stopwordset = set([stopword.strip() for stopword in stopwordsfile])
@@ -87,7 +87,7 @@ def text_preprocessor(pipeline: list[callable]) -> callable:
     return partial(preprocess_text, pipeline=pipeline)
 
 
-def oldschool_standard_text_preprocessor(stopwordsfile: TextIOWrapper) -> callable:
+def oldschool_standard_text_preprocessor(stopwordsfile: TextIO) -> callable:
     """ Return a commonly used text preprocessor.
 
     Return a text preprocessor that is commonly used, with the following steps:
