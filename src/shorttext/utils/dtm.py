@@ -61,14 +61,6 @@ def generate_npdict_document_term_matrix(
     sorted_tokens_list = sorted(list(tokens_set))
     tokens_counters = [dict(Counter(tokens)) for tokens in doc_tokens]
     tokens_counters_tuples = [[(token, counts) for token, counts in counter.items()] for counter in tokens_counters]
-    # npdtm = npdict.SparseArrayWrappedDict(
-    #     [doc_ids, sorted_tokens_list],
-    #     default_initial_value=0.0
-    # )
-    # for doc_id, document in zip(doc_ids, doc_tokens):
-    #     this_counter = Counter(document)
-    #     for token in this_counter.keys():
-    #         npdtm[doc_id, token] += this_counter[token]
     coord_x, coord_y, data = _construct_sparse_coo_dtm_matrix(
         sorted_tokens_list, tokens_counters_tuples
     )
