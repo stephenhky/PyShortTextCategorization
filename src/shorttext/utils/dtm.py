@@ -6,7 +6,6 @@ import numpy as np
 import numpy.typing as npt
 import npdict
 import sparse
-import numba as nb
 
 from .compactmodel_io import CompactIOMachine
 from .textpreprocessing import advanced_text_tokenizer_1
@@ -16,15 +15,13 @@ from .classification_exceptions import UnequalArrayLengthsException
 npdtm_suffices = ["_npdict.npy"]
 
 
-@nb.jit
 def _construct_sparse_coo_dtm_matrix(
         sorted_token_list: list[str],
-        document_tokens: list[list[str]]
+        tokens_counters: list[list[tuple[str, int]]]
 ) -> tuple[npt.NDArray[np.int64], npt.NDArray[np.int64], npt.NDArray[np.float64]]:
     token_index_map = {token: idx for idx, token in enumerate(sorted_token_list)}
-    tokens_counters = [Counter(tokens) for tokens in document_tokens]
     ids_counters = [
-        {token_index_map[token]: counts for token, counts in counter.items()}
+        {token_index_map[token]: counts for token, counts in counter}
         for counter in tokens_counters
     ]
     docs_nbtokens = [len(counter) for counter in ids_counters]
@@ -62,6 +59,8 @@ def generate_npdict_document_term_matrix(
         for token in document
     ])
     sorted_tokens_list = sorted(list(tokens_set))
+    tokens_counters = [dict(Counter(tokens)) for tokens in doc_tokens]
+    tokens_counters_tuples = [[(token, counts) for token, counts in counter.items()] for counter in tokens_counters]
     # npdtm = npdict.SparseArrayWrappedDict(
     #     [doc_ids, sorted_tokens_list],
     #     default_initial_value=0.0
@@ -71,11 +70,11 @@ def generate_npdict_document_term_matrix(
     #     for token in this_counter.keys():
     #         npdtm[doc_id, token] += this_counter[token]
     coord_x, coord_y, data = _construct_sparse_coo_dtm_matrix(
-        sorted_tokens_list, doc_tokens
+        sorted_tokens_list, tokens_counters_tuples
     )
     npdtm = npdict.SparseArrayWrappedDict.from_sparsearray_given_keywords(
         [doc_ids, sorted_tokens_list],
-        sparse.COO([coord_x, coord_y], data=data)
+        sparse.COO([coord_x, coord_y], data=data, shape=(len(doc_tokens), len(sorted_tokens_list)))
     )
     return npdtm
 
