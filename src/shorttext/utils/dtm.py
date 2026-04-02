@@ -1,5 +1,6 @@
 
 from typing import Optional, Any, Self
+from collections import Counter
 
 import numpy as np
 import numpy.typing as npt
@@ -30,8 +31,9 @@ def generate_npdict_document_term_matrix(
         default_initial_value=0.0
     )
     for doc_id, document in zip(doc_ids, doc_tokens):
-        for token in document:
-            npdtm[doc_id, token] += 1
+        this_counter = Counter(document)
+        for token in this_counter.keys():
+            npdtm[doc_id, token] += this_counter[token]
     return npdtm
 
 
@@ -68,7 +70,7 @@ def compute_tfidf_document_term_matrix(
 class NumpyDocumentTermMatrix(CompactIOMachine):
     def __init__(
             self,
-            corpus: Optional[list[str]]=None,
+            corpus: Optional[list[list[str]]]=None,
             docids: Optional[list[Any]]=None,
             tfidf: bool=False,
             tokenize_func: Optional[callable]=None
@@ -82,7 +84,7 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
 
     def generate_dtm(
             self,
-            corpus: list[str],
+            corpus: list[list[str]],
             docids: Optional[list[Any]]=None,
             tfidf: bool=False
     ) -> None:

@@ -27,7 +27,7 @@ def test_inaugural():
 
     # corpus making
     docids = list(usprezdf['yrprez'])
-    corpus = [txtpreprocessor(speech).split(" ") for speech in usprezdf['speech']]
+    corpus = [txtpreprocessor(speech) for speech in usprezdf['speech']]
 
     # making DTM
     dtm = shorttext.utils.NumpyDocumentTermMatrix(corpus, docids, tfidf=True)
