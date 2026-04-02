@@ -5,13 +5,43 @@ from collections import Counter
 import numpy as np
 import numpy.typing as npt
 import npdict
-from npdict import SparseArrayWrappedDict
+import sparse
+import numba as nb
 
 from .compactmodel_io import CompactIOMachine
 from .textpreprocessing import advanced_text_tokenizer_1
+from .classification_exceptions import UnequalArrayLengthsException
 
 
 npdtm_suffices = ["_npdict.npy"]
+
+
+@nb.jit
+def _construct_sparse_coo_dtm_matrix(
+        sorted_token_list: list[str],
+        document_tokens: list[list[str]]
+) -> tuple[npt.NDArray[np.int64], npt.NDArray[np.int64], npt.NDArray[np.float64]]:
+    token_index_map = {token: idx for idx, token in enumerate(sorted_token_list)}
+    tokens_counters = [Counter(tokens) for tokens in document_tokens]
+    ids_counters = [
+        {token_index_map[token]: counts for token, counts in counter.items()}
+        for counter in tokens_counters
+    ]
+    docs_nbtokens = [len(counter) for counter in ids_counters]
+    nb_coo_data = sum(docs_nbtokens)
+    coordx_array = np.empty(nb_coo_data, dtype=np.int64)
+    coordy_array = np.empty(nb_coo_data, dtype=np.int64)
+    val_array = np.empty(nb_coo_data)
+
+    i = 0
+    for doc_id, counter in enumerate(ids_counters):
+        for tokenid, counts in counter.items():
+            coordx_array[i] = doc_id
+            coordy_array[i] = tokenid
+            val_array[i] = counts
+            i += 1
+
+    return coordx_array, coordy_array, val_array
 
 
 def generate_npdict_document_term_matrix(
@@ -19,6 +49,11 @@ def generate_npdict_document_term_matrix(
         doc_ids: list[Any],
         tokenize_func: callable
 ) -> npdict.NumpyNDArrayWrappedDict:
+    try:
+        assert len(corpus) == len(doc_ids)
+    except AssertionError:
+        raise UnequalArrayLengthsException(corpus, doc_ids)
+
     # grabbing tokens from each document in the corpus
     doc_tokens = [tokenize_func(document) for document in corpus]
     tokens_set = set([
@@ -26,14 +61,22 @@ def generate_npdict_document_term_matrix(
         for document in doc_tokens
         for token in document
     ])
-    npdtm = npdict.SparseArrayWrappedDict(
-        [doc_ids, sorted(list(tokens_set))],
-        default_initial_value=0.0
+    sorted_tokens_list = sorted(list(tokens_set))
+    # npdtm = npdict.SparseArrayWrappedDict(
+    #     [doc_ids, sorted_tokens_list],
+    #     default_initial_value=0.0
+    # )
+    # for doc_id, document in zip(doc_ids, doc_tokens):
+    #     this_counter = Counter(document)
+    #     for token in this_counter.keys():
+    #         npdtm[doc_id, token] += this_counter[token]
+    coord_x, coord_y, data = _construct_sparse_coo_dtm_matrix(
+        sorted_tokens_list, doc_tokens
     )
-    for doc_id, document in zip(doc_ids, doc_tokens):
-        this_counter = Counter(document)
-        for token in this_counter.keys():
-            npdtm[doc_id, token] += this_counter[token]
+    npdtm = npdict.SparseArrayWrappedDict.from_sparsearray_given_keywords(
+        [doc_ids, sorted_tokens_list],
+        sparse.COO([coord_x, coord_y], data=data)
+    )
     return npdtm
 
 
@@ -109,7 +152,7 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
 
     def get_total_termfreq(self, token: str) -> float:
         token_index = self.npdtm._keystrings_to_indices[1][token]
-        if isinstance(self.npdtm, SparseArrayWrappedDict):
+        if isinstance(self.npdtm, npdict.SparseArrayWrappedDict):
             matrix = self.npdtm.to_coo()
         else:
             matrix = self.npdtm.to_numpy()
@@ -140,4 +183,4 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
         self.npdtm.save(nameprefix+"_npdict.npy")
 
     def loadmodel(self, nameprefix: str) -> Self:
-        self.npdtm = SparseArrayWrappedDict.load(nameprefix+"_npdict.npy")
+        self.npdtm = npdict.SparseArrayWrappedDict.load(nameprefix+"_npdict.npy")
