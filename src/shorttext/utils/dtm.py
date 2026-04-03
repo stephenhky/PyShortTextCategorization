@@ -6,6 +6,7 @@ import numpy as np
 import numpy.typing as npt
 import npdict
 import sparse
+from os import PathLike
 
 from .compactmodel_io import CompactIOMachine
 from .textpreprocessing import advanced_text_tokenizer_1
@@ -152,10 +153,9 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
         token_index = self.npdtm._keystrings_to_indices[1][token]
         if isinstance(self.npdtm, npdict.SparseArrayWrappedDict):
             freq_array = self.npdtm.to_coo()[:, token_index]
-            return np.sum(freq_array > 0, axis=0).todense()
         else:
             freq_array = self.npdtm.to_numpy()[:, token_index]
-            return np.sum(freq_array > 0, axis=0)
+        return np.sum(freq_array > 0, axis=0)
 
     def get_token_occurences(self, token: str) -> dict[str, float]:
         return {
@@ -190,3 +190,9 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
     @property
     def nbtokens(self) -> int:
         return len(self.tokens)
+
+
+def load_numpy_documentmatrixmatrix(filepath: str | PathLike) -> NumpyDocumentTermMatrix:
+    npdtm = NumpyDocumentTermMatrix()
+    npdtm.load_compact_model(filepath)
+    return npdtm

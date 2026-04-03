@@ -26,38 +26,36 @@ Then now the variable `corpus` is a list of lists of tokens. For example,
 
 >>> corpus[0]     # shows all the preprocessed tokens of the first Presidential Inaugural Addresses
 
-Using Class `DocumentTermMatrix`
---------------------------------
+Using Class `NumpyDocumentTermMatrix`
+-------------------------------------
 
-With the corpus ready in this form, we can create a `DocumentTermMatrix` class for DTM by:
+Note: the old class `DocumentTermMatrix` has been removed in release 5.0.0.
 
->>> usprez_dtm = shorttext.utils.DocumentTermMatrix(corpus, docids=docids)
+With the corpus ready in this form, we can create a `NumpyDocumentTermMatrix` class for DTM by:
+(imposing tf-idf while creating the instance of the class by enforceing `tfidf` to be `True`)
 
-.. autoclass:: shorttext.utils.dtm.DocumentTermMatrix
+>>> dtm = shorttext.utils.NumpyDocumentTermMatrix(corpus, docids, tfidf=True)
+
+.. autoclass:: shorttext.utils.dtm.NumpyDocumentTermMatrix
    :members:
 
 One can get the document frequency of any token (the number of documents that the given
 token is in) by:
 
->>> usprez_dtm.get_doc_frequency('peopl')  # gives 54, the document frequency of the token "peopl"
+>>> dtm.get_doc_frequency('peopl')  # gives 54, the document frequency of the token "peopl"
 
 or the total term frequencies (the total number of occurrences of the given tokens in all documents) by:
 
->>> usprez_dtm.get_total_termfreq('justic')   # gives 134.0, the total term frequency of the token "justic"
+>>> dtm.get_total_termfreq('justic')   # gives 32.32, the total term frequency of the token "justic"
 
 or the term frequency for a token in a given document by:
 
->>> usprez_dtm.get_termfreq('2009-Obama', 'chang')    # gives 2.0
+>>> dtm.get_termfreq('2009-Obama', 'chang')    # gives 0.94
 
 We can also query the number of occurrences of a particular word of all documents,
 stored in a dictionary, by:
 
->>> usprez_dtm.get_token_occurences('god')
-
-Of course, we can always reweigh the counts above (except document frequency) by imposing
-tf-idf while creating the instance of the class by enforceing `tfidf` to be `True`:
-
->>> usprez_dtm = shorttext.utils.DocumentTermMatrix(corpus, docids=docids, tfidf=True)
+>>> dtm.get_token_occurences('god')
 
 To save the class, enter:
 
@@ -65,7 +63,7 @@ To save the class, enter:
 
 To load this class later, enter:
 
->>> usprez_dtm2 = shorttext.utils.load_DocumentTermMatrix('/path/to/whatever.bin')
+>>> usprez_dtm2 = shorttext.utils.load_numpy_documentmatrixmatrix('/path/to/whatever.bin')
 
 .. automodule:: shorttext.utils.dtm
    :members: load_DocumentTermMatrix

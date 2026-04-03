@@ -12,6 +12,7 @@ from .generators import load_autoencoder_topicmodel, load_gensimtopicmodel
 from .generators import loadSeq2SeqWithKeras, loadCharBasedSeq2SeqGenerator
 from .classifiers import load_autoencoder_topic_sklearnclassifier, load_gensim_topicvec_sklearnclassifier
 from .classifiers import load_maxent_classifier
+from .utils.dtm import load_numpy_documentmatrixmatrix
 
 
 def smartload_compact_model(
@@ -62,5 +63,7 @@ def smartload_compact_model(
             return loadSeq2SeqWithKeras(filename, compact=True)
         case 'charbases2s':
             return loadCharBasedSeq2SeqGenerator(filename, compact=True)
+        case "npdtm":
+            return load_numpy_documentmatrixmatrix(filename)
         case _:
             raise e.AlgorithmNotExistException(classifier_name)
