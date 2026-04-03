@@ -3,7 +3,7 @@ scipy==1.17.1
 joblib==1.5.3
 scikit-learn==1.8.0
 tensorflow==2.21.0
-keras==3.13.2
+keras==3.14.0
 gensim==4.4.0
 pandas==3.0.2
 snowballstemmer==3.0.1
