@@ -1,12 +1,9 @@
 
-import re
-
-import pandas as pd
 import pytest
 
 import shorttext
-from shorttext.utils import stemword, tokenize
-from shorttext.utils.textpreprocessing import advanced_text_tokenizer_1
+from shorttext.utils import stemword
+from shorttext.utils.textpreprocessing import standard_text_preprocessor_1
 
 
 def test_inaugural():
@@ -14,15 +11,12 @@ def test_inaugural():
     usprez = shorttext.data.inaugural()
     docids = sorted(usprez.keys())
     usprez = [' '.join(usprez[docid]) for docid in docids]
-    usprezdf = pd.DataFrame({'yrprez': docids, 'speech': usprez})
-    usprezdf = usprezdf[['yrprez', 'speech']]
 
     # preprocesser defined
-    txtpreprocessor = advanced_text_tokenizer_1()
+    txtpreprocessor = standard_text_preprocessor_1()
 
     # corpus making
-    docids = list(usprezdf['yrprez'])
-    corpus = [txtpreprocessor(speech) for speech in usprezdf['speech']]
+    corpus = [txtpreprocessor(speech) for speech in usprez]
 
     # making DTM
     dtm = shorttext.utils.NumpyDocumentTermMatrix(corpus, docids, tfidf=True)
