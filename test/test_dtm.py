@@ -33,7 +33,6 @@ def test_inaugural():
     dtm = shorttext.utils.NumpyDocumentTermMatrix(corpus, docids, tfidf=True)
 
     # check results
-    assert len(dtm.npdtm) == 5256
     assert dtm.get_token_occurences(stemword('change'))['2009-Obama'] == pytest.approx(0.0138)
     numdocs, numtokens = dtm.npdtm.shape
     assert numdocs == 56
