@@ -174,3 +174,19 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
 
     def loadmodel(self, nameprefix: str) -> Self:
         self.npdtm = npdict.SparseArrayWrappedDict.load(nameprefix+"_npdict.npy")
+
+    @property
+    def docids(self) -> list[str]:
+        return self.npdtm._lists_keystrings[0]
+
+    @property
+    def tokens(self) -> list[str]:
+        return self.npdtm._lists_keystrings[1]
+
+    @property
+    def nbdocs(self) -> int:
+        return len(self.docids)
+
+    @property
+    def nbtokens(self) -> int:
+        return len(self.tokens)

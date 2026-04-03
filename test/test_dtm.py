@@ -6,6 +6,7 @@ import pytest
 
 import shorttext
 from shorttext.utils import stemword, tokenize
+from shorttext.utils.textpreprocessing import advanced_text_tokenizer_1
 
 
 def test_inaugural():
@@ -17,13 +18,7 @@ def test_inaugural():
     usprezdf = usprezdf[['yrprez', 'speech']]
 
     # preprocesser defined
-    pipeline = [
-        lambda s: re.sub(r'[^\w\s]', '', s),
-        lambda s: re.sub(r'[0-9]', '', s),
-        lambda s: s.lower(),
-        lambda s: ' '.join([stemword(token) for token in tokenize(s)])
-    ]
-    txtpreprocessor = shorttext.utils.text_preprocessor(pipeline)
+    txtpreprocessor = advanced_text_tokenizer_1()
 
     # corpus making
     docids = list(usprezdf['yrprez'])
@@ -33,8 +28,7 @@ def test_inaugural():
     dtm = shorttext.utils.NumpyDocumentTermMatrix(corpus, docids, tfidf=True)
 
     # check results
-    assert dtm.get_token_occurences(stemword('change'))['2009-Obama'] == pytest.approx(0.0138)
-    numdocs, numtokens = dtm.npdtm.shape
-    assert numdocs == 56
-    assert numtokens == 5256
+    assert dtm.get_token_occurences(stemword('change'))['2009-Obama'] == pytest.approx(0.94000725)
+    assert dtm.nbtokens == 56
+    assert dtm.nbtokens == 5075
     assert dtm.get_total_termfreq('government') == pytest.approx(0.27865372986738407)
