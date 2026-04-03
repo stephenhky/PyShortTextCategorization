@@ -29,6 +29,6 @@ def test_inaugural():
 
     # check results
     assert dtm.get_token_occurences(stemword('change'))['2009-Obama'] == pytest.approx(0.94000725)
-    assert dtm.nbtokens == 56
+    assert dtm.nbdocs == 56
     assert dtm.nbtokens == 5075
     assert dtm.get_total_termfreq('government') == pytest.approx(0.27865372986738407)
