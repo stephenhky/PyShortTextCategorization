@@ -109,7 +109,7 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
             tfidf: bool=False,
             tokenize_func: Optional[callable]=None
     ):
-        CompactIOMachine.__init__(self, {'classifier': 'npdtm'}, 'npdtm', npdtm_suffices)
+        super().__init__({'classifier': 'npdtm'}, 'npdtm', npdtm_suffices)
         self.tokenize_func = tokenize_func if tokenize_func is not None else advanced_text_tokenizer_1()
 
         # generate DTM
