@@ -1,9 +1,12 @@
 
 import pickle
+from typing import Literal, Optional
 
+import numpy as np
+import numpy.typing as npt
 from scipy.sparse import dok_matrix
 from gensim.corpora import Dictionary
-from tensorflow.keras.models import Sequential
+from tensorflow.keras import Model, Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.regularizers import l2
 
@@ -14,7 +17,13 @@ from ....utils import classification_exceptions as e
 from ....utils.compactmodel_io import CompactIOMachine
 
 
-def logistic_framework(nb_features, nb_outputs, l2reg=0.01, bias_l2reg=0.01, optimizer='adam'):
+def logistic_framework(
+        nb_features: int,
+        nb_outputs: int,
+        l2reg: float = 0.01,
+        bias_l2reg: float = 0.01,
+        optimizer: Literal["sgd", "rmsprop", "adagrad", "adadelta", "adam", "adamax", "nadam"] = "adam"
+) -> Model:
     """ Construct the neural network of maximum entropy classifier.
 
     Given the numbers of features and the output labels, return a keras neural network
@@ -51,20 +60,25 @@ class MaxEntClassifier(CompactIOMachine):
     Reference:
     * Adam L. Berger, Stephen A. Della Pietra, Vincent J. Della Pietra, "A Maximum Entropy Approach to Natural Language Processing," *Computational Linguistics* 22(1): 39-72 (1996).
     """
-    def __init__(self, preprocessor=lambda s: s.lower()):
+    def __init__(self, preprocessor: Optional[callable] = None):
         """ Initializer.
 
         :param preprocessor: text preprocessor
         :type preprocessor: function
         """
-        CompactIOMachine.__init__(self,
-                                  {'classifier': 'maxent'},
-                                  'maxent',
-                                  ['_classlabels.txt', '.json', '.weights.h5', '_labelidx.pkl', '_dictionary.dict'])
+        super().__init__(
+              {'classifier': 'maxent'},
+              'maxent',
+              ['_classlabels.txt', '.json', '.weights.h5', '_labelidx.pkl', '_dictionary.dict']
+        )
+
+        if preprocessor is None:
+            preprocessor = lambda s: s.lower()
+
         self.preprocessor = preprocessor
         self.trained = False
 
-    def shorttext_to_vec(self, shorttext):
+    def shorttext_to_vec(self, shorttext: str) -> npt.NDArray[np.float64]:
         """ Convert the shorttext into a sparse vector given the dictionary.
 
         According to the dictionary (gensim.corpora.Dictionary), convert the given text
