@@ -7,17 +7,17 @@ import gensim
 from .utils import standard_text_preprocessor_1
 from .utils import compactmodel_io as cio
 from .utils import classification_exceptions as e
-from .utils import load_DocumentTermMatrix
 from .classifiers import  load_varnnlibvec_classifier, load_sumword2vec_classifier
 from .generators import load_autoencoder_topicmodel, load_gensimtopicmodel
 from .generators import loadSeq2SeqWithKeras, loadCharBasedSeq2SeqGenerator
 from .classifiers import load_autoencoder_topic_sklearnclassifier, load_gensim_topicvec_sklearnclassifier
 from .classifiers import load_maxent_classifier
+from .utils.dtm import load_numpy_documentmatrixmatrix
 
 
 def smartload_compact_model(
         filename: str | PathLike,
-        wvmodel: gensim.models.keyedvectors.KeyedVectors,
+        wvmodel: Optional[gensim.models.keyedvectors.KeyedVectors],
         preprocessor: Optional[callable] = None,
         vecsize: Optional[int] = None
 ):
@@ -59,11 +59,11 @@ def smartload_compact_model(
             return load_sumword2vec_classifier(wvmodel, filename, compact=True, vecsize=vecsize)
         case 'maxent':
             return load_maxent_classifier(filename, compact=True)
-        case 'dtm':
-            return load_DocumentTermMatrix(filename, compact=True)
         case 'kerasseq2seq':
             return loadSeq2SeqWithKeras(filename, compact=True)
         case 'charbases2s':
             return loadCharBasedSeq2SeqGenerator(filename, compact=True)
+        case "npdtm":
+            return load_numpy_documentmatrixmatrix(filename)
         case _:
             raise e.AlgorithmNotExistException(classifier_name)

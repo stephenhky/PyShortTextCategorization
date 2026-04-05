@@ -1,46 +1,28 @@
 
-import unittest
-import re
+import pytest
 
-import pandas as pd
 import shorttext
-from shorttext.utils import stemword, tokenize
+from shorttext.utils import stemword
+from shorttext.utils.textpreprocessing import standard_text_preprocessor_1
 
 
-class TestDTM(unittest.TestCase):
-    def test_inaugural(self):
-        # preparing data
-        usprez = shorttext.data.inaugural()
-        docids = sorted(usprez.keys())
-        usprez = [' '.join(usprez[docid]) for docid in docids]
-        usprezdf = pd.DataFrame({'yrprez': docids, 'speech': usprez})
-        usprezdf = usprezdf[['yrprez', 'speech']]
+def test_inaugural():
+    # preparing data
+    usprez = shorttext.data.inaugural()
+    docids = sorted(usprez.keys())
+    usprez = [' '.join(usprez[docid]) for docid in docids]
 
-        # preprocesser defined
-        pipeline = [lambda s: re.sub('[^\w\s]', '', s),
-                    lambda s: re.sub('[\d]', '', s),
-                    lambda s: s.lower(),
-                    lambda s: ' '.join([stemword(token) for token in tokenize(s)])
-                    ]
-        txtpreprocessor = shorttext.utils.text_preprocessor(pipeline)
+    # preprocesser defined
+    txtpreprocessor = standard_text_preprocessor_1()
 
-        # corpus making
-        docids = list(usprezdf['yrprez'])
-        corpus = [txtpreprocessor(speech).split(' ') for speech in usprezdf['speech']]
+    # corpus making
+    corpus = [txtpreprocessor(speech) for speech in usprez]
 
-        # making DTM
-        dtm = shorttext.utils.DocumentTermMatrix(corpus, docids=docids, tfidf=True)
+    # making DTM
+    dtm = shorttext.utils.NumpyDocumentTermMatrix(corpus, docids, tfidf=True)
 
-        # check results
-        self.assertEqual(len(dtm.dictionary), 5256)
-        self.assertAlmostEqual(dtm.get_token_occurences(stemword('change'))['2009-Obama'], 0.0138,
-                               places=3)
-        numdocs, numtokens = dtm.dtm.shape
-        self.assertEqual(numdocs, 56)
-        self.assertEqual(numtokens, 5256)
-        self.assertAlmostEqual(dtm.get_total_termfreq('government'), 0.27865372986738407,
-                               places=3)
-
-
-if __name__ == '__main__':
-    unittest.main()
+    # check results
+    assert dtm.get_token_occurences(stemword('change'))['2009-Obama'] == pytest.approx(0.9400072584914713)
+    assert dtm.nbdocs == 56
+    assert dtm.nbtokens == 5075
+    assert dtm.get_total_termfreq(stemword('government')) == pytest.approx(37.82606692473982)

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "shorttext"
-version = "4.0.0a1"
+version = "4.0.0a2"
 authors = [
     {name = "Kwan Yuet Stephen Ho", email = "stephenhky@yahoo.com.hk"}
 ]
@@ -18,7 +18,6 @@ classifiers = [
       "Topic :: Scientific/Engineering :: Mathematics",
       "Topic :: Text Processing :: Linguistic",
       "Topic :: Software Development :: Libraries :: Python Modules",
-      "Programming Language :: Python :: 3.10",
       "Programming Language :: Python :: 3.11",
       "Programming Language :: Python :: 3.12",
       "Programming Language :: Python :: 3.13",
@@ -41,7 +40,7 @@ dependencies = [
     "snowballstemmer>=3.0.0",
     "numba>=0.57.0",
     "deprecation>=2.0.0",
-    "npdict>=0.0.5"
+    "npdict>=0.0.10",
 ]
 
 [project.urls]
@@ -71,6 +70,7 @@ packages = [
     "shorttext.metrics.dynprog",
     "shorttext.metrics.wasserstein",
     "shorttext.metrics.embedfuzzy",
+    "shorttext.schemas",
     "shorttext.spell"
 ]
 zip-safe = false

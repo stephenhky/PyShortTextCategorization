@@ -1,31 +1,57 @@
 
-import pickle
-from typing import Optional, Any
-from types import FunctionType
+from typing import Optional, Any, Self
+from collections import Counter
 
 import numpy as np
 import numpy.typing as npt
 import npdict
-from gensim.corpora import Dictionary
-from gensim.models import TfidfModel
-from npdict import SparseArrayWrappedDict
-from scipy.sparse import dok_matrix
-from deprecation import deprecated
+import sparse
+from os import PathLike
 
 from .compactmodel_io import CompactIOMachine
-from .classification_exceptions import NotImplementedException
 from .textpreprocessing import advanced_text_tokenizer_1
+from .classification_exceptions import UnequalArrayLengthsException
 
 
-dtm_suffices = ['_docids.pkl', '_dictionary.dict', '_dtm.pkl']
-npdtm_suffices = []
+npdtm_suffices = ["_npdict.npy"]
+
+
+def _construct_sparse_coo_dtm_matrix(
+        sorted_token_list: list[str],
+        tokens_counters: list[list[tuple[str, int]]]
+) -> tuple[npt.NDArray[np.int64], npt.NDArray[np.int64], npt.NDArray[np.float64]]:
+    token_index_map = {token: idx for idx, token in enumerate(sorted_token_list)}
+    ids_counters = [
+        {token_index_map[token]: counts for token, counts in counter}
+        for counter in tokens_counters
+    ]
+    docs_nbtokens = [len(counter) for counter in ids_counters]
+    nb_coo_data = sum(docs_nbtokens)
+    coordx_array = np.empty(nb_coo_data, dtype=np.int64)
+    coordy_array = np.empty(nb_coo_data, dtype=np.int64)
+    val_array = np.empty(nb_coo_data)
+
+    i = 0
+    for doc_id, counter in enumerate(ids_counters):
+        for tokenid, counts in counter.items():
+            coordx_array[i] = doc_id
+            coordy_array[i] = tokenid
+            val_array[i] = counts
+            i += 1
+
+    return coordx_array, coordy_array, val_array
 
 
 def generate_npdict_document_term_matrix(
         corpus: list[str],
         doc_ids: list[Any],
-        tokenize_func: FunctionType
+        tokenize_func: callable
 ) -> npdict.NumpyNDArrayWrappedDict:
+    try:
+        assert len(corpus) == len(doc_ids)
+    except AssertionError:
+        raise UnequalArrayLengthsException(corpus, doc_ids)
+
     # grabbing tokens from each document in the corpus
     doc_tokens = [tokenize_func(document) for document in corpus]
     tokens_set = set([
@@ -33,13 +59,16 @@ def generate_npdict_document_term_matrix(
         for document in doc_tokens
         for token in document
     ])
-    npdtm = npdict.SparseArrayWrappedDict(
-        [doc_ids, sorted(list(tokens_set))],
-        default_initial_value=0.0
+    sorted_tokens_list = sorted(list(tokens_set))
+    tokens_counters = [dict(Counter(tokens)) for tokens in doc_tokens]
+    tokens_counters_tuples = [[(token, counts) for token, counts in counter.items()] for counter in tokens_counters]
+    coord_x, coord_y, data = _construct_sparse_coo_dtm_matrix(
+        sorted_tokens_list, tokens_counters_tuples
     )
-    for doc_id, document in zip(doc_ids, doc_tokens):
-        for token in document:
-            npdtm[doc_id, token] += 1
+    npdtm = npdict.SparseArrayWrappedDict.from_sparsearray_given_keywords(
+        [doc_ids, sorted_tokens_list],
+        sparse.COO([coord_x, coord_y], data=data, shape=(len(doc_tokens), len(sorted_tokens_list)))
+    )
     return npdtm
 
 
@@ -60,29 +89,28 @@ def compute_tfidf_document_term_matrix(
     nbdocs = npdtm.dimension_sizes[0]
     if isinstance(npdtm, npdict.SparseArrayWrappedDict):
         new_dtm_sparray = npdtm.to_coo() * np.log(nbdocs / doc_frequencies)
-        return npdict.SparseArrayWrappedDict.generate_dict(new_dtm_sparray, dense=not sparse)
+        return npdtm.generate_dict(new_dtm_sparray, dense=not sparse)
+
+    new_dtm_nparray = npdtm.to_numpy() * np.log(nbdocs / doc_frequencies)
+    new_npdtm = npdtm.generate_dict(new_dtm_nparray)
+    if sparse:
+        return npdict.SparseArrayWrappedDict.from_NumpyNDArrayWrappedDict(
+            new_npdtm, default_initial_value=0.0
+        )
     else:
-        new_dtm_nparray = npdtm.to_numpy() * np.log(nbdocs / doc_frequencies)
-        new_npdtm = npdict.NumpyNDArrayWrappedDict.generate_dict(new_dtm_nparray)
-        if sparse:
-            new_sparse_dtm = npdict.SparseArrayWrappedDict.from_NumpyNDArrayWrappedDict(
-                new_npdtm, default_initial_value=0.0
-            )
-            return new_sparse_dtm
-        else:
-            return new_npdtm
+        return new_npdtm
 
 
 class NumpyDocumentTermMatrix(CompactIOMachine):
     def __init__(
             self,
-            corpus: Optional[list[str]]=None,
+            corpus: Optional[list[list[str]]]=None,
             docids: Optional[list[Any]]=None,
             tfidf: bool=False,
-            tokenize_func: Optional[FunctionType]=None
+            tokenize_func: Optional[callable]=None
     ):
-        CompactIOMachine.__init__(self, {'classifier': 'npdtm'}, 'dtm', dtm_suffices)
-        self.tokenize_func = tokenize_func if tokenize_func is not None else advanced_text_tokenizer_1
+        super().__init__({'classifier': 'npdtm'}, 'npdtm', npdtm_suffices)
+        self.tokenize_func = tokenize_func if tokenize_func is not None else advanced_text_tokenizer_1()
 
         # generate DTM
         if corpus is not None:
@@ -90,10 +118,10 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
 
     def generate_dtm(
             self,
-            corpus: list[str],
+            corpus: list[list[str]],
             docids: Optional[list[Any]]=None,
             tfidf: bool=False
-    ):
+    ) -> None:
         # wrangling document IDs
         if docids is None:
             doc_ids = [f"doc{i}" for i in range(len(corpus))]
@@ -115,7 +143,7 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
 
     def get_total_termfreq(self, token: str) -> float:
         token_index = self.npdtm._keystrings_to_indices[1][token]
-        if isinstance(self.npdtm, SparseArrayWrappedDict):
+        if isinstance(self.npdtm, npdict.SparseArrayWrappedDict):
             matrix = self.npdtm.to_coo()
         else:
             matrix = self.npdtm.to_numpy()
@@ -125,10 +153,9 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
         token_index = self.npdtm._keystrings_to_indices[1][token]
         if isinstance(self.npdtm, npdict.SparseArrayWrappedDict):
             freq_array = self.npdtm.to_coo()[:, token_index]
-            return np.sum(freq_array > 0, axis=0).todense()
         else:
             freq_array = self.npdtm.to_numpy()[:, token_index]
-            return np.sum(freq_array > 0, axis=0)
+        return np.sum(freq_array > 0, axis=0)
 
     def get_token_occurences(self, token: str) -> dict[str, float]:
         return {
@@ -142,198 +169,30 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
             for token in self.npdtm._lists_keystrings[1]
         }
 
+    def savemodel(self, nameprefix: str) -> None:
+        self.npdtm.save(nameprefix+"_npdict.npy")
 
-@deprecated(deprecated_in="3.0.1", removed_in="4.0.0",
-            details="Use `NumpyDocumentTermMatrix` instead")
-class DocumentTermMatrix(CompactIOMachine):
-    """ Document-term matrix for corpus.
+    def loadmodel(self, nameprefix: str) -> Self:
+        self.npdtm = npdict.SparseArrayWrappedDict.load(nameprefix+"_npdict.npy")
 
-    This is a class that handles the document-term matrix (DTM). With a given corpus, users can
-    retrieve term frequency, document frequency, and total term frequency. Weighing using tf-idf
-    can be applied.
-    """
-    def __init__(self, corpus, docids=None, tfidf=False):
-        """ Initialize the document-term matrix (DTM) class with a given corpus.
+    @property
+    def docids(self) -> list[str]:
+        return self.npdtm._lists_keystrings[0]
 
-        If document IDs (docids) are given, it will be stored and output as approrpriate.
-        If not, the documents are indexed by numbers.
+    @property
+    def tokens(self) -> list[str]:
+        return self.npdtm._lists_keystrings[1]
 
-        Users can choose to weigh by tf-idf. The default is not to weigh.
+    @property
+    def nbdocs(self) -> int:
+        return len(self.docids)
 
-        The corpus has to be a list of lists, with each of the inside list contains all the tokens
-        in each document.
-
-        :param corpus: corpus.
-        :param docids: list of designated document IDs. (Default: None)
-        :param tfidf: whether to weigh using tf-idf. (Default: False)
-        :type corpus: list
-        :type docids: list
-        :type tfidf: bool
-        """
-        CompactIOMachine.__init__(self, {'classifier': 'dtm'}, 'dtm', dtm_suffices)
-        if docids is None:
-            self.docid_dict = {i: i for i in range(len(corpus))}
-            self.docids = [i for i in range(len(corpus))]
-        else:
-            if len(docids) == len(corpus):
-                self.docid_dict = {docid: i for i, docid in enumerate(docids)}
-                self.docids = docids
-            elif len(docids) > len(corpus):
-                self.docid_dict = {docid: i for i, docid in zip(range(len(corpus)), docids[:len(corpus)])}
-                self.docids = docids[:len(corpus)]
-            else:
-                self.docid_dict = {docid: i for i, docid in enumerate(docids)}
-                self.docid_dict = {i: i for i in range(len(docids), len(corpus))}
-                self.docids = docids + [i for i in range(len(docids), len(corpus))]
-        # generate DTM
-        self.generate_dtm(corpus, tfidf=tfidf)
-
-    def generate_dtm(self, corpus, tfidf=False):
-        """ Generate the inside document-term matrix and other peripherical information
-        objects. This is run when the class is instantiated.
-
-        :param corpus: corpus.
-        :param tfidf: whether to weigh using tf-idf. (Default: False)
-        :return: None
-        :type corpus: list
-        :type tfidf: bool
-        """
-        self.dictionary = Dictionary(corpus)
-        self.dtm = dok_matrix((len(corpus), len(self.dictionary)), dtype=np.float64)
-        bow_corpus = [self.dictionary.doc2bow(doctokens) for doctokens in corpus]
-        if tfidf:
-            weighted_model = TfidfModel(bow_corpus)
-            bow_corpus = weighted_model[bow_corpus]
-        for docid in self.docids:
-            for tokenid, count in bow_corpus[self.docid_dict[docid]]:
-                self.dtm[self.docid_dict[docid], tokenid] = count
-
-    def get_termfreq(self, docid, token):
-        """ Retrieve the term frequency of a given token in a particular document.
-
-        Given a token and a particular document ID, compute the term frequency for this
-        token. If `tfidf` is set to `True` while instantiating the class, it returns the weighted
-        term frequency.
-
-        :param docid: document ID
-        :param token: term or token
-        :return: term frequency or weighted term frequency of the given token in this document (designated by docid)
-        :type docid: any
-        :type token: str
-        :rtype: numpy.float
-        """
-        return self.dtm[self.docid_dict[docid], self.dictionary.token2id[token]]
-
-    def get_total_termfreq(self, token):
-        """ Retrieve the total occurrences of the given token.
-
-        Compute the total occurrences of the term in all documents. If `tfidf` is set to `True`
-        while instantiating the class, it returns the sum of weighted term frequency.
-
-        :param token: term or token
-        :return: total occurrences of the given token
-        :type token: str
-        :rtype: numpy.float
-        """
-        return sum(self.dtm[:, self.dictionary.token2id[token]].values())
-
-    def get_doc_frequency(self, token):
-        """ Retrieve the document frequency of the given token.
-
-        Compute the document frequency of the given token, i.e., the number of documents
-        that this token can be found.
-
-        :param token: term or token
-        :return: document frequency of the given token
-        :type token: str
-        :rtype: int
-        """
-        return len(self.dtm[:, self.dictionary.token2id[token]].values())
-
-    def get_token_occurences(self, token):
-        """ Retrieve the term frequencies of a given token in all documents.
-
-        Compute the term frequencies of the given token for all the documents. If `tfidf` is
-        set to be `True` while instantiating the class, it returns the weighted term frequencies.
-
-        This method returns a dictionary of term frequencies with the corresponding document IDs
-        as the keys.
-
-        :param token: term or token
-        :return: a dictionary of term frequencies with the corresponding document IDs as the keys
-        :type token: str
-        :rtype: dict
-        """
-        return {self.docids[docidx]: count for (docidx, _), count in self.dtm[:, self.dictionary.token2id[token]].items()}
-
-    def get_doc_tokens(self, docid):
-        """ Retrieve the term frequencies of all tokens in the given document.
-
-        Compute the term frequencies of all tokens for the given document. If `tfidf` is
-        set to be `True` while instantiating the class, it returns the weighted term frequencies.
-
-        This method returns a dictionary of term frequencies with the tokens as the keys.
-
-        :param docid: document ID
-        :return: a dictionary of term frequencies with the tokens as the keys
-        :type docid: any
-        :rtype: dict
-        """
-        return {self.dictionary[tokenid]: count for (_, tokenid), count in self.dtm[self.docid_dict[docid], :].items()}
-
-    def generate_dtm_dataframe(self):
-        """ Generate the data frame of the document-term matrix. (shorttext <= 1.0.3)
-
-        Now it raises exception.
-
-        :return: data frame of the document-term matrix
-        :rtype: pandas.DataFrame
-        :raise: NotImplementedException
-        """
-        raise NotImplementedException()
-
-    def savemodel(self, prefix):
-        """ Save the model.
-
-        :param prefix: prefix of the files
-        :return: None
-        :type prefix: str
-        """
-        pickle.dump(self.docids, open(prefix+'_docids.pkl', 'wb'))
-        self.dictionary.save(prefix+'_dictionary.dict')
-        pickle.dump(self.dtm, open(prefix+'_dtm.pkl', 'wb'))
-
-    def loadmodel(self, prefix):
-        """ Load the model.
-
-        :param prefix: prefix of the files
-        :return: None
-        :type prefix: str
-        """
-        self.docids = pickle.load(open(prefix+'_docids.pkl', 'rb'))
-        self.docid_dict = {docid: i for i, docid in enumerate(self.docids)}
-        self.dictionary = Dictionary.load(prefix+'_dictionary.dict')
-        self.dtm = pickle.load(open(prefix+'_dtm.pkl', 'rb'))
+    @property
+    def nbtokens(self) -> int:
+        return len(self.tokens)
 
 
-@deprecated(deprecated_in="3.0.1", removed_in="4.0.0",
-            details="Use `npdict` instead")
-def load_DocumentTermMatrix(filename, compact=True):
-    """ Load presaved Document-Term Matrix (DTM).
-
-    Given the file name (if `compact` is `True`) or the prefix (if `compact` is `False`),
-    return the document-term matrix.
-
-    :param filename: file name or prefix
-    :param compact: whether it is a compact model. (Default: `True`)
-    :return: document-term matrix
-    :type filename: str
-    :type compact: bool
-    :rtype: DocumentTermMatrix
-    """
-    dtm = DocumentTermMatrix([[]])
-    if compact:
-        dtm.load_compact_model(filename)
-    else:
-        dtm.loadmodel(filename)
-    return dtm
+def load_numpy_documentmatrixmatrix(filepath: str | PathLike) -> NumpyDocumentTermMatrix:
+    npdtm = NumpyDocumentTermMatrix()
+    npdtm.load_compact_model(filepath)
+    return npdtm
