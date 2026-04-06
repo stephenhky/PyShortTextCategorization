@@ -87,7 +87,7 @@ def convert_classdict_to_xy(
                 for _ in doc_under_class
             ]
         ],
-        [1]*nbdata,
+        [1.]*nbdata,
         shape=(nbdata, nblabels)
     )
 
