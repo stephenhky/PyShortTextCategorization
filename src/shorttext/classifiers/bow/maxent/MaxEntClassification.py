@@ -1,20 +1,18 @@
 
-import pickle
-from typing import Literal, Optional
+from typing import Literal, Optional, Annotated
 
-import numpy as np
-import numpy.typing as npt
-from scipy.sparse import dok_matrix
-from gensim.corpora import Dictionary
+import npdict
+import sparse
+import orjson
 from tensorflow.keras import Model, Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.regularizers import l2
 
 from ....utils import kerasmodel_io as kerasio
 from ....utils import tokenize
-from ....utils import gensim_corpora as gc
 from ....utils import classification_exceptions as e
 from ....utils.compactmodel_io import CompactIOMachine
+from ....utils.dtm import generate_npdict_document_term_matrix
 
 
 def logistic_framework(
@@ -53,6 +51,45 @@ def logistic_framework(
     return kmodel
 
 
+def convert_classdict_to_xy(
+        classdict: dict[str, list[str]],
+        labels2idx: dict[str, int],
+        preprocess_func: callable,
+        tokenize_func: callable
+) -> tuple[npdict.NumpyNDArrayWrappedDict, Annotated[sparse.SparseArray, "2D Array"]]:
+    nbdata = sum(len(data) for data in classdict.values())
+    nblabels = len(labels2idx)
+
+    # making x
+    corpus = [
+        preprocess_func(datum)
+        for doc_under_class in classdict.values()
+        for datum in doc_under_class
+    ]
+    docids = [
+        f"{label}-{i}"
+        for label, doc_under_class in classdict.items()
+        for i in range(len(doc_under_class))
+    ]
+    dtm_npdict_matrix = generate_npdict_document_term_matrix(corpus, docids, tokenize_func)
+
+    # making y
+    y = sparse.COO(
+        [
+            list(range(nbdata)),
+            [
+                labels2idx[label]
+                for label, doc_under_class in classdict.items()
+                for _ in doc_under_class
+            ]
+        ],
+        [1.]*nbdata,
+        shape=(nbdata, nblabels)
+    )
+
+    return dtm_npdict_matrix, y
+
+
 class MaxEntClassifier(CompactIOMachine):
     """
     This is a classifier that implements the principle of maximum entropy.
@@ -60,6 +97,7 @@ class MaxEntClassifier(CompactIOMachine):
     Reference:
     * Adam L. Berger, Stephen A. Della Pietra, Vincent J. Della Pietra, "A Maximum Entropy Approach to Natural Language Processing," *Computational Linguistics* 22(1): 39-72 (1996).
     """
+
     def __init__(self, preprocessor: Optional[callable] = None):
         """ Initializer.
 
@@ -67,18 +105,18 @@ class MaxEntClassifier(CompactIOMachine):
         :type preprocessor: function
         """
         super().__init__(
-              {'classifier': 'maxent'},
-              'maxent',
-              ['_classlabels.txt', '.json', '.weights.h5', '_labelidx.pkl', '_dictionary.dict']
+            {'classifier': 'maxent'},
+            'maxent',
+            ['_classlabels.txt', '.json', '.weights.h5', '_labels2idx.json', '_tokens2idx.json']
         )
 
         if preprocessor is None:
             preprocessor = lambda s: s.lower()
 
-        self.preprocessor = preprocessor
+        self.preprocess_func = preprocessor
         self.trained = False
 
-    def shorttext_to_vec(self, shorttext: str) -> npt.NDArray[np.float64]:
+    def shorttext_to_vec(self, shorttext: str) -> sparse.SparseArray:
         """ Convert the shorttext into a sparse vector given the dictionary.
 
         According to the dictionary (gensim.corpora.Dictionary), convert the given text
@@ -92,49 +130,29 @@ class MaxEntClassifier(CompactIOMachine):
         :type shorttext: str
         :rtype: scipy.sparse.dok_matrix
         """
-        # too slow, deprecated
-        tokens = tokenize(self.preprocessor(shorttext))
+        tokens = tokenize(self.preprocess_func(shorttext))
+        token_indices = [
+            self.token2idx.get(token)
+            for token in tokens
+            if token in self.token2idx.keys()
+        ]
 
-        vec = dok_matrix((1, len(self.dictionary)))
-        for token in tokens:
-            if token in self.dictionary.token2id:
-                vec[0, self.dictionary.token2id[token]] = 1.0
+        vec = sparse.COO(
+            [[0]*len(token_indices), token_indices],
+            [1.0]*len(token_indices),
+            shape=(1, len(self.token2idx))
+        )
 
-        return vec[0, :]
+        return vec
 
-    def index_classlabels(self):
-        """ Index the class outcome labels.
-
-        Index the class outcome labels into integers, for neural network implementation.
-
-        """
-        self.labels2idx = {label: idx for idx, label in enumerate(self.classlabels)}
-
-    def convert_classdict_to_XY(self, classdict):
-        """ Convert the training data into sparse matrices for training.
-
-        :param classdict: training data
-        :return: a tuple, consisting of sparse matrices for X (training data) and y (the labels of the training data)
-        :type classdict: dict
-        :rtype: tuple
-        """
-        nb_data = sum([len(classdict[k]) for k in classdict])
-        X = dok_matrix((nb_data, len(self.dictionary)))
-        y = dok_matrix((nb_data, len(self.labels2idx)))
-
-        rowid = 0
-        for label in classdict:
-            if label in self.labels2idx.keys():
-                for shorttext in classdict[label]:
-                    tokens = tokenize(self.preprocessor(shorttext))
-                    for token in tokens:
-                        X[rowid, self.dictionary.token2id[token]] += 1.0
-                    y[rowid, self.labels2idx[label]] = 1.
-                    rowid += 1
-
-        return X, y
-
-    def train(self, classdict, nb_epochs=500, l2reg=0.01, bias_l2reg=0.01, optimizer='adam'):
+    def train(
+            self,
+            classdict: dict[str, list[str]],
+            nb_epochs: int = 500,
+            l2reg: float = 0.01,
+            bias_l2reg: float = 0.01,
+            optimizer: Literal["sgd", "rmsprop", "adagrad", "adadelta", "adam", "adamax", "nadam"] = "adam"
+    ) -> None:
         """ Train the classifier.
 
         Given the training data, train the classifier.
@@ -151,23 +169,30 @@ class MaxEntClassifier(CompactIOMachine):
         :type bias_l2reg: float
         :type optimizer: str
         """
-        self.dictionary, self.corpus, self.classlabels = gc.generate_gensim_corpora(classdict,
-                                                                                    preprocess_and_tokenize=lambda s: tokenize(self.preprocessor(s)))
-        self.index_classlabels()
+        self.classlabels = sorted(classdict.keys())
+        self.labels2idx = {label: idx for idx, label in enumerate(self.classlabels)}
 
-        X, y = self.convert_classdict_to_XY(classdict)
+        dtm_npdict_matrix, y = convert_classdict_to_xy(
+            classdict, self.labels2idx, preprocess_func=self.preprocess_func, tokenize_func=tokenize
+        )
+        self.token2idx = {
+            token: idx
+            for idx, token in enumerate(dtm_npdict_matrix._lists_keystrings[1])
+        }
 
-        kmodel = logistic_framework(len(self.dictionary),
-                                    len(self.classlabels),
-                                    l2reg=l2reg,
-                                    bias_l2reg=bias_l2reg,
-                                    optimizer=optimizer)
-        kmodel.fit(X.toarray(), y.toarray(), epochs=nb_epochs)
+        kmodel = logistic_framework(
+            dtm_npdict_matrix.dimension_sizes[1],
+            len(self.classlabels),
+            l2reg=l2reg,
+            bias_l2reg=bias_l2reg,
+            optimizer=optimizer
+        )
+        kmodel.fit(dtm_npdict_matrix.to_numpy(), y.todense(), epochs=nb_epochs)
 
         self.model = kmodel
         self.trained = True
 
-    def savemodel(self, nameprefix):
+    def savemodel(self, nameprefix: str) -> None:
         """ Save the trained model into files.
 
         Given the prefix of the file paths, save the model into files, with name given by the prefix.
@@ -185,16 +210,11 @@ class MaxEntClassifier(CompactIOMachine):
             raise e.ModelNotTrainedException()
 
         kerasio.save_model(nameprefix, self.model)
+        open(nameprefix+'_tokens2idx.json', 'wb').write(orjson.dumps(self.token2idx))
+        open(nameprefix+'_classlabels.txt', 'w').write('\n'.join(self.classlabels))
+        open(nameprefix+'_labels2idx.json', 'wb').write(orjson.dumps(self.labels2idx))
 
-        self.dictionary.save(nameprefix+'_dictionary.dict')
-
-        labelfile = open(nameprefix+'_classlabels.txt', 'w')
-        labelfile.write('\n'.join(self.classlabels))
-        labelfile.close()
-
-        pickle.dump(self.labels2idx, open(nameprefix+'_labelidx.pkl', 'wb'))
-
-    def loadmodel(self, nameprefix):
+    def loadmodel(self, nameprefix: str) -> None:
         """ Load a trained model from files.
 
         Given the prefix of the file paths, load the model from files with name given by the prefix
@@ -208,18 +228,15 @@ class MaxEntClassifier(CompactIOMachine):
         :type nameprefix: str
         """
         self.model = kerasio.load_model(nameprefix)
-
-        self.dictionary = Dictionary.load(nameprefix+'_dictionary.dict')
-
-        labelfile = open(nameprefix+'_classlabels.txt', 'r')
-        self.classlabels = [s.strip() for s in labelfile.readlines()]
-        labelfile.close()
-
-        self.labels2idx = pickle.load(open(nameprefix+'_labelidx.pkl', 'rb'))
-
+        self.token2idx = orjson.loads(open(nameprefix+"_tokens2idx.json", "rb").read())
+        self.classlabels = [
+            s.strip()
+            for s in open(nameprefix+'_classlabels.txt', 'r').readlines()
+        ]
+        self.labels2idx = orjson.loads(open(nameprefix+"_labels2idx.json", "rb").read())
         self.trained = True
 
-    def score(self, shorttext):
+    def score(self, shorttext: str) -> dict[str, float]:
         """ Calculate the scores for all the class labels for the given short sentence.
 
         Given a short sentence, calculate the classification scores for all class labels,
@@ -237,17 +254,20 @@ class MaxEntClassifier(CompactIOMachine):
             raise e.ModelNotTrainedException()
 
         vec = self.shorttext_to_vec(shorttext)
-        predictions = self.model.predict(vec.toarray())
+        predictions = self.model.predict(vec.todense())
 
         # wrangle output result
-        scoredict = {classlabel: predictions[0][idx] for idx, classlabel in enumerate(self.classlabels)}
+        scoredict = {
+            classlabel: predictions[0][idx]
+            for idx, classlabel in enumerate(self.classlabels)
+        }
         return scoredict
 
 
-def load_maxent_classifier(name, compact=True):
+def load_maxent_classifier(name: str, compact: bool=True) -> MaxEntClassifier:
     """ Load the maximum entropy classifier from saved model.
 
-    Given a moel file(s), load the maximum entropy classifier.
+    Given a model file(s), load the maximum entropy classifier.
 
     :param name: name or prefix of the file, if compact is True or False respectively
     :param compact: whether the model file is compact (Default:True)
