@@ -180,7 +180,7 @@ class MaxEntClassifier(CompactIOMachine):
         }
 
         kmodel = logistic_framework(
-            dtm_npdict_matrix.dimension_sizes[0],
+            dtm_npdict_matrix.dimension_sizes[1],
             len(self.classlabels),
             l2reg=l2reg,
             bias_l2reg=bias_l2reg,
