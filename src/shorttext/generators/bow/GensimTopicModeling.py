@@ -20,7 +20,7 @@ gensim_topic_model_dict = {'lda': LdaModel, 'lsi': LsiModel, 'rp': RpModel}
 class GensimTopicModeler(LatentTopicModeler):
     """
     This class facilitates the creation of topic models (options: LDA (latent Dirichlet Allocation),
-    LSI (latent semantic indexing), and Random Projections
+    LSI (latent semantic indexing), and Random Projections (RP))
     with the given short text training data, and convert future
     short text into topic vectors using the trained topic model.
 
@@ -98,7 +98,7 @@ class GensimTopicModeler(LatentTopicModeler):
         self.corpus, newcorpus = gc.update_corpus_labels(self.dictionary,
                                                          self.corpus,
                                                          additional_classdict,
-                                                         preprocess_and_tokenize=lambda sent: tokenize(self.preprocessor(sent)))
+                                                         preprocess_and_tokenize=lambda sent: tokenize(self.preprocess_func(sent)))
         self.topicmodel.update(newcorpus)
 
     def retrieve_corpus_topicdist(self, shorttext):
