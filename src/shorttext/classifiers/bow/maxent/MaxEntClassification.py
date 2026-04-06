@@ -131,10 +131,15 @@ class MaxEntClassifier(CompactIOMachine):
         :rtype: scipy.sparse.dok_matrix
         """
         tokens = tokenize(self.preprocess_func(shorttext))
+        token_indices = [
+            self.token2idx.get(token)
+            for token in tokens
+            if token in self.token2idx.keys()
+        ]
 
         vec = sparse.COO(
-            [[0]*len(tokens), [self.token2idx[token] for token in tokens]],
-            [1.0]*len(tokens),
+            [[0]*len(token_indices), token_indices],
+            [1.0]*len(token_indices),
             shape=(1, len(self.token2idx))
         )
 
