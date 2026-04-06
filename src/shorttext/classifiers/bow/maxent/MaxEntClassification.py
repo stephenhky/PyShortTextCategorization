@@ -59,6 +59,7 @@ def logistic_framework(
 def convert_classdict_to_xy(
         classdict: dict[str, list[str]],
         labels2idx: dict[str, int],
+        preprocess_func: callable,
         tokenize_func: callable
 ) -> tuple[npdict.NumpyNDArrayWrappedDict, Annotated[sparse.SparseArray, "2D Array"]]:
     nbdata = sum(len(data) for data in classdict.values())
@@ -66,7 +67,7 @@ def convert_classdict_to_xy(
 
     # making x
     corpus = [
-        datum
+        preprocess_func(datum)
         for doc_under_class in classdict.values()
         for datum in doc_under_class
     ]
@@ -172,7 +173,7 @@ class MaxEntClassifier(CompactIOMachine):
         self.labels2idx = {label: idx for idx, label in enumerate(self.classlabels)}
 
         dtm_npdict_matrix, y = convert_classdict_to_xy(
-            classdict, self.labels2idx, tokenize
+            classdict, self.labels2idx, preprocess_func=self.preprocess_func, tokenize_func=tokenize
         )
         self.token2idx = {
             token: idx
