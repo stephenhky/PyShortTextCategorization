@@ -1,14 +1,9 @@
 
-import pickle
 from typing import Literal, Optional, Annotated
 
-import numpy as np
-import numpy.typing as npt
 import npdict
 import sparse
-from scipy.sparse import dok_matrix
 import orjson
-from gensim.corpora import Dictionary
 from tensorflow.keras import Model, Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.regularizers import l2
@@ -267,7 +262,7 @@ class MaxEntClassifier(CompactIOMachine):
 def load_maxent_classifier(name: str, compact: bool=True) -> MaxEntClassifier:
     """ Load the maximum entropy classifier from saved model.
 
-    Given a moel file(s), load the maximum entropy classifier.
+    Given a model file(s), load the maximum entropy classifier.
 
     :param name: name or prefix of the file, if compact is True or False respectively
     :param compact: whether the model file is compact (Default:True)
