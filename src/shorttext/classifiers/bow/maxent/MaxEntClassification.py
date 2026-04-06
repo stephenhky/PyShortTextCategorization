@@ -223,7 +223,7 @@ class MaxEntClassifier(CompactIOMachine):
         :type nameprefix: str
         """
         self.model = kerasio.load_model(nameprefix)
-        self.token2idx = orjson.loads(open(nameprefix+"tokens2idx.json", "rb").read())
+        self.token2idx = orjson.loads(open(nameprefix+"_tokens2idx.json", "rb").read())
         self.classlabels = [
             s.strip()
             for s in open(nameprefix+'_classlabels.txt', 'r').readlines()
