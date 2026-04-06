@@ -60,7 +60,7 @@ def convert_classdict_to_xy(
         classdict: dict[str, list[str]],
         labels2idx: dict[str, int],
         tokenize_func: callable
-) -> tuple(npdict.NumpyNDArrayWrappedDict, Annotated[sparse.SparseArray, "2D Array"]):
+) -> tuple[npdict.NumpyNDArrayWrappedDict, Annotated[sparse.SparseArray, "2D Array"]]:
     nbdata = sum(len(data) for data in classdict.values())
     nblabels = len(labels2idx)
 
