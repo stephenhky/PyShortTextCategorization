@@ -1,11 +1,15 @@
 
 import os
 
+import numpy as np
+import numpy.typing as npt
 import joblib
+import sklearn
 
 from ....utils import textpreprocessing as textpreprocess
 from ....generators import load_autoencoder_topicmodel, load_gensimtopicmodel
 from ....generators import LDAModeler, LSIModeler, RPModeler, AutoencodingTopicModeler
+from ....generators import LatentTopicModeler
 from ....utils import classification_exceptions as e
 from ....utils import compactmodel_io as cio
 
@@ -26,7 +30,11 @@ class TopicVectorSkLearnClassifier:
     WWW '08 Proceedings of the 17th international conference on World Wide Web. (2008) [`ACL
     <http://dl.acm.org/citation.cfm?id=1367510>`_]
     """
-    def __init__(self, topicmodeler, sklearn_classifier):
+    def __init__(
+            self,
+            topicmodeler: LatentTopicModeler,
+            sklearn_classifier: sklearn.base.BaseEstimator
+    ):
         """ Initialize the classifier.
 
         :param topicmodeler: a topic modeler
@@ -38,7 +46,7 @@ class TopicVectorSkLearnClassifier:
         self.classifier = sklearn_classifier
         self.trained = False
 
-    def train(self, classdict, *args, **kwargs):
+    def train(self, classdict: dict[str, list[str]], *args, **kwargs) -> None:
         """ Train the classifier.
 
         If the topic modeler does not have a trained model, it will raise `ModelNotTrainedException`.
@@ -50,17 +58,17 @@ class TopicVectorSkLearnClassifier:
         :raise: ModelNotTrainedException
         :type classdict: dict
         """
-        X = []
+        x = []
         y = []
         self.classlabels = sorted(classdict.keys())     # classlabels must be sorted like the topic modelers
         for classidx, classlabel in zip(range(len(self.classlabels)), self.classlabels):
             topicvecs = [self.topicmodeler.retrieve_topicvec(topic) for topic in classdict[classlabel]]
-            X += topicvecs
+            x += topicvecs
             y += [classidx]*len(topicvecs)
-        self.classifier.fit(X, y, *args, **kwargs)
+        self.classifier.fit(x, y, *args, **kwargs)
         self.trained = True
 
-    def getvector(self, shorttext):
+    def getvector(self, shorttext: str) -> npt.NDArray[np.float64]:
         """ Retrieve the topic vector representation of the given short text.
 
         If the topic modeler does not have a trained model, it will raise `ModelNotTrainedException`.
@@ -75,7 +83,7 @@ class TopicVectorSkLearnClassifier:
             raise e.ModelNotTrainedException()
         return self.topicmodeler.retrieve_topicvec(shorttext)
 
-    def classify(self, shorttext):
+    def classify(self, shorttext: str) -> str:
         """ Give the highest-scoring class of the given short text according to the classifier.
 
         If neither :func:`~train` nor :func:`~loadmodel` was run, or if the
@@ -92,7 +100,7 @@ class TopicVectorSkLearnClassifier:
         topicvec = self.getvector(shorttext)
         return self.classlabels[self.classifier.predict([topicvec])[0]]
 
-    def score(self, shorttext):
+    def score(self, shorttext: str) -> dict[str, int | float]:
         """ Calculate the score, which is the cosine similarity with the topic vector of the model,
         of the short text against each class labels.
 
@@ -113,7 +121,7 @@ class TopicVectorSkLearnClassifier:
                      for classidx, classlabel in enumerate(self.classlabels)}
         return scoredict
 
-    def savemodel(self, nameprefix):
+    def savemodel(self, nameprefix: str) -> None:
         """ Save the model.
 
         Save the topic model and the trained scikit-learn classification model. The scikit-learn
@@ -136,7 +144,7 @@ class TopicVectorSkLearnClassifier:
         labelfile.write('\n'.join(self.classlabels))
         labelfile.close()
 
-    def loadmodel(self, nameprefix):
+    def loadmodel(self, nameprefix: str) -> None:
         """ Load the classification model together with the topic model.
 
         :param nameprefix: prefix of the paths of the model files
@@ -153,7 +161,7 @@ class TopicVectorSkLearnClassifier:
         else:
             self.classlabels = self.topicmodeler.classlabels
 
-    def save_compact_model(self, name):
+    def save_compact_model(self, name: str) -> None:
         """ Save the model.
 
         Save the topic model and the trained scikit-learn classification model in one compact model file.
@@ -170,7 +178,7 @@ class TopicVectorSkLearnClassifier:
                                topicmodel_info['suffices']+['.pkl', '_classlabels.txt'],
                                {'classifier': 'topic_sklearn', 'topicmodel': topicmodel_info['classifier']})
 
-    def load_compact_model(self, name):
+    def load_compact_model(self, name: str) -> None:
         """ Load the classification model together with the topic model from a compact file.
 
         :param name: name of the compact model file
