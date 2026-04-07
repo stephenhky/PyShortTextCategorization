@@ -3,6 +3,7 @@ import json
 
 import gensim
 import numpy as np
+import numpy.typing as npt
 from gensim.corpora import Dictionary
 from gensim.models import TfidfModel, LdaModel, LsiModel, RpModel
 from gensim.similarities import MatrixSimilarity
@@ -47,6 +48,19 @@ class GensimTopicModeler(LatentTopicModeler):
         LatentTopicModeler.__init__(self, preprocessor=preprocessor, normalize=normalize)
         self.algorithm = algorithm
         self.toweigh = toweigh
+
+    def generate_corpus(self, classdict: dict[str, list[str]]) -> None:
+        """ Calculate the gensim dictionary and corpus, and extract the class labels
+        from the training data. Called by :func:`~train`.
+
+        :param classdict: training data
+        :return: None
+        :type classdict: dict
+        """
+        self.dictionary, self.corpus, self.classlabels = gc.generate_gensim_corpora(
+            classdict,
+            preprocess_and_tokenize=lambda sent: self.tokenize_func(self.preprocess_func(sent))
+        )
 
     def train(self, classdict, nb_topics, *args, **kwargs):
         """ Train the topic modeler.
@@ -100,6 +114,34 @@ class GensimTopicModeler(LatentTopicModeler):
                                                          additional_classdict,
                                                          preprocess_and_tokenize=lambda sent: tokenize(self.preprocess_func(sent)))
         self.topicmodel.update(newcorpus)
+
+    def retrieve_bow(self, shorttext: str) -> list[tuple[int, int]]:
+        """ Calculate the gensim bag-of-words representation of the given short text.
+
+        :param shorttext: text to be represented
+        :return: corpus representation of the text
+        :type shorttext: str
+        :rtype: list
+        """
+        return self.dictionary.doc2bow(self.tokenize_func(self.preprocess_func(shorttext)))
+
+    def retrieve_bow_vector(self, shorttext: str) -> npt.NDArray[np.float64]:
+        """ Calculate the vector representation of the bag-of-words in terms of numpy.ndarray.
+
+        :param shorttext: short text
+        :param normalize: whether the retrieved topic vectors are normalized. (Default: True)
+        :return: vector represtation of the text
+        :type shorttext: str
+        :type normalize: bool
+        :rtype: numpy.ndarray
+        """
+        bow = self.retrieve_bow(shorttext)
+        vec = np.zeros(len(self.dictionary))
+        for id, val in bow:
+            vec[id] = val
+        if self.normalize:
+            vec /= np.linalg.norm(vec)
+        return vec
 
     def retrieve_corpus_topicdist(self, shorttext):
         """ Calculate the topic vector representation of the short text, in the corpus form.

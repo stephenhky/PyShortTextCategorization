@@ -1,17 +1,17 @@
 
-from typing import Optional, Any, Self
 from collections import Counter
+from typing import Optional, Any, Self, Annotated
 
 import numpy as np
 import numpy.typing as npt
 import npdict
-import sparse
 from os import PathLike
 
+import sparse
+
+from .classification_exceptions import UnequalArrayLengthsException
 from .compactmodel_io import CompactIOMachine
 from .textpreprocessing import advanced_text_tokenizer_1
-from .classification_exceptions import UnequalArrayLengthsException
-
 
 npdtm_suffices = ["_npdict.npy"]
 
@@ -70,6 +70,53 @@ def generate_npdict_document_term_matrix(
         sparse.COO([coord_x, coord_y], data=data, shape=(len(doc_tokens), len(sorted_tokens_list)))
     )
     return npdtm
+
+
+def convert_classdict_to_corpus(
+        classdict: dict[str, list[str]],
+        preprocess_func: callable
+) -> tuple[list[str], list[str]]:
+    corpus = [
+        preprocess_func(datum)
+        for doc_under_class in classdict.values()
+        for datum in doc_under_class
+    ]
+    docids = [
+        f"{label}-{i}"
+        for label, doc_under_class in classdict.items()
+        for i in range(len(doc_under_class))
+    ]
+    return corpus, docids
+
+
+def convert_classdict_to_xy(
+        classdict: dict[str, list[str]],
+        labels2idx: dict[str, int],
+        preprocess_func: callable,
+        tokenize_func: callable
+) -> tuple[npdict.NumpyNDArrayWrappedDict, Annotated[sparse.SparseArray, "2D Array"]]:
+    nbdata = sum(len(data) for data in classdict.values())
+    nblabels = len(labels2idx)
+
+    # making x
+    corpus, docids = convert_classdict_to_corpus(classdict, preprocess_func=preprocess_func)
+    dtm_npdict_matrix = generate_npdict_document_term_matrix(corpus, docids, tokenize_func)
+
+    # making y
+    y = sparse.COO(
+        [
+            list(range(nbdata)),
+            [
+                labels2idx[label]
+                for label, doc_under_class in classdict.items()
+                for _ in doc_under_class
+            ]
+        ],
+        [1.]*nbdata,
+        shape=(nbdata, nblabels)
+    )
+
+    return dtm_npdict_matrix, y
 
 
 def compute_document_frequency(
@@ -196,3 +243,4 @@ def load_numpy_documentmatrixmatrix(filepath: str | PathLike) -> NumpyDocumentTe
     npdtm = NumpyDocumentTermMatrix()
     npdtm.load_compact_model(filepath)
     return npdtm
+

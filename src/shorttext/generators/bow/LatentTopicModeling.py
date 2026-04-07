@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from typing import Optional
 
 import numpy as np
-from deprecation import deprecated
+import numpy.typing as npt
 
 from ...utils import textpreprocessing as textpreprocess, gensim_corpora as gc, classification_exceptions as e
 from ...utils.textpreprocessing import tokenize
@@ -17,6 +17,7 @@ class LatentTopicModeler(ABC):
     def __init__(
             self,
             preprocessor: Optional[callable] = None,
+            tokenizer: Optional[callable] = None,
             normalize: bool = True
     ):
         """ Initialize the modeler.
@@ -30,21 +31,12 @@ class LatentTopicModeler(ABC):
             self.preprocess_func = textpreprocess.standard_text_preprocessor_1()
         else:
             self.preprocess_func = preprocessor
+        if tokenizer is None:
+            self.tokenize_func = tokenize
 
         self.normalize = normalize
         self.trained = False
 
-    @deprecated(deprecated_in="4.0.0", removed_in="5.0.0")
-    def generate_corpus(self, classdict: dict[str, list[str]]) -> None:
-        """ Calculate the gensim dictionary and corpus, and extract the class labels
-        from the training data. Called by :func:`~train`.
-
-        :param classdict: training data
-        :return: None
-        :type classdict: dict
-        """
-        self.dictionary, self.corpus, self.classlabels = gc.generate_gensim_corpora(classdict,
-                                                                                    preprocess_and_tokenize=lambda sent: tokenize(self.preprocess_func(sent)))
     @abstractmethod
     def train(self, classdict: dict[str, list[str]], nb_topics: int, *args, **kwargs) -> None:
         """ Train the modeler.
@@ -60,39 +52,18 @@ class LatentTopicModeler(ABC):
         :type classdict: dict
         :type nb_topics: int
         """
-        self.nb_topics = nb_topics
-        raise e.NotImplementedException()
-
-    def retrieve_bow(self, shorttext: str) -> None:
-        """ Calculate the gensim bag-of-words representation of the given short text.
-
-        :param shorttext: text to be represented
-        :return: corpus representation of the text
-        :type shorttext: str
-        :rtype: list
-        """
-        return self.dictionary.doc2bow(tokenize(self.preprocess_func(shorttext)))
-
-    def retrieve_bow_vector(self, shorttext, normalize=True):
-        """ Calculate the vector representation of the bag-of-words in terms of numpy.ndarray.
-
-        :param shorttext: short text
-        :param normalize: whether the retrieved topic vectors are normalized. (Default: True)
-        :return: vector represtation of the text
-        :type shorttext: str
-        :type normalize: bool
-        :rtype: numpy.ndarray
-        """
-        bow = self.retrieve_bow(shorttext)
-        vec = np.zeros(len(self.dictionary))
-        for id, val in bow:
-            vec[id] = val
-        if normalize:
-            vec /= np.linalg.norm(vec)
-        return vec
+        raise NotImplemented()
 
     @abstractmethod
-    def retrieve_topicvec(self, shorttext):
+    def retrieve_bow(self, shorttext: str) -> list[tuple[int, int]]:
+        raise NotImplemented()
+
+    @abstractmethod
+    def retrieve_bow_vector(self, shorttext: str) -> npt.NDArray[np.float64]:
+        raise NotImplemented()
+
+    @abstractmethod
+    def retrieve_topicvec(self, shorttext: str) -> npt.NDArray[np.float64]:
         """ Calculate the topic vector representation of the short text.
 
         This is an abstract method of this abstract class, which raise the `NotImplementedException`.
@@ -103,10 +74,10 @@ class LatentTopicModeler(ABC):
         :type shorttext: str
         :rtype: numpy.ndarray
         """
-        raise e.NotImplementedException()
+        raise NotImplemented()
 
     @abstractmethod
-    def get_batch_cos_similarities(self, shorttext):
+    def get_batch_cos_similarities(self, shorttext: str):
         """ Calculate the cosine similarities of the given short text and all the class labels.
 
         This is an abstract method of this abstract class, which raise the `NotImplementedException`.
@@ -117,7 +88,7 @@ class LatentTopicModeler(ABC):
         :type shorttext: str
         :rtype: numpy.ndarray
         """
-        raise e.NotImplementedException()
+        raise NotImplemented()
 
     def __getitem__(self, shorttext):
         return self.retrieve_topicvec(shorttext)
@@ -128,7 +99,7 @@ class LatentTopicModeler(ABC):
         return True
 
     @abstractmethod
-    def loadmodel(self, nameprefix):
+    def loadmodel(self, nameprefix: str):
         """ Load the model from files.
 
         This is an abstract method of this abstract class, which raise the `NotImplementedException`.
@@ -138,10 +109,10 @@ class LatentTopicModeler(ABC):
         :raise: NotImplementedException
         :type nameprefix: str
         """
-        raise e.NotImplementedException()
+        raise NotImplemented()
 
     @abstractmethod
-    def savemodel(self, nameprefix):
+    def savemodel(self, nameprefix: str):
         """ Save the model to files.
 
         This is an abstract method of this abstract class, which raise the `NotImplementedException`.
@@ -151,4 +122,4 @@ class LatentTopicModeler(ABC):
         :raise: NotImplementedException
         :type nameprefix: str
         """
-        raise e.NotImplementedException()
+        raise NotImplemented()
