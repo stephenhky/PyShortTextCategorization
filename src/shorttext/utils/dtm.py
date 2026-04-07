@@ -104,7 +104,7 @@ def compute_tfidf_document_term_matrix(
 class NumpyDocumentTermMatrix(CompactIOMachine):
     def __init__(
             self,
-            corpus: Optional[list[list[str]]]=None,
+            corpus: Optional[list[str]]=None,
             docids: Optional[list[Any]]=None,
             tfidf: bool=False,
             tokenize_func: Optional[callable]=None
@@ -118,7 +118,7 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
 
     def generate_dtm(
             self,
-            corpus: list[list[str]],
+            corpus: list[str],
             docids: Optional[list[Any]]=None,
             tfidf: bool=False
     ) -> None:
