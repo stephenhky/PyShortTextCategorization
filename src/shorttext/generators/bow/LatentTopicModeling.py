@@ -5,7 +5,7 @@ from typing import Optional
 import numpy as np
 import numpy.typing as npt
 
-from ...utils import textpreprocessing as textpreprocess, gensim_corpora as gc, classification_exceptions as e
+from ...utils import textpreprocessing as textpreprocess, classification_exceptions as e
 from ...utils.textpreprocessing import tokenize
 
 

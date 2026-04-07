@@ -58,7 +58,6 @@ def get_autoencoder_models(
     )
 
 
-
 class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
     """
     This class facilitates the topic modeling of input training data using the autoencoder.

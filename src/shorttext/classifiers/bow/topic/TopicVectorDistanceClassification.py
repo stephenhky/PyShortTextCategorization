@@ -10,7 +10,7 @@ class TopicVecCosineDistanceClassifier:
     the cosine similarity between the topic vectors of the user-input short texts and various classes.
     The topic vectors are calculated using :class:`LatentTopicModeler`.
     """
-    def __init__(self, topicmodeler):
+    def __init__(self, topicmodeler: LatentTopicModeler):
         """ Initialize the classifier.
 
         :param topicmodeler: topic modeler
@@ -18,7 +18,7 @@ class TopicVecCosineDistanceClassifier:
         """
         self.topicmodeler = topicmodeler
 
-    def score(self, shorttext):
+    def score(self, shorttext: str) -> dict[str, float]:
         """ Calculate the score, which is the cosine similarity with the topic vector of the model,
         of the short text against each class labels.
 
@@ -27,14 +27,9 @@ class TopicVecCosineDistanceClassifier:
         :type shorttext: str
         :rtype: dict
         """
-        # scoredict = defaultdict(lambda : 0.0)
-        # similarities = self.topicmodeler.matsim[self.topicmodeler.retrieve_corpus_topicdist(shorttext)]
-        # for label, similarity in zip(self.topicmodeler.classlabels, similarities):
-        #     scoredict[label] = similarity
-        # return dict(scoredict)
         return self.topicmodeler.get_batch_cos_similarities(shorttext)
 
-    def loadmodel(self, nameprefix):
+    def loadmodel(self, nameprefix: str) -> None:
         """ Load the topic model with the given prefix of the file paths.
 
         Given the prefix of the file paths, load the corresponding topic model. The files
@@ -49,7 +44,7 @@ class TopicVecCosineDistanceClassifier:
         """
         self.topicmodeler.loadmodel(nameprefix)
 
-    def savemodel(self, nameprefix):
+    def savemodel(self, nameprefix: str) -> None:
         """ Save the model with names according to the prefix.
 
         Given the prefix of the file paths, save the corresponding topic model. The files
@@ -67,10 +62,10 @@ class TopicVecCosineDistanceClassifier:
         """
         self.topicmodeler.savemodel(nameprefix)
 
-    def load_compact_model(self, name):
+    def load_compact_model(self, name: str) -> None:
         self.topicmodeler.load_compact_model(name)
 
-    def save_compact_model(self, name):
+    def save_compact_model(self, name: str) -> None:
         self.topicmodeler.save_compact_model(name)
 
 
