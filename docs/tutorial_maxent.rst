@@ -28,7 +28,7 @@ The classifier can be instantiated by:
 
 Train the classifier:
 
->>> classifier.train(classdict, nb_epochs=1000)
+>>> classifier.train(classdict, nb_epochs=300)
 
 After training, it can be used for classification, such as
 
