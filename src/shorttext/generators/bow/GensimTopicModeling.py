@@ -1,5 +1,4 @@
 
-import json
 from typing import Optional, Literal
 
 import gensim
@@ -14,7 +13,6 @@ from ...utils import classification_exceptions as e
 from ...utils.compactmodel_io import CompactIOMachine, get_model_classifier_name
 from ...utils import gensim_corpora as gc
 from .LatentTopicModeling import LatentTopicModeler
-from ...utils import textpreprocessing as textpreprocess
 
 
 gensim_topic_model_dict = {'lda': LdaModel, 'lsi': LsiModel, 'rp': RpModel}

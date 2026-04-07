@@ -260,6 +260,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
 def load_autoencoder_topicmodel(
         name: str,
         preprocessor: Optional[callable] = None,
+        tokenizer: Optional[callable] = None,
         compact: bool=True
 ) -> AutoencodingTopicModeler:
     """ Load the autoencoding topic model from files.
@@ -276,7 +277,7 @@ def load_autoencoder_topicmodel(
     if preprocessor is None:
         preprocessor = textpreprocess.standard_text_preprocessor_1()
 
-    autoencoder = AutoencodingTopicModeler(preprocessor=preprocessor)
+    autoencoder = AutoencodingTopicModeler(preprocessor=preprocessor, tokenizer=tokenizer)
     if compact:
         autoencoder.load_compact_model(name)
     else:

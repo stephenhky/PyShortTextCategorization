@@ -1,5 +1,6 @@
 
-from ....utils import textpreprocessing as textpreprocess
+from typing import Optional, Literal
+
 from ....generators import LatentTopicModeler, GensimTopicModeler, AutoencodingTopicModeler
 from ....generators import load_autoencoder_topicmodel, load_gensimtopicmodel
 
@@ -69,13 +70,16 @@ class TopicVecCosineDistanceClassifier:
         self.topicmodeler.save_compact_model(name)
 
 
-def train_gensimtopicvec_cosineClassifier(classdict,
-                                          nb_topics,
-                                          preprocessor=textpreprocess.standard_text_preprocessor_1(),
-                                          algorithm='lda',
-                                          toweigh=True,
-                                          normalize=True,
-                                          *args, **kwargs):
+def train_gensimtopicvec_cosineClassifier(
+        classdict: dict[str, list[str]],
+        nb_topics: int,
+        preprocessor: Optional[callable] = None,
+        tokenizer: Optional[callable] = None,
+        algorithm: Literal["lda", "lsi", "rp"] = "lda",
+        toweigh: bool = True,
+        normalize: bool = True,
+        *args, **kwargs
+) -> TopicVecCosineDistanceClassifier:
     """ Return a cosine distance classifier, i.e., :class:`TopicVecCosineDistanceClassifier`, while
     training a gensim topic model in between.
 
@@ -98,6 +102,7 @@ def train_gensimtopicvec_cosineClassifier(classdict,
     """
     # train topic model
     topicmodeler = GensimTopicModeler(preprocessor=preprocessor,
+                                      tokenizer=tokenizer,
                                       algorithm=algorithm,
                                       toweigh=toweigh,
                                       normalize=normalize)
@@ -107,9 +112,12 @@ def train_gensimtopicvec_cosineClassifier(classdict,
     return TopicVecCosineDistanceClassifier(topicmodeler)
 
 
-def load_gensimtopicvec_cosineClassifier(name,
-                                         preprocessor=textpreprocess.standard_text_preprocessor_1(),
-                                         compact=True):
+def load_gensimtopicvec_cosineClassifier(
+        name: str,
+        preprocessor: Optional[callable] = None,
+        tokenizer: Optional[callable] = None,
+        compact: bool=True
+) -> TopicVecCosineDistanceClassifier:
     """ Load a gensim topic model from files and return a cosine distance classifier.
 
     Given the prefix of the files of the topic model, return a cosine distance classifier
@@ -127,15 +135,20 @@ def load_gensimtopicvec_cosineClassifier(name,
     :type compact: bool
     :rtype: TopicVecCosineDistanceClassifier
     """
-    topicmodeler = load_gensimtopicmodel(name, preprocessor=preprocessor, compact=compact)
+    topicmodeler = load_gensimtopicmodel(
+        name, preprocessor=preprocessor, tokenizer=tokenizer, compact=compact
+    )
     return TopicVecCosineDistanceClassifier(topicmodeler)
 
 
-def train_autoencoder_cosineClassifier(classdict,
-                                       nb_topics,
-                                       preprocessor=textpreprocess.standard_text_preprocessor_1(),
-                                       normalize=True,
-                                       *args, **kwargs):
+def train_autoencoder_cosineClassifier(
+        classdict: dict[str, list[str]],
+        nb_topics: int,
+        preprocessor: Optional[callable] = None,
+        tokenizer: Optional[callable] = None,
+        normalize: bool = True,
+        *args, **kwargs
+) -> TopicVecCosineDistanceClassifier:
     """ Return a cosine distance classifier, i.e., :class:`TopicVecCosineDistanceClassifier`, while
     training an autoencoder as a topic model in between.
 
@@ -153,16 +166,21 @@ def train_autoencoder_cosineClassifier(classdict,
     :rtype: TopicVecCosineDistanceClassifier
     """
     # train the autoencoder
-    autoencoder = AutoencodingTopicModeler(preprocessor=preprocessor, normalize=normalize)
+    autoencoder = AutoencodingTopicModeler(
+        preprocessor=preprocessor, tokenizer=tokenizer, normalize=normalize
+    )
     autoencoder.train(classdict, nb_topics, *args, **kwargs)
 
     # cosine distance classifier
     return TopicVecCosineDistanceClassifier(autoencoder)
 
 
-def load_autoencoder_cosineClassifier(name,
-                                      preprocessor=textpreprocess.standard_text_preprocessor_1(),
-                                      compact=True):
+def load_autoencoder_cosineClassifier(
+        name: str,
+        preprocessor: Optional[callable] = None,
+        tokenizer: Optional[callable] = None,
+        compact: bool = True
+) -> TopicVecCosineDistanceClassifier:
     """ Load an autoencoder from files for topic modeling, and return a cosine classifier.
 
     Given the prefix of the file paths, load the model into files, with name given by the prefix.
@@ -179,5 +197,7 @@ def load_autoencoder_cosineClassifier(name,
     :type compact: bool
     :rtype: TopicVecCosineDistanceClassifier
     """
-    autoencoder = load_autoencoder_topicmodel(name, preprocessor=preprocessor, compact=compact)
+    autoencoder = load_autoencoder_topicmodel(
+        name, preprocessor=preprocessor, tokenizer=tokenizer, compact=compact
+    )
     return TopicVecCosineDistanceClassifier(autoencoder)
