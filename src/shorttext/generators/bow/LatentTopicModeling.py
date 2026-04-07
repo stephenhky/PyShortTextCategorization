@@ -77,7 +77,7 @@ class LatentTopicModeler(ABC):
         raise NotImplemented()
 
     @abstractmethod
-    def get_batch_cos_similarities(self, shorttext: str):
+    def get_batch_cos_similarities(self, shorttext: str) -> dict[str, float]:
         """ Calculate the cosine similarities of the given short text and all the class labels.
 
         This is an abstract method of this abstract class, which raise the `NotImplementedException`.
@@ -90,7 +90,7 @@ class LatentTopicModeler(ABC):
         """
         raise NotImplemented()
 
-    def __getitem__(self, shorttext):
+    def __getitem__(self, shorttext) -> npt.NDArray[np.float64]:
         return self.retrieve_topicvec(shorttext)
 
     def __contains__(self, shorttext):
