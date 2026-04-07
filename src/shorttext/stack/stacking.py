@@ -153,7 +153,7 @@ class StackedGeneralization(ABC):
         :type kwargs: dict
         :raise: NotImplementedException
         """
-        raise e.NotImplementedException()
+        raise NotImplemented()
 
     @abstractmethod
     def score(self, shorttext, *args, **kwargs):
@@ -171,7 +171,7 @@ class StackedGeneralization(ABC):
         :rtype: dict
         :raise: NotImplementedException
         """
-        raise e.NotImplementedException()
+        raise NotImplemented()
 
 
 class LogisticStackedGeneralization(StackedGeneralization, CompactIOMachine):
