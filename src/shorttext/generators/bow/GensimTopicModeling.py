@@ -279,7 +279,7 @@ if gensim.__version__ >= '1.0.0':
     lda_suffices += ['.gensimmodel.expElogbeta.npy', '.gensimmodel.id2word']
 
 
-class LDAModeler(GensimTopicModeler, CompactIOMachine):
+class LDAModeler(GensimTopicModeler):
     """
     This class facilitates the creation of LDA (latent Dirichlet Allocation) topic models,
     with the given short text training data, and convert future
@@ -310,7 +310,7 @@ class LDAModeler(GensimTopicModeler, CompactIOMachine):
 lsi_suffices = ['.json', '.gensimdict', '.gensimtfidf', '.gensimmodel.projection',
                 '.gensimmodel', '.gensimmat', ]
 
-class LSIModeler(GensimTopicModeler, CompactIOMachine):
+class LSIModeler(GensimTopicModeler):
     """
     This class facilitates the creation of LSI (latent semantic indexing) topic models,
     with the given short text training data, and convert future
@@ -340,7 +340,7 @@ class LSIModeler(GensimTopicModeler, CompactIOMachine):
 
 rp_suffices = ['.json', '.gensimtfidf', '.gensimmodel', '.gensimmat', '.gensimdict']
 
-class RPModeler(GensimTopicModeler, CompactIOMachine):
+class RPModeler(GensimTopicModeler):
     """
     This class facilitates the creation of RP (random projection) topic models,
     with the given short text training data, and convert future

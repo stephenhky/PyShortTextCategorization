@@ -7,10 +7,11 @@ import numpy.typing as npt
 
 from ...utils import textpreprocessing as textpreprocess, classification_exceptions as e
 from ...utils.textpreprocessing import tokenize
+from ...utils.compactmodel_io import CompactIOMachine
 
 
 # abstract class
-class LatentTopicModeler(ABC):
+class LatentTopicModeler(ABC, CompactIOMachine):
     """
     Abstract class for various topic modeler.
     """
