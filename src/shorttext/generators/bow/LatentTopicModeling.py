@@ -1,17 +1,16 @@
 
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import Optional, Any
 
 import numpy as np
 import numpy.typing as npt
 
 from ...utils import textpreprocessing as textpreprocess, classification_exceptions as e
 from ...utils.textpreprocessing import tokenize
-from ...utils.compactmodel_io import CompactIOMachine
 
 
 # abstract class
-class LatentTopicModeler(ABC, CompactIOMachine):
+class LatentTopicModeler(ABC):
     """
     Abstract class for various topic modeler.
     """
@@ -123,4 +122,8 @@ class LatentTopicModeler(ABC, CompactIOMachine):
         :raise: NotImplementedException
         :type nameprefix: str
         """
+        raise NotImplemented()
+
+    @abstractmethod
+    def getinfo(self) -> dict[str, Any]:
         raise NotImplemented()

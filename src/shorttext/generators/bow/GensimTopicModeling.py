@@ -1,5 +1,5 @@
 
-from typing import Optional, Literal
+from typing import Optional, Literal, Any
 
 import gensim
 import numpy as np
@@ -279,7 +279,7 @@ if gensim.__version__ >= '1.0.0':
     lda_suffices += ['.gensimmodel.expElogbeta.npy', '.gensimmodel.id2word']
 
 
-class LDAModeler(GensimTopicModeler):
+class LDAModeler(GensimTopicModeler, CompactIOMachine):
     """
     This class facilitates the creation of LDA (latent Dirichlet Allocation) topic models,
     with the given short text training data, and convert future
@@ -306,11 +306,14 @@ class LDAModeler(GensimTopicModeler):
             self, {'classifier': 'ldatopic'}, 'ldatopic', lda_suffices
         )
 
+    def getinfo(self) -> dict[str, Any]:
+        return super(CompactIOMachine).getinfo()
+
 
 lsi_suffices = ['.json', '.gensimdict', '.gensimtfidf', '.gensimmodel.projection',
                 '.gensimmodel', '.gensimmat', ]
 
-class LSIModeler(GensimTopicModeler):
+class LSIModeler(GensimTopicModeler, CompactIOMachine):
     """
     This class facilitates the creation of LSI (latent semantic indexing) topic models,
     with the given short text training data, and convert future
@@ -337,10 +340,13 @@ class LSIModeler(GensimTopicModeler):
             self, {'classifier': 'lsitopic'}, 'lsitopic', lsi_suffices
         )
 
+    def getinfo(self) -> dict[str, Any]:
+        return super(CompactIOMachine).getinfo()
+
 
 rp_suffices = ['.json', '.gensimtfidf', '.gensimmodel', '.gensimmat', '.gensimdict']
 
-class RPModeler(GensimTopicModeler):
+class RPModeler(GensimTopicModeler, CompactIOMachine):
     """
     This class facilitates the creation of RP (random projection) topic models,
     with the given short text training data, and convert future
@@ -366,6 +372,9 @@ class RPModeler(GensimTopicModeler):
         CompactIOMachine.__init__(
             self, {'classifier': 'rptopic'}, 'rptopic', rp_suffices
         )
+
+    def getinfo(self) -> dict[str, Any]:
+        return super(CompactIOMachine).getinfo()
 
 
 def load_gensimtopicmodel(

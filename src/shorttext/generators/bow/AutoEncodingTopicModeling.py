@@ -3,7 +3,7 @@ import json
 import pickle
 from functools import reduce
 from operator import add
-from typing import Optional
+from typing import Optional, Any
 from collections import Counter
 
 import numpy as np
@@ -58,7 +58,7 @@ def get_autoencoder_models(
     )
 
 
-class AutoencodingTopicModeler(LatentTopicModeler):
+class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
     """
     This class facilitates the topic modeling of input training data using the autoencoder.
 
@@ -255,6 +255,9 @@ class AutoencodingTopicModeler(LatentTopicModeler):
             self.decoder = kerasio.load_model(nameprefix+'_decoder')
             self.autoencoder = kerasio.load_model(nameprefix+'_autoencoder')
         self.trained = True
+
+    def getinfo(self) -> dict[str, Any]:
+        return super(CompactIOMachine).getinfo()
 
 
 def load_autoencoder_topicmodel(
