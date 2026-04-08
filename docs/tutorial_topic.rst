@@ -47,14 +47,17 @@ with the trained model. For example,
 
 >>> topicmodeler.retrieve_topicvec('stem cell research')
 
->>> topicmodeler.retrieve_topicvec('bioinformatics')
+>>> topicmodeler.retrieve_topicvec('informatics')
 
 By default, the vectors are normalized. Another way to retrieve the topic vector
 representation is as follow:
 
 >>> topicmodeler['stem cell research']
 
->>> topicmodeler['bioinformatics']
+>>> topicmodeler['informatics']
+
+If the dictionary does not have the processed tokens, it will return a numpy
+array with all values `nan`.
 
 In the training and the retrieval above, the same preprocessing process is applied.
 Users can provide their own preprocessor while initiating the topic modeler.
