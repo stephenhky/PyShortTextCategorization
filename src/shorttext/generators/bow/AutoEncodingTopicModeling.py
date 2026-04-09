@@ -143,11 +143,14 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
 
     def retrieve_bow_vector(self, shorttext: str) -> npt.NDArray[np.float64]:
         bow = self.retrieve_bow(shorttext)
-        vec = sparse.COO(
-            [[0]*len(bow), [id for id, val in bow]],
-            [val for id, val in bow],
-            shape=(1, len(self.token2indices))
-        ).todense()[0]
+        if len(bow) > 0:
+            vec = sparse.COO(
+                [[0]*len(bow), [id for id, val in bow]],
+                [val for id, val in bow],
+                shape=(1, len(self.token2indices))
+            ).todense()[0]
+        else:
+            vec = np.repeat(1., len(self.token2indices))
         if self.normalize:
             vec = np.array(vec, dtype=np.float64) / np.linalg.norm(vec)
         return vec

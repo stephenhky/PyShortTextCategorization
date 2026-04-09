@@ -130,38 +130,6 @@ The default is to weigh. To not weigh, initialize it as:
 .. automodule:: shorttext.generators.bow.AutoEncodingTopicModeling
    :members:
 
-
-Appendix: Unzipping Model I/O
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-For previous versions of `shorttext`, the trained models are saved by calling:
-
->>> autoencoder.savemodel('/path/to/sub_autoencoder8')
-
-The following files are produced for the autoencoder:
-
-::
-
-    /path/to/sub_autoencoder.json
-    /path/to/sub_autoencoder.gensimdict
-    /path/to/sub_autoencoder_encoder.json
-    /path/to/sub_autoencoder_encoder.h5
-    /path/to/sub_autoencoder_classtopicvecs.pkl
-
-If specifying `save_complete_autoencoder=True`, then four more files are found:
-
-::
-
-    /path/to/sub_autoencoder_decoder.json
-    /path/to/sub_autoencoder_decoder.h5
-    /path/to/sub_autoencoder_autoencoder.json
-    /path/to/sub_autoencoder_autoencoder.h5
-
-Users can load the same model later by entering:
-
->>> autoencoder2 = shorttext.classifiers.load_autoencoder_topic('/path/to/sub_autoencoder8', compact=False)
-
-
 Abstract Latent Topic Modeling Class
 ------------------------------------
 
@@ -177,29 +145,6 @@ this, he has to define the methods `train`, `retrieve_topic_vec`, `loadmodel`, a
 
 .. automodule:: shorttext.generators.bow.GensimTopicModeling
    :members:
-
-Appendix: Namespaces for Topic Modeler in Previous Versions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-All generative topic modeling algorithms were placed under the package `shorttext.classifiers` for version <=0.3.4.
-In current version (>= 0.3.5), however, all generative models will be moved to `shorttext.generators`,
-while any classifiers making use of these topic models are still kept under `shorttext.classifiers`.
-A list include:
-
-::
-
-    shorttext.classifiers.GensimTopicModeler  ->  shorttext.generators.GensimTopicModeler
-    shorttext.classifiers.LDAModeler  ->  shorttext.generators.LDAModeler
-    shorttext.classifiers.LSIModeler  ->  shorttext.generators.LSIModeler
-    shorttext.classifiers.RPModeler  ->  shorttext.generators.RPModeler
-    shorttext.classifiers.AutoencodingTopicModeler  ->  shorttext.generators.AutoencodingTopicModeler
-    shorttext.classifiers.load_gensimtopicmodel  ->  shorttext.generators.load_gensimtopicmodel
-    shorttext.classifiers.load_autoencoder_topic  ->  shorttext.generators.load_autoencoder_topicmodel
-
-
-Before release 0.5.6, for backward compatibility, developers can still call the topic models as if there were no such changes,
-although they are advised to make this change. However, *effective release 0.5.7, this backward compatibility is no longer
-available.*
 
 Classification Using Cosine Similarity
 --------------------------------------
