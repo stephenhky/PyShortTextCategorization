@@ -38,15 +38,15 @@ def get_autoencoder_models(
     decoded = Dense(vector_size, activation='sigmoid')(encoded)
 
     # define the autoencoder model
-    autoencoder = Model(input=input_vec, output=decoded)
+    autoencoder = Model(inputs=input_vec, outputs=decoded)
 
     # define the encoder
-    encoder = Model(input=input_vec, output=encoded)
+    encoder = Model(inputs=input_vec, outputs=encoded)
 
     # define the decoder
     encoded_input = Input(shape=(nb_latent_vector_size,))
     decoder_layer = autoencoder.layers[-1]
-    decoder = Model(input=encoded_input, output=decoder_layer(encoded_input))
+    decoder = Model(inputs=encoded_input, outputs=decoder_layer(encoded_input))
 
     # compile the autoencoder
     autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
