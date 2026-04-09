@@ -104,14 +104,17 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         decoder = autoencoder_package.decoder
 
         # process training data
-        embedvecs = reduce(add,
-            [
+        embedvecs = np.array(
+            reduce(
+                add,
                 [
-                    self.retrieve_bow_vector(shorttext)
-                    for shorttext in classdict[classtype]
+                    [
+                        self.retrieve_bow_vector(shorttext)
+                        for shorttext in classdict[classtype]
+                    ]
+                    for classtype in classdict
                 ]
-                for classtype in classdict
-            ]
+            )
         )
 
         # fit the model
