@@ -146,7 +146,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
             shape=(1, len(self.token2indices))
         ).todense()[0]
         if self.normalize:
-            vec /= np.linalg.norm(vec)
+            vec = np.array(vec, dtype=np.float64) / np.linalg.norm(vec)
         return vec
 
     def retrieve_topicvec(self, shorttext: str) -> npt.NDArray[np.float64]:
