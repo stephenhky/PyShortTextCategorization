@@ -1,6 +1,13 @@
 
+from typing import Generator, TextIO
 
-def textfile_generator(textfile, linebreak=True, encoding=None):
+
+
+def textfile_generator(
+        textfile: TextIO,
+        linebreak: bool=True,
+        encoding: bool=None
+) -> Generator[str, None, None]:
     """ Return a generator that reads lines in a text file.
 
     :param textfile: file object of a text file

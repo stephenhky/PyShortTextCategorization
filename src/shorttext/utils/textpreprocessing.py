@@ -2,8 +2,7 @@
 import re
 import os
 import codecs
-from io import TextIOWrapper
-from types import FunctionType
+from typing import TextIO
 from functools import partial
 
 import snowballstemmer
@@ -25,11 +24,12 @@ class StemmerSingleton:
     def __call__(cls, s: str) -> str:
         return cls.stemmer.stemWord(s)
 
+
 def stemword(s: str) -> str:
     return StemmerSingleton()(s)
 
 
-def preprocess_text(text: str, pipeline: list[FunctionType]) -> str:
+def preprocess_text(text: str, pipeline: list[callable]) -> str:
     """ Preprocess the text according to the given pipeline.
 
     Given the pipeline, which is a list of functions that process an
@@ -48,10 +48,10 @@ def preprocess_text(text: str, pipeline: list[FunctionType]) -> str:
 
 def tokenize_text(
         text: str,
-        presplit_pipeline: list[FunctionType],
-        primitize_tokenizer: FunctionType,
-        prosplit_pipeline: list[FunctionType],
-        stopwordsfile: TextIOWrapper
+        presplit_pipeline: list[callable],
+        primitize_tokenizer: callable,
+        postsplit_pipeline: list[callable],
+        stopwordsfile: TextIO
 ) -> list[str]:
     # load stop words file
     stopwordset = set([stopword.strip() for stopword in stopwordsfile])
@@ -61,7 +61,7 @@ def tokenize_text(
     for func in presplit_pipeline:
         presplit_text = func(presplit_text)
     postsplit_tokens = primitize_tokenizer(presplit_text)
-    for func in prosplit_pipeline:
+    for func in postsplit_pipeline:
         for i, token in enumerate(postsplit_tokens):
             postsplit_tokens[i] = func(token)
     postsplit_tokens = [
@@ -71,7 +71,7 @@ def tokenize_text(
     return postsplit_tokens
 
 
-def text_preprocessor(pipeline: list[FunctionType]) -> FunctionType:
+def text_preprocessor(pipeline: list[callable]) -> callable:
     """ Return the function that preprocesses text according to the pipeline.
 
     Given the pipeline, which is a list of functions that process an
@@ -87,7 +87,7 @@ def text_preprocessor(pipeline: list[FunctionType]) -> FunctionType:
     return partial(preprocess_text, pipeline=pipeline)
 
 
-def oldschool_standard_text_preprocessor(stopwordsfile: TextIOWrapper) -> FunctionType:
+def oldschool_standard_text_preprocessor(stopwordsfile: TextIO) -> callable:
     """ Return a commonly used text preprocessor.
 
     Return a text preprocessor that is commonly used, with the following steps:
@@ -110,8 +110,8 @@ def oldschool_standard_text_preprocessor(stopwordsfile: TextIOWrapper) -> Functi
     stopwordsfile.close()
 
     # the pipeline
-    pipeline = [lambda s: re.sub('[^\w\s]', '', s),
-                lambda s: re.sub('[\d]', '', s),
+    pipeline = [lambda s: re.sub(r'[^\w\s]', '', s),
+                lambda s: re.sub(r'[0-9]', '', s),
                 lambda s: s.lower(),
                 lambda s: ' '.join(filter(lambda s: not (s in stopwordset), tokenize(s))),
                 lambda s: ' '.join([stemword(stemmed_token) for stemmed_token in tokenize(s)])
@@ -119,7 +119,7 @@ def oldschool_standard_text_preprocessor(stopwordsfile: TextIOWrapper) -> Functi
     return text_preprocessor(pipeline)
 
 
-def standard_text_preprocessor_1() -> FunctionType:
+def standard_text_preprocessor_1() -> callable:
     """ Return a commonly used text preprocessor.
 
     Return a text preprocessor that is commonly used, with the following steps:
@@ -142,7 +142,7 @@ def standard_text_preprocessor_1() -> FunctionType:
     return oldschool_standard_text_preprocessor(stopwordsfile)
 
 
-def standard_text_preprocessor_2() -> FunctionType:
+def standard_text_preprocessor_2() -> callable:
     """ Return a commonly used text preprocessor.
 
     Return a text preprocessor that is commonly used, with the following steps:
@@ -165,10 +165,10 @@ def standard_text_preprocessor_2() -> FunctionType:
     return oldschool_standard_text_preprocessor(stopwordsfile)
 
 
-def advanced_text_tokenizer_1() -> FunctionType:
+def advanced_text_tokenizer_1() -> callable:
     presplit_pipeline = [
-        lambda s: re.sub('[^\w\s]', '', s),
-        lambda s: re.sub('[\d]', '', s),
+        lambda s: re.sub(r'[^\w\s]', '', s),
+        lambda s: re.sub(r'[0-9]', '', s),
         lambda s: s.lower()
     ]
     tokenizer = tokenize
@@ -179,7 +179,7 @@ def advanced_text_tokenizer_1() -> FunctionType:
     return partial(
         tokenize_text,
         presplit_pipeline=presplit_pipeline,
-        tokenizer=tokenizer,
+        primitize_tokenizer=tokenizer,
         postsplit_pipeline=postsplit_pipeline,
         stopwordsfile=codecs.open(os.path.join(this_dir, 'nonneg_stopwords.txt'), 'r', 'utf-8')
     )

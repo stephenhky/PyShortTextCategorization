@@ -39,7 +39,7 @@ class TestStacking(unittest.TestCase):
         stacked_classifier = LogisticStackedGeneralization({'maxent': maxent_classifier,
                                                             'svm': svm_classifier,
                                                             'topiccosine': topicdisclassifier})
-        stacked_classifier.train(nihdict)
+        stacked_classifier.train(nihdict, nb_epoch=300)
         stacked_classifier.save_compact_model('./bio_logistics.bin')
 
         return maxent_classifier, topicmodeler, svm_classifier, stacked_classifier
