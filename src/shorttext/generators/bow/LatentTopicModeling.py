@@ -33,6 +33,8 @@ class LatentTopicModeler(ABC):
             self.preprocess_func = preprocessor
         if tokenizer is None:
             self.tokenize_func = tokenize
+        else:
+            self.tokenize_func = tokenizer
 
         self.normalize = normalize
         self.trained = False
