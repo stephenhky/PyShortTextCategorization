@@ -8,7 +8,6 @@ from deprecation import deprecated
 from .textpreprocessing import tokenize
 
 
-@deprecated(deprecated_in="5.0.0", removed_in="6.0.0")
 def generate_gensim_corpora(
         classdict: dict[str, list[str]],
         preprocess_and_tokenize: Optional[callable] = None
@@ -70,7 +69,6 @@ def load_corpus(prefix: str) -> tuple[gensim.corpora.MmCorpus, gensim.corpora.Di
     return corpus, dictionary
 
 
-@deprecated(deprecated_in="5.0.0", removed_in="6.0.0")
 def update_corpus_labels(
         dictionary: gensim.corpora.Dictionary,
         corpus: list[list[tuple[int, int]]],

@@ -1,7 +1,6 @@
 
-from typing import Literal, Optional, Annotated
+from typing import Literal, Optional
 
-import npdict
 import sparse
 import orjson
 from tensorflow.keras import Model, Sequential
@@ -12,7 +11,7 @@ from ....utils import kerasmodel_io as kerasio
 from ....utils import tokenize
 from ....utils import classification_exceptions as e
 from ....utils.compactmodel_io import CompactIOMachine
-from ....utils.dtm import generate_npdict_document_term_matrix
+from ....utils.dtm import convert_classdict_to_xy
 
 
 def logistic_framework(
@@ -49,45 +48,6 @@ def logistic_framework(
                )
     kmodel.compile(loss='categorical_crossentropy', optimizer=optimizer)
     return kmodel
-
-
-def convert_classdict_to_xy(
-        classdict: dict[str, list[str]],
-        labels2idx: dict[str, int],
-        preprocess_func: callable,
-        tokenize_func: callable
-) -> tuple[npdict.NumpyNDArrayWrappedDict, Annotated[sparse.SparseArray, "2D Array"]]:
-    nbdata = sum(len(data) for data in classdict.values())
-    nblabels = len(labels2idx)
-
-    # making x
-    corpus = [
-        preprocess_func(datum)
-        for doc_under_class in classdict.values()
-        for datum in doc_under_class
-    ]
-    docids = [
-        f"{label}-{i}"
-        for label, doc_under_class in classdict.items()
-        for i in range(len(doc_under_class))
-    ]
-    dtm_npdict_matrix = generate_npdict_document_term_matrix(corpus, docids, tokenize_func)
-
-    # making y
-    y = sparse.COO(
-        [
-            list(range(nbdata)),
-            [
-                labels2idx[label]
-                for label, doc_under_class in classdict.items()
-                for _ in doc_under_class
-            ]
-        ],
-        [1.]*nbdata,
-        shape=(nbdata, nblabels)
-    )
-
-    return dtm_npdict_matrix, y
 
 
 class MaxEntClassifier(CompactIOMachine):

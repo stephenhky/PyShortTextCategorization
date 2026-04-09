@@ -47,14 +47,17 @@ with the trained model. For example,
 
 >>> topicmodeler.retrieve_topicvec('stem cell research')
 
->>> topicmodeler.retrieve_topicvec('bioinformatics')
+>>> topicmodeler.retrieve_topicvec('informatics')
 
 By default, the vectors are normalized. Another way to retrieve the topic vector
 representation is as follow:
 
 >>> topicmodeler['stem cell research']
 
->>> topicmodeler['bioinformatics']
+>>> topicmodeler['informatics']
+
+If the dictionary does not have the processed tokens, it will return a numpy
+array with all values `nan`.
 
 In the training and the retrieval above, the same preprocessing process is applied.
 Users can provide their own preprocessor while initiating the topic modeler.
@@ -73,31 +76,12 @@ The default is to weigh. To not weigh, initialize it as
 
 >>> topicmodeler3 = shorttext.generators.GensimTopicModeler(toweigh=False)
 
-Appendix: Model I/O in Previous Versions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-For previous versions of `shorttext`, the trained models are saved by calling:
-
->>> topicmodeler.savemodel('/path/to/nihlda128')
-
-However, we discourage users using this anymore, because the model I/O for various models
-in gensim have been different. It produces errors.
-
-All of them have to be present in order to be loaded. Note that the preprocessor is
-not saved. To load the model, enter:
-
->>> topicmodeler2 = shorttext.classifiers.load_gensimtopicmodel('/path/to/nihlda128', compact=False)
-
-
 .. automodule:: shorttext.generators.bow.GensimTopicModeling
    :members:
 
 
 AutoEncoder
 -----------
-
-Note: Previous version (<=0.2.1) of this autoencoder has a serious bug. Current version is
-incompatible with the autoencoder of version <=0.2.1 .
 
 Another way to find a new topic vector representation is to use the autoencoder, a neural network model
 which compresses a vector representation into another one of a shorter (or longer, rarely though)
