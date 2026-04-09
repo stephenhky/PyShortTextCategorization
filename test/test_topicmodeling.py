@@ -1,0 +1,65 @@
+
+import numpy as np
+import shorttext
+
+import pytest
+
+
+def test_ldatopicmodel():
+    # load data
+    trainclassdict = shorttext.data.nihreports(sample_size=None)
+
+    # train LDA model
+    topicmodeler = shorttext.generators.LDAModeler()
+    topicmodeler.train(trainclassdict, 128)
+
+    # retrieve topic vectors
+    topic_vector_1 = topicmodeler.retrieve_topicvec('stem cell research')
+    assert not np.any(np.isnan(topic_vector_1))
+    assert np.linalg.norm(topic_vector_1) == pytest.approx(1.)
+
+    topic_vector_2 = topicmodeler.retrieve_topicvec('bioinformatics')
+    assert not np.any(np.isnan(topic_vector_2))
+    assert np.linalg.norm(topic_vector_2) == pytest.approx(1.)
+
+    topic_vector_3 = topicmodeler.retrieve_topicvec('linear algebra')
+    assert not np.any(np.isnan(topic_vector_3))
+    assert np.linalg.norm(topic_vector_3) == pytest.approx(1.)
+
+    # test I/O
+    topicmodeler.save_compact_model('nihlda128.bin')
+    topicmodeler2 = shorttext.generators.load_gensimtopicmodel('nihlda128.bin')
+    np.testing.assert_array_almost_equal(
+        topicmodeler2.retrieve_topicvec("stem cell research"),
+        topic_vector_1
+    )
+
+
+def test_autoencoder():
+    # load data
+    subdict = shorttext.data.subjectkeywords()
+
+    # train the model
+    autoencoder = shorttext.generators.AutoencodingTopicModeler()
+    autoencoder.train(subdict, 8)
+
+    # retrieve BOW vector
+    bow_vector = autoencoder.retrieve_bow_vector("critical race")
+    assert not np.any(np.isnan(bow_vector))
+    assert np.all(bow_vector == 1 / np.sqrt(len(autoencoder.token2indices)))
+
+    # retrieve topic vector
+    topic_vector_1 = autoencoder.retrieve_topicvec("linear algebra")
+    assert not np.any(np.isnan(topic_vector_1))
+    assert np.linalg.norm(topic_vector_1) == pytest.approx(1.)
+    np.testing.assert_array_almost_equal(autoencoder["linear algebra"], topic_vector_1)
+
+    topic_vector_2 = autoencoder.retrieve_topicvec("path integral")
+    assert not np.any(np.isnan(topic_vector_2))
+    assert np.linalg.norm(topic_vector_2) == pytest.approx(1.)
+    np.testing.assert_array_almost_equal(autoencoder["path integral"], topic_vector_2)
+
+    topic_vector_3 = autoencoder.retrieve_topicvec("critical race")
+    assert not np.any(np.isnan(topic_vector_3))
+    assert np.linalg.norm(topic_vector_3) == pytest.approx(1.)
+    np.testing.assert_array_almost_equal(autoencoder["critical race"], topic_vector_3)
