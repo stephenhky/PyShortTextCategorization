@@ -1,18 +1,19 @@
 
-import json
+from typing import Optional, Literal, Any
 
 import gensim
 import numpy as np
+import numpy.typing as npt
 from gensim.corpora import Dictionary
 from gensim.models import TfidfModel, LdaModel, LsiModel, RpModel
 from gensim.similarities import MatrixSimilarity
+import orjson
 
 from ...utils import classification_exceptions as e
 from ...utils.compactmodel_io import CompactIOMachine, get_model_classifier_name
 from ...utils import gensim_corpora as gc
 from .LatentTopicModeling import LatentTopicModeler
-from ...utils import textpreprocessing as textpreprocess
-from ...utils.textpreprocessing import tokenize
+
 
 gensim_topic_model_dict = {'lda': LdaModel, 'lsi': LsiModel, 'rp': RpModel}
 
@@ -20,7 +21,7 @@ gensim_topic_model_dict = {'lda': LdaModel, 'lsi': LsiModel, 'rp': RpModel}
 class GensimTopicModeler(LatentTopicModeler):
     """
     This class facilitates the creation of topic models (options: LDA (latent Dirichlet Allocation),
-    LSI (latent semantic indexing), and Random Projections
+    LSI (latent semantic indexing), and Random Projections (RP))
     with the given short text training data, and convert future
     short text into topic vectors using the trained topic model.
 
@@ -29,11 +30,14 @@ class GensimTopicModeler(LatentTopicModeler):
 
     This class extends :class:`LatentTopicModeler`.
     """
-    def __init__(self,
-                 preprocessor=textpreprocess.standard_text_preprocessor_1(),
-                 algorithm='lda',
-                 toweigh=True,
-                 normalize=True):
+    def __init__(
+            self,
+            preprocessor: Optional[callable] = None,
+            tokenizer: Optional[callable] = None,
+            algorithm: Literal["lda", "lsi", "rp"] = "lda",
+            toweigh: bool = True,
+            normalize: bool = True
+    ):
         """ Initialize the topic modeler.
 
         :param preprocessor: function that preprocesses the text. (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
@@ -44,11 +48,26 @@ class GensimTopicModeler(LatentTopicModeler):
         :type algorithm: str
         :type toweigh: bool
         """
-        LatentTopicModeler.__init__(self, preprocessor=preprocessor, normalize=normalize)
+        LatentTopicModeler.__init__(
+            self, preprocessor=preprocessor, tokenizer=tokenizer, normalize=normalize
+        )
         self.algorithm = algorithm
         self.toweigh = toweigh
 
-    def train(self, classdict, nb_topics, *args, **kwargs):
+    def generate_corpus(self, classdict: dict[str, list[str]]) -> None:
+        """ Calculate the gensim dictionary and corpus, and extract the class labels
+        from the training data. Called by :func:`~train`.
+
+        :param classdict: training data
+        :return: None
+        :type classdict: dict
+        """
+        self.dictionary, self.corpus, self.classlabels = gc.generate_gensim_corpora(
+            classdict,
+            preprocess_and_tokenize=lambda sent: self.tokenize_func(self.preprocess_func(sent))
+        )
+
+    def train(self, classdict: dict[str, list[str]], nb_topics: int, *args, **kwargs) -> None:
         """ Train the topic modeler.
 
         :param classdict: training data
@@ -68,16 +87,15 @@ class GensimTopicModeler(LatentTopicModeler):
             self.tfidf = None
             normcorpus = self.corpus
 
-        self.topicmodel = gensim_topic_model_dict[self.algorithm](normcorpus,
-                                                                  num_topics=self.nb_topics,
-                                                                  *args,
-                                                                  **kwargs)
+        self.topicmodel = gensim_topic_model_dict[self.algorithm](
+            normcorpus, num_topics=self.nb_topics, *args, **kwargs
+        )
         self.matsim = MatrixSimilarity(self.topicmodel[normcorpus])
 
         # change the flag
         self.trained = True
 
-    def update(self, additional_classdict):
+    def update(self, additional_classdict: dict[str, list[str]]) -> None:
         """ Update the model with additional data.
         
         It updates the topic model with additional data.
@@ -95,13 +113,43 @@ class GensimTopicModeler(LatentTopicModeler):
         :type additional_classdict: dict
         """
         # cannot use this way, as we want to update the corpus with existing words
-        self.corpus, newcorpus = gc.update_corpus_labels(self.dictionary,
-                                                         self.corpus,
-                                                         additional_classdict,
-                                                         preprocess_and_tokenize=lambda sent: tokenize(self.preprocessor(sent)))
+        self.corpus, newcorpus = gc.update_corpus_labels(
+            self.dictionary,
+            self.corpus,
+            additional_classdict,
+            preprocess_and_tokenize=lambda sent: self.tokenize_func(self.preprocess_func(sent))
+        )
         self.topicmodel.update(newcorpus)
 
-    def retrieve_corpus_topicdist(self, shorttext):
+    def retrieve_bow(self, shorttext: str) -> list[tuple[int, int]]:
+        """ Calculate the gensim bag-of-words representation of the given short text.
+
+        :param shorttext: text to be represented
+        :return: corpus representation of the text
+        :type shorttext: str
+        :rtype: list
+        """
+        return self.dictionary.doc2bow(self.tokenize_func(self.preprocess_func(shorttext)))
+
+    def retrieve_bow_vector(self, shorttext: str) -> npt.NDArray[np.float64]:
+        """ Calculate the vector representation of the bag-of-words in terms of numpy.ndarray.
+
+        :param shorttext: short text
+        :param normalize: whether the retrieved topic vectors are normalized. (Default: True)
+        :return: vector represtation of the text
+        :type shorttext: str
+        :type normalize: bool
+        :rtype: numpy.ndarray
+        """
+        bow = self.retrieve_bow(shorttext)
+        vec = np.zeros(len(self.dictionary))
+        for id, val in bow:
+            vec[id] = val
+        if self.normalize:
+            vec /= np.linalg.norm(vec)
+        return vec
+
+    def retrieve_corpus_topicdist(self, shorttext: str) -> list[tuple[int, int | float]]:
         """ Calculate the topic vector representation of the short text, in the corpus form.
 
         If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
@@ -117,7 +165,7 @@ class GensimTopicModeler(LatentTopicModeler):
         bow = self.retrieve_bow(shorttext)
         return self.topicmodel[self.tfidf[bow] if self.toweigh else bow]
 
-    def retrieve_topicvec(self, shorttext):
+    def retrieve_topicvec(self, shorttext: str) -> npt.NDArray[np.float64]:
         """ Calculate the topic vector representation of the short text.
 
         This function calls :func:`~retrieve_corpus_topicdist`.
@@ -140,7 +188,7 @@ class GensimTopicModeler(LatentTopicModeler):
             topicvec /= np.linalg.norm(topicvec)
         return topicvec
 
-    def get_batch_cos_similarities(self, shorttext):
+    def get_batch_cos_similarities(self, shorttext: str) -> dict[str, float]:
         """ Calculate the score, which is the cosine similarity with the topic vector of the model,
         of the short text against each class labels.
 
@@ -160,7 +208,7 @@ class GensimTopicModeler(LatentTopicModeler):
             simdict[label] = similarity
         return simdict
 
-    def loadmodel(self, nameprefix):
+    def loadmodel(self, nameprefix: str) -> None:
         """ Load the topic model with the given prefix of the file paths.
 
         Given the prefix of the file paths, load the corresponding topic model. The files
@@ -172,7 +220,7 @@ class GensimTopicModeler(LatentTopicModeler):
         :type nameprefix: str
         """
         # load the JSON file (parameters)
-        parameters = json.load(open(nameprefix+'.json', 'r'))
+        parameters = orjson.loads(open(nameprefix+'.json', 'rb').read())
         self.nb_topics = parameters['nb_topics']
         self.toweigh = parameters['toweigh']
         self.algorithm = parameters['algorithm']
@@ -194,7 +242,7 @@ class GensimTopicModeler(LatentTopicModeler):
         # flag
         self.trained = True
 
-    def savemodel(self, nameprefix):
+    def savemodel(self, nameprefix: str) -> None:
         """ Save the model with names according to the prefix.
 
         Given the prefix of the file paths, save the corresponding topic model. The files
@@ -210,12 +258,13 @@ class GensimTopicModeler(LatentTopicModeler):
         """
         if not self.trained:
             raise e.ModelNotTrainedException()
+
         parameters = {}
         parameters['nb_topics'] = self.nb_topics
         parameters['toweigh'] = self.toweigh
         parameters['algorithm'] = self.algorithm
         parameters['classlabels'] = self.classlabels
-        json.dump(parameters, open(nameprefix+'.json', 'w'))
+        open(nameprefix+".json", "wb").write(orjson.dumps(parameters))
 
         self.dictionary.save(nameprefix+'.gensimdict')
         self.topicmodel.save(nameprefix+'.gensimmodel')
@@ -238,16 +287,27 @@ class LDAModeler(GensimTopicModeler, CompactIOMachine):
 
     This class extends :class:`GensimTopicModeler`.
     """
-    def __init__(self,
-                 preprocessor=textpreprocess.standard_text_preprocessor_1(),
-                 toweigh=True,
-                 normalize=True):
-        GensimTopicModeler.__init__(self,
-                                    preprocessor=preprocessor,
-                                    algorithm='lda',
-                                    toweigh=toweigh,
-                                    normalize=normalize)
-        CompactIOMachine.__init__(self, {'classifier': 'ldatopic'}, 'ldatopic', lda_suffices)
+    def __init__(
+            self,
+            preprocessor: Optional[callable] = None,
+            tokenizer: Optional[callable] = None,
+            toweigh: bool = True,
+            normalize: bool = True
+    ):
+        GensimTopicModeler.__init__(
+            self,
+            preprocessor=preprocessor,
+            tokenizer=tokenizer,
+            algorithm="lda",
+            toweigh=toweigh,
+            normalize=normalize
+        )
+        CompactIOMachine.__init__(
+            self, {'classifier': 'ldatopic'}, 'ldatopic', lda_suffices
+        )
+
+    def getinfo(self) -> dict[str, Any]:
+        return super(CompactIOMachine).getinfo()
 
 
 lsi_suffices = ['.json', '.gensimdict', '.gensimtfidf', '.gensimmodel.projection',
@@ -261,16 +321,27 @@ class LSIModeler(GensimTopicModeler, CompactIOMachine):
 
     This class extends :class:`GensimTopicModeler`.
     """
-    def __init__(self,
-                 preprocessor=textpreprocess.standard_text_preprocessor_1(),
-                 toweigh=True,
-                 normalize=True):
-        GensimTopicModeler.__init__(self,
-                                    preprocessor=preprocessor,
-                                    algorithm='lsi',
-                                    toweigh=toweigh,
-                                    normalize=normalize)
-        CompactIOMachine.__init__(self, {'classifier': 'lsitopic'}, 'lsitopic', lsi_suffices)
+    def __init__(
+            self,
+            preprocessor: Optional[callable] = None,
+            tokenizer: Optional[callable] = None,
+            toweigh: bool = True,
+            normalize: bool = True
+    ):
+        GensimTopicModeler.__init__(
+            self,
+            preprocessor=preprocessor,
+            tokenizer=tokenizer,
+            algorithm="lsi",
+            toweigh=toweigh,
+            normalize=normalize
+        )
+        CompactIOMachine.__init__(
+            self, {'classifier': 'lsitopic'}, 'lsitopic', lsi_suffices
+        )
+
+    def getinfo(self) -> dict[str, Any]:
+        return super(CompactIOMachine).getinfo()
 
 
 rp_suffices = ['.json', '.gensimtfidf', '.gensimmodel', '.gensimmat', '.gensimdict']
@@ -283,21 +354,35 @@ class RPModeler(GensimTopicModeler, CompactIOMachine):
 
     This class extends :class:`GensimTopicModeler`.
     """
-    def __init__(self,
-                 preprocessor=textpreprocess.standard_text_preprocessor_1(),
-                 toweigh=True,
-                 normalize=True):
-        GensimTopicModeler.__init__(self,
-                                    preprocessor=preprocessor,
-                                    algorithm='rp',
-                                    toweigh=toweigh,
-                                    normalize=normalize)
-        CompactIOMachine.__init__(self, {'classifier': 'rptopic'}, 'rptopic', rp_suffices)
+    def __init__(
+            self,
+            preprocessor: Optional[callable] = None,
+            tokenizer: Optional[callable] = None,
+            toweigh: bool = True,
+            normalize: bool = True
+    ):
+        GensimTopicModeler.__init__(
+            self,
+            preprocessor=preprocessor,
+            tokenizer=tokenizer,
+            algorithm="rp",
+            toweigh=toweigh,
+            normalize=normalize
+        )
+        CompactIOMachine.__init__(
+            self, {'classifier': 'rptopic'}, 'rptopic', rp_suffices
+        )
+
+    def getinfo(self) -> dict[str, Any]:
+        return super(CompactIOMachine).getinfo()
 
 
-def load_gensimtopicmodel(name,
-                          preprocessor=textpreprocess.standard_text_preprocessor_1(),
-                          compact=True):
+def load_gensimtopicmodel(
+        name: str,
+        preprocessor: Optional[callable] = None,
+        tokenizer: Optional[callable] = None,
+        compact: bool = True
+):
     """ Load the gensim topic modeler from files.
 
     :param name: name (if compact=True) or prefix (if compact=False) of the file path
@@ -313,11 +398,10 @@ def load_gensimtopicmodel(name,
         modelerdict = {'ldatopic': LDAModeler, 'lsitopic': LSIModeler, 'rptopic': RPModeler}
         classifier_name = str(get_model_classifier_name(name))
 
-        topicmodeler = modelerdict[classifier_name](preprocessor=preprocessor)
+        topicmodeler = modelerdict[classifier_name](preprocessor=preprocessor, tokenizer=tokenizer)
         topicmodeler.load_compact_model(name)
         return topicmodeler
     else:
-        topicmodeler = GensimTopicModeler(preprocessor=preprocessor)
+        topicmodeler = GensimTopicModeler(preprocessor=preprocessor, tokenizer=tokenizer)
         topicmodeler.loadmodel(name)
         return topicmodeler
-

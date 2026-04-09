@@ -1,8 +1,6 @@
 
 from abc import ABC, abstractmethod
 
-from ..utils.classification_exceptions import NotImplementedException
-
 
 class SpellCorrector(ABC):
     """ Base class for all spell corrector.
@@ -17,7 +15,7 @@ class SpellCorrector(ABC):
         :param text: training corpus
         :type text: str
         """
-        raise NotImplementedException()
+        raise NotImplemented()
 
     @abstractmethod
     def correct(self, word):
