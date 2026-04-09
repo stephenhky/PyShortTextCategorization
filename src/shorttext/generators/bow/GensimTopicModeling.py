@@ -143,8 +143,11 @@ class GensimTopicModeler(LatentTopicModeler):
         """
         bow = self.retrieve_bow(shorttext)
         vec = np.zeros(len(self.dictionary))
-        for id, val in bow:
-            vec[id] = val
+        if len(bow) > 0:
+            for id, val in bow:
+                vec[id] = val
+        else:
+            vec = 1.
         if self.normalize:
             vec /= np.linalg.norm(vec)
         return vec
