@@ -134,7 +134,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
             self.classtopicvecs[label] = self.precalculate_liststr_topicvec(classdict[label])
 
     def retrieve_bow(self, shorttext: str) -> list[tuple[int, int]]:
-        tokens_freq = Counter(self.tokenize_func(shorttext))
+        tokens_freq = Counter(self.tokenize_func(self.preprocess_func(shorttext)))
         return [
             (self.token2indices[token], freq)
             for token, freq in tokens_freq.items()
