@@ -5,7 +5,6 @@ from typing import Any, Optional, Annotated
 
 import numpy as np
 import numpy.typing as npt
-import pandas as pd
 from gensim.models.keyedvectors import KeyedVectors
 from tensorflow.keras.models import Model
 import orjson
@@ -270,13 +269,17 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         # classification using the neural network
         predictions = self.model.predict(matrix, **model_params)
 
-        # wrangle output result
-        df = pd.DataFrame(predictions, columns=self.classlabels)
-        
+        score_dicts = [
+            {
+                classlabel: predictions[i, j]
+                for j, classlabel in enumerate(self.classlabels)
+            }
+            for i in range(predictions.shape[0])
+        ]
         if not is_multiple:
-            return df.to_dict('records')[0]
-        
-        return df.to_dict('records')
+            return score_dicts[0]
+        else:
+            return score_dicts
 
 
 def load_varnnlibvec_classifier(
