@@ -208,7 +208,7 @@ class GensimTopicModeler(LatentTopicModeler):
         simdict = {}
         similarities = self.matsim[self.retrieve_corpus_topicdist(shorttext)]
         for label, similarity in zip(self.classlabels, similarities):
-            simdict[label] = similarity
+            simdict[label] = float(similarity)
         return simdict
 
     def loadmodel(self, nameprefix: str) -> None:

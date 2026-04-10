@@ -205,7 +205,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
             raise ModelNotTrainedException()
         simdict = {}
         for label in self.classtopicvecs:
-            simdict[label] = 1 - cosine(self.classtopicvecs[label], self.retrieve_topicvec(shorttext))
+            simdict[label] = float(1 - cosine(self.classtopicvecs[label], self.retrieve_topicvec(shorttext)))
         return simdict
 
     def savemodel(self, nameprefix: str, save_complete_autoencoder: bool=True) -> None:
