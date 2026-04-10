@@ -1,6 +1,7 @@
 
 import numpy as np
 import shorttext
+from sklearn.naive_bayes import GaussianNB
 
 import pytest
 
@@ -34,11 +35,19 @@ def test_ldatopicmodel():
         topic_vector_1
     )
 
-    # cosine similarity scholar
+    # cosine similarity scorer
     cos_classifier = shorttext.classifiers.TopicVectorCosineDistanceClassifier(topicmodeler)
     score_dict = cos_classifier.score("linear algebra")
     assert isinstance(score_dict, dict)
     assert len(score_dict) == len(trainclassdict)
+
+    # scikit-learn classifier
+    gaussian_nb_classifier = shorttext.classifiers.TopicVectorSkLearnClassifier(
+        topicmodeler, GaussianNB()
+    )
+    gaussian_nb_classifier.train(trainclassdict)
+    score_dict = gaussian_nb_classifier.score("linear algebra")
+    assert isinstance(score_dict, dict)
 
 
 def test_autoencoder():
@@ -75,3 +84,11 @@ def test_autoencoder():
     score_dict = cos_classifier.score("stem cell research")
     assert isinstance(score_dict, dict)
     assert len(score_dict) == 3
+
+    # scikit-learn classifier
+    gaussian_nb_classifier = shorttext.classifiers.TopicVectorSkLearnClassifier(
+        autoencoder, GaussianNB()
+    )
+    gaussian_nb_classifier.train(subdict)
+    score_dict = gaussian_nb_classifier.score("path integral")
+    assert isinstance(score_dict, dict)

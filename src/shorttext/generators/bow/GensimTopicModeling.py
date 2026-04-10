@@ -184,9 +184,12 @@ class GensimTopicModeler(LatentTopicModeler):
         if not self.trained:
             raise e.ModelNotTrainedException()
         topicdist = self.retrieve_corpus_topicdist(shorttext)
-        topicvec = np.zeros(self.nb_topics)
-        for topicid, frac in topicdist:
-            topicvec[topicid] = frac
+        if len(topicdist) > 0:
+            topicvec = np.zeros(self.nb_topics)
+            for topicid, frac in topicdist:
+                topicvec[topicid] = frac
+        else:
+            topicvec = np.ones(self.nb_topics)
         if self.normalize:
             topicvec /= np.linalg.norm(topicvec)
         return topicvec

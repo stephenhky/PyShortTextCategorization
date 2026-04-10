@@ -151,7 +151,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
                 shape=(1, len(self.token2indices))
             ).todense()[0]
         else:
-            vec = np.repeat(1., len(self.token2indices))
+            vec = np.ones(len(self.token2indices))
         if self.normalize:
             vec = np.array(vec, dtype=np.float64) / np.linalg.norm(vec)
         return vec
