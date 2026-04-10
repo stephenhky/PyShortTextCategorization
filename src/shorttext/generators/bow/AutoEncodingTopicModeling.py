@@ -104,11 +104,19 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         decoder = autoencoder_package.decoder
 
         # process training data
-        embedvecs = np.array(reduce(add,
-                                    [[self.retrieve_bow_vector(shorttext, normalize=True) for shorttext in classdict[classtype]]
-                                     for classtype in classdict]
-                                    )
-                             )
+        # embedvecs = np.array(
+        #     reduce(
+        #         add,
+        #         [
+        #             [
+        #                 self.retrieve_bow_vector(shorttext)
+        #                 for shorttext in classdict[classtype]
+        #             ]
+        #             for classtype in classdict
+        #         ]
+        #     )
+        # )
+        embedvecs = dtm_matrix.to_numpy()
 
         # fit the model
         autoencoder.fit(embedvecs, embedvecs, *args, **kwargs)
@@ -127,7 +135,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
             self.classtopicvecs[label] = self.precalculate_liststr_topicvec(classdict[label])
 
     def retrieve_bow(self, shorttext: str) -> list[tuple[int, int]]:
-        tokens_freq = Counter(self.tokenize_func(shorttext))
+        tokens_freq = Counter(self.tokenize_func(self.preprocess_func(shorttext)))
         return [
             (self.token2indices[token], freq)
             for token, freq in tokens_freq.items()
@@ -136,13 +144,16 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
 
     def retrieve_bow_vector(self, shorttext: str) -> npt.NDArray[np.float64]:
         bow = self.retrieve_bow(shorttext)
-        vec = sparse.COO(
-            [[0]*len(bow), [id for id, val in bow]],
-            [val for id, val in bow],
-            shape=(1, len(self.token2indices))
-        ).todense()[0]
+        if len(bow) > 0:
+            vec = sparse.COO(
+                [[0]*len(bow), [id for id, val in bow]],
+                [val for id, val in bow],
+                shape=(1, len(self.token2indices))
+            ).todense()[0]
+        else:
+            vec = np.ones(len(self.token2indices))
         if self.normalize:
-            vec /= np.linalg.norm(vec)
+            vec = np.array(vec, dtype=np.float64) / np.linalg.norm(vec)
         return vec
 
     def retrieve_topicvec(self, shorttext: str) -> npt.NDArray[np.float64]:
@@ -256,8 +267,8 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
             self.autoencoder = kerasio.load_model(nameprefix+'_autoencoder')
         self.trained = True
 
-    def getinfo(self) -> dict[str, Any]:
-        return super(CompactIOMachine).getinfo()
+    def get_info(self) -> dict[str, Any]:
+        return CompactIOMachine.get_info(self)
 
 
 def load_autoencoder_topicmodel(

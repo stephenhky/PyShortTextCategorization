@@ -1,5 +1,5 @@
 
-import os
+from typing import Optional, Literal
 
 import numpy as np
 import numpy.typing as npt
@@ -61,8 +61,11 @@ class TopicVectorSkLearnClassifier:
         x = []
         y = []
         self.classlabels = sorted(classdict.keys())     # classlabels must be sorted like the topic modelers
-        for classidx, classlabel in zip(range(len(self.classlabels)), self.classlabels):
-            topicvecs = [self.topicmodeler.retrieve_topicvec(topic) for topic in classdict[classlabel]]
+        for classidx, classlabel in enumerate(self.classlabels):
+            topicvecs = [
+                self.topicmodeler.retrieve_topicvec(shorttext)
+                for shorttext in classdict[classlabel]
+            ]
             x += topicvecs
             y += [classidx]*len(topicvecs)
         self.classifier.fit(x, y, *args, **kwargs)
@@ -117,8 +120,10 @@ class TopicVectorSkLearnClassifier:
             raise e.ModelNotTrainedException()
 
         topicvec = self.getvector(shorttext)
-        scoredict = {classlabel: self.classifier.score([topicvec], [classidx])
-                     for classidx, classlabel in enumerate(self.classlabels)}
+        scoredict = {
+            classlabel: self.classifier.score([topicvec], [classidx])
+            for classidx, classlabel in enumerate(self.classlabels)
+        }
         return scoredict
 
     def savemodel(self, nameprefix: str) -> None:
@@ -153,13 +158,9 @@ class TopicVectorSkLearnClassifier:
         """
         self.topicmodeler.loadmodel(nameprefix)
         self.classifier = joblib.load(nameprefix+'.pkl')
-        # for backward compatibility, shorttext<1.0.0 does not have _classlabels.txt
-        if os.path.exists(nameprefix+'_classlabels.txt'):
-            labelfile = open(nameprefix+'_classlabels.txt', 'r')
-            self.classlabels = [s.strip() for s in labelfile.readlines()]
-            labelfile.close()
-        else:
-            self.classlabels = self.topicmodeler.classlabels
+        labelfile = open(nameprefix+'_classlabels.txt', 'r')
+        self.classlabels = [s.strip() for s in labelfile.readlines()]
+        labelfile.close()
 
     def save_compact_model(self, name: str) -> None:
         """ Save the model.
@@ -174,9 +175,16 @@ class TopicVectorSkLearnClassifier:
         :type name: str
         """
         topicmodel_info = self.topicmodeler.get_info()
-        cio.save_compact_model(name, self.savemodel, 'topic_sklearn',
-                               topicmodel_info['suffices']+['.pkl', '_classlabels.txt'],
-                               {'classifier': 'topic_sklearn', 'topicmodel': topicmodel_info['classifier']})
+        cio.save_compact_model(
+            name,
+            self.savemodel,
+            'topic_sklearn',
+            topicmodel_info['suffices']+['.pkl', '_classlabels.txt'],
+            {
+                'classifier': 'topic_sklearn',
+                'topicmodel': topicmodel_info['classifier']
+            }
+        )
 
     def load_compact_model(self, name: str) -> None:
         """ Load the classification model together with the topic model from a compact file.
@@ -185,20 +193,26 @@ class TopicVectorSkLearnClassifier:
         :return: None
         :type name: str
         """
-        cio.load_compact_model(name, self.loadmodel, 'topic_sklearn',
-                               {'classifier': 'topic_sklearn', 'topicmodel': None})
+        cio.load_compact_model(
+            name,
+            self.loadmodel,
+            'topic_sklearn',
+            {'classifier': 'topic_sklearn', 'topicmodel': None}
+        )
         self.trained = True
 
 
-def train_gensim_topicvec_sklearnclassifier(classdict,
-                                            nb_topics,
-                                            sklearn_classifier,
-                                            preprocessor=textpreprocess.standard_text_preprocessor_1(),
-                                            topicmodel_algorithm='lda',
-                                            toweigh=True,
-                                            normalize=True,
-                                            gensim_paramdict={},
-                                            sklearn_paramdict={}):
+def train_gensim_topicvec_sklearnclassifier(
+        classdict: dict[str, list[str]],
+        nb_topics: int,
+        sklearn_classifier: sklearn.base.BaseEstimator,
+        preprocessor: Optional[callable] = None,
+        topicmodel_algorithm: Literal["lda", "lsi", "rp"] = 'lda',
+        toweigh: bool = True,
+        normalize: bool = True,
+        gensim_paramdict: Optional[dict] = None,
+        sklearn_paramdict: Optional[dict] = None
+) -> TopicVectorSkLearnClassifier:
     """ Train the supervised learning classifier, with features given by topic vectors.
 
     It trains a topic model, and with its topic vector representation, train a supervised
@@ -236,11 +250,20 @@ def train_gensim_topicvec_sklearnclassifier(classdict,
     :type sklearn_paramdict: dict
     :rtype: TopicVectorSkLearnClassifier
     """
+    if preprocessor is None:
+        preprocessor = textpreprocess.standard_text_preprocessor_1()
+    if gensim_paramdict is None:
+        gensim_paramdict = {}
+    if sklearn_paramdict is None:
+        sklearn_paramdict = {}
+
     # topic model training
     modelerdict = {'lda': LDAModeler, 'lsi': LSIModeler, 'rp': RPModeler}
-    topicmodeler = modelerdict[topicmodel_algorithm](preprocessor=preprocessor,
-                                                     toweigh=toweigh,
-                                                     normalize=normalize)
+    topicmodeler = modelerdict[topicmodel_algorithm](
+        preprocessor=preprocessor,
+        toweigh=toweigh,
+        normalize=normalize
+    )
     topicmodeler.train(classdict, nb_topics, **gensim_paramdict)
 
     # intermediate classification training
@@ -250,9 +273,11 @@ def train_gensim_topicvec_sklearnclassifier(classdict,
     return classifier
 
 
-def load_gensim_topicvec_sklearnclassifier(name,
-                                           preprocessor=textpreprocess.standard_text_preprocessor_1(),
-                                           compact=True):
+def load_gensim_topicvec_sklearnclassifier(
+        name: str,
+        preprocessor: Optional[callable] = None,
+        compact: bool = True
+) -> TopicVectorSkLearnClassifier:
     """ Load the classifier, a wrapper that uses scikit-learn classifier, with
      feature vectors given by a topic model, from files.
 
@@ -275,6 +300,9 @@ def load_gensim_topicvec_sklearnclassifier(name,
     :type compact: bool
     :rtype: TopicVectorSkLearnClassifier
     """
+    if preprocessor is None:
+        preprocessor = textpreprocess.standard_text_preprocessor_1()
+
     if compact:
         # load the compact model
         modelerdict = {'ldatopic': LDAModeler, 'lsitopic': LSIModeler, 'rptopic': RPModeler}
@@ -300,13 +328,15 @@ def load_gensim_topicvec_sklearnclassifier(name,
         return classifier
 
 
-def train_autoencoder_topic_sklearnclassifier(classdict,
-                                              nb_topics,
-                                              sklearn_classifier,
-                                              preprocessor=textpreprocess.standard_text_preprocessor_1(),
-                                              normalize=True,
-                                              keras_paramdict={},
-                                              sklearn_paramdict={}):
+def train_autoencoder_topic_sklearnclassifier(
+        classdict: dict[str, list[str]],
+        nb_topics: int,
+        sklearn_classifier: sklearn.base.BaseEstimator,
+        preprocessor: Optional[callable] = None,
+        normalize: bool = True,
+        keras_paramdict: Optional[dict] = None,
+        sklearn_paramdict: Optional[dict] = None
+) -> TopicVectorSkLearnClassifier:
     """ Train the supervised learning classifier, with features given by topic vectors.
 
     It trains an autoencoder topic model, and with its encoded vector representation, train a supervised
@@ -338,6 +368,13 @@ def train_autoencoder_topic_sklearnclassifier(classdict,
     :type normalize: bool
     :rtype: TopicVectorSkLearnClassifier
     """
+    if preprocessor is None:
+        preprocessor = textpreprocess.standard_text_preprocessor_1()
+    if keras_paramdict is None:
+        keras_paramdict = {}
+    if sklearn_paramdict is None:
+        sklearn_paramdict = {}
+
     # train the autoencoder
     autoencoder = AutoencodingTopicModeler(preprocessor=preprocessor, normalize=normalize)
     autoencoder.train(classdict, nb_topics, **keras_paramdict)
@@ -349,9 +386,11 @@ def train_autoencoder_topic_sklearnclassifier(classdict,
     return classifier
 
 
-def load_autoencoder_topic_sklearnclassifier(name,
-                                             preprocessor=textpreprocess.standard_text_preprocessor_1(),
-                                             compact=True):
+def load_autoencoder_topic_sklearnclassifier(
+        name: str,
+        preprocessor: Optional[callable] = None,
+        compact: bool = True
+) -> TopicVectorSkLearnClassifier:
     """ Load the classifier, a wrapper that uses scikit-learn classifier, with
      feature vectors given by an autocoder topic model, from files.
 
@@ -374,6 +413,9 @@ def load_autoencoder_topic_sklearnclassifier(name,
     :type compact: bool
     :rtype: TopicVectorSkLearnClassifier
     """
+    if preprocessor is None:
+        preprocessor = textpreprocess.standard_text_preprocessor_1()
+
     if compact:
         # load the compact model
         classifier = TopicVectorSkLearnClassifier(AutoencodingTopicModeler(preprocessor=preprocessor), None)

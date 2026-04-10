@@ -112,9 +112,9 @@ def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512
     # txt_col = 'PROJECT_TITLE' or 'ABSTRACT_TEXT'
     # label_col = 'FUNDING_ICs' or 'IC_NAME'
     if not (txt_col in ['PROJECT_TITLE', 'ABSTRACT_TEXT']):
-        raise KeyError('Undefined text column: '+txt_col+'. Must be PROJECT_TITLE or ABSTRACT_TEXT.')
+        raise KeyError(f'Undefined text column: {txt_col}. Must be PROJECT_TITLE or ABSTRACT_TEXT.')
     if not (label_col in ['FUNDING_ICs', 'IC_NAME']):
-        raise KeyError('Undefined label column: '+label_col+'. Must be FUNDING_ICs or IC_NAME.')
+        raise KeyError(f'Undefined label column: {label_col}. Must be FUNDING_ICs or IC_NAME.')
 
     zfile = zipfile.ZipFile(get_or_download_data('nih_full.csv.zip',
                                                  'https://shorttext-data-northernvirginia.s3.amazonaws.com/trainingdata/nih_full.csv.zip',
@@ -201,14 +201,14 @@ def get_or_download_data(filename, origin, asbytes=False):
     targetfilepath = os.path.join(datadir, filename)
     # download if not exist
     if not os.path.exists(os.path.join(datadir, filename)):
-        print('Downloading...')
-        print('Source: ', origin)
-        print('Target: ', targetfilepath)
+        print('Downloading...', file=sys.stderr)
+        print(f'Source: {origin}', file=sys.stderr)
+        print(f'Target: {targetfilepath}', file=sys.stderr)
         try:
             urlretrieve(origin, targetfilepath)
         except:
-            print('Failure to download file!')
-            print(sys.exc_info())
+            print('Failure to download file!', file=sys.stderr)
+            print(sys.exc_info(), file=sys.stderr)
             os.remove(targetfilepath)
 
     # return

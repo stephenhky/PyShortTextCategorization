@@ -42,7 +42,8 @@ dependencies = [
     "deprecation>=2.0.0",
     "npdict>=0.0.10",
     "sparse>=0.10.0",
-    "orjson>=3.0.0"
+    "orjson>=3.0.0",
+    "loguru>=0.6.0"
 ]
 
 [project.urls]
