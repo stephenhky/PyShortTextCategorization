@@ -31,13 +31,13 @@ def test_ldatopicmodel():
     topicmodeler.save_compact_model('nihlda128.bin')
     topicmodeler2 = shorttext.generators.load_gensimtopicmodel('nihlda128.bin')
     np.testing.assert_array_almost_equal(
-        topicmodeler2.retrieve_topicvec("stem cell research"),
+        topicmodeler2.retrieve_topicvec("stem cell research NIH cancer immunology"),
         topic_vector_1
     )
 
     # cosine similarity scorer
     cos_classifier = shorttext.classifiers.TopicVectorCosineDistanceClassifier(topicmodeler)
-    score_dict = cos_classifier.score("linear algebra")
+    score_dict = cos_classifier.score("stem cell research NIH cancer immunology")
     assert isinstance(score_dict, dict)
     assert len(score_dict) == len(trainclassdict)
 
@@ -46,7 +46,7 @@ def test_ldatopicmodel():
         topicmodeler, GaussianNB()
     )
     gaussian_nb_classifier.train(trainclassdict)
-    score_dict = gaussian_nb_classifier.score("linear algebra")
+    score_dict = gaussian_nb_classifier.score("stem cell research NIH cancer immunology")
     assert isinstance(score_dict, dict)
 
 
