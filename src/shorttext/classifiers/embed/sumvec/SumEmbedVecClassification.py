@@ -110,7 +110,7 @@ class SumEmbeddedVecClassifier(CompactIOMachine):
     def shorttext_to_embedvec(
             self,
             shorttext: str
-    ) -> Annotated[npt.NDArray[np.float64], "1D Arrat"]:
+    ) -> Annotated[npt.NDArray[np.float64], "1D Array"]:
         """ Convert the short text into an averaged embedded vector representation.
 
         Given a short sentence, it converts all the tokens into embedded vectors according to

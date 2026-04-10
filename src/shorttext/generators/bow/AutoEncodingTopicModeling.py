@@ -10,7 +10,6 @@ import sparse
 from tensorflow.keras import Input
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Dense
-from scipy.spatial.distance import cosine
 import orjson
 
 from .LatentTopicModeling import LatentTopicModeler
@@ -18,6 +17,7 @@ from ...utils import kerasmodel_io as kerasio, textpreprocessing as textpreproce
 from ...utils.compactmodel_io import CompactIOMachine
 from ...utils.classification_exceptions import ModelNotTrainedException
 from ...utils.dtm import generate_npdict_document_term_matrix, convert_classdict_to_corpus
+from ...utils.compute import cosine_similarity
 from ...schemas.models import AutoEncoderPackage
 
 
@@ -192,7 +192,9 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
             raise ModelNotTrainedException()
         simdict = {}
         for label in self.classtopicvecs:
-            simdict[label] = 1 - cosine(self.classtopicvecs[label], self.retrieve_topicvec(shorttext))
+            simdict[label] = cosine_similarity(
+                self.classtopicvecs[label], self.retrieve_topicvec(shorttext)
+            )
         return simdict
 
     def savemodel(self, nameprefix: str, save_complete_autoencoder: bool=True) -> None:
