@@ -267,8 +267,8 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
             self.autoencoder = kerasio.load_model(nameprefix+'_autoencoder')
         self.trained = True
 
-    def getinfo(self) -> dict[str, Any]:
-        return super(CompactIOMachine).getinfo()
+    def get_info(self) -> dict[str, Any]:
+        return CompactIOMachine.get_info(self)
 
 
 def load_autoencoder_topicmodel(

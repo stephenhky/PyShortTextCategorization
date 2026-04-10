@@ -173,7 +173,7 @@ class TopicVectorSkLearnClassifier:
         :return: None
         :type name: str
         """
-        topicmodel_info = self.topicmodeler.getinfo()
+        topicmodel_info = self.topicmodeler.get_info()
         cio.save_compact_model(name, self.savemodel, 'topic_sklearn',
                                topicmodel_info['suffices']+['.pkl', '_classlabels.txt'],
                                {'classifier': 'topic_sklearn', 'topicmodel': topicmodel_info['classifier']})

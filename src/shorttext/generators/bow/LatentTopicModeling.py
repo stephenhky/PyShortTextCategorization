@@ -127,5 +127,5 @@ class LatentTopicModeler(ABC):
         raise NotImplemented()
 
     @abstractmethod
-    def getinfo(self) -> dict[str, Any]:
+    def get_info(self) -> dict[str, Any]:
         raise NotImplemented()

@@ -309,8 +309,8 @@ class LDAModeler(GensimTopicModeler, CompactIOMachine):
             self, {'classifier': 'ldatopic'}, 'ldatopic', lda_suffices
         )
 
-    def getinfo(self) -> dict[str, Any]:
-        return super(CompactIOMachine).getinfo()
+    def get_info(self) -> dict[str, Any]:
+        return CompactIOMachine.get_info(self)
 
 
 lsi_suffices = ['.json', '.gensimdict', '.gensimtfidf', '.gensimmodel.projection',
@@ -343,8 +343,8 @@ class LSIModeler(GensimTopicModeler, CompactIOMachine):
             self, {'classifier': 'lsitopic'}, 'lsitopic', lsi_suffices
         )
 
-    def getinfo(self) -> dict[str, Any]:
-        return super(CompactIOMachine).getinfo()
+    def get_info(self) -> dict[str, Any]:
+        return CompactIOMachine.get_info(self)
 
 
 rp_suffices = ['.json', '.gensimtfidf', '.gensimmodel', '.gensimmat', '.gensimdict']
@@ -376,8 +376,8 @@ class RPModeler(GensimTopicModeler, CompactIOMachine):
             self, {'classifier': 'rptopic'}, 'rptopic', rp_suffices
         )
 
-    def getinfo(self) -> dict[str, Any]:
-        return super(CompactIOMachine).getinfo()
+    def get_info(self) -> dict[str, Any]:
+        return CompactIOMachine.get_info(self)
 
 
 def load_gensimtopicmodel(
