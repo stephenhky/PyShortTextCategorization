@@ -34,6 +34,12 @@ def test_ldatopicmodel():
         topic_vector_1
     )
 
+    # cosine similarity scholar
+    cos_classifier = shorttext.classifiers.TopicVectorCosineDistanceClassifier(topicmodeler)
+    score_dict = cos_classifier.score("linear algebra")
+    assert isinstance(score_dict, dict)
+    assert len(score_dict) == len(trainclassdict)
+
 
 def test_autoencoder():
     # load data
@@ -63,3 +69,9 @@ def test_autoencoder():
     assert not np.any(np.isnan(topic_vector_3))
     assert np.linalg.norm(topic_vector_3) == pytest.approx(1.)
     np.testing.assert_array_almost_equal(autoencoder["critical race"], topic_vector_3)
+
+    # cosine similarity scholar
+    cos_classifier = shorttext.classifiers.TopicVectorCosineDistanceClassifier(autoencoder)
+    score_dict = cos_classifier.score("stem cell research")
+    assert isinstance(score_dict, dict)
+    assert len(score_dict) == 3
