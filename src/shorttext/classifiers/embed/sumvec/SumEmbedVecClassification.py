@@ -1,12 +1,16 @@
+
 import pickle
 from collections import defaultdict
+from typing import Optional, Annotated
 
 import numpy as np
-from scipy.spatial.distance import cosine
+import numpy.typing as npt
+from gensim.models.keyedvectors import KeyedVectors
 
 from ....utils.classification_exceptions import ModelNotTrainedException
 from ....utils import shorttext_to_avgvec
 from ....utils.compactmodel_io import CompactIOMachine
+from ....utils.compute import cosine_similarity
 
 
 class SumEmbeddedVecClassifier(CompactIOMachine):
@@ -22,7 +26,12 @@ class SumEmbeddedVecClassifier(CompactIOMachine):
     <https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit>`_.
     """
 
-    def __init__(self, wvmodel, vecsize=None, simfcn=lambda u, v: 1-cosine(u, v)):
+    def __init__(
+            self,
+            wvmodel: KeyedVectors,
+            vecsize: Optional[int] = None,
+            simfcn: Optional[callable] = None
+    ):
         """ Initialize the classifier.
 
         :param wvmodel: Word2Vec model
@@ -32,13 +41,17 @@ class SumEmbeddedVecClassifier(CompactIOMachine):
         :type vecsize: int
         :type simfcn: function
         """
-        CompactIOMachine.__init__(self, {'classifier': 'sumvec'}, 'sumvec', ['_embedvecdict.pkl'])
+        super().__init__(
+            {'classifier': 'sumvec'},
+            'sumvec',
+            ['_embedvecdict.pkl']
+        )
         self.wvmodel = wvmodel
-        self.vecsize = self.wvmodel.vector_size if vecsize == None else vecsize
-        self.simfcn = simfcn
+        self.vecsize = self.wvmodel.vector_size if vecsize is None else vecsize
+        self.simfcn = simfcn if simfcn is not None else cosine_similarity
         self.trained = False
 
-    def train(self, classdict):
+    def train(self, classdict: dict[str, list[str]]) -> None:
         """ Train the classifier.
 
         If this has not been run, or a model was not loaded by :func:`~loadmodel`,
@@ -51,14 +64,18 @@ class SumEmbeddedVecClassifier(CompactIOMachine):
         """
         self.addvec = defaultdict(lambda : np.zeros(self.vecsize))
         for classtype in classdict:
-            self.addvec[classtype] = np.sum([self.shorttext_to_embedvec(shorttext)
-                                             for shorttext in classdict[classtype]],
-                                            axis=0)
+            self.addvec[classtype] = np.sum(
+                [
+                    self.shorttext_to_embedvec(shorttext)
+                    for shorttext in classdict[classtype]
+                ],
+                axis=0
+            )
             self.addvec[classtype] /= np.linalg.norm(self.addvec[classtype])
         self.addvec = dict(self.addvec)
         self.trained = True
 
-    def savemodel(self, nameprefix):
+    def savemodel(self, nameprefix: str) -> None:
         """ Save the trained model into files.
 
         Given the prefix of the file paths, save the model into files, with name given by the prefix,
@@ -74,7 +91,7 @@ class SumEmbeddedVecClassifier(CompactIOMachine):
             raise ModelNotTrainedException()
         pickle.dump(self.addvec, open(nameprefix+'_embedvecdict.pkl', 'wb'))
 
-    def loadmodel(self, nameprefix):
+    def loadmodel(self, nameprefix: str) -> None:
         """ Load a trained model from files.
 
         Given the prefix of the file paths, load the model from files with name given by the prefix
@@ -90,7 +107,10 @@ class SumEmbeddedVecClassifier(CompactIOMachine):
         self.addvec = pickle.load(open(nameprefix+'_embedvecdict.pkl', 'rb'))
         self.trained = True
 
-    def shorttext_to_embedvec(self, shorttext):
+    def shorttext_to_embedvec(
+            self,
+            shorttext: str
+    ) -> Annotated[npt.NDArray[np.float64], "1D Arrat"]:
         """ Convert the short text into an averaged embedded vector representation.
 
         Given a short sentence, it converts all the tokens into embedded vectors according to
@@ -105,7 +125,7 @@ class SumEmbeddedVecClassifier(CompactIOMachine):
         """
         return shorttext_to_avgvec(shorttext, self.wvmodel)
 
-    def score(self, shorttext):
+    def score(self, shorttext: str) -> dict[str, float]:
         """ Calculate the scores for all the class labels for the given short sentence.
 
         Given a short sentence, calculate the classification scores for all class labels,
@@ -122,6 +142,7 @@ class SumEmbeddedVecClassifier(CompactIOMachine):
         """
         if not self.trained:
             raise ModelNotTrainedException()
+
         vec = self.shorttext_to_embedvec(shorttext)
         scoredict = {}
         for classtype in self.addvec:
@@ -132,7 +153,12 @@ class SumEmbeddedVecClassifier(CompactIOMachine):
         return scoredict
 
 
-def load_sumword2vec_classifier(wvmodel, name, compact=True, vecsize=None):
+def load_sumword2vec_classifier(
+        wvmodel: KeyedVectors,
+        name: str,
+        compact: bool = True,
+        vecsize: Optional[int] = None
+) -> SumEmbeddedVecClassifier:
     """ Load a :class:`shorttext.classifiers.SumEmbeddedVecClassifier` instance from file, given the pre-trained Word2Vec model.
 
     :param wvmodel: Word2Vec model
