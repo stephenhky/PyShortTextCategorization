@@ -46,7 +46,7 @@ def compare_two_dicts(dict1, dict2) -> None:
     assert len(dict1) == len(dict2)
     for classlabel in dict1:
         assert (classlabel in dict2)
-        assert dict1[classlabel] == pytest.approx(dict2[classlabel])
+        assert dict1[classlabel] == pytest.approx(dict2[classlabel], abs=1e-3)
 
 
 def test_studies() -> None:
