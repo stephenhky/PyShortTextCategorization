@@ -15,7 +15,7 @@ def test_ldatopicmodel():
     topicmodeler.train(trainclassdict, 128)
 
     # retrieve topic vectors
-    topic_vector_1 = topicmodeler.retrieve_topicvec('stem cell research')
+    topic_vector_1 = topicmodeler.retrieve_topicvec('stem cell research NIH cancer immunology')
     assert not np.any(np.isnan(topic_vector_1))
     assert np.linalg.norm(topic_vector_1) == pytest.approx(1.)
 
