@@ -158,7 +158,7 @@ class TopicVectorSkLearnClassifier:
         """
         self.topicmodeler.loadmodel(nameprefix)
         self.classifier = joblib.load(nameprefix+'.pkl')
-        labelfile = open(nameprefix+'_classlabels.tt', 'r')
+        labelfile = open(nameprefix+'_classlabels.txt', 'r')
         self.classlabels = [s.strip() for s in labelfile.readlines()]
         labelfile.close()
 
