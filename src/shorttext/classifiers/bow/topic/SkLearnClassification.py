@@ -61,7 +61,7 @@ class TopicVectorSkLearnClassifier:
         x = []
         y = []
         self.classlabels = sorted(classdict.keys())     # classlabels must be sorted like the topic modelers
-        for classidx, classlabel in zip(range(len(self.classlabels)), self.classlabels):
+        for classidx, classlabel in enumerate(self.classlabels):
             topicvecs = [self.topicmodeler.retrieve_topicvec(topic) for topic in classdict[classlabel]]
             x += topicvecs
             y += [classidx]*len(topicvecs)
@@ -173,7 +173,7 @@ class TopicVectorSkLearnClassifier:
         :return: None
         :type name: str
         """
-        topicmodel_info = self.topicmodeler.get_info()
+        topicmodel_info = self.topicmodeler.getinfo()
         cio.save_compact_model(name, self.savemodel, 'topic_sklearn',
                                topicmodel_info['suffices']+['.pkl', '_classlabels.txt'],
                                {'classifier': 'topic_sklearn', 'topicmodel': topicmodel_info['classifier']})
