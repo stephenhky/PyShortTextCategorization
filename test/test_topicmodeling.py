@@ -1,6 +1,7 @@
 
 import numpy as np
 import shorttext
+from sklearn.naive_bayes import GaussianNB
 
 import pytest
 
@@ -14,7 +15,7 @@ def test_ldatopicmodel():
     topicmodeler.train(trainclassdict, 128)
 
     # retrieve topic vectors
-    topic_vector_1 = topicmodeler.retrieve_topicvec('stem cell research')
+    topic_vector_1 = topicmodeler.retrieve_topicvec('stem cell research NIH cancer immunology')
     assert not np.any(np.isnan(topic_vector_1))
     assert np.linalg.norm(topic_vector_1) == pytest.approx(1.)
 
@@ -30,9 +31,23 @@ def test_ldatopicmodel():
     topicmodeler.save_compact_model('nihlda128.bin')
     topicmodeler2 = shorttext.generators.load_gensimtopicmodel('nihlda128.bin')
     np.testing.assert_array_almost_equal(
-        topicmodeler2.retrieve_topicvec("stem cell research"),
+        topicmodeler2.retrieve_topicvec("stem cell research NIH cancer immunology"),
         topic_vector_1
     )
+
+    # cosine similarity scorer
+    cos_classifier = shorttext.classifiers.TopicVectorCosineDistanceClassifier(topicmodeler)
+    score_dict = cos_classifier.score("stem cell research NIH cancer immunology")
+    assert isinstance(score_dict, dict)
+    assert len(score_dict) == len(trainclassdict)
+
+    # scikit-learn classifier
+    gaussian_nb_classifier = shorttext.classifiers.TopicVectorSkLearnClassifier(
+        topicmodeler, GaussianNB()
+    )
+    gaussian_nb_classifier.train(trainclassdict)
+    score_dict = gaussian_nb_classifier.score("stem cell research NIH cancer immunology")
+    assert isinstance(score_dict, dict)
 
 
 def test_autoencoder():
@@ -63,3 +78,17 @@ def test_autoencoder():
     assert not np.any(np.isnan(topic_vector_3))
     assert np.linalg.norm(topic_vector_3) == pytest.approx(1.)
     np.testing.assert_array_almost_equal(autoencoder["critical race"], topic_vector_3)
+
+    # cosine similarity scholar
+    cos_classifier = shorttext.classifiers.TopicVectorCosineDistanceClassifier(autoencoder)
+    score_dict = cos_classifier.score("stem cell research")
+    assert isinstance(score_dict, dict)
+    assert len(score_dict) == 3
+
+    # scikit-learn classifier
+    gaussian_nb_classifier = shorttext.classifiers.TopicVectorSkLearnClassifier(
+        autoencoder, GaussianNB()
+    )
+    gaussian_nb_classifier.train(subdict)
+    score_dict = gaussian_nb_classifier.score("path integral")
+    assert isinstance(score_dict, dict)

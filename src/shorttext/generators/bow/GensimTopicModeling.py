@@ -9,7 +9,7 @@ from gensim.models import TfidfModel, LdaModel, LsiModel, RpModel
 from gensim.similarities import MatrixSimilarity
 import orjson
 
-from ...utils import classification_exceptions as e
+from ...utils.classification_exceptions import ModelNotTrainedException
 from ...utils.compactmodel_io import CompactIOMachine, get_model_classifier_name
 from ...utils import gensim_corpora as gc
 from .LatentTopicModeling import LatentTopicModeler
@@ -164,7 +164,7 @@ class GensimTopicModeler(LatentTopicModeler):
         :rtype: list
         """
         if not self.trained:
-            raise e.ModelNotTrainedException()
+            raise ModelNotTrainedException()
         bow = self.retrieve_bow(shorttext)
         return self.topicmodel[self.tfidf[bow] if self.toweigh else bow]
 
@@ -182,11 +182,14 @@ class GensimTopicModeler(LatentTopicModeler):
         :rtype: numpy.ndarray
         """
         if not self.trained:
-            raise e.ModelNotTrainedException()
+            raise ModelNotTrainedException()
         topicdist = self.retrieve_corpus_topicdist(shorttext)
-        topicvec = np.zeros(self.nb_topics)
-        for topicid, frac in topicdist:
-            topicvec[topicid] = frac
+        if len(topicdist) > 0:
+            topicvec = np.zeros(self.nb_topics)
+            for topicid, frac in topicdist:
+                topicvec[topicid] = frac
+        else:
+            topicvec = np.ones(self.nb_topics)
         if self.normalize:
             topicvec /= np.linalg.norm(topicvec)
         return topicvec
@@ -204,7 +207,7 @@ class GensimTopicModeler(LatentTopicModeler):
         :rtype: dict
         """
         if not self.trained:
-            raise e.ModelNotTrainedException()
+            raise ModelNotTrainedException()
         simdict = {}
         similarities = self.matsim[self.retrieve_corpus_topicdist(shorttext)]
         for label, similarity in zip(self.classlabels, similarities):
@@ -260,7 +263,7 @@ class GensimTopicModeler(LatentTopicModeler):
         :type nameprefix: str
         """
         if not self.trained:
-            raise e.ModelNotTrainedException()
+            raise ModelNotTrainedException()
 
         parameters = {}
         parameters['nb_topics'] = self.nb_topics
@@ -309,8 +312,8 @@ class LDAModeler(GensimTopicModeler, CompactIOMachine):
             self, {'classifier': 'ldatopic'}, 'ldatopic', lda_suffices
         )
 
-    def getinfo(self) -> dict[str, Any]:
-        return super(CompactIOMachine).getinfo()
+    def get_info(self) -> dict[str, Any]:
+        return CompactIOMachine.get_info(self)
 
 
 lsi_suffices = ['.json', '.gensimdict', '.gensimtfidf', '.gensimmodel.projection',
@@ -343,8 +346,8 @@ class LSIModeler(GensimTopicModeler, CompactIOMachine):
             self, {'classifier': 'lsitopic'}, 'lsitopic', lsi_suffices
         )
 
-    def getinfo(self) -> dict[str, Any]:
-        return super(CompactIOMachine).getinfo()
+    def get_info(self) -> dict[str, Any]:
+        return CompactIOMachine.get_info(self)
 
 
 rp_suffices = ['.json', '.gensimtfidf', '.gensimmodel', '.gensimmat', '.gensimdict']
@@ -376,8 +379,8 @@ class RPModeler(GensimTopicModeler, CompactIOMachine):
             self, {'classifier': 'rptopic'}, 'rptopic', rp_suffices
         )
 
-    def getinfo(self) -> dict[str, Any]:
-        return super(CompactIOMachine).getinfo()
+    def get_info(self) -> dict[str, Any]:
+        return CompactIOMachine.get_info(self)
 
 
 def load_gensimtopicmodel(
@@ -385,7 +388,7 @@ def load_gensimtopicmodel(
         preprocessor: Optional[callable] = None,
         tokenizer: Optional[callable] = None,
         compact: bool = True
-):
+) -> GensimTopicModeler:
     """ Load the gensim topic modeler from files.
 
     :param name: name (if compact=True) or prefix (if compact=False) of the file path
@@ -398,13 +401,13 @@ def load_gensimtopicmodel(
     :rtype: GensimTopicModeler
     """
     if compact:
-        modelerdict = {'ldatopic': LDAModeler, 'lsitopic': LSIModeler, 'rptopic': RPModeler}
+        modeler_dict = {'ldatopic': LDAModeler, 'lsitopic': LSIModeler, 'rptopic': RPModeler}
         classifier_name = str(get_model_classifier_name(name))
 
-        topicmodeler = modelerdict[classifier_name](preprocessor=preprocessor, tokenizer=tokenizer)
-        topicmodeler.load_compact_model(name)
-        return topicmodeler
+        topic_modeler = modeler_dict[classifier_name](preprocessor=preprocessor, tokenizer=tokenizer)
+        topic_modeler.load_compact_model(name)
     else:
-        topicmodeler = GensimTopicModeler(preprocessor=preprocessor, tokenizer=tokenizer)
-        topicmodeler.loadmodel(name)
-        return topicmodeler
+        topic_modeler = GensimTopicModeler(preprocessor=preprocessor, tokenizer=tokenizer)
+        topic_modeler.loadmodel(name)
+
+    return topic_modeler

@@ -1,18 +1,22 @@
 
+from typing import Optional, Literal
+
 from tensorflow.keras.layers import Dense, Activation
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.regularizers import l2
 
 from ....utils.classification_exceptions import UnequalArrayLengthsException
 
 
-def DenseWordEmbed(nb_labels,
-                   dense_nb_nodes=[],
-                   dense_actfcn=[],
-                   vecsize=300,
-                   reg_coef=0.1,
-                   final_activiation='softmax',
-                   optimizer='adam'):
+def DenseWordEmbed(
+        nb_labels: int,
+        dense_nb_nodes: Optional[list[int]] = None,
+        dense_actfcn: Optional[Literal["softplus", "softsign", "relu", "tanh", "sigmoid", "hard_sigmoid", "linear"]] = None,
+        vecsize: int = 300,
+        reg_coef: float = 0.1,
+        final_activiation: Literal["softplus", "softsign", "relu", "tanh", "sigmoid", "hard_sigmoid", "linear"] = "softmax",
+        optimizer: Literal["sgd", "rmsprop", "adagrad", "adadelta", "adam", "adamax", "nadam"] = "adam"
+) -> Model:
     """ Return layers of dense neural network.
 
     Return layers of dense neural network. This assumes the input to be a rank-1 vector.
@@ -34,6 +38,11 @@ def DenseWordEmbed(nb_labels,
     :type optimizer: str
     :rtype: keras.models.Model
     """
+    if dense_nb_nodes is None:
+        dense_nb_nodes = []
+    if dense_actfcn is None:
+        dense_actfcn = []
+
     if len(dense_nb_nodes)!=len(dense_actfcn):
         raise UnequalArrayLengthsException(dense_nb_nodes, dense_actfcn)
     nb_layers = len(dense_nb_nodes)
@@ -53,6 +62,6 @@ def DenseWordEmbed(nb_labels,
 
     # final activation layer
     model.add(Activation(final_activiation))
-    model.compile(loss='categorical_crossentropy', optimizer=optimizer)
+    model.compile(loss="categorical_crossentropy", optimizer=optimizer)
 
     return model

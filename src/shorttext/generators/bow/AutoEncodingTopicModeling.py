@@ -1,8 +1,6 @@
 
 import json
 import pickle
-from functools import reduce
-from operator import add
 from typing import Optional, Any
 from collections import Counter
 
@@ -12,7 +10,6 @@ import sparse
 from tensorflow.keras import Input
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Dense
-from scipy.spatial.distance import cosine
 import orjson
 
 from .LatentTopicModeling import LatentTopicModeler
@@ -20,6 +17,7 @@ from ...utils import kerasmodel_io as kerasio, textpreprocessing as textpreproce
 from ...utils.compactmodel_io import CompactIOMachine
 from ...utils.classification_exceptions import ModelNotTrainedException
 from ...utils.dtm import generate_npdict_document_term_matrix, convert_classdict_to_corpus
+from ...utils.compute import cosine_similarity
 from ...schemas.models import AutoEncoderPackage
 
 
@@ -104,18 +102,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         decoder = autoencoder_package.decoder
 
         # process training data
-        embedvecs = np.array(
-            reduce(
-                add,
-                [
-                    [
-                        self.retrieve_bow_vector(shorttext)
-                        for shorttext in classdict[classtype]
-                    ]
-                    for classtype in classdict
-                ]
-            )
-        )
+        embedvecs = dtm_matrix.to_numpy()
 
         # fit the model
         autoencoder.fit(embedvecs, embedvecs, *args, **kwargs)
@@ -150,7 +137,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
                 shape=(1, len(self.token2indices))
             ).todense()[0]
         else:
-            vec = np.repeat(1., len(self.token2indices))
+            vec = np.ones(len(self.token2indices))
         if self.normalize:
             vec = np.array(vec, dtype=np.float64) / np.linalg.norm(vec)
         return vec
@@ -205,7 +192,9 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
             raise ModelNotTrainedException()
         simdict = {}
         for label in self.classtopicvecs:
-            simdict[label] = float(1 - cosine(self.classtopicvecs[label], self.retrieve_topicvec(shorttext)))
+            simdict[label] = cosine_similarity(
+                self.classtopicvecs[label], self.retrieve_topicvec(shorttext)
+            )
         return simdict
 
     def savemodel(self, nameprefix: str, save_complete_autoencoder: bool=True) -> None:
@@ -266,8 +255,8 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
             self.autoencoder = kerasio.load_model(nameprefix+'_autoencoder')
         self.trained = True
 
-    def getinfo(self) -> dict[str, Any]:
-        return super(CompactIOMachine).getinfo()
+    def get_info(self) -> dict[str, Any]:
+        return CompactIOMachine.get_info(self)
 
 
 def load_autoencoder_topicmodel(

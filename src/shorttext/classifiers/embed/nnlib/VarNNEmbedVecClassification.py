@@ -1,16 +1,18 @@
 
-import json
 import os
 import warnings
+from typing import Any, Optional, Annotated
 
 import numpy as np
-import pandas as pd
+import numpy.typing as npt
+from gensim.models.keyedvectors import KeyedVectors
+from tensorflow.keras.models import Model
+import orjson
 
 from ....utils import kerasmodel_io as kerasio
-from ....utils import classification_exceptions as e
+from ....utils.classification_exceptions import ModelNotTrainedException
 from ....utils import tokenize
 from ....utils.compactmodel_io import CompactIOMachine
-from typing import Union, List, Dict, Any
 
 
 class VarNNEmbeddedVecClassifier(CompactIOMachine):
@@ -31,7 +33,13 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
     A pre-trained Google Word2Vec model can be downloaded `here
     <https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit>`_.
     """
-    def __init__(self, wvmodel, vecsize=None, maxlen=15, with_gensim=False):
+    def __init__(
+            self,
+            wvmodel: KeyedVectors,
+            vecsize: Optional[int] = None,
+            maxlen: int = 15,
+            with_gensim: bool = False
+    ):
         """ Initialize the classifier.
 
         :param wvmodel: Word2Vec model
@@ -41,14 +49,21 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         :type vecsize: int
         :type maxlen: int
         """
-        CompactIOMachine.__init__(self, {'classifier': 'nnlibvec'}, 'nnlibvec', ['_classlabels.txt', '.json', '.weights.h5', '_config.json'])
+        super().__init__(
+            {'classifier': 'nnlibvec'},
+            'nnlibvec',
+            ['_classlabels.txt', '.json', '.weights.h5', '_config.json']
+        )
         self.wvmodel = wvmodel
-        self.vecsize = self.wvmodel.vector_size if vecsize == None else vecsize
+        self.vecsize = self.wvmodel.vector_size if vecsize is None else vecsize
         self.maxlen = maxlen
         self.with_gensim = False if not with_gensim else with_gensim
         self.trained = False
 
-    def convert_trainingdata_matrix(self, classdict):
+    def convert_trainingdata_matrix(
+            self,
+            classdict: dict[str, list[str]]
+    ) -> tuple[list[str], Annotated[npt.NDArray[np.float64], "3D Array"], Annotated[npt.NDArray[np.int64], "2D Array"]]:
         """ Convert the training data into format put into the neural networks.
 
         Convert the training data into format put into the neural networks.
@@ -59,7 +74,7 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         :type classdict: dict
         :rtype: (list, numpy.ndarray, list)
         """
-        classlabels = classdict.keys()
+        classlabels = sorted(classdict.keys())    # sort the class labels to ensure uniqueness
         lblidx_dict = dict(zip(classlabels, range(len(classlabels))))
 
         # tokenize the words, and determine the word length
@@ -67,7 +82,7 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         indices = []
         for label in classlabels:
             for shorttext in classdict[label]:
-                shorttext = shorttext if type(shorttext)==str else ''
+                shorttext = shorttext if isinstance(shorttext, str) else ''
                 category_bucket = [0]*len(classlabels)
                 category_bucket[lblidx_dict[label]] = 1
                 indices.append(category_bucket)
@@ -77,12 +92,17 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         train_embedvec = np.zeros(shape=(len(phrases), self.maxlen, self.vecsize))
         for i in range(len(phrases)):
             for j in range(min(self.maxlen, len(phrases[i]))):
-                train_embedvec[i, j] = self.word_to_embedvec(phrases[i][j])
+                train_embedvec[i, j, :] = self.word_to_embedvec(phrases[i][j])
         indices = np.array(indices, dtype=np.int_)
 
         return classlabels, train_embedvec, indices
 
-    def train(self, classdict, kerasmodel, nb_epoch=10):
+    def train(
+            self,
+            classdict: dict[str, list[str]],
+            kerasmodel: Model,
+            nb_epoch: int = 10
+    ):
         """ Train the classifier.
 
         The training data and the corresponding keras model have to be given.
@@ -108,7 +128,7 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         self.model = kerasmodel
         self.trained = True
 
-    def savemodel(self, nameprefix):
+    def savemodel(self, nameprefix: str) -> None:
         """ Save the trained model into files.
 
         Given the prefix of the file paths, save the model into files, with name given by the prefix.
@@ -124,15 +144,17 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         :raise: ModelNotTrainedException
         """
         if not self.trained:
-            raise e.ModelNotTrainedException()
-        kerasio.save_model(nameprefix, self.model)
-        labelfile = open(nameprefix+'_classlabels.txt', 'w')
-        labelfile.write('\n'.join(self.classlabels))
-        labelfile.close()
-        json.dump({'with_gensim': False, 'maxlen': self.maxlen, 'vecsize': self.vecsize},
-                  open(nameprefix+'_config.json', 'w'))
+            raise ModelNotTrainedException()
 
-    def loadmodel(self, nameprefix):
+        kerasio.save_model(nameprefix, self.model)
+        open(nameprefix+'_classlabels.txt', 'w').write('\n'.join(self.classlabels))
+        open(nameprefix + '_config.json', 'wb').write(
+            orjson.dumps(
+                {'with_gensim': False, 'maxlen': self.maxlen, 'vecsize': self.vecsize}
+            )
+        )
+
+    def loadmodel(self, nameprefix: str) -> None:
         """ Load a trained model from files.
 
         Given the prefix of the file paths, load the model from files with name given by the prefix
@@ -147,15 +169,12 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         :type nameprefix: str
         """
         self.model = kerasio.load_model(nameprefix)
-        labelfile = open(nameprefix+'_classlabels.txt', 'r')
-        self.classlabels = labelfile.readlines()
-        labelfile.close()
-        self.classlabels = [s.strip() for s in self.classlabels]
+        self.classlabels = [line.strip() for line in open(nameprefix+'_classlabels.txt', 'r')]
 
         # check if _config.json exists.
         # This file does not exist if the model was created with shorttext<0.4.0
         if os.path.exists(nameprefix+'_config.json'):
-            config = json.load(open(nameprefix+'_config.json', 'r'))
+            config = orjson.loads(open(nameprefix+'_config.json', 'rb').read())
             # these fields are present for release >= 1.0.0
             if 'maxlen' in config:
                 self.maxlen = config['maxlen']
@@ -166,9 +185,10 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
             else:
                 self.vecsize = self.wvmodel.vector_size
             if self.vecsize != self.wvmodel.vector_size:
-                warnings.warn('Record vector size (%i) is not the same as that of the given word-embedding model (%i)! ' % (self.vecsize, self.wvmodel.vector_size)+
-                              'Setting the vector size to be %i, but there may be run time error!' % (self.wvmodel.vector_size),
-                              RuntimeWarning)
+                warnings.warn(
+                    f'Record vector size ({self.vecsize}) is not the same as that of the given word-embedding model ({self.wvmodel.vector_size})! ' + \
+                    f'Setting the vector size to be {self.wvmodel.vector_size}, but there may be run time error!'
+                )
                 self.vecsize = self.wvmodel.vector_size
         else:
             self.maxlen = 15
@@ -178,7 +198,7 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         self.with_gensim = False
         self.trained = True
 
-    def word_to_embedvec(self, word):
+    def word_to_embedvec(self, word: str) -> npt.NDArray[np.float64]:
         """ Convert the given word into an embedded vector.
 
         Given a word, return the corresponding embedded vector according to
@@ -192,7 +212,10 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         """
         return self.wvmodel[word] if word in self.wvmodel else np.zeros(self.vecsize)
 
-    def shorttext_to_matrix(self, shorttext):
+    def shorttext_to_matrix(
+            self,
+            shorttext: str
+    ) -> Annotated[npt.NDArray[np.float64], "2D Array"]:
         """ Convert the short text into a matrix with word-embedding representation.
 
         Given a short sentence, it converts all the tokens into embedded vectors according to
@@ -210,7 +233,11 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
             matrix[i] = self.word_to_embedvec(tokens[i])
         return matrix
 
-    def score(self, shorttexts: Union[str, List[str]], model_params: Dict[str, Any] = {}):
+    def score(
+            self,
+            shorttexts: str | list[str],
+            model_params: Optional[dict[str, Any]] = None
+    ) -> dict[str, float] | list[dict[str, float]]:
         """ Calculate the scores for all the class labels for the given short sentence.
 
         Given a short sentence, calculate the classification scores for all class labels,
@@ -225,13 +252,16 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         :rtype: dict
         :raise: ModelNotTrainedException
         """
+        if model_params is None:
+            model_params = {}
+
         is_multiple = True
         if isinstance(shorttexts, str):
             is_multiple = False
             shorttexts = [shorttexts]
         
         if not self.trained:
-            raise e.ModelNotTrainedException()
+            raise ModelNotTrainedException()
 
         # retrieve vector
         matrix = np.array([self.shorttext_to_matrix(shorttext) for shorttext in shorttexts])
@@ -239,16 +269,25 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         # classification using the neural network
         predictions = self.model.predict(matrix, **model_params)
 
-        # wrangle output result
-        df = pd.DataFrame(predictions, columns=self.classlabels)
-        
+        score_dicts = [
+            {
+                classlabel: predictions[i, j]
+                for j, classlabel in enumerate(self.classlabels)
+            }
+            for i in range(predictions.shape[0])
+        ]
         if not is_multiple:
-            return df.to_dict('records')[0]
-        
-        return df.to_dict('records')
+            return score_dicts[0]
+        else:
+            return score_dicts
 
 
-def load_varnnlibvec_classifier(wvmodel, name, compact=True, vecsize=None):
+def load_varnnlibvec_classifier(
+        wvmodel: KeyedVectors,
+        name: str,
+        compact: bool = True,
+        vecsize: Optional[int] = None
+) -> VarNNEmbeddedVecClassifier:
     """ Load a :class:`shorttext.classifiers.VarNNEmbeddedVecClassifier` instance from file, given the pre-trained word-embedding model.
 
     :param wvmodel: Word2Vec model
