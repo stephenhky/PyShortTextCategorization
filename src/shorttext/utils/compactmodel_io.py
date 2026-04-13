@@ -14,6 +14,8 @@ import os
 from os import PathLike
 from typing import Any, Self
 
+import orjson
+
 from . import classification_exceptions as e
 
 
