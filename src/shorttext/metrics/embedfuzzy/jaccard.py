@@ -28,7 +28,7 @@ def jaccardscore_sents(sent1, sent2, wvmodel, sim_words=lambda vec1, vec2: 1-cos
     allowable1 = [True] * len(tokens1)
     allowable2 = [True] * len(tokens2)
 
-    simdict = {(i, j): sim_words(wvmodel[tokens1[i]], wvmodel[tokens2[j]])
+    simdict = {(i, j): sim_words(wvmodel[tokens1[i]].astype(np.float64), wvmodel[tokens2[j]].astype(np.float64))
                for i, j in product(range(len(tokens1)), range(len(tokens2)))}
 
     intersection = 0.0

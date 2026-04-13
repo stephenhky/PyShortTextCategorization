@@ -176,7 +176,7 @@ class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
         :type word: str
         :rtype: numpy.ndarray
         """
-        return self.wvmodel[word] if word in self.wvmodel else np.zeros(self.vecsize)
+        return self.wvmodel[word].astype(np.float64) if word in self.wvmodel else np.zeros(self.vecsize)
 
     def shorttext_to_embedvec(self, shorttext: str) -> Annotated[npt.NDArray[np.float64], "1D Array"]:
         """ Convert the short text into an averaged embedded vector representation.
@@ -192,7 +192,7 @@ class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
         :rtype: numpy.ndarray
         """
         vec = np.sum([
-            self.wvmodel[token]
+            self.wvmodel[token].astype(np.float64)
             for token in tokenize(shorttext)
             if token in self.wvmodel
         ])

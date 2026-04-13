@@ -210,7 +210,7 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         :type word: str
         :rtype: numpy.ndarray
         """
-        return self.wvmodel[word] if word in self.wvmodel else np.zeros(self.vecsize)
+        return self.wvmodel[word].astype(np.float64) if word in self.wvmodel else np.zeros(self.vecsize)
 
     def shorttext_to_matrix(
             self,
