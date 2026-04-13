@@ -146,9 +146,12 @@ class SumEmbeddedVecClassifier(CompactIOMachine):
 
         vec = self.shorttext_to_embedvec(shorttext)
         scoredict = {}
+        logger.info(vec)
+        logger.info(vec.dtype)
         for classtype, addvec in self.addvec.items():
             logger.info(classtype)
             logger.info(addvec)
+            logger.info(addvec.dtype)
             try:
                 scoredict[classtype] = self.simfcn(vec, addvec)
             except ValueError:
