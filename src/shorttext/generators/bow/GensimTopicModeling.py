@@ -142,12 +142,12 @@ class GensimTopicModeler(LatentTopicModeler):
         :rtype: numpy.ndarray
         """
         bow = self.retrieve_bow(shorttext)
-        vec = np.zeros(len(self.dictionary))
         if len(bow) > 0:
+            vec = np.zeros(len(self.dictionary))
             for id, val in bow:
                 vec[id] = val
         else:
-            vec = 1.
+            vec = np.ones(len(self.dictionary))
         if self.normalize:
             vec /= np.linalg.norm(vec)
         return vec
