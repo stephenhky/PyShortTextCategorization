@@ -3,23 +3,59 @@ import json
 import pickle
 from functools import reduce
 from operator import add
+from typing import Optional, Any
+from collections import Counter
 
 import numpy as np
-from gensim.corpora import Dictionary
+import numpy.typing as npt
+import sparse
 from tensorflow.keras import Input
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Dense
 from scipy.spatial.distance import cosine
+import orjson
 
 from .LatentTopicModeling import LatentTopicModeler
 from ...utils import kerasmodel_io as kerasio, textpreprocessing as textpreprocess
 from ...utils.compactmodel_io import CompactIOMachine
 from ...utils.classification_exceptions import ModelNotTrainedException
+from ...utils.dtm import generate_npdict_document_term_matrix, convert_classdict_to_corpus
+from ...schemas.models import AutoEncoderPackage
 
 
-autoencoder_suffices = ['.gensimdict', '_encoder.json', '_encoder.weights.h5', '_classtopicvecs.pkl',
+autoencoder_suffices = ['_encoder.json', '_encoder.weights.h5', '_classtopicvecs.pkl',
                         '_decoder.json', '_decoder.weights.h5', '_autoencoder.json', '_autoencoder.weights.h5',
                         '.json']
+
+
+def get_autoencoder_models(
+        vector_size: int,
+        nb_latent_vector_size: int
+) -> AutoEncoderPackage:
+    # define all the layers of the autoencoder
+    input_vec = Input(shape=(vector_size,))
+    encoded = Dense(nb_latent_vector_size, activation='relu')(input_vec)
+    decoded = Dense(vector_size, activation='sigmoid')(encoded)
+
+    # define the autoencoder model
+    autoencoder = Model(inputs=input_vec, outputs=decoded)
+
+    # define the encoder
+    encoder = Model(inputs=input_vec, outputs=encoded)
+
+    # define the decoder
+    encoded_input = Input(shape=(nb_latent_vector_size,))
+    decoder_layer = autoencoder.layers[-1]
+    decoder = Model(inputs=encoded_input, outputs=decoder_layer(encoded_input))
+
+    # compile the autoencoder
+    autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
+
+    return AutoEncoderPackage(
+        autoencoder=autoencoder,
+        encoder=encoder,
+        decoder=decoder
+    )
 
 
 class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
@@ -32,7 +68,17 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
 
     This class extends :class:`LatentTopicModeler`.
     """
-    def train(self, classdict, nb_topics, *args, **kwargs):
+
+    def __init__(
+            self,
+            preprocessor: Optional[callable] = None,
+            tokenizer: Optional[callable] = None,
+            normalize: bool = True
+    ):
+        CompactIOMachine.__init__(self, {'classifier': 'kerasautoencoder'}, 'kerasautoencoder', autoencoder_suffices)
+        LatentTopicModeler.__init__(self, preprocessor, tokenizer, normalize=normalize)
+
+    def train(self, classdict: dict[str, list[str]], nb_topics: int, *args, **kwargs) -> None:
         """ Train the autoencoder.
 
         :param classdict: training data
@@ -43,36 +89,34 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         :type classdict: dict
         :type nb_topics: int
         """
-        CompactIOMachine.__init__(self, {'classifier': 'kerasautoencoder'}, 'kerasautoencoder', autoencoder_suffices)
         self.nb_topics = nb_topics
-        self.generate_corpus(classdict)
-        vecsize = len(self.dictionary)
+        corpus, docids = convert_classdict_to_corpus(classdict, self.preprocess_func)
+        dtm_matrix = generate_npdict_document_term_matrix(
+            corpus, docids, tokenize_func=self.tokenize_func
+        )
+        vecsize = dtm_matrix.dimension_sizes[1]
+        self.token2indices = dtm_matrix._keystrings_to_indices[1]
+        self.classlabels = sorted(classdict.keys())
 
-        # define all the layers of the autoencoder
-        input_vec = Input(shape=(vecsize,))
-        encoded = Dense(self.nb_topics, activation='relu')(input_vec)
-        decoded = Dense(vecsize, activation='sigmoid')(encoded)
-
-        # define the autoencoder model
-        autoencoder = Model(input=input_vec, output=decoded)
-
-        # define the encoder
-        encoder = Model(input=input_vec, output=encoded)
-
-        # define the decoder
-        encoded_input = Input(shape=(self.nb_topics,))
-        decoder_layer = autoencoder.layers[-1]
-        decoder = Model(input=encoded_input, output=decoder_layer(encoded_input))
-
-        # compile the autoencoder
-        autoencoder.compile(optimizer='adadelta', loss='binary_crossentropy')
+        autoencoder_package = get_autoencoder_models(vecsize, self.nb_topics)
+        autoencoder = autoencoder_package.autoencoder
+        encoder = autoencoder_package.encoder
+        decoder = autoencoder_package.decoder
 
         # process training data
-        embedvecs = np.array(reduce(add,
-                                    [[self.retrieve_bow_vector(shorttext, normalize=True) for shorttext in classdict[classtype]]
-                                     for classtype in classdict]
-                                    )
-                             )
+        # embedvecs = np.array(
+        #     reduce(
+        #         add,
+        #         [
+        #             [
+        #                 self.retrieve_bow_vector(shorttext)
+        #                 for shorttext in classdict[classtype]
+        #             ]
+        #             for classtype in classdict
+        #         ]
+        #     )
+        # )
+        embedvecs = dtm_matrix.to_numpy()
 
         # fit the model
         autoencoder.fit(embedvecs, embedvecs, *args, **kwargs)
@@ -90,7 +134,29 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         for label in classdict:
             self.classtopicvecs[label] = self.precalculate_liststr_topicvec(classdict[label])
 
-    def retrieve_topicvec(self, shorttext):
+    def retrieve_bow(self, shorttext: str) -> list[tuple[int, int]]:
+        tokens_freq = Counter(self.tokenize_func(self.preprocess_func(shorttext)))
+        return [
+            (self.token2indices[token], freq)
+            for token, freq in tokens_freq.items()
+            if token in self.token2indices.keys()
+        ]
+
+    def retrieve_bow_vector(self, shorttext: str) -> npt.NDArray[np.float64]:
+        bow = self.retrieve_bow(shorttext)
+        if len(bow) > 0:
+            vec = sparse.COO(
+                [[0]*len(bow), [id for id, val in bow]],
+                [val for id, val in bow],
+                shape=(1, len(self.token2indices))
+            ).todense()[0]
+        else:
+            vec = np.ones(len(self.token2indices))
+        if self.normalize:
+            vec = np.array(vec, dtype=np.float64) / np.linalg.norm(vec)
+        return vec
+
+    def retrieve_topicvec(self, shorttext: str) -> npt.NDArray[np.float64]:
         """ Calculate the topic vector representation of the short text.
 
         If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
@@ -104,12 +170,12 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         if not self.trained:
             raise ModelNotTrainedException()
         bow_vector = self.retrieve_bow_vector(shorttext)
-        encoded_vec = self.encoder.predict(np.array([bow_vector]))[0]
+        encoded_vec = self.encoder.predict(np.expand_dims(bow_vector, axis=0))[0]
         if self.normalize:
             encoded_vec /= np.linalg.norm(encoded_vec)
         return encoded_vec
 
-    def precalculate_liststr_topicvec(self, shorttexts):
+    def precalculate_liststr_topicvec(self, shorttexts: list[str]) -> npt.NDArray[np.float64]:
         """ Calculate the summed topic vectors for training data for each class.
 
         This function is called while training.
@@ -120,11 +186,11 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         :type shorttexts: list
         :rtype: numpy.ndarray
         """
-        sumvec = sum([self.retrieve_topicvec(shorttext) for shorttext in shorttexts])
+        sumvec = sum([self.retrieve_topicvec(shorttext) for shorttext in shorttexts])   # correct, but should be refined
         sumvec /= np.linalg.norm(sumvec)
         return sumvec
 
-    def get_batch_cos_similarities(self, shorttext):
+    def get_batch_cos_similarities(self, shorttext: str) -> dict[str, float]:
         """ Calculate the score, which is the cosine similarity with the topic vector of the model,
         of the short text against each class labels.
 
@@ -143,7 +209,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
             simdict[label] = 1 - cosine(self.classtopicvecs[label], self.retrieve_topicvec(shorttext))
         return simdict
 
-    def savemodel(self, nameprefix, save_complete_autoencoder=True):
+    def savemodel(self, nameprefix: str, save_complete_autoencoder: bool=True) -> None:
         """ Save the model with names according to the prefix.
 
         Given the prefix of the file paths, save the model into files, with name given by the prefix.
@@ -167,16 +233,15 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         parameters = {}
         parameters['nb_topics'] = self.nb_topics
         parameters['classlabels'] = self.classlabels
-        json.dump(parameters, open(nameprefix+'.json', 'wb'))
-
-        self.dictionary.save(nameprefix+'.gensimdict')
+        parameters['tokens2indices'] = self.token2indices
+        open(nameprefix + '.json', 'wb').write(orjson.dumps(parameters))
         kerasio.save_model(nameprefix+'_encoder', self.encoder)
         if save_complete_autoencoder:
             kerasio.save_model(nameprefix+'_decoder', self.decoder)
             kerasio.save_model(nameprefix+'_autoencoder', self.autoencoder)
         pickle.dump(self.classtopicvecs, open(nameprefix+'_classtopicvecs.pkl', 'wb'))
 
-    def loadmodel(self, nameprefix, load_incomplete=False):
+    def loadmodel(self, nameprefix: str, load_incomplete: bool=False) -> None:
         """ Save the model with names according to the prefix.
 
         Given the prefix of the file paths, load the model into files, with name given by the prefix.
@@ -194,8 +259,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         parameters = json.load(open(nameprefix+'.json', 'r'))
         self.nb_topics = parameters['nb_topics']
         self.classlabels = parameters['classlabels']
-
-        self.dictionary = Dictionary.load(nameprefix + '.gensimdict')
+        self.token2indices = parameters['tokens2indices']
         self.encoder = kerasio.load_model(nameprefix+'_encoder')
         self.classtopicvecs = pickle.load(open(nameprefix+'_classtopicvecs.pkl', 'rb'))
         if not load_incomplete:
@@ -203,10 +267,16 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
             self.autoencoder = kerasio.load_model(nameprefix+'_autoencoder')
         self.trained = True
 
+    def get_info(self) -> dict[str, Any]:
+        return CompactIOMachine.get_info(self)
 
-def load_autoencoder_topicmodel(name,
-                                preprocessor=textpreprocess.standard_text_preprocessor_1(),
-                                compact=True):
+
+def load_autoencoder_topicmodel(
+        name: str,
+        preprocessor: Optional[callable] = None,
+        tokenizer: Optional[callable] = None,
+        compact: bool=True
+) -> AutoencodingTopicModeler:
     """ Load the autoencoding topic model from files.
 
     :param name: name (if compact=True) or prefix (if compact=False) of the paths of the model files
@@ -218,7 +288,10 @@ def load_autoencoder_topicmodel(name,
     :type compact: bool
     :rtype: generators.bow.AutoEncodingTopicModeling.AutoencodingTopicModeler
     """
-    autoencoder = AutoencodingTopicModeler(preprocessor=preprocessor)
+    if preprocessor is None:
+        preprocessor = textpreprocess.standard_text_preprocessor_1()
+
+    autoencoder = AutoencodingTopicModeler(preprocessor=preprocessor, tokenizer=tokenizer)
     if compact:
         autoencoder.load_compact_model(name)
     else:

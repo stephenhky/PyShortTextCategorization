@@ -1,8 +1,8 @@
-
+import tensorflow
 from tensorflow.keras.models import model_from_json
 
 
-def save_model(nameprefix, model):
+def save_model(nameprefix: str, model: tensorflow.keras.models.Model) -> None:
     """ Save a keras sequential model into files.
 
     Given a keras sequential model, save the model with the given file path prefix.
@@ -19,7 +19,7 @@ def save_model(nameprefix, model):
     model.save_weights(nameprefix+'.weights.h5')
 
 
-def load_model(nameprefix):
+def load_model(nameprefix: str) -> tensorflow.keras.models.Model:
     """ Load a keras sequential model from files.
 
     Given the prefix of the file paths, load a keras sequential model from

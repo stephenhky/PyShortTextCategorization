@@ -7,7 +7,17 @@ keras==3.14.0
 gensim==4.4.0
 pandas==3.0.2
 snowballstemmer==3.0.1
+<<<<<<< pyup-update-transformers-5.5.3-to-5.5.4
 transformers==5.5.4
 torch==2.11.0
 numba==0.65.0
 npdict==0.0.10
+=======
+transformers==5.5.2
+torch==2.11.0
+numba==0.65.0
+npdict==0.0.10
+orjson==3.11.8
+sparse==0.18.0
+loguru==0.7.3
+>>>>>>> develop

@@ -47,14 +47,17 @@ with the trained model. For example,
 
 >>> topicmodeler.retrieve_topicvec('stem cell research')
 
->>> topicmodeler.retrieve_topicvec('bioinformatics')
+>>> topicmodeler.retrieve_topicvec('informatics')
 
 By default, the vectors are normalized. Another way to retrieve the topic vector
 representation is as follow:
 
 >>> topicmodeler['stem cell research']
 
->>> topicmodeler['bioinformatics']
+>>> topicmodeler['informatics']
+
+If the dictionary does not have the processed tokens, it will return a numpy
+array with all values `nan`.
 
 In the training and the retrieval above, the same preprocessing process is applied.
 Users can provide their own preprocessor while initiating the topic modeler.
@@ -73,31 +76,12 @@ The default is to weigh. To not weigh, initialize it as
 
 >>> topicmodeler3 = shorttext.generators.GensimTopicModeler(toweigh=False)
 
-Appendix: Model I/O in Previous Versions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-For previous versions of `shorttext`, the trained models are saved by calling:
-
->>> topicmodeler.savemodel('/path/to/nihlda128')
-
-However, we discourage users using this anymore, because the model I/O for various models
-in gensim have been different. It produces errors.
-
-All of them have to be present in order to be loaded. Note that the preprocessor is
-not saved. To load the model, enter:
-
->>> topicmodeler2 = shorttext.classifiers.load_gensimtopicmodel('/path/to/nihlda128', compact=False)
-
-
 .. automodule:: shorttext.generators.bow.GensimTopicModeling
    :members:
 
 
 AutoEncoder
 -----------
-
-Note: Previous version (<=0.2.1) of this autoencoder has a serious bug. Current version is
-incompatible with the autoencoder of version <=0.2.1 .
 
 Another way to find a new topic vector representation is to use the autoencoder, a neural network model
 which compresses a vector representation into another one of a shorter (or longer, rarely though)
@@ -146,38 +130,6 @@ The default is to weigh. To not weigh, initialize it as:
 .. automodule:: shorttext.generators.bow.AutoEncodingTopicModeling
    :members:
 
-
-Appendix: Unzipping Model I/O
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-For previous versions of `shorttext`, the trained models are saved by calling:
-
->>> autoencoder.savemodel('/path/to/sub_autoencoder8')
-
-The following files are produced for the autoencoder:
-
-::
-
-    /path/to/sub_autoencoder.json
-    /path/to/sub_autoencoder.gensimdict
-    /path/to/sub_autoencoder_encoder.json
-    /path/to/sub_autoencoder_encoder.h5
-    /path/to/sub_autoencoder_classtopicvecs.pkl
-
-If specifying `save_complete_autoencoder=True`, then four more files are found:
-
-::
-
-    /path/to/sub_autoencoder_decoder.json
-    /path/to/sub_autoencoder_decoder.h5
-    /path/to/sub_autoencoder_autoencoder.json
-    /path/to/sub_autoencoder_autoencoder.h5
-
-Users can load the same model later by entering:
-
->>> autoencoder2 = shorttext.classifiers.load_autoencoder_topic('/path/to/sub_autoencoder8', compact=False)
-
-
 Abstract Latent Topic Modeling Class
 ------------------------------------
 
@@ -193,29 +145,6 @@ this, he has to define the methods `train`, `retrieve_topic_vec`, `loadmodel`, a
 
 .. automodule:: shorttext.generators.bow.GensimTopicModeling
    :members:
-
-Appendix: Namespaces for Topic Modeler in Previous Versions
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-All generative topic modeling algorithms were placed under the package `shorttext.classifiers` for version <=0.3.4.
-In current version (>= 0.3.5), however, all generative models will be moved to `shorttext.generators`,
-while any classifiers making use of these topic models are still kept under `shorttext.classifiers`.
-A list include:
-
-::
-
-    shorttext.classifiers.GensimTopicModeler  ->  shorttext.generators.GensimTopicModeler
-    shorttext.classifiers.LDAModeler  ->  shorttext.generators.LDAModeler
-    shorttext.classifiers.LSIModeler  ->  shorttext.generators.LSIModeler
-    shorttext.classifiers.RPModeler  ->  shorttext.generators.RPModeler
-    shorttext.classifiers.AutoencodingTopicModeler  ->  shorttext.generators.AutoencodingTopicModeler
-    shorttext.classifiers.load_gensimtopicmodel  ->  shorttext.generators.load_gensimtopicmodel
-    shorttext.classifiers.load_autoencoder_topic  ->  shorttext.generators.load_autoencoder_topicmodel
-
-
-Before release 0.5.6, for backward compatibility, developers can still call the topic models as if there were no such changes,
-although they are advised to make this change. However, *effective release 0.5.7, this backward compatibility is no longer
-available.*
 
 Classification Using Cosine Similarity
 --------------------------------------
