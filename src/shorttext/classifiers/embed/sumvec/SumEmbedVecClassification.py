@@ -6,6 +6,7 @@ from typing import Optional, Annotated
 import numpy as np
 import numpy.typing as npt
 from gensim.models.keyedvectors import KeyedVectors
+from loguru import logger
 
 from ....utils.classification_exceptions import ModelNotTrainedException
 from ....utils import shorttext_to_avgvec
@@ -145,9 +146,11 @@ class SumEmbeddedVecClassifier(CompactIOMachine):
 
         vec = self.shorttext_to_embedvec(shorttext)
         scoredict = {}
-        for classtype in self.addvec:
+        for classtype, addvec in self.addvec.items():
+            logger.info(classtype)
+            logger.info(addvec)
             try:
-                scoredict[classtype] = self.simfcn(vec, self.addvec[classtype])
+                scoredict[classtype] = self.simfcn(vec, addvec)
             except ValueError:
                 scoredict[classtype] = np.nan
         return scoredict
