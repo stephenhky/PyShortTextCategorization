@@ -278,11 +278,14 @@ class GensimTopicModeler(LatentTopicModeler):
         if self.toweigh:
             self.tfidf.save(nameprefix+'.gensimtfidf')
 
+    def get_info(self) -> dict[str, Any]:
+        return {}
 
-lda_suffices =  ['.json', '.gensimdict', '.gensimmodel.state',
-                   '.gensimtfidf', '.gensimmodel', '.gensimmat']
-if gensim.__version__ >= '1.0.0':
-    lda_suffices += ['.gensimmodel.expElogbeta.npy', '.gensimmodel.id2word']
+
+lda_suffices =  [
+    '.json', '.gensimdict', '.gensimmodel.state', '.gensimtfidf', '.gensimmodel',
+    '.gensimmat', '.gensimmodel.expElogbeta.npy', '.gensimmodel.id2word'
+]
 
 
 class LDAModeler(GensimTopicModeler, CompactIOMachine):
