@@ -139,7 +139,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         else:
             vec = np.ones(len(self.token2indices))
         if self.normalize:
-            vec = np.array(vec, dtype=np.float64) / np.linalg.norm(vec)
+            vec = vec.astype(np.float64) / np.linalg.norm(vec)
         return vec
 
     def retrieve_topicvec(self, shorttext: str) -> npt.NDArray[np.float64]:
@@ -191,9 +191,9 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         if not self.trained:
             raise ModelNotTrainedException()
         simdict = {}
-        for label in self.classtopicvecs:
+        for label, classtopicvec in self.classtopicvecs.items:
             simdict[label] = cosine_similarity(
-                self.classtopicvecs[label], self.retrieve_topicvec(shorttext)
+                classtopicvec, self.retrieve_topicvec(shorttext)
             )
         return simdict
 
