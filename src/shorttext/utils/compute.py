@@ -6,7 +6,7 @@ import numpy.typing as npt
 import numba as nb
 
 
-@nb.njit(nb.float64(nb.float64[:], nb.float64[:]))
+@nb.njit(nb.float64(nb.float64[::1], nb.float64[::1]))
 def cosine_similarity(
         vec1: Annotated[npt.NDArray[np.float64], "1D array"],
         vec2: Annotated[npt.NDArray[np.float64], "1D array"]
