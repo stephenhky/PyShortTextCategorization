@@ -403,8 +403,8 @@ def load_gensimtopicmodel(
     :type compact: bool
     :rtype: GensimTopicModeler
     """
-    modeler_dict = {'ldatopic': LDAModeler, 'lsitopic': LSIModeler, 'rptopic': RPModeler}
     if compact:
+        modeler_dict = {'ldatopic': LDAModeler, 'lsitopic': LSIModeler, 'rptopic': RPModeler}
         classifier_name = str(get_model_classifier_name(name))
         if classifier_name not in modeler_dict.keys():
             raise ValueError(f"Unknown classifier name: {classifier_name}")
@@ -412,14 +412,16 @@ def load_gensimtopicmodel(
         topic_modeler = modeler_dict[classifier_name](preprocessor=preprocessor, tokenizer=tokenizer)
         topic_modeler.load_compact_model(name)
     else:
-        config_info = orjson.loads(open(name+".json", "rb").read())
-        classifier_name = config_info.get("classifier")
-        if classifier_name is None:
-            raise ValueError("No classifier name!")
-        if classifier_name not in modeler_dict.keys():
-            raise ValueError(f"Unknown classifier name: {classifier_name}")
+        modeler_dict = {'lda': LDAModeler, 'lsi': LSIModeler, 'rp': RPModeler}
 
-        topic_modeler = modeler_dict[classifier_name](preprocessor=preprocessor, tokenizer=tokenizer)
+        config_info = orjson.loads(open(name+".json", "rb").read())
+        algorithm_name = config_info.get("algorithm")
+        if algorithm_name is None:
+            raise ValueError("No classifier name!")
+        if algorithm_name not in modeler_dict.keys():
+            raise ValueError(f"Unknown classifier name: {algorithm_name}")
+
+        topic_modeler = modeler_dict[algorithm_name](preprocessor=preprocessor, tokenizer=tokenizer)
         topic_modeler.loadmodel(name)
 
     return topic_modeler
