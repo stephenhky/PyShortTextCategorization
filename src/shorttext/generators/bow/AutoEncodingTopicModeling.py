@@ -159,7 +159,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         encoded_vec = self.encoder.predict(np.expand_dims(bow_vector, axis=0))[0]
         if self.normalize:
             encoded_vec /= np.linalg.norm(encoded_vec)
-        return encoded_vec
+        return encoded_vec.astype(np.float64)
 
     def precalculate_liststr_topicvec(self, shorttexts: list[str]) -> npt.NDArray[np.float64]:
         """ Calculate the summed topic vectors for training data for each class.

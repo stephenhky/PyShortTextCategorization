@@ -205,7 +205,7 @@ def get_model_config_field(filename: str | PathLike, parameter: str) -> str:
     :rtype: str
     """
     inputfile = zipfile.ZipFile(filename, mode='r')
-    readinfodict = json.loads(inputfile.open("modelconfig.json", "r"))
+    readinfodict = json.load(inputfile.open("modelconfig.json", "r"))
     return readinfodict[parameter]
 
 
