@@ -3,6 +3,7 @@
 
 import re
 from collections import Counter
+from typing import Generator
 
 from . import SpellCorrector
 from .editor import compute_set_edits1, compute_set_edits2
@@ -18,7 +19,7 @@ class NorvigSpellCorrector(SpellCorrector):
         """
         self.train('')
 
-    def train(self, text):
+    def train(self, text: str) -> None:
         """ Given the text, train the spell corrector.
 
         :param text: training corpus
@@ -28,7 +29,7 @@ class NorvigSpellCorrector(SpellCorrector):
         self.WORDS = Counter(self.words)
         self.N = sum(self.WORDS.values())
 
-    def P(self, word):
+    def P(self, word: str) -> float:
         """ Compute the probability of the words randomly sampled from the training corpus.
 
         :param word: a word
@@ -38,7 +39,7 @@ class NorvigSpellCorrector(SpellCorrector):
         """
         return self.WORDS[word] / float(self.N)
 
-    def correct(self, word):
+    def correct(self, word: str) -> str:
         """ Recommend a spelling correction to the given word
 
         :param word: a word
@@ -48,7 +49,7 @@ class NorvigSpellCorrector(SpellCorrector):
         """
         return max(self.candidates(word), key=self.P)
 
-    def known(self, words):
+    def known(self, words: list[str]) -> set[str]:
         """ Filter away the words that are not found in the training corpus.
 
         :param words: list of words
@@ -58,7 +59,7 @@ class NorvigSpellCorrector(SpellCorrector):
         """
         return set(w for w in words if w in self.WORDS)
 
-    def candidates(self, word):
+    def candidates(self, word: str) -> Generator[str, None, None]:
         """ List potential candidates for corrected spelling to the given words.
 
         :param word: a word

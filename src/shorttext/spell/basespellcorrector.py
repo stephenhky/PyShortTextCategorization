@@ -9,7 +9,7 @@ class SpellCorrector(ABC):
 
     """
     @abstractmethod
-    def train(self, text):
+    def train(self, text: str) -> None:
         """ Train the spell corrector with the given corpus.
 
         :param text: training corpus
@@ -18,7 +18,7 @@ class SpellCorrector(ABC):
         raise NotImplemented()
 
     @abstractmethod
-    def correct(self, word):
+    def correct(self, word: str) -> str:
         """ Recommend a spell correction to given the word.
 
         :param word: word to be checked
