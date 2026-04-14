@@ -11,7 +11,7 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, LSTM, Dense
 
 from ...utils.compactmodel_io import CompactIOMachine
-from ...utils import classification_exceptions as e
+from ...utils.classification_exceptions import ModelNotTrainedException
 
 # Reference: https://blog.keras.io/a-ten-minute-introduction-to-sequence-to-sequence-learning-in-keras.html
 
@@ -157,7 +157,7 @@ class Seq2SeqWithKeras(CompactIOMachine):
         :raise: ModelNotTrainedException
         """
         if not self.trained:
-            raise e.ModelNotTrainedException()
+            raise ModelNotTrainedException()
 
         # save hyperparameters
         open(prefix + '_s2s_hyperparam.json', 'wb').write(
