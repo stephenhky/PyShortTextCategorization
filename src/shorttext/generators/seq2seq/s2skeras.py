@@ -17,7 +17,7 @@ from ...utils import classification_exceptions as e
 kerasseq2seq_suffices = ['.weights.h5', '.json', '_s2s_hyperparam.json', '_encoder.weights.h5', '_encoder.json', '_decoder.h5', '_decoder.weights.json']
 
 
-class Seq2SeqWithKeras(cio.CompactIOMachine):
+class Seq2SeqWithKeras(CompactIOMachine):
     """ Class implementing sequence-to-sequence (seq2seq) learning with keras.
 
     Reference:
