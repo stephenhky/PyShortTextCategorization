@@ -3,16 +3,20 @@ import random
 from collections import defaultdict
 import json
 import os
+from os import PathLike
+from pathlib import Path
 import zipfile
 import sys
 import csv
 from urllib.request import urlretrieve
+from io import TextIOWrapper
 
 import pandas as pd
 import numpy as np
+import orjson
 
 
-def retrieve_csvdata_as_dict(filepath):
+def retrieve_csvdata_as_dict(filepath: str | PathLike) -> dict[str, list[str]]:
     """ Retrieve the training data in a CSV file.
 
     Retrieve the training data in a CSV file, with the first column being the
@@ -37,7 +41,7 @@ def retrieve_csvdata_as_dict(filepath):
     return dict(shorttextdict)
 
 
-def retrieve_jsondata_as_dict(filepath):
+def retrieve_jsondata_as_dict(filepath: str | PathLike) -> dict:
     """ Retrieve the training data in a JSON file.
 
     Retrieve the training data in a JSON file, with
@@ -49,10 +53,38 @@ def retrieve_jsondata_as_dict(filepath):
     :type filepath: str
     :rtype: dict
     """
-    return json.load(open(filepath, 'r'))
+    return orjson.loads(open(filepath, 'rb').read())
 
 
-def subjectkeywords():
+def get_or_download_data(
+        filename: str,
+        origin: str,
+        asbytes: bool = False
+) -> TextIOWrapper:
+    # determine path
+    homedir = os.path.expanduser('~')
+    datadir = os.path.join(homedir, '.shorttext')
+    if not os.path.exists(datadir):
+        os.makedirs(datadir)
+
+    targetfilepath = os.path.join(datadir, filename)
+    # download if not exist
+    if not os.path.exists(os.path.join(datadir, filename)):
+        print('Downloading...', file=sys.stderr)
+        print(f'Source: {origin}', file=sys.stderr)
+        print(f'Target: {targetfilepath}', file=sys.stderr)
+        try:
+            urlretrieve(origin, targetfilepath)
+        except:
+            print('Failure to download file!', file=sys.stderr)
+            print(sys.exc_info(), file=sys.stderr)
+            os.remove(targetfilepath)
+
+    # return
+    return open(targetfilepath, 'rb' if asbytes else 'r')
+
+
+def subjectkeywords() -> dict[str, list[str]]:
     """ Return an example data set of subjects.
 
     Return an example data set, with three subjects and corresponding keywords.
@@ -61,11 +93,11 @@ def subjectkeywords():
     :return: example data set
     :rtype: dict
     """
-    this_dir, _ = os.path.split(__file__)
-    return retrieve_csvdata_as_dict(os.path.join(this_dir, 'shorttext_exampledata.csv'))
+    parentdir = Path(__file__).parent
+    return retrieve_csvdata_as_dict(parentdir / "shorttext_exampledata.csv")
 
 
-def inaugural():
+def inaugural() -> dict[str, list[str]]:
     """ Return an example dataset, which is the Inaugural Addresses of all Presidents of 
     the United States from George Washington to Barack Obama.
     
@@ -75,10 +107,13 @@ def inaugural():
     :return: example data set
     :rtype: dict
     """
-    zfile = zipfile.ZipFile(get_or_download_data("USInaugural.zip",
-                                                 "https://shorttext-data-northernvirginia.s3.amazonaws.com/trainingdata/USInaugural.zip",
-                                                 asbytes=True),
-                            )
+    zfile = zipfile.ZipFile(
+        get_or_download_data(
+            "USInaugural.zip",
+            "https://shorttext-data-northernvirginia.s3.amazonaws.com/trainingdata/USInaugural.zip",
+            asbytes=True
+        )
+    )
     address_jsonstr = zfile.open("addresses.json").read()
     zfile.close()
     return json.loads(address_jsonstr.decode('utf-8'))
@@ -189,27 +224,3 @@ def yield_crossvalidation_classdicts(classdict, nb_partitions, shuffle=False):
         testdict = crossvaldicts[i]
         traindict = mergedict([crossvaldicts[j] for j in range(nb_partitions) if j != i])
         yield testdict, traindict
-
-
-def get_or_download_data(filename, origin, asbytes=False):
-    # determine path
-    homedir = os.path.expanduser('~')
-    datadir = os.path.join(homedir, '.shorttext')
-    if not os.path.exists(datadir):
-        os.makedirs(datadir)
-
-    targetfilepath = os.path.join(datadir, filename)
-    # download if not exist
-    if not os.path.exists(os.path.join(datadir, filename)):
-        print('Downloading...', file=sys.stderr)
-        print(f'Source: {origin}', file=sys.stderr)
-        print(f'Target: {targetfilepath}', file=sys.stderr)
-        try:
-            urlretrieve(origin, targetfilepath)
-        except:
-            print('Failure to download file!', file=sys.stderr)
-            print(sys.exc_info(), file=sys.stderr)
-            os.remove(targetfilepath)
-
-    # return
-    return open(targetfilepath, 'rb' if asbytes else 'r')
