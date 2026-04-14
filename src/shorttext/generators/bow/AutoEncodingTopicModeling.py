@@ -191,7 +191,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         if not self.trained:
             raise ModelNotTrainedException()
         simdict = {}
-        for label, classtopicvec in self.classtopicvecs.items:
+        for label, classtopicvec in self.classtopicvecs.items():
             simdict[label] = cosine_similarity(
                 classtopicvec, self.retrieve_topicvec(shorttext)
             )
