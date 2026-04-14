@@ -85,7 +85,7 @@ def shorttext_to_avgvec(
     """
     vec = np.sum(
         [
-            wvmodel[token]
+            wvmodel[token].astype(np.float64)
             if token in wvmodel
             else np.array([1.]*wvmodel.vector_size) / np.sqrt(wvmodel.vector_size)
             for token in tokenize(shorttext)

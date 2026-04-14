@@ -1,8 +1,6 @@
 
 import json
 import pickle
-from functools import reduce
-from operator import add
 from typing import Optional, Any
 from collections import Counter
 
@@ -12,7 +10,6 @@ import sparse
 from tensorflow.keras import Input
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Dense
-from scipy.spatial.distance import cosine
 import orjson
 
 from .LatentTopicModeling import LatentTopicModeler
@@ -20,6 +17,7 @@ from ...utils import kerasmodel_io as kerasio, textpreprocessing as textpreproce
 from ...utils.compactmodel_io import CompactIOMachine
 from ...utils.classification_exceptions import ModelNotTrainedException
 from ...utils.dtm import generate_npdict_document_term_matrix, convert_classdict_to_corpus
+from ...utils.compute import cosine_similarity
 from ...schemas.models import AutoEncoderPackage
 
 
@@ -104,18 +102,6 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         decoder = autoencoder_package.decoder
 
         # process training data
-        # embedvecs = np.array(
-        #     reduce(
-        #         add,
-        #         [
-        #             [
-        #                 self.retrieve_bow_vector(shorttext)
-        #                 for shorttext in classdict[classtype]
-        #             ]
-        #             for classtype in classdict
-        #         ]
-        #     )
-        # )
         embedvecs = dtm_matrix.to_numpy()
 
         # fit the model
@@ -153,7 +139,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         else:
             vec = np.ones(len(self.token2indices))
         if self.normalize:
-            vec = np.array(vec, dtype=np.float64) / np.linalg.norm(vec)
+            vec = vec.astype(np.float64) / np.linalg.norm(vec)
         return vec
 
     def retrieve_topicvec(self, shorttext: str) -> npt.NDArray[np.float64]:
@@ -173,7 +159,7 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         encoded_vec = self.encoder.predict(np.expand_dims(bow_vector, axis=0))[0]
         if self.normalize:
             encoded_vec /= np.linalg.norm(encoded_vec)
-        return encoded_vec
+        return encoded_vec.astype(np.float64)
 
     def precalculate_liststr_topicvec(self, shorttexts: list[str]) -> npt.NDArray[np.float64]:
         """ Calculate the summed topic vectors for training data for each class.
@@ -205,8 +191,10 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         if not self.trained:
             raise ModelNotTrainedException()
         simdict = {}
-        for label in self.classtopicvecs:
-            simdict[label] = 1 - cosine(self.classtopicvecs[label], self.retrieve_topicvec(shorttext))
+        for label, classtopicvec in self.classtopicvecs.items():
+            simdict[label] = cosine_similarity(
+                classtopicvec, self.retrieve_topicvec(shorttext)
+            )
         return simdict
 
     def savemodel(self, nameprefix: str, save_complete_autoencoder: bool=True) -> None:

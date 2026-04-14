@@ -1,6 +1,9 @@
 
+from typing import Optional, Literal
+
+from gensim.models.keyedvectors import KeyedVectors
 from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense, Dropout, LSTM, Activation
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import Sequential, Model
 from tensorflow.keras.regularizers import l2
 
 
@@ -11,17 +14,19 @@ from tensorflow.keras.regularizers import l2
 # Paper: Yoon Kim, "Convolutional Neural Networks for Sentence Classification," arXiv:1408.5882 (2014).
 # ref: https://gist.github.com/entron/b9bc61a74e7cadeb1fec
 # ref: http://cs231n.github.io/convolutional-networks/
-def CNNWordEmbed(nb_labels,
-                 wvmodel=None,
-                 nb_filters=1200,
-                 n_gram=2,
-                 maxlen=15,
-                 vecsize=300,
-                 cnn_dropout=0.0,
-                 final_activation='softmax',
-                 dense_wl2reg=0.0,
-                 dense_bl2reg=0.0,
-                 optimizer='adam'):
+def CNNWordEmbed(
+        nb_labels: int,
+        wvmodel: Optional[KeyedVectors] = None,
+        nb_filters: int = 1200,
+        n_gram: int = 2,
+        maxlen: int = 15,
+        vecsize: int = 300,
+        cnn_dropout: float = 0.0,
+        final_activation: Literal["softplus", "softsign", "relu", "tanh", "sigmoid", "hard_sigmoid", "linear"] = "softmax",
+        dense_wl2reg: float = 0.0,
+        dense_bl2reg: float = 0.0,
+        optimizer: Literal["sgd", "rmsprop", "adagrad", "adadelta", "adam", "adamax", "nadam"] = "adam"
+) -> Model:
     """ Returns the convolutional neural network (CNN/ConvNet) for word-embedded vectors.
 
     Reference: Yoon Kim, "Convolutional Neural Networks for Sentence Classification,"
@@ -53,7 +58,7 @@ def CNNWordEmbed(nb_labels,
     :type optimizer: str
     :rtype: keras.models.Model
     """
-    if wvmodel != None:
+    if wvmodel is not None:
         vecsize = wvmodel.vector_size
 
     model = Sequential()
@@ -74,20 +79,22 @@ def CNNWordEmbed(nb_labels,
 
 
 # two layers of CNN, maxpooling, dense
-def DoubleCNNWordEmbed(nb_labels,
-                       wvmodel=None,
-                       nb_filters_1=1200,
-                       nb_filters_2=600,
-                       n_gram=2,
-                       filter_length_2=10,
-                       maxlen=15,
-                       vecsize=300,
-                       cnn_dropout_1=0.0,
-                       cnn_dropout_2=0.0,
-                       final_activation='softmax',
-                       dense_wl2reg=0.0,
-                       dense_bl2reg=0.0,
-                       optimizer='adam'):
+def DoubleCNNWordEmbed(
+        nb_labels: int,
+        wvmodel: Optional[KeyedVectors] = None,
+        nb_filters_1: int = 1200,
+        nb_filters_2: int = 600,
+        n_gram: int = 2,
+        filter_length_2: int = 10,
+        maxlen: int = 15,
+        vecsize: int = 300,
+        cnn_dropout_1: float = 0.0,
+        cnn_dropout_2: float = 0.0,
+        final_activation: Literal["softplus", "softsign", "relu", "tanh", "sigmoid", "hard_sigmoid", "linear"] = "softmax",
+        dense_wl2reg: float = 0.0,
+        dense_bl2reg: float = 0.0,
+        optimizer: Literal["sgd", "rmsprop", "adagrad", "adadelta", "adam", "adamax", "nadam"] = 'adam'
+) -> Model:
     """ Returns the double-layered convolutional neural network (CNN/ConvNet) for word-embedded vectors.
 
     :param nb_labels: number of class labels
@@ -121,7 +128,7 @@ def DoubleCNNWordEmbed(nb_labels,
     :type optimizer: str
     :rtype: keras.models.Model
     """
-    if wvmodel != None:
+    if wvmodel is not None:
         vecsize = wvmodel.vector_size
 
     model = Sequential()
@@ -150,19 +157,21 @@ def DoubleCNNWordEmbed(nb_labels,
 # C-LSTM
 # Chunting Zhou, Chonglin Sun, Zhiyuan Liu, Francis Lau,
 # "A C-LSTM Neural Network for Text Classification", arXiv:1511.08630 (2015).
-def CLSTMWordEmbed(nb_labels,
-                   wvmodel=None,
-                   nb_filters=1200,
-                   n_gram=2,
-                   maxlen=15,
-                   vecsize=300,
-                   cnn_dropout=0.0,
-                   nb_rnnoutdim=1200,
-                   rnn_dropout=0.2,
-                   final_activation='softmax',
-                   dense_wl2reg=0.0,
-                   dense_bl2reg=0.0,
-                   optimizer='adam'):
+def CLSTMWordEmbed(
+        nb_labels: int,
+        wvmodel: Optional[KeyedVectors] = None,
+        nb_filters: int = 1200,
+        n_gram: int = 2,
+        maxlen: int = 15,
+        vecsize: int = 300,
+        cnn_dropout: float = 0.0,
+        nb_rnnoutdim: int = 1200,
+        rnn_dropout: int = 0.2,
+        final_activation: Literal["softplus", "softsign", "relu", "tanh", "sigmoid", "hard_sigmoid", "linear"] = "softmax",
+        dense_wl2reg: float = 0.0,
+        dense_bl2reg: float = 0.0,
+        optimizer: Literal["sgd", "rmsprop", "adagrad", "adadelta", "adam", "adamax", "nadam"] = "adam"
+) -> Model:
     """ Returns the C-LSTM neural networks for word-embedded vectors.
 
     Reference: Chunting Zhou, Chonglin Sun, Zhiyuan Liu, Francis Lau,

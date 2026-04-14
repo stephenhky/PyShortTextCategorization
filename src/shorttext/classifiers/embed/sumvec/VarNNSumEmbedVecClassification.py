@@ -1,5 +1,10 @@
 
+from typing import Optional, Annotated
+
 import numpy as np
+import numpy.typing as npt
+from gensim.models.keyedvectors import KeyedVectors
+from tensorflow.keras.models import Model
 
 from ....utils import kerasmodel_io as kerasio
 from ....utils.classification_exceptions import ModelNotTrainedException
@@ -26,7 +31,12 @@ class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
     <https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit>`_.
 
     """
-    def __init__(self, wvmodel, vecsize=None, maxlen=15):
+    def __init__(
+            self,
+            wvmodel: KeyedVectors,
+            vecsize: Optional[int] = None,
+            maxlen: int = 15
+    ):
         """ Initialize the classifier.
 
         :param wvmodel: Word2Vec model
@@ -36,13 +46,20 @@ class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
         :type vecsize: int
         :type maxlen: int
         """
-        CompactIOMachine.__init__(self, {'classifier': 'sumnnlibvec'}, 'sumnnlibvec', ['_classlabels.txt', '.json', '.weights.h5'])
+        super().__init__(
+            {'classifier': 'sumnnlibvec'},
+            'sumnnlibvec',
+            ['_classlabels.txt', '.json', '.weights.h5']
+        )
         self.wvmodel = wvmodel
-        self.vecsize = self.wvmodel.vector_size if vecsize==None else vecsize
+        self.vecsize = self.wvmodel.vector_size if vecsize is None else vecsize
         self.maxlen = maxlen
         self.trained = False
 
-    def convert_traindata_embedvecs(self, classdict):
+    def convert_traindata_embedvecs(
+            self,
+            classdict: dict[str, list[str]]
+    ) -> tuple[list[str], Annotated[npt.NDArray[np.float64], "2D Array"], Annotated[npt.NDArray[np.int64], "2D Array"]]:
         """ Convert the training text data into embedded matrix.
 
         Convert the training text data into embedded matrix, where each short sentence
@@ -53,15 +70,20 @@ class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
         :type classdict: dict
         :rtype: (list, numpy.ndarray, list)
         """
-        classlabels = classdict.keys()
+        classlabels = sorted(classdict.keys())   # sort the classlabels to ensure uniqueness
         lblidx_dict = dict(zip(classlabels, range(len(classlabels))))
 
         indices = []
         embedvecs = []
         for classlabel in classlabels:
             for shorttext in classdict[classlabel]:
-                embedvec = np.sum(np.array([self.word_to_embedvec(token) for token in tokenize(shorttext)]),
-                                  axis=0)
+                embedvec = np.sum(
+                    np.array([
+                        self.word_to_embedvec(token)
+                        for token in tokenize(shorttext)
+                    ]),
+                    axis=0
+                )
                 norm = np.linalg.norm(embedvec)
                 if norm == 0:
                     continue
@@ -75,7 +97,12 @@ class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
         embedvecs = np.array(embedvecs)
         return classlabels, embedvecs, indices
 
-    def train(self, classdict, kerasmodel, nb_epoch=10):
+    def train(
+            self,
+            classdict: dict[str, list[str]],
+            kerasmodel: Model,
+            nb_epoch: int = 10
+    ) -> None:
         """ Train the classifier.
 
         The training data and the corresponding keras model have to be given.
@@ -101,7 +128,7 @@ class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
         self.model = kerasmodel
         self.trained = True
 
-    def savemodel(self, nameprefix):
+    def savemodel(self, nameprefix: str) -> None:
         """ Save the trained model into files.
 
         Given the prefix of the file paths, save the model into files, with name given by the prefix.
@@ -116,12 +143,11 @@ class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
         """
         if not self.trained:
             raise ModelNotTrainedException()
-        kerasio.save_model(nameprefix, self.model)
-        labelfile = open(nameprefix+'_classlabels.txt', 'w')
-        labelfile.write('\n'.join(self.classlabels))
-        labelfile.close()
 
-    def loadmodel(self, nameprefix):
+        kerasio.save_model(nameprefix, self.model)
+        open(nameprefix+'_classlabels.txt', 'w').write('\n'.join(self.classlabels))
+
+    def loadmodel(self, nameprefix: str) -> None:
         """ Load a trained model from files.
 
         Given the prefix of the file paths, load the model from files with name given by the prefix
@@ -135,13 +161,10 @@ class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
         :type nameprefix: str
         """
         self.model = kerasio.load_model(nameprefix)
-        labelfile = open(nameprefix+'_classlabels.txt', 'r')
-        self.classlabels = labelfile.readlines()
-        labelfile.close()
-        self.classlabels = [s.strip() for s in self.classlabels]
+        self.classlabels = [s.strip() for s in open(nameprefix+'_classlabels.txt', 'r')]
         self.trained = True
 
-    def word_to_embedvec(self, word):
+    def word_to_embedvec(self, word: str) -> Annotated[npt.NDArray[np.float64], "1D Array"]:
         """ Convert the given word into an embedded vector.
 
         Given a word, return the corresponding embedded vector according to
@@ -153,9 +176,9 @@ class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
         :type word: str
         :rtype: numpy.ndarray
         """
-        return self.wvmodel[word] if word in self.wvmodel else np.zeros(self.vecsize)
+        return self.wvmodel[word].astype(np.float64) if word in self.wvmodel else np.zeros(self.vecsize)
 
-    def shorttext_to_embedvec(self, shorttext):
+    def shorttext_to_embedvec(self, shorttext: str) -> Annotated[npt.NDArray[np.float64], "1D Array"]:
         """ Convert the short text into an averaged embedded vector representation.
 
         Given a short sentence, it converts all the tokens into embedded vectors according to
@@ -168,13 +191,17 @@ class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
         :type shorttext: str
         :rtype: numpy.ndarray
         """
-        vec = np.sum([self.wvmodel[token] for token in tokenize(shorttext) if token in self.wvmodel])
+        vec = np.sum([
+            self.wvmodel[token].astype(np.float64)
+            for token in tokenize(shorttext)
+            if token in self.wvmodel
+        ])
         norm = np.linalg.norm(vec)
         if norm != 0:
             vec /= np.linalg.norm(vec)
         return vec
 
-    def score(self, shorttext):
+    def score(self, shorttext: str) -> dict[str, float]:
         """ Calculate the scores for all the class labels for the given short sentence.
 
         Given a short sentence, calculate the classification scores for all class labels,
@@ -192,18 +219,26 @@ class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
         if not self.trained:
             raise ModelNotTrainedException()
 
-            # retrieve vector
+        # retrieve vector
         embedvec = np.array(self.shorttext_to_embedvec(shorttext))
 
         # classification using the neural network
         predictions = self.model.predict(np.array([embedvec]))
 
         # wrangle output result
-        scoredict = {classlabel: predictions[0][idx] for idx, classlabel in enumerate(self.classlabels)}
+        scoredict = {
+            classlabel: predictions[0, idx]
+            for idx, classlabel in enumerate(self.classlabels)
+        }
         return scoredict
 
 
-def load_varnnsumvec_classifier(wvmodel, name, compact=True, vecsize=None):
+def load_varnnsumvec_classifier(
+        wvmodel: KeyedVectors,
+        name: str,
+        compact: bool = True,
+        vecsize: Optional[int] = None
+) -> VarNNSumEmbeddedVecClassifier:
     """ Load a :class:`shorttext.classifiers.VarNNSumEmbeddedVecClassifier` instance from file, given the pre-trained word-embedding model.
 
     :param wvmodel: Word2Vec model

@@ -33,7 +33,7 @@ def word_mover_distance_linprog(first_sent_tokens, second_sent_tokens, wvmodel, 
     nb_tokens_second_sent = len(second_sent_tokens)
 
     all_tokens = list(set(first_sent_tokens+second_sent_tokens))
-    wordvecs = {token: wvmodel[token] for token in all_tokens}
+    wordvecs = {token: wvmodel[token].astype(np.float64) for token in all_tokens}
 
     first_sent_buckets = tokens_to_fracdict(first_sent_tokens)
     second_sent_buckets = tokens_to_fracdict(second_sent_tokens)

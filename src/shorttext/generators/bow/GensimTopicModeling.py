@@ -142,12 +142,12 @@ class GensimTopicModeler(LatentTopicModeler):
         :rtype: numpy.ndarray
         """
         bow = self.retrieve_bow(shorttext)
-        vec = np.zeros(len(self.dictionary))
         if len(bow) > 0:
+            vec = np.zeros(len(self.dictionary))
             for id, val in bow:
                 vec[id] = val
         else:
-            vec = 1.
+            vec = np.ones(len(self.dictionary))
         if self.normalize:
             vec /= np.linalg.norm(vec)
         return vec
@@ -211,7 +211,7 @@ class GensimTopicModeler(LatentTopicModeler):
         simdict = {}
         similarities = self.matsim[self.retrieve_corpus_topicdist(shorttext)]
         for label, similarity in zip(self.classlabels, similarities):
-            simdict[label] = similarity
+            simdict[label] = float(similarity)
         return simdict
 
     def loadmodel(self, nameprefix: str) -> None:
@@ -278,11 +278,14 @@ class GensimTopicModeler(LatentTopicModeler):
         if self.toweigh:
             self.tfidf.save(nameprefix+'.gensimtfidf')
 
+    def get_info(self) -> dict[str, Any]:
+        return {}
 
-lda_suffices =  ['.json', '.gensimdict', '.gensimmodel.state',
-                   '.gensimtfidf', '.gensimmodel', '.gensimmat']
-if gensim.__version__ >= '1.0.0':
-    lda_suffices += ['.gensimmodel.expElogbeta.npy', '.gensimmodel.id2word']
+
+lda_suffices =  [
+    '.json', '.gensimdict', '.gensimmodel.state', '.gensimtfidf', '.gensimmodel',
+    '.gensimmat', '.gensimmodel.expElogbeta.npy', '.gensimmodel.id2word'
+]
 
 
 class LDAModeler(GensimTopicModeler, CompactIOMachine):
@@ -317,7 +320,7 @@ class LDAModeler(GensimTopicModeler, CompactIOMachine):
 
 
 lsi_suffices = ['.json', '.gensimdict', '.gensimtfidf', '.gensimmodel.projection',
-                '.gensimmodel', '.gensimmat', ]
+                '.gensimmodel', '.gensimmat']
 
 class LSIModeler(GensimTopicModeler, CompactIOMachine):
     """
@@ -403,11 +406,22 @@ def load_gensimtopicmodel(
     if compact:
         modeler_dict = {'ldatopic': LDAModeler, 'lsitopic': LSIModeler, 'rptopic': RPModeler}
         classifier_name = str(get_model_classifier_name(name))
+        if classifier_name not in modeler_dict.keys():
+            raise ValueError(f"Unknown classifier name: {classifier_name}")
 
         topic_modeler = modeler_dict[classifier_name](preprocessor=preprocessor, tokenizer=tokenizer)
         topic_modeler.load_compact_model(name)
     else:
-        topic_modeler = GensimTopicModeler(preprocessor=preprocessor, tokenizer=tokenizer)
+        modeler_dict = {'lda': LDAModeler, 'lsi': LSIModeler, 'rp': RPModeler}
+
+        config_info = orjson.loads(open(name+".json", "rb").read())
+        algorithm_name = config_info.get("algorithm")
+        if algorithm_name is None:
+            raise ValueError("No classifier name!")
+        if algorithm_name not in modeler_dict.keys():
+            raise ValueError(f"Unknown classifier name: {algorithm_name}")
+
+        topic_modeler = modeler_dict[algorithm_name](preprocessor=preprocessor, tokenizer=tokenizer)
         topic_modeler.loadmodel(name)
 
     return topic_modeler

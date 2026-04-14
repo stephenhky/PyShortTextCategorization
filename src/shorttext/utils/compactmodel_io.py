@@ -14,6 +14,8 @@ import os
 from os import PathLike
 from typing import Any, Self
 
+import orjson
+
 from . import classification_exceptions as e
 
 
@@ -203,12 +205,7 @@ def get_model_config_field(filename: str | PathLike, parameter: str) -> str:
     :rtype: str
     """
     inputfile = zipfile.ZipFile(filename, mode='r')
-    modelconfig_file = inputfile.open('modelconfig.json', 'r')
-    modelconfig_json = modelconfig_file.read()
-    modelconfig_file.close()
-    if type(modelconfig_json)==bytes:
-        modelconfig_json = modelconfig_json.decode('utf-8')
-    readinfodict = json.loads(modelconfig_json)
+    readinfodict = json.load(inputfile.open("modelconfig.json", "r"))
     return readinfodict[parameter]
 
 
