@@ -1,10 +1,11 @@
 
-from typing import Generator, TextIO
+from typing import Generator
+from io import TextIOWrapper
 
 
 
 def textfile_generator(
-        textfile: TextIO,
+        textfile: TextIOWrapper,
         linebreak: bool=True,
         encoding: bool=None
 ) -> Generator[str, None, None]:

@@ -1,9 +1,10 @@
 
 import os
 from functools import partial
-import argparse
-import logging
+from argparse import ArgumentParser
 from operator import itemgetter
+
+from loguru import logger
 
 from ..utils.compactmodel_io import get_model_classifier_name
 from ..utils.classification_exceptions import AlgorithmNotExistException, WordEmbeddingModelNotExistException
@@ -11,9 +12,8 @@ from ..utils import load_word2vec_model, load_fasttext_model, load_poincare_mode
 from ..smartload import smartload_compact_model
 from ..classifiers import TopicVectorCosineDistanceClassifier
 
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
+# configs
 allowed_classifiers = [
     'ldatopic', 'lsitopic', 'rptopic', 'kerasautoencoder',
     'topic_sklearn', 'nnlibvec', 'sumvec', 'maxent'
@@ -21,6 +21,8 @@ allowed_classifiers = [
 needembedded_classifiers = ['nnlibvec', 'sumvec']
 topicmodels = ['ldatopic', 'lsitopic', 'rptopic', 'kerasautoencoder']
 
+
+# lazy functions for loading word embedding model
 load_word2vec_nonbinary_model = partial(load_word2vec_model, binary=False)
 load_poincare_binary_model = partial(load_poincare_model, binary=True)
 
@@ -33,8 +35,8 @@ typedict = {
 }
 
 
-def get_argparser():
-    parser = argparse.ArgumentParser(
+def get_argparser() -> ArgumentParser:
+    parser = ArgumentParser(
         description='Perform prediction on short text with a given trained model.'
     )
     parser.add_argument('model_filepath', help='Path of the trained (compact) model.')
@@ -45,6 +47,7 @@ def get_argparser():
     parser.add_argument('--type', default='word2vec', choices=typedict.keys(),
                         help='Type of word-embedding model (default: word2vec)')
     return parser
+
 
 # main block
 def main():
@@ -99,6 +102,3 @@ def main():
             for label, score in sorted(scoredict.items(), key=itemgetter(1), reverse=True)[:args.topn]:
                 print(f'{label} : {score:.4f}')
         print('Done.')
-
-if __name__ == "__main__":
-    main()

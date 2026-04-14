@@ -5,7 +5,7 @@ from .dldist import damerau_levenshtein
 from .lcp import longest_common_prefix
 
 
-def similarity(word1, word2):
+def similarity(word1: str, word2: str) -> float:
     """ Return the similarity between the two words.
 
     Return the similarity between the two words, between 0 and 1 inclusively.
@@ -29,7 +29,7 @@ def similarity(word1, word2):
     return max(1. - float(editdistance)/maxlen, float(lcp)/maxlen)
 
 
-def soft_intersection_list(tokens1, tokens2):
+def soft_intersection_list(tokens1: list[str], tokens2: list[str]) -> set[str]:
     """ Return the soft number of intersections between two lists of tokens.
 
     :param tokens1: list of tokens.
@@ -54,7 +54,7 @@ def soft_intersection_list(tokens1, tokens2):
     return included_list
 
 
-def soft_jaccard_score(tokens1, tokens2):
+def soft_jaccard_score(tokens1: str, tokens2: str) -> float:
     """ Return the soft Jaccard score of the two lists of tokens, between 0 and 1 inclusively.
 
     Reference: Daniel E. Russ, Kwan-Yuet Ho, Calvin A. Johnson, Melissa C. Friesen, "Computer-Based Coding of Occupation Codes for Epidemiological Analyses," *2014 IEEE 27th International Symposium on Computer-Based Medical Systems* (CBMS), pp. 347-350. (2014) [`IEEE
@@ -70,4 +70,4 @@ def soft_jaccard_score(tokens1, tokens2):
     intersection_list = soft_intersection_list(tokens1, tokens2)
     num_intersections = sum([item[1] for item in intersection_list])
     num_unions = len(tokens1) + len(tokens2) - num_intersections
-    return float(num_intersections)/float(num_unions)
+    return num_intersections / num_unions

@@ -1,7 +1,9 @@
 
 from functools import partial
+from os import PathLike
 
 import numpy as np
+import numpy.typing as npt
 from scipy.sparse import csc_matrix
 from gensim.corpora import Dictionary
 from sklearn.preprocessing import OneHotEncoder
@@ -13,7 +15,7 @@ class SentenceToCharVecEncoder:
     """ A class that facilitates one-hot encoding from characters to vectors.
 
     """
-    def __init__(self, dictionary, signalchar='\n'):
+    def __init__(self, dictionary: Dictionary, signalchar: str='\n'):
         """ Initialize the one-hot encoding class.
 
         :param dictionary: a gensim dictionary
@@ -27,7 +29,7 @@ class SentenceToCharVecEncoder:
         self.onehot_encoder = OneHotEncoder()
         self.onehot_encoder.fit(np.arange(numchars).reshape((numchars, 1)))
 
-    def calculate_prelim_vec(self, sent):
+    def calculate_prelim_vec(self, sent: str) -> npt.NDArray[np.float64]:
         """ Convert the sentence to a one-hot vector.
 
         :param sent: sentence
@@ -37,9 +39,15 @@ class SentenceToCharVecEncoder:
         """
         return self.onehot_encoder.transform(
             np.array([self.dictionary.token2id[c] for c in sent]).reshape((len(sent), 1))
-        )
+        ).astype(np.float64)
 
-    def encode_sentence(self, sent, maxlen, startsig=False, endsig=False):
+    def encode_sentence(
+            self,
+            sent: str,
+            maxlen: int,
+            startsig: bool = False,
+            endsig=False
+    ) -> csc_matrix:
         """ Encode one sentence to a sparse matrix, with each row the expanded vector of each character.
 
         :param sent: sentence
@@ -62,7 +70,14 @@ class SentenceToCharVecEncoder:
                               shape=(maxlen + startsig + endsig, sent_vec.shape[1]),
                               dtype=np.float64)
 
-    def encode_sentences(self, sentences, maxlen, sparse=True, startsig=False, endsig=False):
+    def encode_sentences(
+            self,
+            sentences: list[str],
+            maxlen: int,
+            sparse: bool = True,
+            startsig: bool = False,
+            endsig: bool = False
+    ) -> list[npt.NDArray[np.float64]] | npt.NDArray[np.float64]:
         """ Encode many sentences into a rank-3 tensor.
 
         :param sentences: sentences
@@ -85,11 +100,14 @@ class SentenceToCharVecEncoder:
         else:
             return np.array([sparsevec.toarray() for sparsevec in list_encoded_sentences_map])
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.dictionary)
 
 
-def initSentenceToCharVecEncoder(textfile, encoding=None):
+def initSentenceToCharVecEncoder(
+        textfile: str | PathLike,
+        encoding: bool=None
+) -> SentenceToCharVecEncoder:
     """ Instantiate a class of SentenceToCharVecEncoder from a text file.
 
     :param textfile: text file
@@ -99,5 +117,10 @@ def initSentenceToCharVecEncoder(textfile, encoding=None):
     :type encoding: str
     :rtype: SentenceToCharVecEncoder
     """
-    dictionary = Dictionary(map(lambda line: [c for c in line], textfile_generator(textfile, encoding=encoding)))
+    dictionary = Dictionary(
+        map(
+            lambda line: [c for c in line],
+            textfile_generator(textfile, encoding=encoding)
+        )
+    )
     return SentenceToCharVecEncoder(dictionary)

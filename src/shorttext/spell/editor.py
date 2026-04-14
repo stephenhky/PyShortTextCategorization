@@ -1,9 +1,11 @@
 
+from typing import Generator
+
 import numba as nb
 
 
 @nb.njit
-def compute_set_edits1(word):
+def compute_set_edits1(word: str) -> set[str]:
     letters = 'abcdefghijklmnopqrstuvwxyz'
 
     splits = [(word[:i], word[i:]) for i in range(len(word) + 1)]
@@ -18,5 +20,5 @@ def compute_set_edits1(word):
 
 
 @nb.njit
-def compute_set_edits2(word):
+def compute_set_edits2(word: str) -> Generator[str, None, None]:
     return (e2 for e1 in compute_set_edits1(word) for e2 in compute_set_edits1(e1))

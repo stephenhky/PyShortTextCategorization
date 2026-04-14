@@ -1,13 +1,20 @@
 
 from itertools import product
+from typing import Optional
 
 import numpy as np
-from scipy.spatial.distance import cosine
+from gensim.models.keyedvectors import KeyedVectors
 
 from ...utils import tokenize
+from ...utils.compute import cosine_similarity
 
 
-def jaccardscore_sents(sent1, sent2, wvmodel, sim_words=lambda vec1, vec2: 1-cosine(vec1, vec2)):
+def jaccardscore_sents(
+        sent1: str,
+        sent2: str,
+        wvmodel: KeyedVectors,
+        sim_words: Optional[callable] = None
+) -> float:
     """ Compute the Jaccard score between sentences based on their word similarities.
 
     :param sent1: first sentence
@@ -21,6 +28,9 @@ def jaccardscore_sents(sent1, sent2, wvmodel, sim_words=lambda vec1, vec2: 1-cos
     :type sim_words: function
     :rtype: float
     """
+    if sim_words is None:
+        sim_words = cosine_similarity
+
     tokens1 = tokenize(sent1)
     tokens2 = tokenize(sent2)
     tokens1 = list(filter(lambda w: w in wvmodel, tokens1))
