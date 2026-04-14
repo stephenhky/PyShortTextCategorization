@@ -10,9 +10,10 @@ from ....utils import kerasmodel_io as kerasio
 from ....utils.classification_exceptions import ModelNotTrainedException
 from ....utils.textpreprocessing import tokenize
 from ....utils.compactmodel_io import CompactIOMachine
+from ...base import AbstractScorer
 
 
-class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
+class VarNNSumEmbeddedVecClassifier(AbstractScorer, CompactIOMachine):
     """
     This is a wrapper for various neural network algorithms
     for supervised short text categorization.

@@ -3,9 +3,10 @@ from typing import Optional, Literal
 
 from ....generators import LatentTopicModeler, GensimTopicModeler, AutoencodingTopicModeler
 from ....generators import load_autoencoder_topicmodel, load_gensimtopicmodel
+from ...base import AbstractScorer
 
 
-class TopicVecCosineDistanceClassifier:
+class TopicVecCosineDistanceClassifier(AbstractScorer):
     """
     This is a class that implements a classifier that perform classification based on
     the cosine similarity between the topic vectors of the user-input short texts and various classes.
