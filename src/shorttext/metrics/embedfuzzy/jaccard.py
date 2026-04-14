@@ -1,6 +1,6 @@
 
 from itertools import product
-from optional import Optional
+from typing import Optional
 
 import numpy as np
 from gensim.models.keyedvectors import KeyedVectors
