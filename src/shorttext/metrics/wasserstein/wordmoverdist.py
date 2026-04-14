@@ -1,16 +1,23 @@
 
 from itertools import product
+from typing import Optional
 import warnings
 
 import numpy as np
 from scipy.spatial.distance import euclidean
 from scipy.sparse import csr_matrix
-from scipy.optimize import linprog
+from scipy.optimize import linprog, OptimizeResult
+from gensim.models.keyedvectors import KeyedVectors
 
 from ...utils.gensim_corpora import tokens_to_fracdict
 
 
-def word_mover_distance_linprog(first_sent_tokens, second_sent_tokens, wvmodel, distancefunc=euclidean):
+def word_mover_distance_linprog(
+        first_sent_tokens: list[str],
+        second_sent_tokens: list[str],
+        wvmodel: KeyedVectors,
+        distancefunc: Optional[callable] = None
+) -> OptimizeResult:
     """ Compute the Word Mover's distance (WMD) between the two given lists of tokens, and return the LP problem class.
 
     Using methods of linear programming, supported by PuLP, calculate the WMD between two lists of words. A word-embedding
@@ -29,6 +36,9 @@ def word_mover_distance_linprog(first_sent_tokens, second_sent_tokens, wvmodel, 
     :type distancefunc: function
     :rtype: scipy.optimize.OptimizeResult
     """
+    if distancefunc is None:
+        distancefunc = euclidean
+
     nb_tokens_first_sent = len(first_sent_tokens)
     nb_tokens_second_sent = len(second_sent_tokens)
 
@@ -64,7 +74,12 @@ def word_mover_distance_linprog(first_sent_tokens, second_sent_tokens, wvmodel, 
     return linprog(T, A_eq=Aeq, b_eq=beq)
 
 
-def word_mover_distance(first_sent_tokens, second_sent_tokens, wvmodel, distancefunc=euclidean, lpFile=None):
+def word_mover_distance(
+        first_sent_tokens: list[str],
+        second_sent_tokens: list[str],
+        wvmodel: KeyedVectors,
+        distancefunc: Optional[callable] = None
+) -> float:
     """ Compute the Word Mover's distance (WMD) between the two given lists of tokens.
 
     Using methods of linear programming, calculate the WMD between two lists of words. A word-embedding
@@ -85,10 +100,14 @@ def word_mover_distance(first_sent_tokens, second_sent_tokens, wvmodel, distance
     :type lpFile: str
     :rtype: float
     """
-    linprog_result = word_mover_distance_linprog(first_sent_tokens, second_sent_tokens, wvmodel,
-                                                 distancefunc=distancefunc)
-    if lpFile is not None:
-        warnings.warn('The parameter `lpFile` (value: {}) is not used; parameter is deprecated as ' + \
-                      'the package `pulp` is no longer used. Check your code if there is a dependency on ' + \
-                      'this parameter.')
+    if distancefunc is None:
+        distancefunc = euclidean
+
+    linprog_result = word_mover_distance_linprog(
+        first_sent_tokens,
+        second_sent_tokens,
+        wvmodel,
+        distancefunc=distancefunc
+    )
+
     return linprog_result['fun']
