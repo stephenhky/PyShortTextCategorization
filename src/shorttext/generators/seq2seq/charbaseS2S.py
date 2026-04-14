@@ -1,7 +1,9 @@
 
+from typing import Literal
 from os import PathLike
 
 import numpy as np
+import numpy.typing as npt
 import gensim
 import orjson
 
@@ -41,7 +43,11 @@ class CharBasedSeq2SeqGenerator(CompactIOMachine):
         :type latent_dim: int
         :type maxlen: int
         """
-        cio.CompactIOMachine.__init__(self, {'classifier': 'charbases2s'}, 'charbases2s', charbases2s_suffices)
+        super().__init__(
+            {'classifier': 'charbases2s'},
+            'charbases2s',
+            charbases2s_suffices
+        )
         self.compiled = False
         if sent2charvec_encoder != None:
             self.sent2charvec_encoder = sent2charvec_encoder
@@ -195,7 +201,7 @@ class CharBasedSeq2SeqGenerator(CompactIOMachine):
         self.s2sgenerator = loadSeq2SeqWithKeras(prefix, compact=False)
         self.sent2charvec_encoder = SentenceToCharVecEncoder(self.dictionary)
         self.nbelem = len(self.dictionary)
-        hyperparameters = orjson.loads(open(prefix+'_charbases2s.json', 'rb'))
+        hyperparameters = orjson.loads(open(prefix+'_charbases2s.json', 'rb').read())
         self.latent_dim, self.maxlen = hyperparameters['latent_dim'], hyperparameters['maxlen']
         self.compiled = True
 
