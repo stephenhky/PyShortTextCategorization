@@ -32,7 +32,7 @@ class StackedGeneralization(ABC):
     """
     def __init__(
             self,
-            intermediate_classifiers: Optional[str, AbstractScorer] = None
+            intermediate_classifiers: Optional[dict[str, AbstractScorer]] = None
     ):
         """ Initialize the stacking class instance.
 
