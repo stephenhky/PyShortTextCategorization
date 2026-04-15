@@ -1,9 +1,9 @@
 
 import numpy as np
-import shorttext
 from sklearn.naive_bayes import GaussianNB
-
 import pytest
+
+import shorttext
 
 
 def test_ldatopicmodel():
