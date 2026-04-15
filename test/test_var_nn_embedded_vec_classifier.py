@@ -3,9 +3,9 @@ import urllib
 from pathlib import Path
 
 from loguru import logger
+import pytest
 
 import shorttext
-import pytest
 
 
 # download model

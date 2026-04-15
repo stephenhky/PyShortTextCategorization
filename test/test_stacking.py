@@ -1,14 +1,13 @@
 
 from sklearn.svm import SVC
 from loguru import logger
+import pytest
 
 import shorttext
 from shorttext.stack import StackedGeneralization, LogisticStackedGeneralization
 from shorttext.smartload import smartload_compact_model
 from shorttext.classifiers import TopicVectorSkLearnClassifier, TopicVectorCosineDistanceClassifier, MaxEntClassifier
 from shorttext.generators import GensimTopicModeler, LDAModeler
-
-import pytest
 
 
 def training_stacking() -> tuple[MaxEntClassifier, GensimTopicModeler, TopicVectorSkLearnClassifier, StackedGeneralization]:
