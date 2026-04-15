@@ -1,6 +1,7 @@
 
 import numpy as np
 from sklearn.naive_bayes import GaussianNB
+from sklearn.linear_model import LogisticRegression
 import pytest
 
 import shorttext
@@ -43,7 +44,7 @@ def test_ldatopicmodel():
 
     # scikit-learn classifier
     gaussian_nb_classifier = shorttext.classifiers.TopicVectorSkLearnClassifier(
-        topicmodeler, GaussianNB()
+        topicmodeler, LogisticRegression()
     )
     gaussian_nb_classifier.train(trainclassdict)
     score_dict = gaussian_nb_classifier.score("stem cell research NIH cancer immunology")
@@ -87,7 +88,7 @@ def test_autoencoder():
 
     # scikit-learn classifier
     gaussian_nb_classifier = shorttext.classifiers.TopicVectorSkLearnClassifier(
-        autoencoder, GaussianNB()
+        autoencoder, LogisticRegression()
     )
     gaussian_nb_classifier.train(subdict)
     score_dict = gaussian_nb_classifier.score("path integral")
