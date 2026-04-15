@@ -1,15 +1,18 @@
 
 import pickle
 from abc import ABC, abstractmethod
+from typing import Optional, Annotated, Generator, Literal
 
 import numpy as np
+import numpy.typing as npt
 from tensorflow.keras.layers import Dense, Reshape
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.regularizers import l2
 
-from ..utils import classification_exceptions as e
+from ..utils.classification_exceptions import ModelNotTrainedException
 from ..utils import kerasmodel_io as kerasio
 from ..utils.compactmodel_io import CompactIOMachine
+from ..classifiers.base import AbstractScorer
 
 
 # abstract class
@@ -27,7 +30,10 @@ class StackedGeneralization(ABC):
     M. Paz Sesmero, Agapito I. Ledezma, Araceli Sanchis, "Generating ensembles of heterogeneous classifiers using Stacked Generalization,"
     *WIREs Data Mining and Knowledge Discovery* 5: 21-34 (2015).
     """
-    def __init__(self, intermediate_classifiers=None):
+    def __init__(
+            self,
+            intermediate_classifiers: Optional[dict[str, AbstractScorer]] = None
+    ):
         """ Initialize the stacking class instance.
 
         :param intermediate_classifiers: dictionary, with key being a string, and the values intermediate classifiers, that have the method :func:`~score`, which takes a string as the input argument.
@@ -37,7 +43,7 @@ class StackedGeneralization(ABC):
         self.classlabels = []
         self.trained = False
 
-    def register_classifiers(self):
+    def register_classifiers(self) -> None:
         """ Register the intermediate classifiers.
 
         It must be run before any training.
@@ -50,7 +56,7 @@ class StackedGeneralization(ABC):
             self.classifier2idx[key] = idx
             self.idx2classifier[idx] = key
 
-    def register_classlabels(self, labels):
+    def register_classlabels(self, labels: list[str]) -> None:
         """ Register output labels.
 
         Given the labels, it gives an integer as the index for each label.
@@ -62,10 +68,10 @@ class StackedGeneralization(ABC):
         :return: None
         :type labels: list
         """
-        self.classlabels = list(labels)
+        self.classlabels = labels
         self.labels2idx = {classlabel: idx for idx, classlabel in enumerate(self.classlabels)}
 
-    def add_classifier(self, name, classifier):
+    def add_classifier(self, name: str, classifier: AbstractScorer) -> None:
         """ Add a classifier.
 
         Add a classifier to the class. The classifier must have the method :func:`~score` which
@@ -80,7 +86,7 @@ class StackedGeneralization(ABC):
         self.classifiers[name] = classifier
         self.register_classifiers()
 
-    def delete_classifier(self, name):
+    def delete_classifier(self, name: str) -> None:
         """ Delete a classifier.
 
         :param name: name of the classifier to be deleted
@@ -91,7 +97,10 @@ class StackedGeneralization(ABC):
         del self.classifiers[name]
         self.register_classifiers()
 
-    def translate_shorttext_intfeature_matrix(self, shorttext):
+    def translate_shorttext_intfeature_matrix(
+            self,
+            shorttext: str
+    ) -> Annotated[npt.NDArray[np.float64], "2D Array"]:
         """ Represent the given short text as the input matrix of the stacking class.
 
         :param shorttext: short text
@@ -100,13 +109,17 @@ class StackedGeneralization(ABC):
         :rtype: numpy.ndarray
         """
         feature_matrix = np.zeros((len(self.classifier2idx), len(self.labels2idx)))
-        for key in self.classifier2idx:
-            scoredict = self.classifiers[key].score(shorttext)
+        for key, idx in self.classifier2idx.items():
+            classifier = self.classifiers[key]
+            scoredict = classifier.score(shorttext)
             for label in scoredict:
-                feature_matrix[self.classifier2idx[key], self.labels2idx[label]] = scoredict[label]
+                feature_matrix[idx, self.labels2idx[label]] = scoredict[label]
         return feature_matrix
 
-    def convert_label_to_buckets(self, label):
+    def convert_label_to_buckets(
+            self,
+            label: str
+    ) -> Annotated[npt.NDArray[np.int64], "1D Array"]:
         """ Convert the label into an array of bucket.
 
         Some classification algorithms, especially those of neural networks, have the output
@@ -118,11 +131,15 @@ class StackedGeneralization(ABC):
         :type label: str
         :rtype: numpy.ndarray
         """
-        buckets = np.zeros(len(self.labels2idx), dtype=np.int_)
+        buckets = np.zeros(len(self.labels2idx), dtype=np.int64)
         buckets[self.labels2idx[label]] = 1
         return buckets
 
-    def convert_traindata_matrix(self, classdict, tobucket=True):
+    def convert_traindata_matrix(
+            self,
+            classdict: dict[str, list[str]],
+            tobucket: bool = True
+    ) -> Generator[tuple[Annotated[npt.NDArray[np.float64], "2D Array"], Annotated[npt.NDArray[np.int64], "1D Array"]], None, None]:
         """ Returns a generator that returns the input matrix and the output labels for training.
 
         :param classdict: dictionary of the training data
@@ -132,14 +149,14 @@ class StackedGeneralization(ABC):
         :type tobucket: bool
         :rtype: tuple
         """
-        for label in classdict:
+        for label, texts in classdict.items():
             y = self.convert_label_to_buckets(label) if tobucket else self.labels2idx[label]
-            for shorttext in classdict[label]:
-                X = self.translate_shorttext_intfeature_matrix(shorttext)
-                yield X, y
+            for shorttext in texts:
+                x = self.translate_shorttext_intfeature_matrix(shorttext)
+                yield x, y
 
     @abstractmethod
-    def train(self, classdict, *args, **kwargs):
+    def train(self, classdict: dict[str, list[str]], *args, **kwargs) -> None:
         """ Train the stacked generalization.
 
         Not implemented. `NotImplemntedException` raised.
@@ -156,7 +173,7 @@ class StackedGeneralization(ABC):
         raise NotImplemented()
 
     @abstractmethod
-    def score(self, shorttext, *args, **kwargs):
+    def score(self, shorttext: str, *args, **kwargs) -> dict[str, float]:
         """ Calculate the scores for each class labels.
 
         Not implemented. `NotImplemntedException` raised.
@@ -185,14 +202,24 @@ class LogisticStackedGeneralization(StackedGeneralization, CompactIOMachine):
 
     The classifiers must have the :func:`~score` method that takes a string as an input argument.
     """
-    def __init__(self, intermediate_classifiers={}):
+    def __init__(
+            self,
+            intermediate_classifiers: Optional[dict[str, AbstractScorer]] = None,
+    ):
         CompactIOMachine.__init__(self,
                                   {'classifier': 'stacked_logistics'},
                                   'stacked_logistics',
                                   ['_stackedlogistics.pkl', '_stackedlogistics.weights.h5', '_stackedlogistics.json'])
         StackedGeneralization.__init__(self, intermediate_classifiers=intermediate_classifiers)
 
-    def train(self, classdict, optimizer='adam', l2reg=0.01, bias_l2reg=0.01, nb_epoch=1000):
+    def train(
+            self,
+            classdict: dict[str, list[str]],
+            optimizer: Literal["sgd", "rmsprop", "adagrad", "adadelta", "adam", "adamax", "nadam"] = "adam",
+            l2reg: float = 0.01,
+            bias_l2reg: float = 0.01,
+            nb_epoch: int = 1000
+    ) -> None:
         """ Train the stacked generalization.
 
         :param classdict: training data
@@ -210,7 +237,7 @@ class LogisticStackedGeneralization(StackedGeneralization, CompactIOMachine):
 
         # register
         self.register_classifiers()
-        self.register_classlabels(classdict.keys())
+        self.register_classlabels(sorted(classdict.keys()))    # sorted the keys
 
         kmodel = Sequential()
         kmodel.add(Reshape((len(self.classifier2idx) * len(self.labels2idx),),
@@ -231,7 +258,7 @@ class LogisticStackedGeneralization(StackedGeneralization, CompactIOMachine):
         self.model = kmodel
         self.trained = True
 
-    def score(self, shorttext):
+    def score(self, shorttext: str) -> dict[str, float]:
         """ Calculate the scores for all the class labels for the given short sentence.
 
         Given a short sentence, calculate the classification scores for all class labels,
@@ -246,7 +273,7 @@ class LogisticStackedGeneralization(StackedGeneralization, CompactIOMachine):
         :rtype: dict
         """
         if not self.trained:
-            raise e.ModelNotTrainedException()
+            raise ModelNotTrainedException()
 
         input_matrix = self.translate_shorttext_intfeature_matrix(shorttext)
         prediction = self.model.predict(np.array([input_matrix]))
@@ -255,7 +282,7 @@ class LogisticStackedGeneralization(StackedGeneralization, CompactIOMachine):
 
         return scoredict
 
-    def savemodel(self, nameprefix):
+    def savemodel(self, nameprefix: str) -> None:
         """ Save the logistic stacked model into files.
 
         Save the stacked model into files. Note that the intermediate classifiers
@@ -269,14 +296,14 @@ class LogisticStackedGeneralization(StackedGeneralization, CompactIOMachine):
         :type nameprefix: str
         """
         if not self.trained:
-            raise e.ModelNotTrainedException()
+            raise ModelNotTrainedException()
 
         stackedmodeldict = {'classifiers': self.classifier2idx,
                             'classlabels': self.classlabels}
         pickle.dump(stackedmodeldict, open(nameprefix+'_stackedlogistics.pkl', 'wb'))
         kerasio.save_model(nameprefix+'_stackedlogistics', self.model)
 
-    def loadmodel(self, nameprefix):
+    def loadmodel(self, nameprefix: str) -> None:
         """ Load the model with the given prefix.
 
         Load the model with the given prefix of their paths. Note that the intermediate
@@ -293,7 +320,3 @@ class LogisticStackedGeneralization(StackedGeneralization, CompactIOMachine):
         self.model = kerasio.load_model(nameprefix+'_stackedlogistics')
 
         self.trained = True
-
-
-
-

@@ -13,9 +13,10 @@ from ....utils import kerasmodel_io as kerasio
 from ....utils.classification_exceptions import ModelNotTrainedException
 from ....utils import tokenize
 from ....utils.compactmodel_io import CompactIOMachine
+from ...base import AbstractScorer
 
 
-class VarNNEmbeddedVecClassifier(CompactIOMachine):
+class VarNNEmbeddedVecClassifier(AbstractScorer, CompactIOMachine):
     """
     This is a wrapper for various neural network algorithms
     for supervised short text categorization.
@@ -49,7 +50,8 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         :type vecsize: int
         :type maxlen: int
         """
-        super().__init__(
+        CompactIOMachine.__init__(
+            self,
             {'classifier': 'nnlibvec'},
             'nnlibvec',
             ['_classlabels.txt', '.json', '.weights.h5', '_config.json']
@@ -235,9 +237,9 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
 
     def score(
             self,
-            shorttexts: str | list[str],
+            shorttext: str,
             model_params: Optional[dict[str, Any]] = None
-    ) -> dict[str, float] | list[dict[str, float]]:
+    ) -> dict[str, float]:
         """ Calculate the scores for all the class labels for the given short sentence.
 
         Given a short sentence, calculate the classification scores for all class labels,
@@ -254,32 +256,22 @@ class VarNNEmbeddedVecClassifier(CompactIOMachine):
         """
         if model_params is None:
             model_params = {}
-
-        is_multiple = True
-        if isinstance(shorttexts, str):
-            is_multiple = False
-            shorttexts = [shorttexts]
         
         if not self.trained:
             raise ModelNotTrainedException()
 
         # retrieve vector
-        matrix = np.array([self.shorttext_to_matrix(shorttext) for shorttext in shorttexts])
+        matrix = np.array([self.shorttext_to_matrix(shorttext)])
 
         # classification using the neural network
         predictions = self.model.predict(matrix, **model_params)
 
-        score_dicts = [
-            {
-                classlabel: predictions[i, j]
-                for j, classlabel in enumerate(self.classlabels)
-            }
-            for i in range(predictions.shape[0])
-        ]
-        if not is_multiple:
-            return score_dicts[0]
-        else:
-            return score_dicts
+        score_dict = {
+            classlabel: predictions[0, j]
+            for j, classlabel in enumerate(self.classlabels)
+        }
+
+        return score_dict
 
 
 def load_varnnlibvec_classifier(

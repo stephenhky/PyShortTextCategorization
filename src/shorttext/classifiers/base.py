@@ -2,7 +2,7 @@
 from abc import ABC, abstractmethod
 
 
-class Scorable(ABC):
+class AbstractScorer(ABC):
     @abstractmethod
-    def score(self, shorttexts: str | list[str]) -> dict[str, float] | list[dict[str, float]]:
+    def score(self, shorttext: str) -> dict[str, float]:
         raise NotImplemented()

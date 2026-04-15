@@ -42,7 +42,8 @@ class SumEmbeddedVecClassifier(CompactIOMachine):
         :type vecsize: int
         :type simfcn: function
         """
-        super().__init__(
+        CompactIOMachine.__init__(
+            self,
             {'classifier': 'sumvec'},
             'sumvec',
             ['_embedvecdict.pkl']

@@ -12,6 +12,7 @@ from ....utils import tokenize
 from ....utils import classification_exceptions as e
 from ....utils.compactmodel_io import CompactIOMachine
 from ....utils.dtm import convert_classdict_to_xy
+from ...base import AbstractScorer
 
 
 def logistic_framework(
@@ -50,7 +51,7 @@ def logistic_framework(
     return kmodel
 
 
-class MaxEntClassifier(CompactIOMachine):
+class MaxEntClassifier(AbstractScorer, CompactIOMachine):
     """
     This is a classifier that implements the principle of maximum entropy.
 
@@ -64,7 +65,8 @@ class MaxEntClassifier(CompactIOMachine):
         :param preprocessor: text preprocessor
         :type preprocessor: function
         """
-        super().__init__(
+        CompactIOMachine.__init__(
+            self,
             {'classifier': 'maxent'},
             'maxent',
             ['_classlabels.txt', '.json', '.weights.h5', '_labels2idx.json', '_tokens2idx.json']

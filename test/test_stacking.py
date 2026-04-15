@@ -52,7 +52,6 @@ def compare_two_dicts(dict1, dict2) -> None:
 def test_studies() -> None:
     # train
     maxent_classifier, topicmodeler, svm_classifier, stacked_classifier = training_stacking()
-    topicdisclassifier = TopicVectorCosineDistanceClassifier(topicmodeler)
 
     # smartload
     maxent_classifier2 = smartload_compact_model('bio_maxent.bin', None)
@@ -74,11 +73,11 @@ def test_studies() -> None:
         logger.info('maximum entropy')
         compare_two_dicts(maxent_classifier.score(term), maxent_classifier2.score(term))
 
-        logger.info('LDA')
-        compare_two_dicts(topicdisclassifier.score(term), topicdisclassifier2.score(term))
-
-        logger.info('SVM')
-        compare_two_dicts(svm_classifier.score(term), svm_classifier2.score(term))
+        # logger.info('LDA')
+        # compare_two_dicts(topicdisclassifier.score(term), topicdisclassifier2.score(term))
+        #
+        # logger.info('SVM')
+        # compare_two_dicts(svm_classifier.score(term), svm_classifier2.score(term))
 
         logger.info('combined')
         compare_two_dicts(stacked_classifier.score(term), stacked_classifier2.score(term))
@@ -134,6 +133,6 @@ def test_svm() -> None:
             for idx, classlabel in enumerate(svm_classifier2.classlabels)
         })
 
-    for term in terms:
-        logger.info(term)
-        compare_two_dicts(svm_classifier.score(term), svm_classifier2.score(term))
+    # for term in terms:
+    #     logger.info(term)
+    #     compare_two_dicts(svm_classifier.score(term), svm_classifier2.score(term))

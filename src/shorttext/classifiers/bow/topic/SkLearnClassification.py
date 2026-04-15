@@ -12,9 +12,10 @@ from ....generators import LDAModeler, LSIModeler, RPModeler, AutoencodingTopicM
 from ....generators import LatentTopicModeler
 from ....utils import classification_exceptions as e
 from ....utils import compactmodel_io as cio
+from ...base import AbstractScorer
 
 
-class TopicVectorSkLearnClassifier:
+class TopicVectorSkLearnClassifier(AbstractScorer):
     """
     This is a classifier that wraps any supervised learning algorithm in `scikit-learn`,
     and use the topic vectors output by the topic modeler :class:`LatentTopicModeler` that
@@ -103,7 +104,7 @@ class TopicVectorSkLearnClassifier:
         topicvec = self.getvector(shorttext)
         return self.classlabels[self.classifier.predict([topicvec])[0]]
 
-    def score(self, shorttext: str) -> dict[str, int | float]:
+    def score(self, shorttext: str) -> dict[str, float]:
         """ Calculate the score, which is the cosine similarity with the topic vector of the model,
         of the short text against each class labels.
 
