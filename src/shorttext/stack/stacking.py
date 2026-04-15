@@ -109,13 +109,17 @@ class StackedGeneralization(ABC):
         :rtype: numpy.ndarray
         """
         feature_matrix = np.zeros((len(self.classifier2idx), len(self.labels2idx)))
-        for key, classifier in self.classifier2idx.items():
+        for key, idx in self.classifier2idx.items():
+            classifier = self.classifiers[key]
             scoredict = classifier.score(shorttext)
             for label in scoredict:
-                feature_matrix[classifier, self.labels2idx[label]] = scoredict[label]
+                feature_matrix[idx, self.labels2idx[label]] = scoredict[label]
         return feature_matrix
 
-    def convert_label_to_buckets(self, label: str) -> Annotated[npt.NDArray[np.int64], "1D Array"]:
+    def convert_label_to_buckets(
+            self,
+            label: str
+    ) -> Annotated[npt.NDArray[np.int64], "1D Array"]:
         """ Convert the label into an array of bucket.
 
         Some classification algorithms, especially those of neural networks, have the output
