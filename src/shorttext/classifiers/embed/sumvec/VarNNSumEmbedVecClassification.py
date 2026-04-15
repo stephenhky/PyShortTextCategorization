@@ -47,7 +47,8 @@ class VarNNSumEmbeddedVecClassifier(AbstractScorer, CompactIOMachine):
         :type vecsize: int
         :type maxlen: int
         """
-        super().__init__(
+        CompactIOMachine.__init__(
+            self,
             {'classifier': 'sumnnlibvec'},
             'sumnnlibvec',
             ['_classlabels.txt', '.json', '.weights.h5']

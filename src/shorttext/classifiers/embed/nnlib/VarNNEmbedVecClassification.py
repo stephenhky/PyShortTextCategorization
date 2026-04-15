@@ -50,7 +50,8 @@ class VarNNEmbeddedVecClassifier(AbstractScorer, CompactIOMachine):
         :type vecsize: int
         :type maxlen: int
         """
-        super().__init__(
+        CompactIOMachine.__init__(
+            self,
             {'classifier': 'nnlibvec'},
             'nnlibvec',
             ['_classlabels.txt', '.json', '.weights.h5', '_config.json']
