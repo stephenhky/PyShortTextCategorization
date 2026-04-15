@@ -8,7 +8,6 @@ import numpy.typing as npt
 from tensorflow.keras.layers import Dense, Reshape
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.regularizers import l2
-from loguru import logger
 
 from ..utils.classification_exceptions import ModelNotTrainedException
 from ..utils import kerasmodel_io as kerasio
@@ -238,7 +237,7 @@ class LogisticStackedGeneralization(StackedGeneralization, CompactIOMachine):
 
         # register
         self.register_classifiers()
-        self.register_classlabels(classdict.keys())
+        self.register_classlabels(sorted(classdict.keys()))    # sorted the keys
 
         kmodel = Sequential()
         kmodel.add(Reshape((len(self.classifier2idx) * len(self.labels2idx),),
@@ -301,7 +300,6 @@ class LogisticStackedGeneralization(StackedGeneralization, CompactIOMachine):
 
         stackedmodeldict = {'classifiers': self.classifier2idx,
                             'classlabels': self.classlabels}
-        logger.info(str(stackedmodeldict))
         pickle.dump(stackedmodeldict, open(nameprefix+'_stackedlogistics.pkl', 'wb'))
         kerasio.save_model(nameprefix+'_stackedlogistics', self.model)
 
