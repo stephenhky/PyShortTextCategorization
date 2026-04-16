@@ -173,7 +173,7 @@ def CLSTMWordEmbed(
         arXiv:1511.08630 (2015).
         https://arxiv.org/abs/1511.08630
     """
-    if wvmodel != None:
+    if wvmodel is not None:
         vecsize = wvmodel.vector_size
 
     model = Sequential()
