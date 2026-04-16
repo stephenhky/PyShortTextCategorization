@@ -11,21 +11,24 @@ from ...utils.textpreprocessing import tokenize
 
 # abstract class
 class LatentTopicModeler(ABC):
+    """Abstract base class for topic modelers.
+
+    Provides interface for converting short texts to topic vector
+    representations using various topic modeling algorithms.
     """
-    Abstract class for various topic modeler.
-    """
+
     def __init__(
             self,
             preprocessor: Optional[callable] = None,
             tokenizer: Optional[callable] = None,
             normalize: bool = True
     ):
-        """ Initialize the modeler.
+        """Initialize the topic modeler.
 
-        :param preprocessor: function that preprocesses the text. (Default: `shorttext.utils.textpreprocess.standard_text_preprocessor_1`)
-        :param normalize: whether the retrieved topic vectors are normalized. (Default: True)
-        :type preprocessor: function
-        :type normalize: bool
+        Args:
+            preprocessor: Text preprocessing function. Default: standard_text_preprocessor_1.
+            tokenizer: Tokenization function. Default: tokenize.
+            normalize: Whether to normalize output vectors. Default: True.
         """
         if preprocessor is None:
             self.preprocess_func = textpreprocess.standard_text_preprocessor_1()
@@ -41,91 +44,118 @@ class LatentTopicModeler(ABC):
 
     @abstractmethod
     def train(self, classdict: dict[str, list[str]], nb_topics: int, *args, **kwargs) -> None:
-        """ Train the modeler.
+        """Train the topic modeler.
 
-        This is an abstract method of this abstract class, which raise the `NotImplementedException`.
+        Args:
+            classdict: Training data with class labels as keys and texts as values.
+            nb_topics: Number of latent topics.
+            *args: Additional arguments for the training algorithm.
+            **kwargs: Additional keyword arguments.
 
-        :param classdict: training data
-        :param nb_topics: number of latent topics
-        :param args: arguments to be passed into the wrapped training functions
-        :param kwargs: arguments to be passed into the wrapped training functions
-        :return: None
-        :raise: NotImplementedException
-        :type classdict: dict
-        :type nb_topics: int
+        Raises:
+            NotImplementedError: This is an abstract method.
         """
         raise NotImplemented()
 
     @abstractmethod
     def retrieve_bow(self, shorttext: str) -> list[tuple[int, int]]:
+        """Get bag-of-words representation.
+
+        Args:
+            shorttext: Input text.
+
+        Returns:
+            List of (word_id, count) tuples.
+
+        Raises:
+            NotImplementedError: Abstract method.
+        """
         raise NotImplemented()
 
     @abstractmethod
     def retrieve_bow_vector(self, shorttext: str) -> npt.NDArray[np.float64]:
+        """Get bag-of-words vector.
+
+        Args:
+            shorttext: Input text.
+
+        Returns:
+            BOW vector.
+
+        Raises:
+            NotImplementedError: Abstract method.
+        """
         raise NotImplemented()
 
     @abstractmethod
     def retrieve_topicvec(self, shorttext: str) -> npt.NDArray[np.float64]:
-        """ Calculate the topic vector representation of the short text.
+        """Get topic vector for short text.
 
-        This is an abstract method of this abstract class, which raise the `NotImplementedException`.
+        Args:
+            shorttext: Input text.
 
-        :param shorttext: short text
-        :return: topic vector
-        :raise: NotImplementedException
-        :type shorttext: str
-        :rtype: numpy.ndarray
+        Returns:
+            Topic vector.
+
+        Raises:
+            NotImplementedError: Abstract method.
         """
         raise NotImplemented()
 
     @abstractmethod
     def get_batch_cos_similarities(self, shorttext: str) -> dict[str, float]:
-        """ Calculate the cosine similarities of the given short text and all the class labels.
+        """Get cosine similarities to all classes.
 
-        This is an abstract method of this abstract class, which raise the `NotImplementedException`.
+        Args:
+            shorttext: Input text.
 
-        :param shorttext: short text
-        :return: topic vector
-        :raise: NotImplementedException
-        :type shorttext: str
-        :rtype: numpy.ndarray
+        Returns:
+            Dictionary mapping class labels to similarity scores.
+
+        Raises:
+            NotImplementedError: Abstract method.
         """
         raise NotImplemented()
 
     def __getitem__(self, shorttext) -> npt.NDArray[np.float64]:
+        """Get topic vector for text (shortcut for retrieve_topicvec)."""
         return self.retrieve_topicvec(shorttext)
 
     def __contains__(self, shorttext):
+        """Check if model is trained."""
         if not self.trained:
             raise e.ModelNotTrainedException()
         return True
 
     @abstractmethod
     def loadmodel(self, nameprefix: str):
-        """ Load the model from files.
+        """Load model from files.
 
-        This is an abstract method of this abstract class, which raise the `NotImplementedException`.
+        Args:
+            nameprefix: Prefix for input files.
 
-        :param nameprefix: prefix of the paths of the model files
-        :return: None
-        :raise: NotImplementedException
-        :type nameprefix: str
+        Raises:
+            NotImplementedError: Abstract method.
         """
         raise NotImplemented()
 
     @abstractmethod
     def savemodel(self, nameprefix: str):
-        """ Save the model to files.
+        """Save model to files.
 
-        This is an abstract method of this abstract class, which raise the `NotImplementedException`.
+        Args:
+            nameprefix: Prefix for output files.
 
-        :param nameprefix: prefix of the paths of the model files
-        :return: None
-        :raise: NotImplementedException
-        :type nameprefix: str
+        Raises:
+            NotImplementedError: Abstract method.
         """
         raise NotImplemented()
 
     @abstractmethod
     def get_info(self) -> dict[str, Any]:
+        """Get model metadata.
+
+        Returns:
+            Dictionary with model information.
+        """
         raise NotImplemented()

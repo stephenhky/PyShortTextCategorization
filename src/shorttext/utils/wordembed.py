@@ -17,14 +17,14 @@ def load_word2vec_model(
         path: str | PathLike,
         binary: bool = True
 ) -> KeyedVectors:
-    """ Load a pre-trained Word2Vec model.
+    """Load a pre-trained Word2Vec model.
 
-    :param path: path of the file of the pre-trained Word2Vec model
-    :param binary: whether the file is in binary format (Default: True)
-    :return: a pre-trained Word2Vec model
-    :type path: str
-    :type binary: bool
-    :rtype: gensim.models.keyedvectors.KeyedVectors
+    Args:
+        path: Path to the Word2Vec model file.
+        binary: Whether the file is in binary format. Default: True.
+
+    Returns:
+        A KeyedVectors model containing word embeddings.
     """
     return KeyedVectors.load_word2vec_format(path, binary=binary)
 
@@ -33,12 +33,14 @@ def load_fasttext_model(
         path: str | PathLike,
         encoding: Any = 'utf-8'
 ) -> FastTextKeyedVectors:
-    """ Load a pre-trained FastText model.
+    """Load a pre-trained FastText model.
 
-    :param path: path of the file of the pre-trained FastText model
-    :return: a pre-trained FastText model
-    :type path: str
-    :rtype: gensim.models.keyedvectors.FastTextKeyedVectors
+    Args:
+        path: Path to the FastText model file.
+        encoding: File encoding. Default: 'utf-8'.
+
+    Returns:
+        A FastTextKeyedVectors model.
     """
     return gensim.models.fasttext.load_facebook_vectors(path, encoding=encoding)
 
@@ -48,16 +50,15 @@ def load_poincare_model(
         word2vec_format: bool = True,
         binary: bool = False
 ) -> PoincareKeyedVectors:
-    """ Load a Poincare embedding model.
+    """Load a Poincaré embedding model.
 
-    :param path: path of the file of the pre-trained Poincare embedding model
-    :param word2vec_format: whether to load from word2vec format (default: True)
-    :param binary: binary format (default: False)
-    :return: a pre-trained Poincare embedding model
-    :type path: str
-    :type word2vec_format: bool
-    :type binary: bool
-    :rtype: gensim.models.poincare.PoincareKeyedVectors
+    Args:
+        path: Path to the Poincaré model file.
+        word2vec_format: Whether to load from word2vec format. Default: True.
+        binary: Whether file is binary. Default: False.
+
+    Returns:
+        A PoincareKeyedVectors model.
     """
     if word2vec_format:
         return PoincareKeyedVectors.load_word2vec_format(path, binary=binary)
@@ -69,19 +70,17 @@ def shorttext_to_avgvec(
         shorttext: str,
         wvmodel: KeyedVectors
 ) -> Annotated[npt.NDArray[np.float64], "1D array"]:
-    """ Convert the short text into an averaged embedded vector representation.
+    """Convert short text to averaged embedding vector.
 
-    Given a short sentence, it converts all the tokens into embedded vectors according to
-    the given word-embedding model, sums
-    them up, and normalize the resulting vector. It returns the resulting vector
-    that represents this short sentence.
+    Converts each token to its word embedding, averages them,
+    and normalizes the result.
 
-    :param shorttext: a short sentence
-    :param wvmodel: word-embedding model
-    :return: an embedded vector that represents the short sentence
-    :type shorttext: str
-    :type wvmodel: gensim.models.keyedvectors.KeyedVectors
-    :rtype: numpy.ndarray
+    Args:
+        shorttext: Input text.
+        wvmodel: Word embedding model.
+
+    Returns:
+        A normalized vector representation of the text.
     """
     vec = np.sum(
         [
@@ -102,46 +101,49 @@ def shorttext_to_avgvec(
 
 
 class RESTfulKeyedVectors(KeyedVectors):
-    """ RESTfulKeyedVectors, for connecting to the API of the preloaded word-embedding vectors loaded
-        by `WordEmbedAPI`.
+    """Remote word vector client via REST API.
 
-        This class inherits from :class:`gensim.models.keyedvectors.KeyedVectors`.
+    Connects to a remote WordEmbedAPI service to access word
+    embeddings via HTTP requests.
 
+    Attributes:
+        url: Base URL of the API.
+        port: Port number for the API.
     """
-    def __init__(self, url: str, port: str | int='5000'):
-        """ Initialize the class.
 
-        :param url: URL of the API, usually `http://localhost`
-        :param port: Port number
-        :type url: str
-        :type port: str
+    def __init__(self, url: str, port: str | int='5000'):
+        """Initialize the client.
+
+        Args:
+            url: Base URL of the API (e.g., 'http://localhost').
+            port: Port number. Default: '5000'.
         """
         self.url = url
         self.port = port
 
     def closer_than(self, entity1: str, entity2: str) -> list | dict:
-        """
+        """Find words closer to entity1 than entity2 is.
 
-        :param entity1: word 1
-        :param entity2: word 2
-        :type entity1: str
-        :type entity2: str
-        :return: list of words
-        :rtype: list
+        Args:
+            entity1: First word.
+            entity2: Reference word.
+
+        Returns:
+            List of words closer to entity1 than entity2.
         """
         r = requests.post(self.url + ':' + self.port + '/closerthan',
                           json={'entity1': entity1, 'entity2': entity2})
         return r.json()
 
     def distance(self, entity1: str, entity2: str) -> float:
-        """
+        """Compute distance between two words.
 
-        :param entity1: word 1
-        :param entity2: word 2
-        :type entity1: str
-        :type entity2: str
-        :return: distance between two words
-        :rtype: float
+        Args:
+            entity1: First word.
+            entity2: Second word.
+
+        Returns:
+            Distance between the word vectors.
         """
         r = requests.post(self.url + ':' + self.port + '/distance',
                           json={'entity1': entity1, 'entity2': entity2})
@@ -152,14 +154,14 @@ class RESTfulKeyedVectors(KeyedVectors):
             entity1: str,
             other_entities: Optional[list[str]] = None
     ) -> Annotated[npt.NDArray[np.float64], "1D array"]:
-        """
+        """Compute distances from one word to multiple words.
 
-        :param entity1: word
-        :param other_entities: list of words
-        :type entity1: str
-        :type other_entities: list
-        :return: list of distances between `entity1` and each word in `other_entities`
-        :rtype: list
+        Args:
+            entity1: First word.
+            other_entities: List of words to compare against.
+
+        Returns:
+            Array of distances.
         """
         if other_entities is None:
             other_entities = []
@@ -169,12 +171,16 @@ class RESTfulKeyedVectors(KeyedVectors):
         return np.array(r.json()['distances'], dtype=np.float32)
 
     def get_vector(self, entity: str) -> Annotated[npt.NDArray[np.float64], "1D array"]:
-        """
+        """Get word vector for a word.
 
-        :param entity: word
-        :type: str
-        :return: word vectors of the given word
-        :rtype: numpy.ndarray
+        Args:
+            entity: Word to get vector for.
+
+        Returns:
+            Word embedding vector.
+
+        Raises:
+            KeyError: If word not in vocabulary.
         """
         r = requests.post(self.url + ':' + self.port + '/get_vector', json={'token': entity})
         returned_dict = r.json()
@@ -184,60 +190,62 @@ class RESTfulKeyedVectors(KeyedVectors):
             raise KeyError(f'The token {entity} does not exist in the model.')
 
     def most_similar(self, **kwargs) -> list[tuple[str, float]]:
-        """
+        """Find most similar words.
 
-        :param kwargs:
-        :return:
+        Args:
+            **kwargs: Arguments passed to the API (e.g., positive, negative).
+
+        Returns:
+            List of (word, similarity) tuples.
         """
         r = requests.post(self.url + ':' + self.port + '/most_similar', json=kwargs)
         return [tuple(pair) for pair in r.json()]
 
     def most_similar_to_given(self, entity1: str, entities_list: list[str]) -> list[str]:
-        """
+        """Find most similar word from a list to a given word.
 
-        :param entity1: word
-        :param entities_list: list of words
-        :type entity1: str
-        :type entities_list: list
-        :return: list of similarities between the given word and each word in `entities_list`
-        :rtype: list
+        Args:
+            entity1: Reference word.
+            entities_list: List of candidate words.
+
+        Returns:
+            List of words sorted by similarity.
         """
         r = requests.post(self.url + ':' + self.port + '/most_similar_to_given',
                           json={'entity1': entity1, 'entities_list': entities_list})
         return r.json()['token']
 
     def rank(self, entity1: str, entity2: str) -> int:
-        """
+        """Get similarity rank between two words.
 
-        :param entity1: word 1
-        :param entity2: word 2
-        :type entity1: str
-        :type entity2: str
-        :return: rank
-        :rtype: int
+        Args:
+            entity1: First word.
+            entity2: Second word.
+
+        Returns:
+            Rank of entity2 relative to entity1.
         """
         r = requests.post(self.url + ':' + self.port + '/rank',
                           json={'entity1': entity1, 'entity2': entity2})
         return r.json()['rank']
 
     def save(self, fname_or_handle: TextIO, **kwargs) -> None:
-        """
+        """Save is not supported for remote vectors.
 
-        :param fname_or_handle:
-        :param kwargs:
-        :return:
+        Raises:
+            IOError: Always, since remote vectors cannot be saved locally.
         """
         raise IOError('The class RESTfulKeyedVectors do not persist models to a file.')
 
     def similarity(self, entity1: str, entity2: str) -> float:
-        """
+        """Compute similarity between two words.
 
-        :param entity1: word 1
-        :param entity2: word 2
-        :return: similarity between two words
-        :type entity1: str
-        :type entity2: str
-        :rtype: float
+        Args:
+            entity1: First word.
+            entity2: Second word.
+
+        Returns:
+            Similarity score between 0 and 1.
         """
         r = requests.post(self.url + ':' + self.port + '/similarity',
                           json={'entity1': entity1, 'entity2': entity2})

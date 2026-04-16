@@ -17,16 +17,20 @@ import orjson
 
 
 def retrieve_csvdata_as_dict(filepath: str | PathLike) -> dict[str, list[str]]:
-    """ Retrieve the training data in a CSV file.
+    """Retrieve the training data in a CSV file.
 
-    Retrieve the training data in a CSV file, with the first column being the
-    class labels, and second column the text data. It returns a dictionary with
-    the class labels as keys, and a list of short texts as the value for each key.
+    Reads a CSV file where the first column contains class labels and the second column
+    contains text data. Returns a dictionary mapping class labels to lists of
+    short texts.
 
-    :param filepath: path of the training data (CSV)
-    :return: a dictionary with class labels as keys, and lists of short texts
-    :type filepath: str
-    :rtype: dict
+    Args:
+        filepath: Path to the CSV training data file.
+
+    Returns:
+        A dictionary with class labels as keys and lists of short texts as values.
+
+    Reference:
+        Data format inspired by common text classification benchmarks.
     """
     datafile = open(filepath, 'r')
     reader = csv.reader(datafile)
@@ -42,16 +46,16 @@ def retrieve_csvdata_as_dict(filepath: str | PathLike) -> dict[str, list[str]]:
 
 
 def retrieve_jsondata_as_dict(filepath: str | PathLike) -> dict:
-    """ Retrieve the training data in a JSON file.
+    """Retrieve the training data in a JSON file.
 
-    Retrieve the training data in a JSON file, with
-    the class labels as keys, and a list of short texts as the value for each key.
-    It returns the corresponding dictionary.
+    Reads a JSON file where class labels are keys and lists of short texts
+    are values. Returns the corresponding dictionary.
 
-    :param filepath: path of the training data (JSON)
-    :return: a dictionary with class labels as keys, and lists of short texts
-    :type filepath: str
-    :rtype: dict
+    Args:
+        filepath: Path to the JSON training data file.
+
+    Returns:
+        A dictionary with class labels as keys and lists of short texts as values.
     """
     return orjson.loads(open(filepath, 'rb').read())
 
@@ -61,6 +65,19 @@ def get_or_download_data(
         origin: str,
         asbytes: bool = False
 ) -> TextIOWrapper:
+    """Retrieve or download a data file.
+
+    Checks if the file exists in the user's home directory under .shorttext.
+    If not present, downloads from the given origin URL.
+
+    Args:
+        filename: Name of the file to retrieve.
+        origin: URL to download the file from if not present locally.
+        asbytes: If True, opens the file in binary mode. Default is False.
+
+    Returns:
+        A file object (text or binary mode depending on asbytes).
+    """
     # determine path
     homedir = os.path.expanduser('~')
     datadir = os.path.join(homedir, '.shorttext')
@@ -85,27 +102,32 @@ def get_or_download_data(
 
 
 def subjectkeywords() -> dict[str, list[str]]:
-    """ Return an example data set of subjects.
+    """Return an example dataset of subjects with keywords.
 
-    Return an example data set, with three subjects and corresponding keywords.
-    This is in the format of the training input.
+    Returns a small example dataset with three subjects and their
+    corresponding keywords, in the training input format.
 
-    :return: example data set
-    :rtype: dict
+    Returns:
+        A dictionary with subject labels as keys and lists of keywords as values.
     """
     parentdir = Path(__file__).parent
     return retrieve_csvdata_as_dict(parentdir / "shorttext_exampledata.csv")
 
 
 def inaugural() -> dict[str, list[str]]:
-    """ Return an example dataset, which is the Inaugural Addresses of all Presidents of 
-    the United States from George Washington to Barack Obama.
-    
-    Each key is the year, a dash, and the last name of the president. The content is
-    the list of all the sentences
-    
-    :return: example data set
-    :rtype: dict
+    """Return the Inaugural Addresses of US Presidents.
+
+    Returns an example dataset containing the Inaugural Addresses of all
+    Presidents of the United States from George Washington to Barack Obama.
+
+    Each key is formatted as "year-lastname" and the value is a list of
+    sentences from the address.
+
+    Returns:
+        A dictionary with president identifiers as keys and lists of sentences as values.
+
+    Reference:
+        https://www.presidency.us/kisa_exec/inaugural.html
     """
     zfile = zipfile.ZipFile(
         get_or_download_data(
@@ -120,28 +142,25 @@ def inaugural() -> dict[str, list[str]]:
 
 
 def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512):
-    """ Return an example data set, sampled from NIH RePORT (Research Portfolio
-    Online Reporting Tools).
+    """Return an example dataset sampled from NIH RePORT.
 
-    Return an example data set from NIH (National Institutes of Health),
-    data publicly available from their RePORT
-    website. (`link
-    <https://exporter.nih.gov/ExPORTER_Catalog.aspx>`_).
-    The data is with `txt_col` being either project titles ('PROJECT_TITLE')
-    or proposal abstracts ('ABSTRACT_TEXT'), and label_col being the names of the ICs (Institutes or Centers),
-    with 'IC_NAME' the whole form, and 'FUNDING_ICs' the abbreviated form).
+    Returns an example dataset from NIH (National Institutes of Health)
+    RePORT (Research Portfolio Online Reporting Tools) website.
 
-    Dataset directly adapted from the NIH data from `R` package `textmineR
-    <https://cran.r-project.org/web/packages/textmineR/index.html>`_.
+    Args:
+        txt_col: Column for text data. Options: 'PROJECT_TITLE' or 'ABSTRACT_TEXT'.
+                Default: 'PROJECT_TITLE'.
+        label_col: Column for labels. Options: 'FUNDING_ICs' or 'IC_NAME'.
+                Default: 'FUNDING_ICs'.
+        sample_size: Number of samples to return. Set to None for all rows. Default: 512.
 
-    :param txt_col: column for the text (Default: 'PROJECT_TITLE')
-    :param label_col: column for the labels (Default: 'FUNDING_ICs')
-    :param sample_size: size of the sample. Set to None if all rows. (Default: 512)
-    :return: example data set
-    :type txt_col: str
-    :type label_col: str
-    :type sample_size: int
-    :rtype: dict
+    Returns:
+        A dictionary with IC identifiers as keys and lists of text data as values.
+
+    Reference:
+        https://exporter.nih.gov/ExPORTER_Catalog.aspx
+        Dataset adapted from the R package textmineR:
+        https://cran.r-project.org/web/packages/textmineR/index.html
     """
     # validation
     # txt_col = 'PROJECT_TITLE' or 'ABSTRACT_TEXT'
@@ -177,14 +196,17 @@ def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512
 
 
 def mergedict(dicts):
-    """ Merge data dictionary.
+    """Merge multiple training data dictionaries.
 
-    Merge dictionaries of the data in the training data format.
+    Combines multiple data dictionaries in the training data format
+    into a single dictionary.
 
-    :param dicts: dicts to merge
-    :return: merged dict
-    :type dicts: list
-    :rtype: dict
+    Args:
+        dicts: List of dictionaries to merge, each with class labels
+              as keys and lists of texts as values.
+
+    Returns:
+        A merged dictionary with all class labels and texts combined.
     """
     mdict = defaultdict(lambda : [])
     for thisdict in dicts:
@@ -194,19 +216,20 @@ def mergedict(dicts):
 
 
 def yield_crossvalidation_classdicts(classdict, nb_partitions, shuffle=False):
-    """ Yielding test data and training data for cross validation by partitioning it.
+    """Yield training and test data partitions for cross-validation.
 
-    Given a training data, partition the data into portions, each will be used as test
-    data set, while the other training data set. It returns a generator.
+    Partitions the training data into multiple sets. Each iteration yields
+    a (test_dict, train_dict) pair where one partition is used as test
+    data and the remaining partitions are combined as training data.
 
-    :param classdict: training data
-    :param nb_partitions: number of partitions
-    :param shuffle: whether to shuffle the data before partitioning
-    :return: generator, producing a test data set and a training data set each time
-    :type classdict: dict
-    :type nb_partitions: int
-    :type shuffle: bool
-    :rtype: generator
+    Args:
+        classdict: Training data dictionary with class labels as keys
+                 and lists of texts as values.
+        nb_partitions: Number of partitions to create.
+        shuffle: Whether to shuffle data before partitioning. Default: False.
+
+    Yields:
+        Tuples of (test_dict, train_dict) for each partition.
     """
     crossvaldicts = []
     for _ in range(nb_partitions):

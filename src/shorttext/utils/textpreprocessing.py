@@ -10,11 +10,24 @@ import snowballstemmer
 
 # tokenizer
 def tokenize(s: str) -> list[str]:
+    """Tokenize a string by splitting on whitespace.
+
+    Args:
+        s: Input string to tokenize.
+
+    Returns:
+        List of tokens split by whitespace.
+    """
     return s.split(' ')
 
 
 # stemmer
 class StemmerSingleton:
+    """Singleton class for Porter stemmer.
+
+    Provides a singleton instance of the snowball stemmer for English.
+    """
+
     def __new__(cls):
         if not hasattr(cls, 'instance'):
             cls.instance = super(StemmerSingleton, cls).__new__(cls)
@@ -22,26 +35,42 @@ class StemmerSingleton:
         return cls.instance
 
     def __call__(cls, s: str) -> str:
+        """Stem a word using Porter stemmer.
+
+        Args:
+            s: Word to stem.
+
+        Returns:
+            Stemmed word.
+        """
         return cls.stemmer.stemWord(s)
 
 
 def stemword(s: str) -> str:
+    """Stem a word using Porter stemmer.
+
+    Args:
+        s: Word to stem.
+
+    Returns:
+        Stemmed word.
+    """
     return StemmerSingleton()(s)
 
 
 def preprocess_text(text: str, pipeline: list[callable]) -> str:
-    """ Preprocess the text according to the given pipeline.
+    """Preprocess text according to a given pipeline.
 
-    Given the pipeline, which is a list of functions that process an
-    input text to another text (e.g., stemming, lemmatizing, removing punctuations etc.),
-    preprocess the text.
+    Applies a sequence of preprocessing functions to the input text.
+    Each function in the pipeline transforms the text (e.g., stemming,
+    lemmatizing, removing punctuation).
 
-    :param text: text to be preprocessed
-    :param pipeline: a list of functions that convert a text to another text
-    :return: preprocessed text
-    :type text: str
-    :type pipeline: list
-    :rtype: str
+    Args:
+        text: Input text to preprocess.
+        pipeline: List of functions that each transform a text string to another text string.
+
+    Returns:
+        The preprocessed text after applying all pipeline functions.
     """
     return text if len(pipeline)==0 else preprocess_text(pipeline[0](text), pipeline[1:])
 
@@ -53,6 +82,21 @@ def tokenize_text(
         postsplit_pipeline: list[callable],
         stopwordsfile: TextIO
 ) -> list[str]:
+    """Tokenize text with preprocessing pipelines.
+
+    Applies pre-split and post-split pipelines to tokenize text,
+    filtering out stopwords.
+
+    Args:
+        text: Input text to tokenize.
+        presplit_pipeline: List of functions to apply before tokenization.
+        primitize_tokenizer: Tokenizer function to split text into tokens.
+        postsplit_pipeline: List of functions to apply to each token after tokenization.
+        stopwordsfile: File containing stopwords to filter out.
+
+    Returns:
+        List of tokens after preprocessing and stopword filtering.
+    """
     # load stop words file
     stopwordset = set([stopword.strip() for stopword in stopwordsfile])
 
@@ -72,38 +116,36 @@ def tokenize_text(
 
 
 def text_preprocessor(pipeline: list[callable]) -> callable:
-    """ Return the function that preprocesses text according to the pipeline.
+    """Create a text preprocessor function from a pipeline.
 
-    Given the pipeline, which is a list of functions that process an
-    input text to another text (e.g., stemming, lemmatizing, removing punctuations etc.),
-    return a function that preprocesses an input text outlined by the pipeline, essentially
-    a function that runs :func:`~preprocess_text` with the specified pipeline.
+    Returns a function that applies the given pipeline to preprocess text.
+    This is a convenience function that wraps preprocess_text with
+    a fixed pipeline.
 
-    :param pipeline: a list of functions that convert a text to another text
-    :return: a function that preprocesses text according to the pipeline
-    :type pipeline: list
-    :rtype: function
+    Args:
+        pipeline: List of functions that transform text to text.
+
+    Returns:
+        A callable that takes text and returns preprocessed text.
     """
     return partial(preprocess_text, pipeline=pipeline)
 
 
 def oldschool_standard_text_preprocessor(stopwordsfile: TextIO) -> callable:
-    """ Return a commonly used text preprocessor.
+    """Create a standard text preprocessor.
 
-    Return a text preprocessor that is commonly used, with the following steps:
+    Returns a text preprocessor with the following steps:
+    - Remove special characters
+    - Remove numerals
+    - Convert to lowercase
+    - Remove stop words
+    - Stem words using Porter stemmer
 
-    - removing special characters,
-    - removing numerals,
-    - converting all alphabets to lower cases,
-    - removing stop words, and
-    - stemming the words (using Porter stemmer).
+    Args:
+        stopwordsfile: File object containing stopwords to filter.
 
-    This function calls :func:`~text_preprocessor`.
-
-    :param stopwordsfile: file object of the list of stop words
-    :type stopwordsfile: file
-    :return: a function that preprocesses text according to the pipeline
-    :rtype: function
+    Returns:
+        A callable that takes text and returns preprocessed text.
     """
     # load stop words file
     stopwordset = set([stopword.strip() for stopword in stopwordsfile])
@@ -120,20 +162,17 @@ def oldschool_standard_text_preprocessor(stopwordsfile: TextIO) -> callable:
 
 
 def standard_text_preprocessor_1() -> callable:
-    """ Return a commonly used text preprocessor.
+    """Create a standard text preprocessor using NLTK stopwords.
 
-    Return a text preprocessor that is commonly used, with the following steps:
+    Returns a text preprocessor with the following steps:
+    - Remove special characters
+    - Remove numerals
+    - Convert to lowercase
+    - Remove stop words (NLTK list)
+    - Stem words using Porter stemmer
 
-    - removing special characters,
-    - removing numerals,
-    - converting all alphabets to lower cases,
-    - removing stop words (NLTK list), and
-    - stemming the words (using Porter stemmer).
-
-    This function calls :func:`~oldschool_standard_text_preprocessor`.
-
-    :return: a function that preprocesses text according to the pipeline
-    :rtype: function
+    Returns:
+        A callable that takes text and returns preprocessed text.
     """
     # load stop words
     this_dir, _ = os.path.split(__file__)
@@ -143,20 +182,17 @@ def standard_text_preprocessor_1() -> callable:
 
 
 def standard_text_preprocessor_2() -> callable:
-    """ Return a commonly used text preprocessor.
+    """Create a standard text preprocessor with negation-aware stopwords.
 
-    Return a text preprocessor that is commonly used, with the following steps:
+    Returns a text preprocessor with the following steps:
+    - Remove special characters
+    - Remove numerals
+    - Convert to lowercase
+    - Remove stop words (NLTK list minus negation terms)
+    - Stem words using Porter stemmer
 
-    - removing special characters,
-    - removing numerals,
-    - converting all alphabets to lower cases,
-    - removing stop words (NLTK list minus negation terms), and
-    - stemming the words (using Porter stemmer).
-
-    This function calls :func:`~oldschool_standard_text_preprocessor`.
-
-    :return: a function that preprocesses text according to the pipeline
-    :rtype: function
+    Returns:
+        A callable that takes text and returns preprocessed text.
     """
     # load stop words
     this_dir, _ = os.path.split(__file__)
@@ -166,6 +202,18 @@ def standard_text_preprocessor_2() -> callable:
 
 
 def advanced_text_tokenizer_1() -> callable:
+    """Create an advanced text tokenizer.
+
+    Returns a tokenizer function that applies preprocessing steps:
+    - Remove special characters
+    - Remove numerals
+    - Convert to lowercase
+    - Stem tokens using Porter stemmer
+    - Filter out negation-aware stopwords
+
+    Returns:
+        A callable that takes text and returns a list of tokens.
+    """
     presplit_pipeline = [
         lambda s: re.sub(r'[^\w\s]', '', s),
         lambda s: re.sub(r'[0-9]', '', s),

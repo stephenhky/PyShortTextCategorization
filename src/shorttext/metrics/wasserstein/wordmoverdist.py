@@ -18,23 +18,23 @@ def word_mover_distance_linprog(
         wvmodel: KeyedVectors,
         distancefunc: Optional[callable] = None
 ) -> OptimizeResult:
-    """ Compute the Word Mover's distance (WMD) between the two given lists of tokens, and return the LP problem class.
+    """Compute Word Mover's distance via linear programming.
 
-    Using methods of linear programming, supported by PuLP, calculate the WMD between two lists of words. A word-embedding
-    model has to be provided. The whole `scipy.optimize.Optimize` object is returned.
+    Uses scipy.optimize.linprog to compute the transport problem
+    for the Word Mover's Distance.
 
-    Reference: Matt J. Kusner, Yu Sun, Nicholas I. Kolkin, Kilian Q. Weinberger, "From Word Embeddings to Document Distances," *ICML* (2015).
+    Args:
+        first_sent_tokens: First list of tokens.
+        second_sent_tokens: Second list of tokens.
+        wvmodel: Word embedding model.
+        distancefunc: Distance function for word vectors. Default: Euclidean.
 
-    :param first_sent_tokens: first list of tokens.
-    :param second_sent_tokens: second list of tokens.
-    :param wvmodel: word-embedding models.
-    :param distancefunc: distance function that takes two numpy ndarray.
-    :return: the whole result of the linear programming problem
-    :type first_sent_tokens: list
-    :type second_sent_tokens: list
-    :type wvmodel: gensim.models.keyedvectors.KeyedVectors
-    :type distancefunc: function
-    :rtype: scipy.optimize.OptimizeResult
+    Returns:
+        scipy.optimize.OptimizeResult containing the optimization result.
+
+    Reference:
+        Matt J. Kusner, Yu Sun, Nicholas I. Kolkin, Kilian Q. Weinberger,
+        "From Word Embeddings to Document Distances," ICML 2015.
     """
     if distancefunc is None:
         distancefunc = euclidean
@@ -80,25 +80,23 @@ def word_mover_distance(
         wvmodel: KeyedVectors,
         distancefunc: Optional[callable] = None
 ) -> float:
-    """ Compute the Word Mover's distance (WMD) between the two given lists of tokens.
+    """Compute Word Mover's distance between token lists.
 
-    Using methods of linear programming, calculate the WMD between two lists of words. A word-embedding
-    model has to be provided. WMD is returned.
+    Uses word embeddings to compute the minimum transport cost
+    between words in two sentences.
 
-    Reference: Matt J. Kusner, Yu Sun, Nicholas I. Kolkin, Kilian Q. Weinberger, "From Word Embeddings to Document Distances," *ICML* (2015).
+    Args:
+        first_sent_tokens: First list of tokens.
+        second_sent_tokens: Second list of tokens.
+        wvmodel: Word embedding model.
+        distancefunc: Distance function for word vectors. Default: Euclidean.
 
-    :param first_sent_tokens: first list of tokens.
-    :param second_sent_tokens: second list of tokens.
-    :param wvmodel: word-embedding models.
-    :param distancefunc: distance function that takes two numpy ndarray.
-    :param lpFile: deprecated, kept for backward incompatibility. (default: None)
-    :return: Word Mover's distance (WMD)
-    :type first_sent_tokens: list
-    :type second_sent_tokens: list
-    :type wvmodel: gensim.models.keyedvectors.KeyedVectors
-    :type distancefunc: function
-    :type lpFile: str
-    :rtype: float
+    Returns:
+        The Word Mover's distance (lower is more similar).
+
+    Reference:
+        Matt J. Kusner, Yu Sun, Nicholas I. Kolkin, Kilian Q. Weinberger,
+        "From Word Embeddings to Document Distances," ICML 2015.
     """
     if distancefunc is None:
         distancefunc = euclidean

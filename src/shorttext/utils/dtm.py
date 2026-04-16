@@ -20,6 +20,15 @@ def _construct_sparse_coo_dtm_matrix(
         sorted_token_list: list[str],
         tokens_counters: list[list[tuple[str, int]]]
 ) -> tuple[npt.NDArray[np.int64], npt.NDArray[np.int64], npt.NDArray[np.float64]]:
+    """Construct sparse COO matrix for document-term matrix.
+
+    Args:
+        sorted_token_list: Sorted list of tokens.
+        tokens_counters: List of token counters for each document.
+
+    Returns:
+        Tuple of (x_coords, y_coords, data) for sparse COO matrix.
+    """
     token_index_map = {token: idx for idx, token in enumerate(sorted_token_list)}
     ids_counters = [
         {token_index_map[token]: counts for token, counts in counter}
@@ -47,6 +56,19 @@ def generate_npdict_document_term_matrix(
         doc_ids: list[Any],
         tokenize_func: callable
 ) -> npdict.NumpyNDArrayWrappedDict:
+    """Generate document-term matrix as numpy dict.
+
+    Args:
+        corpus: List of documents.
+        doc_ids: List of document IDs.
+        tokenize_func: Tokenization function.
+
+    Returns:
+        NumpyNDArrayWrappedDict containing the document-term matrix.
+
+    Raises:
+        UnequalArrayLengthsException: If corpus and doc_ids have different lengths.
+    """
     try:
         assert len(corpus) == len(doc_ids)
     except AssertionError:
@@ -76,6 +98,15 @@ def convert_classdict_to_corpus(
         classdict: dict[str, list[str]],
         preprocess_func: callable
 ) -> tuple[list[str], list[str]]:
+    """Convert class dictionary to corpus and document IDs.
+
+    Args:
+        classdict: Training data with class labels as keys and texts as values.
+        preprocess_func: Text preprocessing function.
+
+    Returns:
+        Tuple of (corpus, doc_ids).
+    """
     corpus = [
         preprocess_func(datum)
         for doc_under_class in classdict.values()
@@ -95,6 +126,17 @@ def convert_classdict_to_xy(
         preprocess_func: callable,
         tokenize_func: callable
 ) -> tuple[npdict.NumpyNDArrayWrappedDict, Annotated[sparse.SparseArray, "2D Array"]]:
+    """Convert class dictionary to feature matrix and labels.
+
+    Args:
+        classdict: Training data.
+        labels2idx: Mapping from labels to indices.
+        preprocess_func: Text preprocessing function.
+        tokenize_func: Tokenization function.
+
+    Returns:
+        Tuple of (document-term matrix, label matrix).
+    """
     nbdata = sum(len(data) for data in classdict.values())
     nblabels = len(labels2idx)
 
@@ -122,6 +164,14 @@ def convert_classdict_to_xy(
 def compute_document_frequency(
         npdtm: npdict.NumpyNDArrayWrappedDict
 ) -> npt.NDArray[np.int32]:
+    """Compute document frequency for each token.
+
+    Args:
+        npdtm: Document-term matrix.
+
+    Returns:
+        Array of document frequencies for each token.
+    """
     if isinstance(npdtm, npdict.SparseArrayWrappedDict):
         return np.sum(npdtm.to_coo() > 0, axis=0).todense()
     else:
@@ -132,6 +182,15 @@ def compute_tfidf_document_term_matrix(
         npdtm: npdict.NumpyNDArrayWrappedDict,
         sparse: bool=True
 ) -> npdict.NumpyNDArrayWrappedDict:
+    """Compute TF-IDF weighted document-term matrix.
+
+    Args:
+        npdtm: Document-term matrix.
+        sparse: Whether to return sparse format. Default: True.
+
+    Returns:
+        TF-IDF weighted document-term matrix.
+    """
     doc_frequencies = compute_document_frequency(npdtm)
     nbdocs = npdtm.dimension_sizes[0]
     if isinstance(npdtm, npdict.SparseArrayWrappedDict):
@@ -149,6 +208,12 @@ def compute_tfidf_document_term_matrix(
 
 
 class NumpyDocumentTermMatrix(CompactIOMachine):
+    """Document-term matrix using numpy dict.
+
+    Provides an interface for working with document-term matrices
+    with compact model I/O support.
+    """
+
     def __init__(
             self,
             corpus: Optional[list[str]]=None,
@@ -156,6 +221,14 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
             tfidf: bool=False,
             tokenize_func: Optional[callable]=None
     ):
+        """Initialize the document-term matrix.
+
+        Args:
+            corpus: List of documents.
+            docids: List of document IDs.
+            tfidf: Whether to apply TF-IDF weighting. Default: False.
+            tokenize_func: Tokenization function. Default: advanced_text_tokenizer_1.
+        """
         super().__init__({'classifier': 'npdtm'}, 'npdtm', npdtm_suffices)
         self.tokenize_func = tokenize_func if tokenize_func is not None else advanced_text_tokenizer_1()
 
@@ -169,6 +242,13 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
             docids: Optional[list[Any]]=None,
             tfidf: bool=False
     ) -> None:
+        """Generate document-term matrix from corpus.
+
+        Args:
+            corpus: List of documents.
+            docids: List of document IDs.
+            tfidf: Whether to apply TF-IDF weighting. Default: False.
+        """
         # wrangling document IDs
         if docids is None:
             doc_ids = [f"doc{i}" for i in range(len(corpus))]
@@ -186,9 +266,26 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
             self.npdtm = compute_tfidf_document_term_matrix(self.npdtm, sparse=True)
 
     def get_termfreq(self, docid: str, token: str) -> float:
+        """Get term frequency for a document and token.
+
+        Args:
+            docid: Document ID.
+            token: Token.
+
+        Returns:
+            Term frequency.
+        """
         return self.npdtm[docid, token]
 
     def get_total_termfreq(self, token: str) -> float:
+        """Get total frequency of a token across all documents.
+
+        Args:
+            token: Token.
+
+        Returns:
+            Total term frequency.
+        """
         token_index = self.npdtm._keystrings_to_indices[1][token]
         if isinstance(self.npdtm, npdict.SparseArrayWrappedDict):
             matrix = self.npdtm.to_coo()
@@ -197,6 +294,14 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
         return np.sum(matrix[:, token_index])
 
     def get_doc_frequency(self, token) -> int:
+        """Get document frequency of a token.
+
+        Args:
+            token: Token.
+
+        Returns:
+            Number of documents containing the token.
+        """
         token_index = self.npdtm._keystrings_to_indices[1][token]
         if isinstance(self.npdtm, npdict.SparseArrayWrappedDict):
             freq_array = self.npdtm.to_coo()[:, token_index]
@@ -205,41 +310,79 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
         return np.sum(freq_array > 0, axis=0)
 
     def get_token_occurences(self, token: str) -> dict[str, float]:
+        """Get token occurrences across all documents.
+
+        Args:
+            token: Token.
+
+        Returns:
+            Dictionary mapping document IDs to term frequencies.
+        """
         return {
             docid: self.npdtm[docid, token]
             for docid in self.npdtm._lists_keystrings[0]
         }
 
     def get_doc_tokens(self, docid: str) -> dict[str, float]:
+        """Get tokens for a specific document.
+
+        Args:
+            docid: Document ID.
+
+        Returns:
+            Dictionary mapping tokens to frequencies.
+        """
         return {
             token: self.npdtm[docid, token]
             for token in self.npdtm._lists_keystrings[1]
         }
 
     def savemodel(self, nameprefix: str) -> None:
+        """Save the document-term matrix.
+
+        Args:
+            nameprefix: Prefix for output file.
+        """
         self.npdtm.save(nameprefix+"_npdict.npy")
 
     def loadmodel(self, nameprefix: str) -> Self:
+        """Load the document-term matrix.
+
+        Args:
+            nameprefix: Prefix for input file.
+        """
         self.npdtm = npdict.SparseArrayWrappedDict.load(nameprefix+"_npdict.npy")
 
     @property
     def docids(self) -> list[str]:
+        """List of document IDs."""
         return self.npdtm._lists_keystrings[0]
 
     @property
     def tokens(self) -> list[str]:
+        """List of tokens."""
         return self.npdtm._lists_keystrings[1]
 
     @property
     def nbdocs(self) -> int:
+        """Number of documents."""
         return len(self.docids)
 
     @property
     def nbtokens(self) -> int:
+        """Number of unique tokens."""
         return len(self.tokens)
 
 
 def load_numpy_documentmatrixmatrix(filepath: str | PathLike) -> NumpyDocumentTermMatrix:
+    """Load a document-term matrix from a compact file.
+
+    Args:
+        filepath: Path to the compact model file.
+
+    Returns:
+        NumpyDocumentTermMatrix instance.
+    """
     npdtm = NumpyDocumentTermMatrix()
     npdtm.load_compact_model(filepath)
     return npdtm

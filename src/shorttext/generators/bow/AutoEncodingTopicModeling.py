@@ -30,6 +30,15 @@ def get_autoencoder_models(
         vector_size: int,
         nb_latent_vector_size: int
 ) -> AutoEncoderPackage:
+    """Create autoencoder model components.
+
+    Args:
+        vector_size: Size of input vectors.
+        nb_latent_vector_size: Size of the latent space (number of topics).
+
+    Returns:
+        AutoEncoderPackage containing autoencoder, encoder, and decoder models.
+    """
     # define all the layers of the autoencoder
     input_vec = Input(shape=(vector_size,))
     encoded = Dense(nb_latent_vector_size, activation='relu')(input_vec)
@@ -57,14 +66,14 @@ def get_autoencoder_models(
 
 
 class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
-    """
-    This class facilitates the topic modeling of input training data using the autoencoder.
+    """Topic modeler using autoencoder.
 
-    A reference about how an autoencoder is written with keras by Francois Chollet, titled
-    `Building Autoencoders in Keras
-    <https://blog.keras.io/building-autoencoders-in-keras.html>`_ .
+    Uses a Keras autoencoder to learn latent topic representations.
+    The encoded vectors serve as topic vectors for short text classification.
 
-    This class extends :class:`LatentTopicModeler`.
+    Reference:
+        Francois Chollet, "Building Autoencoders in Keras,"
+        https://blog.keras.io/building-autoencoders-in-keras.html
     """
 
     def __init__(
@@ -77,15 +86,13 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         LatentTopicModeler.__init__(self, preprocessor, tokenizer, normalize=normalize)
 
     def train(self, classdict: dict[str, list[str]], nb_topics: int, *args, **kwargs) -> None:
-        """ Train the autoencoder.
+        """Train the autoencoder topic model.
 
-        :param classdict: training data
-        :param nb_topics: number of topics, i.e., the number of encoding dimensions
-        :param args: arguments to be passed to keras model fitting
-        :param kwargs: arguments to be passed to keras model fitting
-        :return: None
-        :type classdict: dict
-        :type nb_topics: int
+        Args:
+            classdict: Training data with class labels as keys and texts as values.
+            nb_topics: Number of latent topics (encoding dimensions).
+            *args: Arguments for Keras model fitting.
+            **kwargs: Keyword arguments for Keras model fitting.
         """
         self.nb_topics = nb_topics
         corpus, docids = convert_classdict_to_corpus(classdict, self.preprocess_func)
@@ -121,6 +128,14 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
             self.classtopicvecs[label] = self.precalculate_liststr_topicvec(classdict[label])
 
     def retrieve_bow(self, shorttext: str) -> list[tuple[int, int]]:
+        """Get bag-of-words representation.
+
+        Args:
+            shorttext: Input text.
+
+        Returns:
+            List of (token_index, count) tuples.
+        """
         tokens_freq = Counter(self.tokenize_func(self.preprocess_func(shorttext)))
         return [
             (self.token2indices[token], freq)
@@ -129,6 +144,14 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         ]
 
     def retrieve_bow_vector(self, shorttext: str) -> npt.NDArray[np.float64]:
+        """Get bag-of-words vector.
+
+        Args:
+            shorttext: Input text.
+
+        Returns:
+            BOW vector (normalized if normalize=True).
+        """
         bow = self.retrieve_bow(shorttext)
         if len(bow) > 0:
             vec = sparse.COO(
@@ -143,15 +166,16 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         return vec
 
     def retrieve_topicvec(self, shorttext: str) -> npt.NDArray[np.float64]:
-        """ Calculate the topic vector representation of the short text.
+        """Get topic vector for short text.
 
-        If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
+        Args:
+            shorttext: Input text.
 
-        :param shorttext: short text
-        :return: encoded vector representation of the short text
-        :raise: ModelNotTrainedException
-        :type shorttext: str
-        :rtype: numpy.ndarray
+        Returns:
+            Encoded vector representation.
+
+        Raises:
+            ModelNotTrainedException: If model not trained.
         """
         if not self.trained:
             raise ModelNotTrainedException()
@@ -162,31 +186,34 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         return encoded_vec.astype(np.float64)
 
     def precalculate_liststr_topicvec(self, shorttexts: list[str]) -> npt.NDArray[np.float64]:
-        """ Calculate the summed topic vectors for training data for each class.
+        """Calculate average topic vector for a list of texts.
 
-        This function is called while training.
+        Used during training to compute class centroids.
 
-        :param shorttexts: list of short texts
-        :return: average topic vector
-        :raise: ModelNotTrainedException
-        :type shorttexts: list
-        :rtype: numpy.ndarray
+        Args:
+            shorttexts: List of texts.
+
+        Returns:
+            Average topic vector (normalized).
+
+        Raises:
+            ModelNotTrainedException: If model not trained.
         """
-        sumvec = sum([self.retrieve_topicvec(shorttext) for shorttext in shorttexts])   # correct, but should be refined
+        sumvec = sum([self.retrieve_topicvec(shorttext) for shorttext in shorttexts])
         sumvec /= np.linalg.norm(sumvec)
         return sumvec
 
     def get_batch_cos_similarities(self, shorttext: str) -> dict[str, float]:
-        """ Calculate the score, which is the cosine similarity with the topic vector of the model,
-        of the short text against each class labels.
+        """Get cosine similarities to all class centroids.
 
-        If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
+        Args:
+            shorttext: Input text.
 
-        :param shorttext: short text
-        :return: dictionary of scores of the text to all classes
-        :raise: ModelNotTrainedException
-        :type shorttext: str
-        :rtype: dict
+        Returns:
+            Dictionary mapping class labels to similarity scores.
+
+        Raises:
+            ModelNotTrainedException: If model not trained.
         """
         if not self.trained:
             raise ModelNotTrainedException()
@@ -198,22 +225,17 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         return simdict
 
     def savemodel(self, nameprefix: str, save_complete_autoencoder: bool=True) -> None:
-        """ Save the model with names according to the prefix.
+        """Save the autoencoder model to files.
 
-        Given the prefix of the file paths, save the model into files, with name given by the prefix.
-        There are files with names ending with "_encoder.json" and "_encoder.weights.h5", which are
-        the JSON and HDF5 files for the encoder respectively. They also include a gensim dictionary (.gensimdict).
+        Saves encoder, optional decoder, and autoencoder weights along with
+        configuration parameters.
 
-        If `save_complete_autoencoder` is True,
-        then there are also files with names ending with "_decoder.json" and "_decoder.weights.h5".
+        Args:
+            nameprefix: Prefix for output files.
+            save_complete_autoencoder: Whether to save decoder and complete autoencoder. Default: True.
 
-        If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
-
-        :param nameprefix: prefix of the paths of the file
-        :param save_complete_autoencoder: whether to store the decoder and the complete autoencoder (Default: True; but False for version <= 0.2.1)
-        :return: None
-        :type nameprefix: str
-        :type save_complete_autoencoder: bool
+        Raises:
+            ModelNotTrainedException: If model not trained.
         """
         if not self.trained:
             raise ModelNotTrainedException()
@@ -230,18 +252,14 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         pickle.dump(self.classtopicvecs, open(nameprefix+'_classtopicvecs.pkl', 'wb'))
 
     def loadmodel(self, nameprefix: str, load_incomplete: bool=False) -> None:
-        """ Save the model with names according to the prefix.
+        """Load the autoencoder model from files.
 
-        Given the prefix of the file paths, load the model into files, with name given by the prefix.
-        There are files with names ending with "_encoder.json" and "_encoder.weights.h5", which are
-        the JSON and HDF5 files for the encoder respectively.
-        They also include a gensim dictionary (.gensimdict).
+        Args:
+            nameprefix: Prefix for input files.
+            load_incomplete: If True, only load encoder (for models from v0.2.1). Default: False.
 
-        :param nameprefix: prefix of the paths of the file
-        :param load_incomplete: load encoder only, not decoder and autoencoder file (Default: False; put True for model built in version <= 0.2.1)
-        :return: None
-        :type nameprefix: str
-        :type load_incomplete: bool
+        Raises:
+            ModelNotTrainedException: If loading fails.
         """
         # load the JSON file (parameters)
         parameters = json.load(open(nameprefix+'.json', 'r'))
@@ -256,6 +274,11 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         self.trained = True
 
     def get_info(self) -> dict[str, Any]:
+        """Get model metadata.
+
+        Returns:
+            Dictionary with model information.
+        """
         return CompactIOMachine.get_info(self)
 
 
@@ -265,16 +288,15 @@ def load_autoencoder_topicmodel(
         tokenizer: Optional[callable] = None,
         compact: bool=True
 ) -> AutoencodingTopicModeler:
-    """ Load the autoencoding topic model from files.
+    """Load an autoencoder topic model from files.
 
-    :param name: name (if compact=True) or prefix (if compact=False) of the paths of the model files
-    :param preprocessor: function that preprocesses the text. (Default: `shorttext.utils.textpreprocess.standard_text_preprocessor_1`)
-    :param compact: whether model file is compact (Default: True)
-    :return: an autoencoder as a topic modeler
-    :type name: str
-    :type preprocessor: function
-    :type compact: bool
-    :rtype: generators.bow.AutoEncodingTopicModeling.AutoencodingTopicModeler
+    Args:
+        name: Model name (compact) or file prefix (non-compact).
+        preprocessor: Text preprocessing function.
+        compact: Whether to load compact model. Default: True.
+
+    Returns:
+        An AutoencodingTopicModeler instance.
     """
     if preprocessor is None:
         preprocessor = textpreprocess.standard_text_preprocessor_1()

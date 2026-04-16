@@ -36,6 +36,11 @@ typedict = {
 
 
 def get_argparser() -> ArgumentParser:
+    """Get argument parser for short text categorization CLI.
+
+    Returns:
+        ArgumentParser for command line arguments.
+    """
     parser = ArgumentParser(
         description='Perform prediction on short text with a given trained model.'
     )

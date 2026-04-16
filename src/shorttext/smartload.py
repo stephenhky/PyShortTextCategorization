@@ -21,20 +21,22 @@ def smartload_compact_model(
         preprocessor: Optional[callable] = None,
         vecsize: Optional[int] = None
 ):
-    """ Load appropriate classifier or model from the binary model.
+    """Load a classifier or model from a compact file.
 
-    The second parameter, `wvmodel`, can be set to `None` if no Word2Vec model is needed.
+    Automatically detects the model type and loads the appropriate classifier.
+    Set wvmodel to None if no word embedding model is needed.
 
-    :param filename: path of the compact model file
-    :param wvmodel: Word2Vec model
-    :param preprocessor: text preprocessor (Default: `shorttext.utils.textpreprocess.standard_text_preprocessor_1`)
-    :param vecsize: length of embedded vectors in the model (Default: None, extracted directly from the word-embedding model)
-    :return: appropriate classifier or model
-    :raise: AlgorithmNotExistException
-    :type filename: str
-    :type wvmodel: gensim.models.keyedvectors.KeyedVectors
-    :type preprocessor: function
-    :type vecsize: int
+    Args:
+        filename: Path to the compact model file.
+        wvmodel: Word embedding model. Can be None for non-embedding models.
+        preprocessor: Text preprocessing function. Default: standard_text_preprocessor_1.
+        vecsize: Vector size. Default: None (extracted from model).
+
+    Returns:
+        Appropriate classifier or model instance.
+
+    Raises:
+        AlgorithmNotExistException: If model type is unknown.
     """
     if preprocessor is None:
         preprocessor = standard_text_preprocessor_1()

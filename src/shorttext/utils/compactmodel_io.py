@@ -1,9 +1,9 @@
 """
-This module contains general routines to zip all model files into one compact file. The model can be copied
-or transferred with handiness.
+This module contains general routines to zip all model files into one compact file.
+The model can be copied or transferred easily.
 
-The methods and decorators in this module are called by other codes. It is not recommended for developers
-to call them directly.
+The methods and decorators in this module are called by other codes. It is not
+recommended for developers to call them directly.
 """
 
 from abc import ABC, abstractmethod
@@ -20,10 +20,10 @@ from . import classification_exceptions as e
 
 
 def removedir(dir: str) -> None:
-    """ Remove all subdirectories and files under the specified path.
+    """Remove all subdirectories and files under the specified path.
 
-    :param dir: path of the directory to be clean
-    :return: None
+    Args:
+        dir: Path of the directory to clean.
     """
     for filename in os.listdir(dir):
         if os.path.isdir(filename):
@@ -41,19 +41,14 @@ def save_compact_model(
         suffices: str,
         infodict: dict[str, Any]
 ) -> None:
-    """ Save the model in one compact file by zipping all the related files.
+    """Save the model in one compact file by zipping all related files.
 
-    :param filename: name of the model file
-    :param savefunc: method or function that performs the saving action. Only one argument (str), the prefix of the model files, to be passed.
-    :param prefix: prefix of the names of the files related to the model
-    :param suffices: list of suffices
-    :param infodict: dictionary that holds information about the model. Must contain the key 'classifier'.
-    :return: None
-    :type filename: str
-    :type savefunc: function
-    :type prefix: str
-    :type suffices: list
-    :type infodict: dict
+    Args:
+        filename: Name of the output model file.
+        savefunc: Function that performs the saving action. Takes one argument (str) - the prefix.
+        prefix: Prefix of the names of the files related to the model.
+        suffices: List of file suffixes.
+        infodict: Dictionary with model information. Must contain the key 'classifier'.
     """
     # create temporary directory
     tempdir = mkdtemp()
@@ -75,18 +70,17 @@ def load_compact_model(
         loadfunc: callable,
         prefix: str,
         infodict: dict[str, Any]
-) -> Any:     # returning CompactModelIO obj
-    """ Load a model from a compact file that contains multiple files related to the model.
+) -> Any:
+    """Load a model from a compact file.
 
-    :param filename: name of the model file
-    :param loadfunc: method or function that performs the loading action. Only one argument (str), the prefix of the model files, to be passed.
-    :param prefix: prefix of the names of the files
-    :param infodict: dictionary that holds information about the model. Must contain the key 'classifier'.
-    :return: instance of the model
-    :type filename: str
-    :type loadfunc: function
-    :type prefix: str
-    :type infodict: dict
+    Args:
+        filename: Name of the model file.
+        loadfunc: Function that performs the loading action. Takes one argument (str) - the prefix.
+        prefix: Prefix of the names of the files.
+        infodict: Dictionary with model information. Must contain the key 'classifier'.
+
+    Returns:
+        The loaded model instance.
     """
     # create temporary directory
     tempdir = mkdtemp()
@@ -114,25 +108,23 @@ def load_compact_model(
 
 
 class CompactIOMachine(ABC):
-    """ Base class that implements compact model I/O.
+    """Base class that implements compact model I/O.
 
-    This is to replace the original :func:`compactio` decorator.
-
+    Replaces the original compactio decorator.
     """
+
     def __init__(
             self,
             infodict: dict[str, Any],
             prefix: str,
             suffices: list[str]
     ):
-        """
+        """Initialize the compact I/O machine.
 
-        :param infodict: information about the model. Must contain the key 'classifier'.
-        :param prefix: prefix of names of the model file
-        :param suffices: suffices of the names of the model file
-        :type infodict: dict
-        :type prefix: str
-        :type suffices: list
+        Args:
+            infodict: Dictionary with model information. Must contain 'classifier'.
+            prefix: Prefix for model file names.
+            suffices: List of file suffixes for the model files.
         """
         self.infodict = infodict
         self.prefix = prefix
@@ -140,51 +132,47 @@ class CompactIOMachine(ABC):
 
     @abstractmethod
     def savemodel(self, nameprefix: str) -> None:
-        """ Abstract method for `savemodel`.
+        """Save the model to files.
 
-        :param nameprefix: prefix of the model path
-        :type nameprefix: str
+        Args:
+            nameprefix: Prefix for model file paths.
         """
         raise NotImplemented()
 
     @abstractmethod
     def loadmodel(self, nameprefix: str) -> Self:
-        """ Abstract method for `loadmodel`.
+        """Load the model from files.
 
-        :param nameprefix: prefix of the model path
-        :type nameprefix: str
+        Args:
+            nameprefix: Prefix for model file paths.
         """
         raise NotImplemented()
 
     def save_compact_model(self, filename: str, *args, **kwargs) -> None:
-        """ Save the model in a compressed binary format.
+        """Save the model in a compressed binary format.
 
-        :param filename: name of the model file
-        :param args: arguments
-        :param kwargs: arguments
-        :type filename: str
-        :type args: dict
-        :type kwargs: dict
+        Args:
+            filename: Name of the model file.
+            *args: Additional arguments.
+            **kwargs: Additional keyword arguments.
         """
         save_compact_model(filename, self.savemodel, self.prefix, self.suffices, self.infodict, *args, **kwargs)
 
     def load_compact_model(self, filename: str, *args, **kwargs) -> Self:
-        """ Load the model in a compressed binary format.
+        """Load the model from a compressed binary format.
 
-        :param filename: name of the model file
-        :param args: arguments
-        :param kwargs: arguments
-        :type filename: str
-        :type args: dict
-        :type kwargs: dict
+        Args:
+            filename: Name of the model file.
+            *args: Additional arguments.
+            **kwargs: Additional keyword arguments.
         """
         return load_compact_model(filename, self.loadmodel, self.prefix, self.infodict, *args, **kwargs)
 
     def get_info(self) -> dict[str, Any]:
-        """ Getting information for the dressed machine.
+        """Get model metadata.
 
-        :return: dictionary of the information for the dressed machine.
-        :rtype: dict
+        Returns:
+            Dictionary with classifier, prefix, and suffices.
         """
         return {'classifier': self.infodict['classifier'],
                 'prefix': self.prefix,
@@ -192,17 +180,14 @@ class CompactIOMachine(ABC):
 
 
 def get_model_config_field(filename: str | PathLike, parameter: str) -> str:
-    """ Return the configuration parameter of a model file.
+    """Get a configuration parameter from a compact model file.
 
-    Read the file `modelconfig.json` in the compact model file, and return
-    the value of a particular parameter.
+    Args:
+        filename: Path to the model file.
+        parameter: Parameter name to retrieve.
 
-    :param filename: path of the model file
-    :param parameter: parameter to look in
-    :return: value of the parameter of this model
-    :type filename: str
-    :type parameter: str
-    :rtype: str
+    Returns:
+        The parameter value.
     """
     inputfile = zipfile.ZipFile(filename, mode='r')
     readinfodict = json.load(inputfile.open("modelconfig.json", "r"))
@@ -210,14 +195,12 @@ def get_model_config_field(filename: str | PathLike, parameter: str) -> str:
 
 
 def get_model_classifier_name(filename: str| PathLike) -> str:
-    """ Return the name of the classifier from a model file.
+    """Get the classifier name from a compact model file.
 
-    Read the file `modelconfig.json` in the compact model file, and return
-    the name of the classifier.
+    Args:
+        filename: Path to the model file.
 
-    :param filename: path of the model file
-    :return: name of the classifier
-    :type filename: str
-    :rtype: str
+    Returns:
+        The classifier name.
     """
     return get_model_config_field(filename, 'classifier')

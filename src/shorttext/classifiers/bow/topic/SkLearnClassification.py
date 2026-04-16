@@ -16,48 +16,47 @@ from ...base import AbstractScorer
 
 
 class TopicVectorSkLearnClassifier(AbstractScorer):
+    """Classifier using topic vectors with scikit-learn.
+
+    Wraps any scikit-learn supervised learning algorithm and uses
+    topic vectors from LatentTopicModeler as features.
+
+    Reference:
+        Xuan Hieu Phan et al., "A Hidden Topic-Based Framework toward
+        Building Applications with Short Web Documents,"
+        IEEE Trans. Knowl. Data Eng. 23(7): 961-976 (2011).
+
+        Xuan Hieu Phan et al., "Learning to Classify Short and Sparse
+        Text & Web with Hidden Topics from Large-scale Data Collections,"
+        WWW 2008.
+        http://dl.acm.org/citation.cfm?id=1367510
     """
-    This is a classifier that wraps any supervised learning algorithm in `scikit-learn`,
-    and use the topic vectors output by the topic modeler :class:`LatentTopicModeler` that
-    wraps the topic models in `gensim`.
 
-    # Reference
-
-    Xuan Hieu Phan, Cam-Tu Nguyen, Dieu-Thu Le, Minh Le Nguyen, Susumu Horiguchi, Quang-Thuy Ha,
-    "A Hidden Topic-Based Framework toward Building Applications with Short Web Documents,"
-    *IEEE Trans. Knowl. Data Eng.* 23(7): 961-976 (2011).
-
-    Xuan Hieu Phan, Le-Minh Nguyen, Susumu Horiguchi, "Learning to Classify Short and Sparse Text & Web withHidden Topics from Large-scale Data Collections,"
-    WWW '08 Proceedings of the 17th international conference on World Wide Web. (2008) [`ACL
-    <http://dl.acm.org/citation.cfm?id=1367510>`_]
-    """
     def __init__(
             self,
             topicmodeler: LatentTopicModeler,
             sklearn_classifier: sklearn.base.BaseEstimator
     ):
-        """ Initialize the classifier.
+        """Initialize the classifier.
 
-        :param topicmodeler: a topic modeler
-        :param sklearn_classifier: a scikit-learn classifier
-        :type topicmodeler: LatentTopicModeler
-        :type sklearn_classifier: sklearn.base.BaseEstimator
+        Args:
+            topicmodeler: A topic modeler instance.
+            sklearn_classifier: A scikit-learn classifier instance.
         """
         self.topicmodeler = topicmodeler
         self.classifier = sklearn_classifier
         self.trained = False
 
     def train(self, classdict: dict[str, list[str]], *args, **kwargs) -> None:
-        """ Train the classifier.
+        """Train the classifier.
 
-        If the topic modeler does not have a trained model, it will raise `ModelNotTrainedException`.
+        Args:
+            classdict: Training data with class labels as keys and texts as values.
+            *args: Arguments passed to scikit-learn classifier fit().
+            **kwargs: Arguments passed to scikit-learn classifier fit().
 
-        :param classdict: training data
-        :param args: arguments to be passed to the `fit` method of the scikit-learn classifier
-        :param kwargs: arguments to be passed to the `fit` method of the scikit-learn classifier
-        :return: None
-        :raise: ModelNotTrainedException
-        :type classdict: dict
+        Raises:
+            ModelNotTrainedException: If topic modeler is not trained.
         """
         x = []
         y = []
@@ -73,31 +72,32 @@ class TopicVectorSkLearnClassifier(AbstractScorer):
         self.trained = True
 
     def getvector(self, shorttext: str) -> npt.NDArray[np.float64]:
-        """ Retrieve the topic vector representation of the given short text.
+        """Get topic vector for short text.
 
-        If the topic modeler does not have a trained model, it will raise `ModelNotTrainedException`.
+        Args:
+            shorttext: Input text.
 
-        :param shorttext: short text
-        :return: topic vector representation
-        :raise: ModelNotTrainedException
-        :type shorttext: str
-        :rtype: numpy.ndarray
+        Returns:
+            Topic vector representation.
+
+        Raises:
+            ModelNotTrainedException: If model not trained.
         """
         if not self.trained:
             raise e.ModelNotTrainedException()
         return self.topicmodeler.retrieve_topicvec(shorttext)
 
     def classify(self, shorttext: str) -> str:
-        """ Give the highest-scoring class of the given short text according to the classifier.
+        """Classify short text into a class label.
 
-        If neither :func:`~train` nor :func:`~loadmodel` was run, or if the
-        topic model was not trained, it will raise `ModelNotTrainedException`.
+        Args:
+            shorttext: Input text to classify.
 
-        :param shorttext: short text
-        :return: class label of the classification result of the given short text
-        :raise: ModelNotTrainedException
-        :type shorttext: str
-        :rtype: str
+        Returns:
+            Predicted class label.
+
+        Raises:
+            ModelNotTrainedException: If model not trained.
         """
         if not self.trained:
             raise e.ModelNotTrainedException()
@@ -105,17 +105,16 @@ class TopicVectorSkLearnClassifier(AbstractScorer):
         return self.classlabels[self.classifier.predict([topicvec])[0]]
 
     def score(self, shorttext: str) -> dict[str, float]:
-        """ Calculate the score, which is the cosine similarity with the topic vector of the model,
-        of the short text against each class labels.
+        """Compute classification scores for all classes.
 
-        If neither :func:`~train` nor :func:`~loadmodel` was run, or if the
-        topic model was not trained, it will raise `ModelNotTrainedException`.
+        Args:
+            shorttext: Input text.
 
-        :param shorttext: short text
-        :return: dictionary of scores of the text to all classes
-        :raise: ModelNotTrainedException
-        :type shorttext: str
-        :rtype: dict
+        Returns:
+            Dictionary mapping class labels to scores.
+
+        Raises:
+            ModelNotTrainedException: If model not trained.
         """
         if not self.trained:
             raise e.ModelNotTrainedException()
@@ -128,19 +127,15 @@ class TopicVectorSkLearnClassifier(AbstractScorer):
         return scoredict
 
     def savemodel(self, nameprefix: str) -> None:
-        """ Save the model.
+        """Save model to files.
 
-        Save the topic model and the trained scikit-learn classification model. The scikit-learn
-        model will have the name `nameprefix` followed by the extension `.pkl`. The
-        topic model is the same as the one in `LatentTopicModeler`.
+        Saves the topic model, scikit-learn classifier, and class labels.
 
-        If neither :func:`~train` nor :func:`~loadmodel` was run, or if the
-        topic model was not trained, it will raise `ModelNotTrainedException`.
+        Args:
+            nameprefix: Prefix for output files.
 
-        :param nameprefix: prefix of the paths of the model files
-        :return: None
-        :raise: ModelNotTrainedException
-        :type nameprefix: str
+        Raises:
+            ModelNotTrainedException: If model not trained.
         """
         if not self.trained:
             raise e.ModelNotTrainedException()
@@ -151,11 +146,10 @@ class TopicVectorSkLearnClassifier(AbstractScorer):
         labelfile.close()
 
     def loadmodel(self, nameprefix: str) -> None:
-        """ Load the classification model together with the topic model.
+        """Load model from files.
 
-        :param nameprefix: prefix of the paths of the model files
-        :return: None
-        :type nameprefix: str
+        Args:
+            nameprefix: Prefix for input files.
         """
         self.topicmodeler.loadmodel(nameprefix)
         self.classifier = joblib.load(nameprefix+'.pkl')
@@ -164,16 +158,13 @@ class TopicVectorSkLearnClassifier(AbstractScorer):
         labelfile.close()
 
     def save_compact_model(self, name: str) -> None:
-        """ Save the model.
+        """Save model as compact file.
 
-        Save the topic model and the trained scikit-learn classification model in one compact model file.
+        Args:
+            name: Name of the compact model file.
 
-        If neither :func:`~train` nor :func:`~loadmodel` was run, or if the
-        topic model was not trained, it will raise `ModelNotTrainedException`.
-
-        :param name: name of the compact model file
-        :return: None
-        :type name: str
+        Raises:
+            ModelNotTrainedException: If model not trained.
         """
         topicmodel_info = self.topicmodeler.get_info()
         cio.save_compact_model(
@@ -188,11 +179,10 @@ class TopicVectorSkLearnClassifier(AbstractScorer):
         )
 
     def load_compact_model(self, name: str) -> None:
-        """ Load the classification model together with the topic model from a compact file.
+        """Load model from compact file.
 
-        :param name: name of the compact model file
-        :return: None
-        :type name: str
+        Args:
+            name: Name of the compact model file.
         """
         cio.load_compact_model(
             name,
@@ -214,42 +204,34 @@ def train_gensim_topicvec_sklearnclassifier(
         gensim_paramdict: Optional[dict] = None,
         sklearn_paramdict: Optional[dict] = None
 ) -> TopicVectorSkLearnClassifier:
-    """ Train the supervised learning classifier, with features given by topic vectors.
+    """Train a classifier with gensim topic vectors and scikit-learn.
 
-    It trains a topic model, and with its topic vector representation, train a supervised
-    learning classifier. The instantiated (not trained) scikit-learn classifier must be
-    passed into the argument.
+    Trains a topic model (LDA, LSI, or RP), then uses the topic vectors
+    as features to train a scikit-learn classifier.
 
-    # Reference
+    Args:
+        classdict: Training data.
+        nb_topics: Number of topics.
+        sklearn_classifier: Scikit-learn classifier instance (not trained).
+        preprocessor: Text preprocessing function. Default: standard_text_preprocessor_1.
+        topicmodel_algorithm: Topic model algorithm. Default: lda.
+        toweigh: Apply tf-idf weighting. Default: True.
+        normalize: Normalize topic vectors. Default: True.
+        gensim_paramdict: Arguments for gensim topic model.
+        sklearn_paramdict: Arguments for scikit-learn classifier.
 
-    Xuan Hieu Phan, Cam-Tu Nguyen, Dieu-Thu Le, Minh Le Nguyen, Susumu Horiguchi, Quang-Thuy Ha,
-    "A Hidden Topic-Based Framework toward Building Applications with Short Web Documents,"
-    *IEEE Trans. Knowl. Data Eng.* 23(7): 961-976 (2011).
+    Returns:
+        Trained TopicVectorSkLearnClassifier.
 
-    Xuan Hieu Phan, Le-Minh Nguyen, Susumu Horiguchi, "Learning to Classify Short and Sparse Text & Web withHidden Topics from Large-scale Data Collections,"
-    WWW '08 Proceedings of the 17th international conference on World Wide Web. (2008) [`ACL
-    <http://dl.acm.org/citation.cfm?id=1367510>`_]
+    Reference:
+        Xuan Hieu Phan et al., "A Hidden Topic-Based Framework toward
+        Building Applications with Short Web Documents,"
+        IEEE Trans. Knowl. Data Eng. 23(7): 961-976 (2011).
 
-    :param classdict: training data
-    :param nb_topics: number of topics in the topic model
-    :param sklearn_classifier: instantiated scikit-learn classifier
-    :param preprocessor: function that preprocesses the text (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
-    :param topicmodel_algorithm: topic model algorithm (Default: 'lda')
-    :param toweigh: whether to weigh the words using tf-idf (Default: True)
-    :param normalize: whether the retrieved topic vectors are normalized (Default: True)
-    :param gensim_paramdict: arguments to be passed on to the `train` method of the `gensim` topic model
-    :param sklearn_paramdict: arguments to be passed on to the `fit` method of the `sklearn` classification algorithm
-    :return: a trained classifier
-    :type classdict: dict
-    :type nb_topics: int
-    :type sklearn_classifier: sklearn.base.BaseEstimator
-    :type preprocessor: function
-    :type topicmodel_algorithm: str
-    :type toweigh: bool
-    :type normalize: bool
-    :type gensim_paramdict: dict
-    :type sklearn_paramdict: dict
-    :rtype: TopicVectorSkLearnClassifier
+        Xuan Hieu Phan et al., "Learning to Classify Short and Sparse
+        Text & Web with Hidden Topics from Large-scale Data Collections,"
+        WWW 2008.
+        http://dl.acm.org/citation.cfm?id=1367510
     """
     if preprocessor is None:
         preprocessor = textpreprocess.standard_text_preprocessor_1()
@@ -258,7 +240,6 @@ def train_gensim_topicvec_sklearnclassifier(
     if sklearn_paramdict is None:
         sklearn_paramdict = {}
 
-    # topic model training
     modelerdict = {'lda': LDAModeler, 'lsi': LSIModeler, 'rp': RPModeler}
     topicmodeler = modelerdict[topicmodel_algorithm](
         preprocessor=preprocessor,
@@ -267,7 +248,6 @@ def train_gensim_topicvec_sklearnclassifier(
     )
     topicmodeler.train(classdict, nb_topics, **gensim_paramdict)
 
-    # intermediate classification training
     classifier = TopicVectorSkLearnClassifier(topicmodeler, sklearn_classifier)
     classifier.train(classdict, **sklearn_paramdict)
 
@@ -279,53 +259,41 @@ def load_gensim_topicvec_sklearnclassifier(
         preprocessor: Optional[callable] = None,
         compact: bool = True
 ) -> TopicVectorSkLearnClassifier:
-    """ Load the classifier, a wrapper that uses scikit-learn classifier, with
-     feature vectors given by a topic model, from files.
+    """Load a classifier with gensim topic vectors from files.
 
-    # Reference
+    Args:
+        name: Model name (compact) or file prefix (non-compact).
+        preprocessor: Text preprocessing function. Default: standard_text_preprocessor_1.
+        compact: Load compact model. Default: True.
 
-    Xuan Hieu Phan, Cam-Tu Nguyen, Dieu-Thu Le, Minh Le Nguyen, Susumu Horiguchi, Quang-Thuy Ha,
-    "A Hidden Topic-Based Framework toward Building Applications with Short Web Documents,"
-    *IEEE Trans. Knowl. Data Eng.* 23(7): 961-976 (2011).
+    Returns:
+        TopicVectorSkLearnClassifier instance.
 
-    Xuan Hieu Phan, Le-Minh Nguyen, Susumu Horiguchi, "Learning to Classify Short and Sparse Text & Web withHidden Topics from Large-scale Data Collections,"
-    WWW '08 Proceedings of the 17th international conference on World Wide Web. (2008) [`ACL
-    <http://dl.acm.org/citation.cfm?id=1367510>`_]
+    Reference:
+        Xuan Hieu Phan et al., "A Hidden Topic-Based Framework toward
+        Building Applications with Short Web Documents,"
+        IEEE Trans. Knowl. Data Eng. 23(7): 961-976 (2011).
 
-    :param name: name (if compact==True) or prefix (if compact==False) of the paths of model files
-    :param preprocessor: function that preprocesses the text (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
-    :param compact: whether model file is compact (Default: True)
-    :return: a trained classifier
-    :type name: str
-    :type preprocessor: function
-    :type compact: bool
-    :rtype: TopicVectorSkLearnClassifier
+        Xuan Hieu Phan et al., "Learning to Classify Short and Sparse
+        Text & Web with Hidden Topics from Large-scale Data Collections,"
+        WWW 2008.
+        http://dl.acm.org/citation.cfm?id=1367510
     """
     if preprocessor is None:
         preprocessor = textpreprocess.standard_text_preprocessor_1()
 
     if compact:
-        # load the compact model
         modelerdict = {'ldatopic': LDAModeler, 'lsitopic': LSIModeler, 'rptopic': RPModeler}
         topicmodel_name = cio.get_model_config_field(name, 'topicmodel')
         classifier = TopicVectorSkLearnClassifier(modelerdict[topicmodel_name](preprocessor=preprocessor), None)
         classifier.load_compact_model(name)
         classifier.trained = True
-
-        # return the instance
         return classifier
     else:
-        # loading topic model
         topicmodeler = load_gensimtopicmodel(name, preprocessor=preprocessor)
-
-        # loading intermediate model
         sklearn_classifier = joblib.load(name + '.pkl')
-
-        # the wrapped classifier
         classifier = TopicVectorSkLearnClassifier(topicmodeler, sklearn_classifier)
         classifier.trained = True
-
-        # return the instance
         return classifier
 
 
@@ -338,36 +306,32 @@ def train_autoencoder_topic_sklearnclassifier(
         keras_paramdict: Optional[dict] = None,
         sklearn_paramdict: Optional[dict] = None
 ) -> TopicVectorSkLearnClassifier:
-    """ Train the supervised learning classifier, with features given by topic vectors.
+    """Train a classifier with autoencoder topic vectors and scikit-learn.
 
-    It trains an autoencoder topic model, and with its encoded vector representation, train a supervised
-    learning classifier. The instantiated (not trained) scikit-learn classifier must be
-    passed into the argument.
+    Trains an autoencoder topic model, then uses the encoded vectors
+    as features to train a scikit-learn classifier.
 
-    # Reference
+    Args:
+        classdict: Training data.
+        nb_topics: Number of encoding dimensions.
+        sklearn_classifier: Scikit-learn classifier instance (not trained).
+        preprocessor: Text preprocessing function. Default: standard_text_preprocessor_1.
+        normalize: Normalize topic vectors. Default: True.
+        keras_paramdict: Arguments for Keras autoencoder training.
+        sklearn_paramdict: Arguments for scikit-learn classifier.
 
-    Xuan Hieu Phan, Cam-Tu Nguyen, Dieu-Thu Le, Minh Le Nguyen, Susumu Horiguchi, Quang-Thuy Ha,
-    "A Hidden Topic-Based Framework toward Building Applications with Short Web Documents,"
-    *IEEE Trans. Knowl. Data Eng.* 23(7): 961-976 (2011).
+    Returns:
+        Trained TopicVectorSkLearnClassifier.
 
-    Xuan Hieu Phan, Le-Minh Nguyen, Susumu Horiguchi, "Learning to Classify Short and Sparse Text & Web withHidden Topics from Large-scale Data Collections,"
-    WWW '08 Proceedings of the 17th international conference on World Wide Web. (2008) [`ACL
-    <http://dl.acm.org/citation.cfm?id=1367510>`_]
+    Reference:
+        Xuan Hieu Phan et al., "A Hidden Topic-Based Framework toward
+        Building Applications with Short Web Documents,"
+        IEEE Trans. Knowl. Data Eng. 23(7): 961-976 (2011).
 
-    :param classdict: training data
-    :param nb_topics: number topics, i.e., number of encoding dimensions
-    :param sklearn_classifier: instantiated scikit-learn classifier
-    :param preprocessor: function that preprocesses the text (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
-    :param normalize: whether the retrieved topic vectors are normalized (Default: True)
-    :param keras_paramdict: arguments to be passed to keras for training autoencoder
-    :param sklearn_paramdict: arguemtnst to be passed to scikit-learn for fitting the classifier
-    :return: a trained classifier
-    :type classdict: dict
-    :type nb_topics: int
-    :type sklearn_classifier: sklearn.base.BaseEstimator
-    :type preprocessor: function
-    :type normalize: bool
-    :rtype: TopicVectorSkLearnClassifier
+        Xuan Hieu Phan et al., "Learning to Classify Short and Sparse
+        Text & Web with Hidden Topics from Large-scale Data Collections,"
+        WWW 2008.
+        http://dl.acm.org/citation.cfm?id=1367510
     """
     if preprocessor is None:
         preprocessor = textpreprocess.standard_text_preprocessor_1()
@@ -376,11 +340,9 @@ def train_autoencoder_topic_sklearnclassifier(
     if sklearn_paramdict is None:
         sklearn_paramdict = {}
 
-    # train the autoencoder
     autoencoder = AutoencodingTopicModeler(preprocessor=preprocessor, normalize=normalize)
     autoencoder.train(classdict, nb_topics, **keras_paramdict)
 
-    # intermediate classification training
     classifier = TopicVectorSkLearnClassifier(autoencoder, sklearn_classifier)
     classifier.train(classdict, **sklearn_paramdict)
 
@@ -392,49 +354,37 @@ def load_autoencoder_topic_sklearnclassifier(
         preprocessor: Optional[callable] = None,
         compact: bool = True
 ) -> TopicVectorSkLearnClassifier:
-    """ Load the classifier, a wrapper that uses scikit-learn classifier, with
-     feature vectors given by an autocoder topic model, from files.
+    """Load a classifier with autoencoder topic vectors from files.
 
-    # Reference
+    Args:
+        name: Model name (compact) or file prefix (non-compact).
+        preprocessor: Text preprocessing function. Default: standard_text_preprocessor_1.
+        compact: Load compact model. Default: True.
 
-    Xuan Hieu Phan, Cam-Tu Nguyen, Dieu-Thu Le, Minh Le Nguyen, Susumu Horiguchi, Quang-Thuy Ha,
-    "A Hidden Topic-Based Framework toward Building Applications with Short Web Documents,"
-    *IEEE Trans. Knowl. Data Eng.* 23(7): 961-976 (2011).
+    Returns:
+        TopicVectorSkLearnClassifier instance.
 
-    Xuan Hieu Phan, Le-Minh Nguyen, Susumu Horiguchi, "Learning to Classify Short and Sparse Text & Web withHidden Topics from Large-scale Data Collections,"
-    WWW '08 Proceedings of the 17th international conference on World Wide Web. (2008) [`ACL
-    <http://dl.acm.org/citation.cfm?id=1367510>`_]
+    Reference:
+        Xuan Hieu Phan et al., "A Hidden Topic-Based Framework toward
+        Building Applications with Short Web Documents,"
+        IEEE Trans. Knowl. Data Eng. 23(7): 961-976 (2011).
 
-    :param name: name (if compact==True) or prefix (if compact==False) of the paths of model files
-    :param preprocessor: function that preprocesses the text (Default: `utils.textpreprocess.standard_text_preprocessor_1`)
-    :param compact: whether model file is compact (Default: True)
-    :return: a trained classifier
-    :type name: str
-    :type preprocessor: function
-    :type compact: bool
-    :rtype: TopicVectorSkLearnClassifier
+        Xuan Hieu Phan et al., "Learning to Classify Short and Sparse
+        Text & Web with Hidden Topics from Large-scale Data Collections,"
+        WWW 2008.
+        http://dl.acm.org/citation.cfm?id=1367510
     """
     if preprocessor is None:
         preprocessor = textpreprocess.standard_text_preprocessor_1()
 
     if compact:
-        # load the compact model
         classifier = TopicVectorSkLearnClassifier(AutoencodingTopicModeler(preprocessor=preprocessor), None)
         classifier.load_compact_model(name)
         classifier.trained = True
-
-        # return the instance
         return classifier
     else:
-        # load the autoencoder
         autoencoder = load_autoencoder_topicmodel(name, preprocessor=preprocessor)
-
-        # load intermediate model
         sklearn_classifier = joblib.load(name + '.pkl')
-
-        # the wrapper classifier
         classifier = TopicVectorSkLearnClassifier(autoencoder, sklearn_classifier)
         classifier.trained = True
-
-        # return the instance
         return classifier
