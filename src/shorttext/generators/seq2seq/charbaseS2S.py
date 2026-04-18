@@ -7,7 +7,7 @@ import numpy.typing as npt
 import gensim
 import orjson
 
-from .s2skeras import Seq2SeqWithKeras, loadSeq2SeqWithKeras, kerasseq2seq_suffices
+from .s2skeras import Seq2SeqWithKeras, load_seq2seq_model, kerasseq2seq_suffices
 from ..charbase.char2vec import SentenceToCharVecEncoder
 from ...utils.compactmodel_io import CompactIOMachine
 
@@ -183,7 +183,7 @@ class CharBasedSeq2SeqGenerator(CompactIOMachine):
             prefix: Prefix of the file path.
         """
         self.dictionary = gensim.corpora.Dictionary.load(prefix+'_dictionary.dict')
-        self.s2sgenerator = loadSeq2SeqWithKeras(prefix, compact=False)
+        self.s2sgenerator = load_seq2seq_model(prefix, compact=False)
         self.sent2charvec_encoder = SentenceToCharVecEncoder(self.dictionary)
         self.nbelem = len(self.dictionary)
         hyperparameters = orjson.loads(open(prefix+'_charbases2s.json', 'rb').read())

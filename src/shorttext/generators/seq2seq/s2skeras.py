@@ -5,10 +5,10 @@ from os import PathLike
 import numpy as np
 import numpy.typing as npt
 import orjson
-
 from tensorflow.keras.models import load_model
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Input, LSTM, Dense
+from deprecation import deprecated
 
 from ...utils.compactmodel_io import CompactIOMachine
 from ...utils.classification_exceptions import ModelNotTrainedException
@@ -182,7 +182,7 @@ class Seq2SeqWithKeras(CompactIOMachine):
         self.trained = True
 
 
-def loadSeq2SeqWithKeras(path: str | PathLike, compact: bool=True) -> Seq2SeqWithKeras:
+def load_seq2seq_model(path: str | PathLike, compact: bool=True) -> Seq2SeqWithKeras:
     """Load a trained Seq2SeqWithKeras model from file.
 
     Args:
@@ -199,3 +199,11 @@ def loadSeq2SeqWithKeras(path: str | PathLike, compact: bool=True) -> Seq2SeqWit
         generator.loadmodel(path)
     generator.compiled = True
     return generator
+
+
+@deprecated(deprecated_in="4.0.0", removed_in="5.0.0")
+def loadSeq2SeqWithKeras(path: str | PathLike, compact: bool=True) -> Seq2SeqWithKeras:
+    """
+    Deprecated. Call load_seq2seq_model instead.
+    """
+    return load_seq2seq_model(path, compact=compact)

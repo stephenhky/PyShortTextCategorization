@@ -7,6 +7,7 @@ import numpy.typing as npt
 from scipy.sparse import csc_matrix
 from gensim.corpora import Dictionary
 from sklearn.preprocessing import OneHotEncoder
+from deprecation import deprecated
 
 from ...utils.misc import textfile_generator
 
@@ -109,7 +110,7 @@ class SentenceToCharVecEncoder:
         return len(self.dictionary)
 
 
-def initSentenceToCharVecEncoder(
+def initialize_SentenceToCharVecEncoder(
         textfile: str | PathLike,
         encoding: bool=None
 ) -> SentenceToCharVecEncoder:
@@ -132,3 +133,14 @@ def initSentenceToCharVecEncoder(
         )
     )
     return SentenceToCharVecEncoder(dictionary)
+
+
+@deprecated(deprecated_in="4.0.0", removed_in="5.0.0")
+def initSentenceToCharVecEncoder(
+        textfile: str | PathLike,
+        encoding: bool=None
+) -> SentenceToCharVecEncoder:
+    """
+    Deprecated. Use initialize_SentenceToCharVecEncoder instead.
+    """
+    return initialize_SentenceToCharVecEncoder(textfile, encoding=encoding)
