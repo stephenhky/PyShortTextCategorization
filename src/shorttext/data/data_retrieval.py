@@ -11,12 +11,10 @@ import csv
 from urllib.request import urlretrieve
 from io import TextIOWrapper
 from typing import Generator
-from functools import reduce
 
 import pandas as pd
 import numpy as np
 import orjson
-from deprecation import deprecated
 
 
 def retrieve_csvdata_as_dict(filepath: str | PathLike) -> dict[str, list[str]]:
@@ -198,8 +196,7 @@ def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512
     return dict(classdict)
 
 
-@deprecated(deprecated_in="4.0.0", removed_in="5.0.0")
-def mergedict(dicts: list[dict]) -> dict:
+def merge_cv_dicts(dicts: list[dict[str, list[str]]]) -> dict[str, list[str]]:
     """Merge multiple training data dictionaries.
 
     Combines multiple data dictionaries in the training data format
@@ -212,6 +209,7 @@ def mergedict(dicts: list[dict]) -> dict:
     Returns:
         A merged dictionary with all class labels and texts combined.
     """
+    # NOTE: this is not a usualy Python dict merge. It does specialized merging.
     mdict = defaultdict(lambda : [])
     for thisdict in dicts:
         for label in thisdict:
@@ -253,6 +251,5 @@ def yield_crossvalidation_classdicts(
 
     for i in range(nb_partitions):
         testdict = crossvaldicts[i]
-        # traindict = mergedict([crossvaldicts[j] for j in range(nb_partitions) if j != i])
-        traindict = reduce(lambda a, b: a | b, [crossvaldicts[j] for j in range(nb_partitions) if j != i])
+        traindict = merge_cv_dicts([crossvaldicts[j] for j in range(nb_partitions) if j != i])
         yield testdict, traindict
