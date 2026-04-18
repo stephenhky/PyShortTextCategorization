@@ -22,23 +22,17 @@ def logistic_framework(
         bias_l2reg: float = 0.01,
         optimizer: Literal["sgd", "rmsprop", "adagrad", "adadelta", "adam", "adamax", "nadam"] = "adam"
 ) -> Model:
-    """ Construct the neural network of maximum entropy classifier.
+    """Create a maximum entropy classifier neural network.
 
-    Given the numbers of features and the output labels, return a keras neural network
-     for implementing maximum entropy (multinomial) classifier.
+    Args:
+        nb_features: Number of input features.
+        nb_outputs: Number of output classes.
+        l2reg: L2 regularization coefficient. Default: 0.01.
+        bias_l2reg: L2 regularization for bias. Default: 0.01.
+        optimizer: Optimizer. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. Default: adam.
 
-    :param nb_features: number of features
-    :param nb_outputs: number of output labels
-    :param l2reg: L2 regularization coefficient (Default: 0.01)
-    :param bias_l2reg: L2 regularization coefficient for bias (Default: 0.01)
-    :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: adam)
-    :return: keras sequential model for maximum entropy classifier
-    :type nb_features: int
-    :type nb_outputs: int
-    :type l2reg: float
-    :type bias_l2reg: float
-    :type optimizer: str
-    :rtype: keras.model.Sequential
+    Returns:
+        Keras Sequential model for maximum entropy classification.
     """
     kmodel = Sequential()
     kmodel.add(Dense(units=nb_outputs,
@@ -52,18 +46,21 @@ def logistic_framework(
 
 
 class MaxEntClassifier(AbstractScorer, CompactIOMachine):
-    """
-    This is a classifier that implements the principle of maximum entropy.
+    """Maximum entropy classifier.
+
+    A classifier that implements the principle of maximum entropy
+    for text categorization using bag-of-words features.
 
     Reference:
-    * Adam L. Berger, Stephen A. Della Pietra, Vincent J. Della Pietra, "A Maximum Entropy Approach to Natural Language Processing," *Computational Linguistics* 22(1): 39-72 (1996).
+        Adam L. Berger et al., "A Maximum Entropy Approach to Natural
+        Language Processing," Computational Linguistics 22(1): 39-72 (1996).
     """
 
     def __init__(self, preprocessor: Optional[callable] = None):
-        """ Initializer.
+        """Initialize the classifier.
 
-        :param preprocessor: text preprocessor
-        :type preprocessor: function
+        Args:
+            preprocessor: Text preprocessing function. Default: lowercase.
         """
         CompactIOMachine.__init__(
             self,
@@ -79,18 +76,13 @@ class MaxEntClassifier(AbstractScorer, CompactIOMachine):
         self.trained = False
 
     def shorttext_to_vec(self, shorttext: str) -> sparse.SparseArray:
-        """ Convert the shorttext into a sparse vector given the dictionary.
+        """Convert short text to sparse vector.
 
-        According to the dictionary (gensim.corpora.Dictionary), convert the given text
-        into a vector representation, according to the occurence of tokens.
+        Args:
+            shorttext: Input text.
 
-        This function is deprecated and no longer used because it is too slow to run in a loop.
-        But this is used while doing prediction.
-
-        :param shorttext: short text to be converted.
-        :return: sparse vector of the vector representation
-        :type shorttext: str
-        :rtype: scipy.sparse.dok_matrix
+        Returns:
+            Sparse vector representation.
         """
         tokens = tokenize(self.preprocess_func(shorttext))
         token_indices = [
@@ -115,21 +107,14 @@ class MaxEntClassifier(AbstractScorer, CompactIOMachine):
             bias_l2reg: float = 0.01,
             optimizer: Literal["sgd", "rmsprop", "adagrad", "adadelta", "adam", "adamax", "nadam"] = "adam"
     ) -> None:
-        """ Train the classifier.
+        """Train the classifier.
 
-        Given the training data, train the classifier.
-
-        :param classdict: training data
-        :param nb_epochs: number of epochs (Defauly: 500)
-        :param l2reg: L2 regularization coefficient (Default: 0.01)
-        :param bias_l2reg: L2 regularization coefficient for bias (Default: 0.01)
-        :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: adam)
-        :return: None
-        :type classdict: dict
-        :type nb_epochs: int
-        :type l2reg: float
-        :type bias_l2reg: float
-        :type optimizer: str
+        Args:
+            classdict: Training data.
+            nb_epochs: Number of training epochs. Default: 500.
+            l2reg: L2 regularization coefficient. Default: 0.01.
+            bias_l2reg: L2 regularization for bias. Default: 0.01.
+            optimizer: Optimizer. Default: adam.
         """
         self.classlabels = sorted(classdict.keys())
         self.labels2idx = {label: idx for idx, label in enumerate(self.classlabels)}
@@ -155,18 +140,13 @@ class MaxEntClassifier(AbstractScorer, CompactIOMachine):
         self.trained = True
 
     def savemodel(self, nameprefix: str) -> None:
-        """ Save the trained model into files.
+        """Save the trained model to files.
 
-        Given the prefix of the file paths, save the model into files, with name given by the prefix.
-        There will be give files produced, one name ending with "_classlabels.txt", one with ".json",
-        one with ".weights.h5", one with "_labelidx.pkl", and one with "_dictionary.dict".
+        Args:
+            nameprefix: Prefix for output files.
 
-        If there is no trained model, a `ModelNotTrainedException` will be thrown.
-
-        :param nameprefix: prefix of the file path
-        :return: None
-        :type nameprefix: str
-        :raise: ModelNotTrainedException
+        Raises:
+            ModelNotTrainedException: If not trained.
         """
         if not self.trained:
             raise e.ModelNotTrainedException()
@@ -177,17 +157,10 @@ class MaxEntClassifier(AbstractScorer, CompactIOMachine):
         open(nameprefix+'_labels2idx.json', 'wb').write(orjson.dumps(self.labels2idx))
 
     def loadmodel(self, nameprefix: str) -> None:
-        """ Load a trained model from files.
+        """Load a trained model from files.
 
-        Given the prefix of the file paths, load the model from files with name given by the prefix
-        followed by "_classlabels.txt", ".json", ".weights.h5", "_labelidx.pkl", and "_dictionary.dict".
-
-        If this has not been run, or a model was not trained by :func:`~train`,
-        a `ModelNotTrainedException` will be raised while performing prediction or saving the model.
-
-        :param nameprefix: prefix of the file path
-        :return: None
-        :type nameprefix: str
+        Args:
+            nameprefix: Prefix for input files.
         """
         self.model = kerasio.load_model(nameprefix)
         self.token2idx = orjson.loads(open(nameprefix+"_tokens2idx.json", "rb").read())
@@ -199,18 +172,16 @@ class MaxEntClassifier(AbstractScorer, CompactIOMachine):
         self.trained = True
 
     def score(self, shorttext: str) -> dict[str, float]:
-        """ Calculate the scores for all the class labels for the given short sentence.
+        """Calculate classification scores for all class labels.
 
-        Given a short sentence, calculate the classification scores for all class labels,
-        returned as a dictionary with key being the class labels, and values being the scores.
-        If the short sentence is empty, or if other numerical errors occur, the score will be `numpy.nan`.
-        If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
+        Args:
+            shorttext: Input text.
 
-        :param shorttext: a short sentence
-        :return: a dictionary with keys being the class labels, and values being the corresponding classification scores
-        :type shorttext: str
-        :rtype: dict
-        :raise: ModelNotTrainedException
+        Returns:
+            Dictionary mapping class labels to scores.
+
+        Raises:
+            ModelNotTrainedException: If not trained.
         """
         if not self.trained:
             raise e.ModelNotTrainedException()
@@ -218,7 +189,6 @@ class MaxEntClassifier(AbstractScorer, CompactIOMachine):
         vec = self.shorttext_to_vec(shorttext)
         predictions = self.model.predict(vec.todense())
 
-        # wrangle output result
         scoredict = {
             classlabel: predictions[0][idx]
             for idx, classlabel in enumerate(self.classlabels)
@@ -227,16 +197,14 @@ class MaxEntClassifier(AbstractScorer, CompactIOMachine):
 
 
 def load_maxent_classifier(name: str, compact: bool=True) -> MaxEntClassifier:
-    """ Load the maximum entropy classifier from saved model.
+    """Load a MaxEntClassifier from file.
 
-    Given a model file(s), load the maximum entropy classifier.
+    Args:
+        name: Model name (compact) or file prefix (non-compact).
+        compact: Whether to load compact model. Default: True.
 
-    :param name: name or prefix of the file, if compact is True or False respectively
-    :param compact: whether the model file is compact (Default:True)
-    :return: maximum entropy classifier
-    :type name: str
-    :type compact: bool
-    :rtype: MaxEntClassifier
+    Returns:
+        MaxEntClassifier instance.
     """
     classifier = MaxEntClassifier()
     if compact:

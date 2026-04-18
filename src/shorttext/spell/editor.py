@@ -6,6 +6,17 @@ import numba as nb
 
 @nb.njit
 def compute_set_edits1(word: str) -> set[str]:
+    """Generate all single-edit distance words.
+
+    Creates all possible words that are one edit (insert, delete,
+    transpose, replace) away from the input word.
+
+    Args:
+        word: Input word.
+
+    Returns:
+        Set of all possible single-edit variations.
+    """
     letters = 'abcdefghijklmnopqrstuvwxyz'
 
     splits = [(word[:i], word[i:]) for i in range(len(word) + 1)]
@@ -21,4 +32,15 @@ def compute_set_edits1(word: str) -> set[str]:
 
 @nb.njit
 def compute_set_edits2(word: str) -> Generator[str, None, None]:
+    """Generate all double-edit distance words.
+
+    Creates all possible words that are two edits away from the
+    input word by applying compute_set_edits1 to each result.
+
+    Args:
+        word: Input word.
+
+    Yields:
+        All possible double-edit variations.
+    """
     return (e2 for e1 in compute_set_edits1(word) for e2 in compute_set_edits1(e1))

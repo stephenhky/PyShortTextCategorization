@@ -3,27 +3,28 @@ from abc import ABC, abstractmethod
 
 
 class SpellCorrector(ABC):
-    """ Base class for all spell corrector.
+    """Abstract base class for spell correctors.
 
-    This class is not implemented; this is an "abstract class."
-
+    Defines the interface for spelling correction algorithms.
     """
+
     @abstractmethod
     def train(self, text: str) -> None:
-        """ Train the spell corrector with the given corpus.
+        """Train the spell corrector on a corpus.
 
-        :param text: training corpus
-        :type text: str
+        Args:
+            text: Training text corpus.
         """
         raise NotImplemented()
 
     @abstractmethod
     def correct(self, word: str) -> str:
-        """ Recommend a spell correction to given the word.
+        """Recommend a spelling correction for a word.
 
-        :param word: word to be checked
-        :return: recommended correction
-        :type word: str
-        :rtype: str
+        Args:
+            word: Word to correct.
+
+        Returns:
+            The corrected word.
         """
         return word

@@ -27,36 +27,28 @@ def CNNWordEmbed(
         dense_bl2reg: float = 0.0,
         optimizer: Literal["sgd", "rmsprop", "adagrad", "adadelta", "adam", "adamax", "nadam"] = "adam"
 ) -> Model:
-    """ Returns the convolutional neural network (CNN/ConvNet) for word-embedded vectors.
+    """Create a CNN for word embeddings.
 
-    Reference: Yoon Kim, "Convolutional Neural Networks for Sentence Classification,"
-    *EMNLP* 2014, 1746-1751 (arXiv:1408.5882). [`arXiv
-    <https://arxiv.org/abs/1408.5882>`_]
+    Args:
+        nb_labels: Number of class labels.
+        wvmodel: Word embedding model. If provided, vecsize is extracted from it.
+        nb_filters: Number of filters. Default: 1200.
+        n_gram: N-gram (window size). Default: 2.
+        maxlen: Maximum sentence length. Default: 15.
+        vecsize: Embedding vector size. Default: 300.
+        cnn_dropout: CNN dropout rate. Default: 0.0.
+        final_activation: Final layer activation. Default: softmax.
+        dense_wl2reg: L2 regularization for weights. Default: 0.0.
+        dense_bl2reg: L2 regularization for bias. Default: 0.0.
+        optimizer: Optimizer. Default: adam.
 
-    :param nb_labels: number of class labels
-    :param wvmodel: pre-trained Gensim word2vec model
-    :param nb_filters: number of filters (Default: 1200)
-    :param n_gram: n-gram, or window size of CNN/ConvNet (Default: 2)
-    :param maxlen: maximum number of words in a sentence (Default: 15)
-    :param vecsize: length of the embedded vectors in the model (Default: 300)
-    :param cnn_dropout: dropout rate for CNN/ConvNet (Default: 0.0)
-    :param final_activation: activation function. Options: softplus, softsign, relu, tanh, sigmoid, hard_sigmoid, linear. (Default: 'softmax')
-    :param dense_wl2reg: L2 regularization coefficient (Default: 0.0)
-    :param dense_bl2reg: L2 regularization coefficient for bias (Default: 0.0)
-    :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: adam)
-    :return: keras model (`Sequential` or`Model`) for CNN/ConvNet for Word-Embeddings
-    :type nb_labels: int
-    :type wvmodel: gensim.models.keyedvectors.KeyedVectors
-    :type nb_filters: int
-    :type n_gram: int
-    :type maxlen: int
-    :type vecsize: int
-    :type cnn_dropout: float
-    :type final_activation: str
-    :type dense_wl2reg: float
-    :type dense_bl2reg: float
-    :type optimizer: str
-    :rtype: keras.models.Model
+    Returns:
+        Keras Sequential model.
+
+    Reference:
+        Yoon Kim, "Convolutional Neural Networks for Sentence Classification,"
+        EMNLP 2014 (arXiv:1408.5882).
+        https://arxiv.org/abs/1408.5882
     """
     if wvmodel is not None:
         vecsize = wvmodel.vector_size
@@ -78,7 +70,6 @@ def CNNWordEmbed(
     return model
 
 
-# two layers of CNN, maxpooling, dense
 def DoubleCNNWordEmbed(
         nb_labels: int,
         wvmodel: Optional[KeyedVectors] = None,
@@ -95,38 +86,26 @@ def DoubleCNNWordEmbed(
         dense_bl2reg: float = 0.0,
         optimizer: Literal["sgd", "rmsprop", "adagrad", "adadelta", "adam", "adamax", "nadam"] = 'adam'
 ) -> Model:
-    """ Returns the double-layered convolutional neural network (CNN/ConvNet) for word-embedded vectors.
+    """Create a double-layer CNN for word embeddings.
 
-    :param nb_labels: number of class labels
-    :param wvmodel: pre-trained Gensim word2vec model
-    :param nb_filters_1: number of filters for the first CNN/ConvNet layer (Default: 1200)
-    :param nb_filters_2: number of filters for the second CNN/ConvNet layer (Default: 600)
-    :param n_gram: n-gram, or window size of first CNN/ConvNet (Default: 2)
-    :param filter_length_2: window size for second CNN/ConvNet layer (Default: 10)
-    :param maxlen: maximum number of words in a sentence (Default: 15)
-    :param vecsize: length of the embedded vectors in the model (Default: 300)
-    :param cnn_dropout_1: dropout rate for the first CNN/ConvNet layer (Default: 0.0)
-    :param cnn_dropout_2: dropout rate for the second CNN/ConvNet layer (Default: 0.0)
-    :param final_activation: activation function. Options: softplus, softsign, relu, tanh, sigmoid, hard_sigmoid, linear. (Default: 'softmax')
-    :param dense_wl2reg: L2 regularization coefficient (Default: 0.0)
-    :param dense_bl2reg: L2 regularization coefficient for bias (Default: 0.0)
-    :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: adam)
-    :return: keras sequantial model for CNN/ConvNet for Word-Embeddings
-    :type nb_labels: int
-    :type wvmodel: gensim.models.keyedvectors.KeyedVectors
-    :type nb_filters_1: int
-    :type nb_filters_2: int
-    :type n_gram: int
-    :type filter_length_2: int
-    :type maxlen: int
-    :type vecsize: int
-    :type cnn_dropout_1: float
-    :type cnn_dropout_2: float
-    :type final_activation: str
-    :type dense_wl2reg: float
-    :type dense_bl2reg: float
-    :type optimizer: str
-    :rtype: keras.models.Model
+    Args:
+        nb_labels: Number of class labels.
+        wvmodel: Word embedding model. If provided, vecsize is extracted from it.
+        nb_filters_1: Filters for first layer. Default: 1200.
+        nb_filters_2: Filters for second layer. Default: 600.
+        n_gram: N-gram for first layer. Default: 2.
+        filter_length_2: Window size for second layer. Default: 10.
+        maxlen: Maximum sentence length. Default: 15.
+        vecsize: Embedding vector size. Default: 300.
+        cnn_dropout_1: Dropout for first layer. Default: 0.0.
+        cnn_dropout_2: Dropout for second layer. Default: 0.0.
+        final_activation: Final layer activation. Default: softmax.
+        dense_wl2reg: L2 regularization for weights. Default: 0.0.
+        dense_bl2reg: L2 regularization for bias. Default: 0.0.
+        optimizer: Optimizer. Default: adam.
+
+    Returns:
+        Keras Sequential model.
     """
     if wvmodel is not None:
         vecsize = wvmodel.vector_size
@@ -154,9 +133,6 @@ def DoubleCNNWordEmbed(
     return model
 
 
-# C-LSTM
-# Chunting Zhou, Chonglin Sun, Zhiyuan Liu, Francis Lau,
-# "A C-LSTM Neural Network for Text Classification", arXiv:1511.08630 (2015).
 def CLSTMWordEmbed(
         nb_labels: int,
         wvmodel: Optional[KeyedVectors] = None,
@@ -172,43 +148,32 @@ def CLSTMWordEmbed(
         dense_bl2reg: float = 0.0,
         optimizer: Literal["sgd", "rmsprop", "adagrad", "adadelta", "adam", "adamax", "nadam"] = "adam"
 ) -> Model:
-    """ Returns the C-LSTM neural networks for word-embedded vectors.
+    """Create a C-LSTM model for word embeddings.
 
-    Reference: Chunting Zhou, Chonglin Sun, Zhiyuan Liu, Francis Lau,
-    "A C-LSTM Neural Network for Text Classification,"
-    (arXiv:1511.08630). [`arXiv
-    <https://arxiv.org/abs/1511.08630>`_]
+    Args:
+        nb_labels: Number of class labels.
+        wvmodel: Word embedding model. If provided, vecsize is extracted from it.
+        nb_filters: Number of CNN filters. Default: 1200.
+        n_gram: N-gram (window size). Default: 2.
+        maxlen: Maximum sentence length. Default: 15.
+        vecsize: Embedding vector size. Default: 300.
+        cnn_dropout: CNN dropout rate. Default: 0.0.
+        nb_rnnoutdim: LSTM output dimension. Default: 1200.
+        rnn_dropout: LSTM dropout rate. Default: 0.2.
+        final_activation: Final layer activation. Default: softmax.
+        dense_wl2reg: L2 regularization for weights. Default: 0.0.
+        dense_bl2reg: L2 regularization for bias. Default: 0.0.
+        optimizer: Optimizer. Default: adam.
 
-    :param nb_labels: number of class labels
-    :param wvmodel: pre-trained Gensim word2vec model
-    :param nb_filters: number of filters (Default: 1200)
-    :param n_gram: n-gram, or window size of CNN/ConvNet (Default: 2)
-    :param maxlen: maximum number of words in a sentence (Default: 15)
-    :param vecsize: length of the embedded vectors in the model (Default: 300)
-    :param cnn_dropout: dropout rate for CNN/ConvNet (Default: 0.0)
-    :param nb_rnnoutdim: output dimension for the LSTM networks (Default: 1200)
-    :param rnn_dropout: dropout rate for LSTM (Default: 0.2)
-    :param final_activation: activation function. Options: softplus, softsign, relu, tanh, sigmoid, hard_sigmoid, linear. (Default: 'softmax')
-    :param dense_wl2reg: L2 regularization coefficient (Default: 0.0)
-    :param dense_bl2reg: L2 regularization coefficient for bias (Default: 0.0)
-    :param optimizer: optimizer for gradient descent. Options: sgd, rmsprop, adagrad, adadelta, adam, adamax, nadam. (Default: adam)
-    :return: keras sequantial model for CNN/ConvNet for Word-Embeddings
-    :type nb_labels: int
-    :type wvmodel: gensim.models.keyedvectors.KeyedVectors
-    :type nb_filters: int
-    :type n_gram: int
-    :type maxlen: int
-    :type vecsize: int
-    :type cnn_dropout: float
-    :type nb_rnnoutdim: int
-    :type rnn_dropout: float
-    :type final_activation: str
-    :type dense_wl2reg: float
-    :type dense_bl2reg: float
-    :type optimizer: str
-    :rtype: keras.models.Model
+    Returns:
+        Keras Sequential model.
+
+    Reference:
+        Chunting Zhou et al., "A C-LSTM Neural Network for Text Classification,"
+        arXiv:1511.08630 (2015).
+        https://arxiv.org/abs/1511.08630
     """
-    if wvmodel != None:
+    if wvmodel is not None:
         vecsize = wvmodel.vector_size
 
     model = Sequential()

@@ -6,22 +6,24 @@ from .lcp import longest_common_prefix
 
 
 def similarity(word1: str, word2: str) -> float:
-    """ Return the similarity between the two words.
+    """Calculate similarity between two words.
 
-    Return the similarity between the two words, between 0 and 1 inclusively.
-    The similarity is the maximum of the two values:
-    - 1 - Damerau-Levenshtein distance between two words / maximum length of the two words
-    - longest common prefix of the two words / maximum length of the two words
+    Computes similarity as the maximum of:
+    - 1 - Damerau-Levenshtein distance / max length
+    - Longest common prefix length / max length
 
-    Reference: Daniel E. Russ, Kwan-Yuet Ho, Calvin A. Johnson, Melissa C. Friesen, "Computer-Based Coding of Occupation Codes for Epidemiological Analyses," *2014 IEEE 27th International Symposium on Computer-Based Medical Systems* (CBMS), pp. 347-350. (2014) [`IEEE
-    <http://ieeexplore.ieee.org/abstract/document/6881904/>`_]
+    Args:
+        word1: First word.
+        word2: Second word.
 
-    :param word1: a word
-    :param word2: a word
-    :return: similarity, between 0 and 1 inclusively
-    :type word1: str
-    :type word2: str
-    :rtype: float
+    Returns:
+        Similarity score between 0 and 1.
+
+    Reference:
+        Daniel E. Russ, Kwan-Yuet Ho, Calvin A. Johnson, Melissa C. Friesen,
+        "Computer-Based Coding of Occupation Codes for Epidemiological Analyses,"
+        IEEE CBMS 2014, pp. 347-350.
+        http://ieeexplore.ieee.org/abstract/document/6881904/
     """
     maxlen = max(len(word1), len(word2))
     editdistance = damerau_levenshtein(word1, word2)
@@ -30,14 +32,17 @@ def similarity(word1: str, word2: str) -> float:
 
 
 def soft_intersection_list(tokens1: list[str], tokens2: list[str]) -> set[str]:
-    """ Return the soft number of intersections between two lists of tokens.
+    """Compute soft intersection between two token lists.
 
-    :param tokens1: list of tokens.
-    :param tokens2: list of tokens.
-    :return: soft number of intersections.
-    :type tokens1: list
-    :type tokens2: list
-    :rtype: float
+    Finds the best matching pairs between tokens using similarity,
+    where each token can only match once.
+
+    Args:
+        tokens1: First list of tokens.
+        tokens2: Second list of tokens.
+
+    Returns:
+        Set of ((token1, token2), similarity) tuples representing matches.
     """
     intersected_list = [((token1, token2), similarity(token1, token2)) for token1, token2 in product(tokens1, tokens2)]
     intersected_list = sorted(intersected_list, key=lambda item: item[1], reverse=True)
@@ -55,17 +60,22 @@ def soft_intersection_list(tokens1: list[str], tokens2: list[str]) -> set[str]:
 
 
 def soft_jaccard_score(tokens1: str, tokens2: str) -> float:
-    """ Return the soft Jaccard score of the two lists of tokens, between 0 and 1 inclusively.
+    """Compute soft Jaccard score between token lists.
 
-    Reference: Daniel E. Russ, Kwan-Yuet Ho, Calvin A. Johnson, Melissa C. Friesen, "Computer-Based Coding of Occupation Codes for Epidemiological Analyses," *2014 IEEE 27th International Symposium on Computer-Based Medical Systems* (CBMS), pp. 347-350. (2014) [`IEEE
-    <http://ieeexplore.ieee.org/abstract/document/6881904/>`_]
+    Uses fuzzy matching based on edit distance and longest common prefix.
 
-    :param tokens1: list of tokens.
-    :param tokens2: list of tokens.
-    :return: soft Jaccard score, between 0 and 1 inclusively.
-    :type tokens1: list
-    :type tokens2: list
-    :rtype: float
+    Args:
+        tokens1: First list of tokens.
+        tokens2: Second list of tokens.
+
+    Returns:
+        Soft Jaccard score between 0 and 1.
+
+    Reference:
+        Daniel E. Russ, Kwan-Yuet Ho, Calvin A. Johnson, Melissa C. Friesen,
+        "Computer-Based Coding of Occupation Codes for Epidemiological Analyses,"
+        IEEE CBMS 2014, pp. 347-350.
+        http://ieeexplore.ieee.org/abstract/document/6881904/
     """
     intersection_list = soft_intersection_list(tokens1, tokens2)
     num_intersections = sum([item[1] for item in intersection_list])

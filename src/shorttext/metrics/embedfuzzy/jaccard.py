@@ -15,18 +15,19 @@ def jaccardscore_sents(
         wvmodel: KeyedVectors,
         sim_words: Optional[callable] = None
 ) -> float:
-    """ Compute the Jaccard score between sentences based on their word similarities.
+    """Compute Jaccard score between sentences using embeddings.
 
-    :param sent1: first sentence
-    :param sent2: second sentence
-    :param wvmodel: word-embeding model
-    :param sim_words: function for calculating the similarities between a pair of word vectors (default: cosine)
-    :return: soft Jaccard score
-    :type sent1: str
-    :type sent2: str
-    :type wvmodel: gensim.models.keyedvectors.KeyedVectors
-    :type sim_words: function
-    :rtype: float
+    Uses word embeddings to compute a fuzzy Jaccard score where
+    word similarity is measured via embedding cosine similarity.
+
+    Args:
+        sent1: First sentence.
+        sent2: Second sentence.
+        wvmodel: Word embedding model.
+        sim_words: Similarity function for word vectors. Default: cosine.
+
+    Returns:
+        Fuzzy Jaccard score between 0 and 1.
     """
     if sim_words is None:
         sim_words = cosine_similarity

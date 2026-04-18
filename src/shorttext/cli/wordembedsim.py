@@ -19,7 +19,11 @@ typedict = {
 
 
 def getargparser():
-    parser = argparse.ArgumentParser(description='Find the similarities between two short sentences using Word2Vec.')
+    """Get argument parser for word embedding similarity CLI.
+
+    Returns:
+        ArgumentParser for command line arguments.
+    """
     parser.add_argument('modelpath', help='Path of the Word2Vec model')
     parser.add_argument('--type', default='word2vec',
                         help='Type of word-embedding model (default: "word2vec"; other options: "fasttext", "poincare")')

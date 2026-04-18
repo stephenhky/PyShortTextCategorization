@@ -9,16 +9,15 @@ def textfile_generator(
         linebreak: bool=True,
         encoding: bool=None
 ) -> Generator[str, None, None]:
-    """ Return a generator that reads lines in a text file.
+    """Generator that yields lines from a text file.
 
-    :param textfile: file object of a text file
-    :param linebreak: whether to return a line break at the end of each line (Default: True)
-    :param encoding: encoding of the text file (Default: None)
-    :return: a generator that reads lines in a text file
-    :type textfile: file
-    :type linebreak: bool
-    :type encoding: str
-    :rtype: generator
+    Args:
+        textfile: File object to read lines from.
+        linebreak: Whether to include line break at end of each line. Default: True.
+        encoding: Encoding of the text file. Default: None.
+
+    Yields:
+        Lines from the text file, stripped of whitespace.
     """
     for t in textfile:
         if len(t) > 0:
@@ -29,17 +28,21 @@ def textfile_generator(
 
 
 class SinglePoolExecutor:
-    """ It is a wrapper for Python `map` functions.
+    """Wrapper for Python map function.
 
+    Provides an interface similar to concurrent.futures.Executor.map
+    but using a synchronous map implementation.
     """
-    def map(self, func, *iterables):
-        """ Refer to Python `map` documentation.
 
-        :param func: function
-        :param iterables: iterables to loop
-        :return: generator for the map
-        :type func: function
-        :type iterables: iterables
-        :rtype: map
+    def map(self, func, *iterables):
+        """Apply function to iterables element-wise.
+
+        Args:
+            func: Function to apply to each element.
+            iterables: One or more iterables to process.
+
+        Returns:
+            An iterator yielding the results.
         """
+        return map(func, *iterables)
         return map(func, *iterables)

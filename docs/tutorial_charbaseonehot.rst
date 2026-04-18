@@ -19,7 +19,15 @@ the file `big.txt` in Peter Norvig's websites:
 
 Then instantiate the class using the function :func:`shorttext.generators.initSentenceToCharVecEncoder`:
 
->>> chartovec_encoder = shorttext.generators.initSentenceToCharVecEncoder(textfile)
+>>> chartovec_encoder = shorttext.generators.initialize_SentenceToCharVecEncoder(textfile)
+
+Now, the object
+
+>>> chartovec_encoder = shorttext.generators.initialize_SentenceToCharVecEncoder(textfile)
+
+Now, the object
+
+>>> chartovec_encoder = shorttext.generators.initialize_SentenceToCharVecEncoder(textfile)
 
 Now, the object `chartovec_encoder` is an instance of :class:`shorttext.generators.SentenceToCharVecEncoder` . The
 default signal character is `\n`, which is also encoded, and can be checked by looking at the field:
