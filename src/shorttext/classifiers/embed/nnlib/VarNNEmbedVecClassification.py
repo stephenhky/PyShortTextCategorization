@@ -71,7 +71,7 @@ class VarNNEmbeddedVecClassifier(AbstractScorer, CompactIOMachine):
         Returns:
             Tuple of (class_labels, embedded_vectors, labels_array).
         """
-        classlabels = sorted(classdict.keys())
+        classlabels = sorted(classdict.keys())   # sort the class labels to ensure uniqueness
         lblidx_dict = dict(zip(classlabels, range(len(classlabels))))
 
         phrases = []

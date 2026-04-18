@@ -10,10 +10,13 @@ import sys
 import csv
 from urllib.request import urlretrieve
 from io import TextIOWrapper
+from typing import Generator
+from functools import reduce
 
 import pandas as pd
 import numpy as np
 import orjson
+from deprecation import deprecated
 
 
 def retrieve_csvdata_as_dict(filepath: str | PathLike) -> dict[str, list[str]]:
@@ -195,7 +198,8 @@ def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512
     return dict(classdict)
 
 
-def mergedict(dicts):
+@deprecated(deprecated_in="4.0.0", removed_in="5.0.0")
+def mergedict(dicts: list[dict]) -> dict:
     """Merge multiple training data dictionaries.
 
     Combines multiple data dictionaries in the training data format
@@ -215,7 +219,11 @@ def mergedict(dicts):
     return dict(mdict)
 
 
-def yield_crossvalidation_classdicts(classdict, nb_partitions, shuffle=False):
+def yield_crossvalidation_classdicts(
+        classdict: dict[str, list[str]],
+        nb_partitions: int,
+        shuffle: bool = False
+) -> Generator[tuple[dict[str, list[str]], dict[str, list[str]]], None, None]:
     """Yield training and test data partitions for cross-validation.
 
     Partitions the training data into multiple sets. Each iteration yields
@@ -245,5 +253,6 @@ def yield_crossvalidation_classdicts(classdict, nb_partitions, shuffle=False):
 
     for i in range(nb_partitions):
         testdict = crossvaldicts[i]
-        traindict = mergedict([crossvaldicts[j] for j in range(nb_partitions) if j != i])
+        # traindict = mergedict([crossvaldicts[j] for j in range(nb_partitions) if j != i])
+        traindict = reduce(lambda a, b: a | b, [crossvaldicts[j] for j in range(nb_partitions) if j != i])
         yield testdict, traindict
