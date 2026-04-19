@@ -1,6 +1,7 @@
 News
 ====
 
+* 04/19/2026: `shorttext` 4.0.0 released.
 * 03/22/2026: `shorttext` 3.1.1 released.
 * 03/02/2026: `shorttext` 3.1.0 reelased.
 * 10/27/2025: `shorttext` 3.0.1 released.
@@ -88,6 +89,21 @@ News
 
 What's New
 ----------
+
+Release 4.0.0 (April 19, 2026)
+------------------------------
+
+* Removed support for Python 3.9 and 3.10;
+* New style of documentation;
+* New docstrings;
+* Type hinting;
+* Dependence on `gensim` reduced to topic modeling related functions and Word2Vec embedding;
+* Modernizing the use of `keras`;
+* The use of `loguru`, `orjson`, `sparse` and `npdict` libraries;
+* Code cleanup and debugged;
+* Removed the old implementation of document-term matrix, and replaced it with `NumpyDocumentTermMatrix`;
+* Implementation of cosine similarity optimized by `numba` instead using the cosine distance from `scipy`;
+* All unit tests and regression tests rewritten, and run by `pytest`;
 
 Release 3.1.1 (March 22, 2026)
 ------------------------------
