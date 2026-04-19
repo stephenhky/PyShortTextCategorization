@@ -80,6 +80,7 @@ You can talk to me in advance through e-mails or the [Issues](https://github.com
 
 ## News
 
+* 04/19/2026: `shorttext` 4.0.0 released.
 * 03/22/2026: `shorttext` 3.1.1 released.
 * 03/02/2026: `shorttext` 3.1.0 reelased.
 * 10/27/2025: `shorttext` 3.0.1 released.

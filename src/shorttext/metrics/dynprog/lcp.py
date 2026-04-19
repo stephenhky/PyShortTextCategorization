@@ -4,14 +4,14 @@ import numba as nb
 
 @nb.njit
 def longest_common_prefix(word1: str, word2: str) -> int:
-    """ Calculate the longest common prefix (LCP) between two words.
+    """Calculate the longest common prefix length of two strings.
 
-    :param word1: first word
-    :param word2: seccond word
-    :return: longest common prefix (LCP)
-    :type word1: str
-    :type word2: str
-    :rtype: int
+    Args:
+        word1: First string.
+        word2: Second string.
+
+    Returns:
+        Length of the longest common prefix.
     """
     lcp = 0
     for i in range(min(len(word1), len(word2))):

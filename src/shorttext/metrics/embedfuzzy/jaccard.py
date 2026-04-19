@@ -1,26 +1,37 @@
 
 from itertools import product
+from typing import Optional
 
 import numpy as np
-from scipy.spatial.distance import cosine
+from gensim.models.keyedvectors import KeyedVectors
 
 from ...utils import tokenize
+from ...utils.compute import cosine_similarity
 
 
-def jaccardscore_sents(sent1, sent2, wvmodel, sim_words=lambda vec1, vec2: 1-cosine(vec1, vec2)):
-    """ Compute the Jaccard score between sentences based on their word similarities.
+def jaccardscore_sents(
+        sent1: str,
+        sent2: str,
+        wvmodel: KeyedVectors,
+        sim_words: Optional[callable] = None
+) -> float:
+    """Compute Jaccard score between sentences using embeddings.
 
-    :param sent1: first sentence
-    :param sent2: second sentence
-    :param wvmodel: word-embeding model
-    :param sim_words: function for calculating the similarities between a pair of word vectors (default: cosine)
-    :return: soft Jaccard score
-    :type sent1: str
-    :type sent2: str
-    :type wvmodel: gensim.models.keyedvectors.KeyedVectors
-    :type sim_words: function
-    :rtype: float
+    Uses word embeddings to compute a fuzzy Jaccard score where
+    word similarity is measured via embedding cosine similarity.
+
+    Args:
+        sent1: First sentence.
+        sent2: Second sentence.
+        wvmodel: Word embedding model.
+        sim_words: Similarity function for word vectors. Default: cosine.
+
+    Returns:
+        Fuzzy Jaccard score between 0 and 1.
     """
+    if sim_words is None:
+        sim_words = cosine_similarity
+
     tokens1 = tokenize(sent1)
     tokens2 = tokenize(sent2)
     tokens1 = list(filter(lambda w: w in wvmodel, tokens1))
@@ -28,7 +39,7 @@ def jaccardscore_sents(sent1, sent2, wvmodel, sim_words=lambda vec1, vec2: 1-cos
     allowable1 = [True] * len(tokens1)
     allowable2 = [True] * len(tokens2)
 
-    simdict = {(i, j): sim_words(wvmodel[tokens1[i]], wvmodel[tokens2[j]])
+    simdict = {(i, j): sim_words(wvmodel[tokens1[i]].astype(np.float64), wvmodel[tokens2[j]].astype(np.float64))
                for i, j in product(range(len(tokens1)), range(len(tokens2)))}
 
     intersection = 0.0

@@ -5,14 +5,20 @@ import numba as nb
 
 @nb.njit
 def damerau_levenshtein(word1: str, word2: str) -> int:
-    """ Calculate the Demarau-Levenshtein (DL) distance between two words.
+    """Calculate the Damerau-Levenshtein distance between two words.
 
-    :param word1: first word
-    :param word2: seccond word
-    :return: Damerau-Levenshtein (DL) distance
-    :type word1: str
-    :type word2: str
-    :rtype: int
+    Computes the edit distance considering adjacent transpositions
+    (swapping two adjacent characters counts as one edit).
+
+    Args:
+        word1: First word.
+        word2: Second word.
+
+    Returns:
+        The Damerau-Levenshtein distance between the two words.
+
+    Reference:
+        https://en.wikipedia.org/wiki/Damerau%E2%80%93Levenshtein_distance
     """
     len1 = len(word1)
     len2 = len(word2)
@@ -35,7 +41,5 @@ def damerau_levenshtein(word1: str, word2: str) -> int:
             if ((i > 1) & (j > 1) & (word1[i - 1] == word2[j - 2]) & (word1[i - 2] == word2[j - 1])):
                 score = min(score, matrix[i-2, j-2] + cost)
             matrix[i, j] = score
-
-    print(matrix)
 
     return matrix[len1, len2]

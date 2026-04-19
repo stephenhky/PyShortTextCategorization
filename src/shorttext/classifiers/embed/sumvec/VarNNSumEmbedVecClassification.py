@@ -1,67 +1,86 @@
 
+from typing import Optional, Annotated
+
 import numpy as np
+import numpy.typing as npt
+from gensim.models.keyedvectors import KeyedVectors
+from tensorflow.keras.models import Model
 
 from ....utils import kerasmodel_io as kerasio
 from ....utils.classification_exceptions import ModelNotTrainedException
 from ....utils.textpreprocessing import tokenize
 from ....utils.compactmodel_io import CompactIOMachine
+from ...base import AbstractScorer
 
 
-class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
+class VarNNSumEmbeddedVecClassifier(AbstractScorer, CompactIOMachine):
+    """Neural network classifier using summed embeddings.
+
+    Wraps Keras neural network models for supervised short text classification.
+    Each token is converted to an embedded vector using a pre-trained word-embedding
+    model. The sentence embedding is the sum of token embeddings, normalized to
+    a unit vector.
+
+    The neural network model must be a Keras Sequential model with output dimension
+    matching the number of class labels.
+
+    Reference:
+        Pre-trained Word2Vec: https://code.google.com/archive/p/word2vec/
+        Example models available in the frameworks module.
     """
-    This is a wrapper for various neural network algorithms
-    for supervised short text categorization.
-    Each class label has a few short sentences, where each token is converted
-    to an embedded vector, given by a pre-trained word-embedding model (e.g., Google Word2Vec model).
-    The sentences are represented by an array.
-    The type of neural network has to be passed when training, and it has to be of
-    type :class:`keras.models.Sequential`. The number of outputs of the models has to match
-    the number of class labels in the training data.
-    To perform prediction, the input short sentences is converted to a unit vector
-    in the same way. The score is calculated according to the trained neural network model.
 
-    Examples of the models can be found in `frameworks`.
+    def __init__(
+            self,
+            wvmodel: KeyedVectors,
+            vecsize: Optional[int] = None,
+            maxlen: int = 15
+    ):
+        """Initialize the classifier.
 
-    A pre-trained Google Word2Vec model can be downloaded `here
-    <https://drive.google.com/file/d/0B7XkCwpI5KDYNlNUTTlSS21pQmM/edit>`_.
-
-    """
-    def __init__(self, wvmodel, vecsize=None, maxlen=15):
-        """ Initialize the classifier.
-
-        :param wvmodel: Word2Vec model
-        :param vecsize: length of embedded vectors in the model (Default: None, extracted directly from the word-embedding model)
-        :param maxlen: maximum number of words in a sentence (Default: 15)
-        :type wvmodel: gensim.models.word2vec.Word2Vec
-        :type vecsize: int
-        :type maxlen: int
+        Args:
+            wvmodel: Word embedding model (e.g., Word2Vec).
+            vecsize: Vector size. Default: None (extracted from model).
+            maxlen: Maximum number of words per sentence. Default: 15.
         """
-        CompactIOMachine.__init__(self, {'classifier': 'sumnnlibvec'}, 'sumnnlibvec', ['_classlabels.txt', '.json', '.weights.h5'])
+        CompactIOMachine.__init__(
+            self,
+            {'classifier': 'sumnnlibvec'},
+            'sumnnlibvec',
+            ['_classlabels.txt', '.json', '.weights.h5']
+        )
         self.wvmodel = wvmodel
-        self.vecsize = self.wvmodel.vector_size if vecsize==None else vecsize
+        self.vecsize = self.wvmodel.vector_size if vecsize is None else vecsize
         self.maxlen = maxlen
         self.trained = False
 
-    def convert_traindata_embedvecs(self, classdict):
-        """ Convert the training text data into embedded matrix.
+    def convert_traindata_embedvecs(
+            self,
+            classdict: dict[str, list[str]]
+    ) -> tuple[list[str], Annotated[npt.NDArray[np.float64], "2D Array"], Annotated[npt.NDArray[np.int64], "2D Array"]]:
+        """Convert training data to embedded vectors.
 
-        Convert the training text data into embedded matrix, where each short sentence
-        is a normalized summed embedded vectors for all words.
+        Converts each short text into a normalized sum of word embeddings.
 
-        :param classdict: training data
-        :return: tuples, consisting of class labels, matrix of embedded vectors, and corresponding outputs
-        :type classdict: dict
-        :rtype: (list, numpy.ndarray, list)
+        Args:
+            classdict: Training data with class labels as keys and texts as values.
+
+        Returns:
+            Tuple of (class_labels, embedding_matrix, labels_array).
         """
-        classlabels = classdict.keys()
+        classlabels = sorted(classdict.keys())
         lblidx_dict = dict(zip(classlabels, range(len(classlabels))))
 
         indices = []
         embedvecs = []
         for classlabel in classlabels:
             for shorttext in classdict[classlabel]:
-                embedvec = np.sum(np.array([self.word_to_embedvec(token) for token in tokenize(shorttext)]),
-                                  axis=0)
+                embedvec = np.sum(
+                    np.array([
+                        self.word_to_embedvec(token)
+                        for token in tokenize(shorttext)
+                    ]),
+                    axis=0
+                )
                 norm = np.linalg.norm(embedvec)
                 if norm == 0:
                     continue
@@ -75,147 +94,125 @@ class VarNNSumEmbeddedVecClassifier(CompactIOMachine):
         embedvecs = np.array(embedvecs)
         return classlabels, embedvecs, indices
 
-    def train(self, classdict, kerasmodel, nb_epoch=10):
-        """ Train the classifier.
+    def train(
+            self,
+            classdict: dict[str, list[str]],
+            kerasmodel: Model,
+            nb_epoch: int = 10
+    ) -> None:
+        """Train the classifier.
 
-        The training data and the corresponding keras model have to be given.
+        Args:
+            classdict: Training data.
+            kerasmodel: Keras Sequential model.
+            nb_epoch: Number of training epochs. Default: 10.
 
-        If this has not been run, or a model was not loaded by :func:`~loadmodel`,
-        a `ModelNotTrainedException` will be raised while performing prediction and saving the model.
-
-        :param classdict: training data
-        :param kerasmodel: keras sequential model
-        :param nb_epoch: number of steps / epochs in training
-        :return: None
-        :type classdict: dict
-        :type kerasmodel: keras.models.Sequential
-        :type nb_epoch: int
+        Raises:
+            ModelNotTrainedException: If not trained or loaded.
         """
-        # convert training data into embedded vectors
         self.classlabels, train_embedvec, indices = self.convert_traindata_embedvecs(classdict)
-
-        # train the model
         kerasmodel.fit(train_embedvec, indices, epochs=nb_epoch)
-
-        # flag switch
         self.model = kerasmodel
         self.trained = True
 
-    def savemodel(self, nameprefix):
-        """ Save the trained model into files.
+    def savemodel(self, nameprefix: str) -> None:
+        """Save the trained model to files.
 
-        Given the prefix of the file paths, save the model into files, with name given by the prefix.
-        There will be three files produced, one name ending with "_classlabels.txt", one name
-        ending with ".json", and one name ending with ".weights.h5".
-        If there is no trained model, a `ModelNotTrainedException` will be thrown.
+        Args:
+            nameprefix: Prefix for output files.
 
-        :param nameprefix: prefix of the file path
-        :return: None
-        :type nameprefix: str
-        :raise: ModelNotTrainedException
+        Raises:
+            ModelNotTrainedException: If not trained.
         """
         if not self.trained:
             raise ModelNotTrainedException()
+
         kerasio.save_model(nameprefix, self.model)
-        labelfile = open(nameprefix+'_classlabels.txt', 'w')
-        labelfile.write('\n'.join(self.classlabels))
-        labelfile.close()
+        open(nameprefix+'_classlabels.txt', 'w').write('\n'.join(self.classlabels))
 
-    def loadmodel(self, nameprefix):
-        """ Load a trained model from files.
+    def loadmodel(self, nameprefix: str) -> None:
+        """Load a trained model from files.
 
-        Given the prefix of the file paths, load the model from files with name given by the prefix
-        followed by "_classlabels.txt", ".json", and ".weights.h5".
-
-        If this has not been run, or a model was not trained by :func:`~train`,
-        a `ModelNotTrainedException` will be raised while performing prediction and saving the model.
-
-        :param nameprefix: prefix of the file path
-        :return: None
-        :type nameprefix: str
+        Args:
+            nameprefix: Prefix for input files.
         """
         self.model = kerasio.load_model(nameprefix)
-        labelfile = open(nameprefix+'_classlabels.txt', 'r')
-        self.classlabels = labelfile.readlines()
-        labelfile.close()
-        self.classlabels = [s.strip() for s in self.classlabels]
+        self.classlabels = [s.strip() for s in open(nameprefix+'_classlabels.txt', 'r')]
         self.trained = True
 
-    def word_to_embedvec(self, word):
-        """ Convert the given word into an embedded vector.
+    def word_to_embedvec(self, word: str) -> Annotated[npt.NDArray[np.float64], "1D Array"]:
+        """Convert a word to its embedding vector.
 
-        Given a word, return the corresponding embedded vector according to
-        the word-embedding model. If there is no such word in the model,
-        a vector with zero values are given.
+        Args:
+            word: Input word.
 
-        :param word: a word
-        :return: the corresponding embedded vector
-        :type word: str
-        :rtype: numpy.ndarray
+        Returns:
+            Embedding vector. Returns zeros if word not in vocabulary.
         """
-        return self.wvmodel[word] if word in self.wvmodel else np.zeros(self.vecsize)
+        return self.wvmodel[word].astype(np.float64) if word in self.wvmodel else np.zeros(self.vecsize)
 
-    def shorttext_to_embedvec(self, shorttext):
-        """ Convert the short text into an averaged embedded vector representation.
+    def shorttext_to_embedvec(self, shorttext: str) -> Annotated[npt.NDArray[np.float64], "1D Array"]:
+        """Convert short text to embedding vector.
 
-        Given a short sentence, it converts all the tokens into embedded vectors according to
-        the given word-embedding model, sums
-        them up, and normalize the resulting vector. It returns the resulting vector
-        that represents this short sentence.
+        Sums token embeddings and normalizes to unit vector.
 
-        :param shorttext: a short sentence
-        :return: an embedded vector that represents the short sentence
-        :type shorttext: str
-        :rtype: numpy.ndarray
+        Args:
+            shorttext: Input text.
+
+        Returns:
+            Normalized embedding vector.
         """
-        vec = np.sum([self.wvmodel[token] for token in tokenize(shorttext) if token in self.wvmodel])
+        vec = np.sum([
+            self.wvmodel[token].astype(np.float64)
+            for token in tokenize(shorttext)
+            if token in self.wvmodel
+        ])
         norm = np.linalg.norm(vec)
         if norm != 0:
             vec /= np.linalg.norm(vec)
         return vec
 
-    def score(self, shorttext):
-        """ Calculate the scores for all the class labels for the given short sentence.
+    def score(self, shorttext: str) -> dict[str, float]:
+        """Calculate classification scores for all class labels.
 
-        Given a short sentence, calculate the classification scores for all class labels,
-        returned as a dictionary with key being the class labels, and values being the scores.
-        If the short sentence is empty, or if other numerical errors occur, the score will be `numpy.nan`.
+        Args:
+            shorttext: Input text.
 
-        If neither :func:`~train` nor :func:`~loadmodel` was run, it will raise `ModelNotTrainedException`.
+        Returns:
+            Dictionary mapping class labels to scores.
 
-        :param shorttext: a short sentence
-        :return: a dictionary with keys being the class labels, and values being the corresponding classification scores
-        :type shorttext: str
-        :rtype: dict
-        :raise: ModelNotTrainedException
+        Raises:
+            ModelNotTrainedException: If not trained.
         """
         if not self.trained:
             raise ModelNotTrainedException()
 
-            # retrieve vector
         embedvec = np.array(self.shorttext_to_embedvec(shorttext))
-
-        # classification using the neural network
         predictions = self.model.predict(np.array([embedvec]))
 
-        # wrangle output result
-        scoredict = {classlabel: predictions[0][idx] for idx, classlabel in enumerate(self.classlabels)}
+        scoredict = {
+            classlabel: predictions[0, idx]
+            for idx, classlabel in enumerate(self.classlabels)
+        }
         return scoredict
 
 
-def load_varnnsumvec_classifier(wvmodel, name, compact=True, vecsize=None):
-    """ Load a :class:`shorttext.classifiers.VarNNSumEmbeddedVecClassifier` instance from file, given the pre-trained word-embedding model.
+def load_varnnsumvec_classifier(
+        wvmodel: KeyedVectors,
+        name: str,
+        compact: bool = True,
+        vecsize: Optional[int] = None
+) -> VarNNSumEmbeddedVecClassifier:
+    """Load a VarNNSumEmbeddedVecClassifier from file.
 
-    :param wvmodel: Word2Vec model
-    :param name: name (if compact=True) or prefix (if compact=False) of the file path
-    :param compact whether model file is compact (Default: True)
-    :param vecsize: length of embedded vectors in the model (Default: None, extracted directly from the word-embedding model)
-    :return: the classifier
-    :type wvmodel: gensim.models.keyedvectors.KeyedVectors
-    :type name: str
-    :type compact: bool
-    :type vecsize: int
-    :rtype: VarNNSumEmbeddedVecClassifier
+    Args:
+        wvmodel: Word embedding model.
+        name: Model name (compact) or file prefix (non-compact).
+        compact: Whether to load compact model. Default: True.
+        vecsize: Vector size. Default: None.
+
+    Returns:
+        VarNNSumEmbeddedVecClassifier instance.
     """
     classifier = VarNNSumEmbeddedVecClassifier(wvmodel, vecsize=vecsize)
     if compact:
