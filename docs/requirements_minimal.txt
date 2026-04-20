@@ -4,3 +4,7 @@ snowballstemmer>=3.0.0
 scikit-learn>=1.2.0
 pandas>=1.2.0
 deprecation>=2.0.0
+orjson>=3.11.0
+loguru>=0.7.0
+npdict>=0.0.10
+sparse>=0.18.0
