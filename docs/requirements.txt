@@ -10,7 +10,7 @@ snowballstemmer==3.0.1
 transformers==5.5.4
 torch==2.11.0
 numba==0.65.0
-deprecation==2.0.0
+deprecation==2.1.0
 npdict==0.0.10
 orjson==3.11.8
 sparse==0.18.0
