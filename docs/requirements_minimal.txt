@@ -1,3 +1,5 @@
+sphinx>=4.0.0
+sphinx_rtd_theme>=1.0.0
 numpy>=1.23.3
 scipy>=1.12.0
 snowballstemmer>=3.0.0
