@@ -20,7 +20,7 @@ shared: &shared
         command: |
           pip install --upgrade --user pip
           pip install --upgrade --user google-compute-engine
-          pip install --user  .
+          pip install --user .
 
     - run:
         name: Run Unit Tests
