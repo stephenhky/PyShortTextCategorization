@@ -42,7 +42,7 @@ To save the model,
 
 To load the model to be a classifier, enter:
 
->>> classifier2 = shorttext.classifiers.load_maxent_classifier('/path/to/filename.bin')
+>>> classifier2 = MaxEntClassifier.from_pretrained('/path/to/filename.bin')
 
 
 .. automodule:: shorttext.classifiers.bow.maxent.MaxEntClassification

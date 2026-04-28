@@ -1,11 +1,12 @@
 
-from typing import Literal, Optional
+from typing import Literal, Optional, Self
 
 import sparse
 import orjson
 from tensorflow.keras import Model, Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.regularizers import l2
+from deprecation import deprecated
 
 from ....utils import kerasmodel_io as kerasio
 from ....utils import tokenize
@@ -195,20 +196,28 @@ class MaxEntClassifier(AbstractScorer, CompactIOMachine):
         }
         return scoredict
 
+    @classmethod
+    def from_pretrained(cls, name: str, compact: bool=True) -> Self:
+        """Load a MaxEntClassifier from file.
 
+        Args:
+            name: Model name (compact) or file prefix (non-compact).
+            compact: Whether to load compact model. Default: True.
+
+        Returns:
+            MaxEntClassifier instance.
+        """
+        classifier = MaxEntClassifier()
+        if compact:
+            classifier.load_compact_model(name)
+        else:
+            classifier.loadmodel(name)
+        return classifier
+
+
+@deprecated(deprecated_in="4.0.1", removed_in="5.0.0")
 def load_maxent_classifier(name: str, compact: bool=True) -> MaxEntClassifier:
-    """Load a MaxEntClassifier from file.
-
-    Args:
-        name: Model name (compact) or file prefix (non-compact).
-        compact: Whether to load compact model. Default: True.
-
-    Returns:
-        MaxEntClassifier instance.
     """
-    classifier = MaxEntClassifier()
-    if compact:
-        classifier.load_compact_model(name)
-    else:
-        classifier.loadmodel(name)
-    return classifier
+    Deprecated. Use `MaxEntClassifier.from_pretrained`.
+    """
+    return MaxEntClassifier.from_pretrained(name, compact=compact)

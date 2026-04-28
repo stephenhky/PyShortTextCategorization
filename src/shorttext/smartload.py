@@ -11,7 +11,7 @@ from .classifiers import  load_varnnlibvec_classifier, load_sumword2vec_classifi
 from .generators import load_autoencoder_topicmodel, load_gensimtopicmodel
 from .generators import load_seq2seq_model, loadCharBasedSeq2SeqGenerator
 from .classifiers import load_autoencoder_topic_sklearnclassifier, load_gensim_topicvec_sklearnclassifier
-from .classifiers import load_maxent_classifier
+from .classifiers.bow.maxent.MaxEntClassification import MaxEntClassifier
 from .utils.dtm import load_numpy_documentmatrixmatrix
 
 
@@ -60,7 +60,7 @@ def smartload_compact_model(
         case 'sumvec':
             return load_sumword2vec_classifier(wvmodel, filename, compact=True, vecsize=vecsize)
         case 'maxent':
-            return load_maxent_classifier(filename, compact=True)
+            return MaxEntClassifier.from_pretrained(filename, compact=True)
         case 'kerasseq2seq':
             return load_seq2seq_model(filename, compact=True)
         case 'charbases2s':
