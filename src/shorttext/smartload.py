@@ -8,7 +8,8 @@ from .utils import standard_text_preprocessor_1
 from .utils import compactmodel_io as cio
 from .utils import classification_exceptions as e
 from .classifiers import  load_varnnlibvec_classifier, load_sumword2vec_classifier
-from .generators import load_autoencoder_topicmodel, load_gensimtopicmodel
+from .generators import load_gensimtopicmodel
+from .generators.bow.AutoEncodingTopicModeling import AutoencodingTopicModeler
 from .generators import load_seq2seq_model, loadCharBasedSeq2SeqGenerator
 from .classifiers import load_autoencoder_topic_sklearnclassifier, load_gensim_topicvec_sklearnclassifier
 from .classifiers.bow.maxent.MaxEntClassification import MaxEntClassifier
@@ -46,7 +47,7 @@ def smartload_compact_model(
         case 'ldatopic' | 'lsitopic' | 'rptopic':
             return load_gensimtopicmodel(filename, preprocessor=preprocessor, compact=True)
         case 'kerasautoencoder':
-            return load_autoencoder_topicmodel(filename, preprocessor=preprocessor, compact=True)
+            return AutoencodingTopicModeler.from_pretrained(filename, preprocessor=preprocessor, compact=True)
         case 'topic_sklearn':
             topicmodel = cio.get_model_config_field(filename, 'topicmodel')
             if topicmodel in ['ldatopic', 'lsitopic', 'rptopic']:
