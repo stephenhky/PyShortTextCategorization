@@ -7,7 +7,7 @@ import joblib
 import sklearn
 
 from ....utils import textpreprocessing as textpreprocess
-from ....generators import load_autoencoder_topicmodel, load_gensimtopicmodel
+from ....generators import load_gensimtopicmodel
 from ....generators import LDAModeler, LSIModeler, RPModeler, AutoencodingTopicModeler
 from ....generators import LatentTopicModeler
 from ....utils import classification_exceptions as e
@@ -383,7 +383,7 @@ def load_autoencoder_topic_sklearnclassifier(
         classifier.trained = True
         return classifier
     else:
-        autoencoder = load_autoencoder_topicmodel(name, preprocessor=preprocessor)
+        autoencoder = AutoencodingTopicModeler.from_pretrained(name, preprocessor=preprocessor)
         sklearn_classifier = joblib.load(name + '.pkl')
         classifier = TopicVectorSkLearnClassifier(autoencoder, sklearn_classifier)
         classifier.trained = True

@@ -2,7 +2,7 @@
 from typing import Optional, Literal
 
 from ....generators import LatentTopicModeler, GensimTopicModeler, AutoencodingTopicModeler
-from ....generators import load_autoencoder_topicmodel, load_gensimtopicmodel
+from ....generators import load_gensimtopicmodel
 from ...base import AbstractScorer
 
 
@@ -175,7 +175,7 @@ def load_autoencoder_cosineClassifier(
     Returns:
         TopicVecCosineDistanceClassifier instance.
     """
-    autoencoder = load_autoencoder_topicmodel(
+    autoencoder = AutoencodingTopicModeler.from_pretrained(
         name, preprocessor=preprocessor, tokenizer=tokenizer, compact=compact
     )
     return TopicVecCosineDistanceClassifier(autoencoder)
