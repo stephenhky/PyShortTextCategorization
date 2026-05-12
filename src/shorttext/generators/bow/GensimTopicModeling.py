@@ -1,13 +1,13 @@
 
-from typing import Optional, Literal, Any
+from typing import Optional, Literal, Any, Self
 
-import gensim
 import numpy as np
 import numpy.typing as npt
 from gensim.corpora import Dictionary
 from gensim.models import TfidfModel, LdaModel, LsiModel, RpModel
 from gensim.similarities import MatrixSimilarity
 import orjson
+from deprecation import deprecated
 
 from ...utils.classification_exceptions import ModelNotTrainedException
 from ...utils.compactmodel_io import CompactIOMachine, get_model_classifier_name
@@ -255,6 +255,47 @@ class GensimTopicModeler(LatentTopicModeler):
     def get_info(self) -> dict[str, Any]:
         return {}
 
+    @classmethod
+    def from_pretrained(
+            cls,
+            name: str,
+            preprocessor: Optional[callable] = None,
+            tokenizer: Optional[callable] = None,
+            compact: bool = True
+    ) -> Self:
+        """Load a gensim topic model from files.
+
+            Args:
+                name: Model name (compact) or file prefix (non-compact).
+                preprocessor: Text preprocessing function.
+                compact: Whether to load compact model. Default: True.
+
+            Returns:
+                A topic modeler instance.
+            """
+        if compact:
+            modeler_dict = {'ldatopic': LDAModeler, 'lsitopic': LSIModeler, 'rptopic': RPModeler}
+            classifier_name = str(get_model_classifier_name(name))
+            if classifier_name not in modeler_dict.keys():
+                raise ValueError(f"Unknown classifier name: {classifier_name}")
+
+            topic_modeler = modeler_dict[classifier_name](preprocessor=preprocessor, tokenizer=tokenizer)
+            topic_modeler.load_compact_model(name)
+        else:
+            modeler_dict = {'lda': LDAModeler, 'lsi': LSIModeler, 'rp': RPModeler}
+
+            config_info = orjson.loads(open(name + ".json", "rb").read())
+            algorithm_name = config_info.get("algorithm")
+            if algorithm_name is None:
+                raise ValueError("No classifier name!")
+            if algorithm_name not in modeler_dict.keys():
+                raise ValueError(f"Unknown classifier name: {algorithm_name}")
+
+            topic_modeler = modeler_dict[algorithm_name](preprocessor=preprocessor, tokenizer=tokenizer)
+            topic_modeler.loadmodel(name)
+
+        return topic_modeler
+
 
 lda_suffices =  [
     '.json', '.gensimdict', '.gensimmodel.state', '.gensimtfidf', '.gensimmodel',
@@ -345,41 +386,16 @@ class RPModeler(GensimTopicModeler, CompactIOMachine):
         return CompactIOMachine.get_info(self)
 
 
+@deprecated(deprecated_in="4.0.1", removed_in="5.0.0")
 def load_gensimtopicmodel(
         name: str,
         preprocessor: Optional[callable] = None,
         tokenizer: Optional[callable] = None,
         compact: bool = True
 ) -> GensimTopicModeler:
-    """Load a gensim topic model from files.
-
-    Args:
-        name: Model name (compact) or file prefix (non-compact).
-        preprocessor: Text preprocessing function.
-        compact: Whether to load compact model. Default: True.
-
-    Returns:
-        A topic modeler instance.
     """
-    if compact:
-        modeler_dict = {'ldatopic': LDAModeler, 'lsitopic': LSIModeler, 'rptopic': RPModeler}
-        classifier_name = str(get_model_classifier_name(name))
-        if classifier_name not in modeler_dict.keys():
-            raise ValueError(f"Unknown classifier name: {classifier_name}")
-
-        topic_modeler = modeler_dict[classifier_name](preprocessor=preprocessor, tokenizer=tokenizer)
-        topic_modeler.load_compact_model(name)
-    else:
-        modeler_dict = {'lda': LDAModeler, 'lsi': LSIModeler, 'rp': RPModeler}
-
-        config_info = orjson.loads(open(name+".json", "rb").read())
-        algorithm_name = config_info.get("algorithm")
-        if algorithm_name is None:
-            raise ValueError("No classifier name!")
-        if algorithm_name not in modeler_dict.keys():
-            raise ValueError(f"Unknown classifier name: {algorithm_name}")
-
-        topic_modeler = modeler_dict[algorithm_name](preprocessor=preprocessor, tokenizer=tokenizer)
-        topic_modeler.loadmodel(name)
-
-    return topic_modeler
+    Deprecated. Use `~GensimTopicModeler.from_pretrained`.
+    """
+    return GensimTopicModeler.from_pretrained(
+        name, preprocessor=preprocessor, tokenizer=tokenizer, compact=compact
+    )

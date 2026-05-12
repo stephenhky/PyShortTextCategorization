@@ -7,9 +7,8 @@ import joblib
 import sklearn
 
 from ....utils import textpreprocessing as textpreprocess
-from ....generators import load_gensimtopicmodel
 from ....generators import LDAModeler, LSIModeler, RPModeler, AutoencodingTopicModeler
-from ....generators import LatentTopicModeler
+from ....generators import LatentTopicModeler, GensimTopicModeler
 from ....utils import classification_exceptions as e
 from ....utils import compactmodel_io as cio
 from ...base import AbstractScorer
@@ -290,7 +289,7 @@ def load_gensim_topicvec_sklearnclassifier(
         classifier.trained = True
         return classifier
     else:
-        topicmodeler = load_gensimtopicmodel(name, preprocessor=preprocessor)
+        topicmodeler = GensimTopicModeler.from_pretrained(name, preprocessor=preprocessor)
         sklearn_classifier = joblib.load(name + '.pkl')
         classifier = TopicVectorSkLearnClassifier(topicmodeler, sklearn_classifier)
         classifier.trained = True

@@ -68,7 +68,109 @@ Users can save the trained model by calling:
 
 And the topic model can be retrieved by calling:
 
->>> topicmodeler2 = shorttext.generators.load_gensimtopicmodel('/path/to/nihlda128.bin')
+>>>import shorttext.generators topicmodeler2 = shorttext.generators.GensimTopicModeler('/path/to/nihlda128.bin')
+
+While initialize the instance of the topic modeler, the user can also specify
+whether to weigh the terms using tf-idf (term frequency - inverse document frequency).
+The default is to weigh. To not weigh, initialize it as
+
+>>> topicmodeler3 = shorttext.generators.GensimTopicModeler(toweigh=False)
+
+In the training and the retrieval above, the same preprocessing process is applied.
+Users can provide their own preprocessor while initiating the topic modeler.
+
+Users can save the trained model by calling:
+
+>>> topicmodeler.save_compact_model('/path/to/nihlda128.bin')
+
+And the topic model can be retrieved by calling:
+
+>>>import shorttext.generators topicmodeler2 = shorttext.generators.GensimTopicModeler('/path/to/nihlda128.bin')
+
+While initialize the instance of the topic modeler, the user can also specify
+whether to weigh the terms using tf-idf (term frequency - inverse document frequency).
+The default is to weigh. To not weigh, initialize it as
+
+>>> topicmodeler3 = shorttext.generators.GensimTopicModeler(toweigh=False)
+
+In the training and the retrieval above, the same preprocessing process is applied.
+Users can provide their own preprocessor while initiating the topic modeler.
+
+Users can save the trained model by calling:
+
+>>> topicmodeler.save_compact_model('/path/to/nihlda128.bin')
+
+And the topic model can be retrieved by calling:
+
+>>>import shorttext.generators topicmodeler2 = shorttext.generators.GensimTopicModeler('/path/to/nihlda128.bin')
+
+While initialize the instance of the topic modeler, the user can also specify
+whether to weigh the terms using tf-idf (term frequency - inverse document frequency).
+The default is to weigh. To not weigh, initialize it as
+
+>>> topicmodeler3 = shorttext.generators.GensimTopicModeler(toweigh=False)
+
+In the training and the retrieval above, the same preprocessing process is applied.
+Users can provide their own preprocessor while initiating the topic modeler.
+
+Users can save the trained model by calling:
+
+>>> topicmodeler.save_compact_model('/path/to/nihlda128.bin')
+
+And the topic model can be retrieved by calling:
+
+>>>import shorttext.generators topicmodeler2 = shorttext.generators.GensimTopicModeler('/path/to/nihlda128.bin')
+
+While initialize the instance of the topic modeler, the user can also specify
+whether to weigh the terms using tf-idf (term frequency - inverse document frequency).
+The default is to weigh. To not weigh, initialize it as
+
+>>> topicmodeler3 = shorttext.generators.GensimTopicModeler(toweigh=False)
+
+In the training and the retrieval above, the same preprocessing process is applied.
+Users can provide their own preprocessor while initiating the topic modeler.
+
+Users can save the trained model by calling:
+
+>>> topicmodeler.save_compact_model('/path/to/nihlda128.bin')
+
+And the topic model can be retrieved by calling:
+
+>>>import shorttext.generators topicmodeler2 = shorttext.generators.GensimTopicModeler('/path/to/nihlda128.bin')
+
+While initialize the instance of the topic modeler, the user can also specify
+whether to weigh the terms using tf-idf (term frequency - inverse document frequency).
+The default is to weigh. To not weigh, initialize it as
+
+>>> topicmodeler3 = shorttext.generators.GensimTopicModeler(toweigh=False)
+
+In the training and the retrieval above, the same preprocessing process is applied.
+Users can provide their own preprocessor while initiating the topic modeler.
+
+Users can save the trained model by calling:
+
+>>> topicmodeler.save_compact_model('/path/to/nihlda128.bin')
+
+And the topic model can be retrieved by calling:
+
+>>>import shorttext.generators topicmodeler2 = shorttext.generators.GensimTopicModeler('/path/to/nihlda128.bin')
+
+While initialize the instance of the topic modeler, the user can also specify
+whether to weigh the terms using tf-idf (term frequency - inverse document frequency).
+The default is to weigh. To not weigh, initialize it as
+
+>>> topicmodeler3 = shorttext.generators.GensimTopicModeler(toweigh=False)
+
+In the training and the retrieval above, the same preprocessing process is applied.
+Users can provide their own preprocessor while initiating the topic modeler.
+
+Users can save the trained model by calling:
+
+>>> topicmodeler.save_compact_model('/path/to/nihlda128.bin')
+
+And the topic model can be retrieved by calling:
+
+>>> topicmodeler2 = shorttext.generators.GensimTopicModeler.from_pretrained('/path/to/nihlda128.bin')
 
 While initialize the instance of the topic modeler, the user can also specify
 whether to weigh the terms using tf-idf (term frequency - inverse document frequency).
