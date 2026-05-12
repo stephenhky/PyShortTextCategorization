@@ -11,7 +11,7 @@ from .classifiers import  load_varnnlibvec_classifier, load_sumword2vec_classifi
 from .generators import GensimTopicModeler
 from .generators.bow.AutoEncodingTopicModeling import AutoencodingTopicModeler
 from .generators import load_seq2seq_model, loadCharBasedSeq2SeqGenerator
-from .classifiers import load_autoencoder_topic_sklearnclassifier, load_gensim_topicvec_sklearnclassifier
+from .classifiers import TopicVectorSkLearnClassifier
 from .classifiers.bow.maxent.MaxEntClassification import MaxEntClassifier
 from .utils.dtm import load_numpy_documentmatrixmatrix
 
@@ -51,9 +51,13 @@ def smartload_compact_model(
         case 'topic_sklearn':
             topicmodel = cio.get_model_config_field(filename, 'topicmodel')
             if topicmodel in ['ldatopic', 'lsitopic', 'rptopic']:
-                return load_gensim_topicvec_sklearnclassifier(filename, preprocessor=preprocessor, compact=True)
+                return TopicVectorSkLearnClassifier.from_pretrained_gensimtopic_sklearnclassifier(
+                    filename, preprocessor=preprocessor, compact=True
+                )
             elif topicmodel in ['kerasautoencoder']:
-                return load_autoencoder_topic_sklearnclassifier(filename, preprocessor=preprocessor, compact=True)
+                return TopicVectorSkLearnClassifier.from_pretrained_autoencoder_sklearnclassifier(
+                    filename, preprocessor=preprocessor, compact=True
+                )
             else:
                 raise e.AlgorithmNotExistException(topicmodel)
         case 'nnlibvec':
