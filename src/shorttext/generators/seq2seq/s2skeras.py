@@ -1,5 +1,5 @@
 
-from typing import Literal
+from typing import Literal, Self
 from os import PathLike
 
 import numpy as np
@@ -181,7 +181,31 @@ class Seq2SeqWithKeras(CompactIOMachine):
         self.decoder_model = load_model(prefix+'_decoder.weights.h5')
         self.trained = True
 
+    @classmethod
+    def from_pretrained(
+            cls,
+            path: str | PathLike,
+            compact: bool = True
+    ) -> Self:
+        """Load a trained Seq2SeqWithKeras model from file.
 
+        Args:
+            path: Path of the model file.
+            compact: Whether to load a compact model. Default: True.
+
+        Returns:
+            Seq2SeqWithKeras instance for sequence-to-sequence inference.
+        """
+        generator = Seq2SeqWithKeras(0, 0)
+        if compact:
+            generator.load_compact_model(path)
+        else:
+            generator.loadmodel(path)
+        generator.compiled = True
+        return generator
+
+
+@deprecated(deprecated_in="4.0.1", removed_in="5.0.0")
 def load_seq2seq_model(path: str | PathLike, compact: bool=True) -> Seq2SeqWithKeras:
     """Load a trained Seq2SeqWithKeras model from file.
 
@@ -192,18 +216,12 @@ def load_seq2seq_model(path: str | PathLike, compact: bool=True) -> Seq2SeqWithK
     Returns:
         Seq2SeqWithKeras instance for sequence-to-sequence inference.
     """
-    generator = Seq2SeqWithKeras(0, 0)
-    if compact:
-        generator.load_compact_model(path)
-    else:
-        generator.loadmodel(path)
-    generator.compiled = True
-    return generator
+    return Seq2SeqWithKeras.from_pretrained(path, compact=compact)
 
 
-@deprecated(deprecated_in="4.0.0", removed_in="5.0.0")
+@deprecated(deprecated_in="4.0.0", removed_in="4.1.0")
 def loadSeq2SeqWithKeras(path: str | PathLike, compact: bool=True) -> Seq2SeqWithKeras:
     """
     Deprecated. Call load_seq2seq_model instead.
     """
-    return load_seq2seq_model(path, compact=compact)
+    return Seq2SeqWithKeras.from_pretrained(path, compact=compact)
