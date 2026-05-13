@@ -71,7 +71,7 @@ This model can be saved by entering:
 
 And can be loaded by:
 
->>> seq2seqer2 = shorttext.generators.seq2seq.charbaseS2S.loadCharBasedSeq2SeqGenerator('/path/to/norvigtxt_iter5model.bin')
+>>> seq2seqer2 = shorttext.generators.seq2seq.charbaseS2S.CharBasedSeq2SeqGenerator.from_pretrained('/path/to/norvigtxt_iter5model.bin')
 
 .. automodule:: shorttext.generators.seq2seq.charbaseS2S
    :members: loadCharBasedSeq2SeqGenerator

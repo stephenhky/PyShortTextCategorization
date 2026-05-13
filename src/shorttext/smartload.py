@@ -10,7 +10,7 @@ from .utils import classification_exceptions as e
 from .classifiers import VarNNEmbeddedVecClassifier, SumEmbeddedVecClassifier
 from .generators import GensimTopicModeler
 from .generators.bow.AutoEncodingTopicModeling import AutoencodingTopicModeler
-from .generators import load_seq2seq_model, loadCharBasedSeq2SeqGenerator
+from .generators import load_seq2seq_model, CharBasedSeq2SeqGenerator
 from .classifiers import TopicVectorSkLearnClassifier
 from .classifiers.bow.maxent.MaxEntClassification import MaxEntClassifier
 from .utils.dtm import load_numpy_documentmatrixmatrix
@@ -69,7 +69,7 @@ def smartload_compact_model(
         case 'kerasseq2seq':
             return load_seq2seq_model(filename, compact=True)
         case 'charbases2s':
-            return loadCharBasedSeq2SeqGenerator(filename, compact=True)
+            return CharBasedSeq2SeqGenerator.from_pretrained(filename, compact=True)
         case "npdtm":
             return load_numpy_documentmatrixmatrix(filename)
         case _:
