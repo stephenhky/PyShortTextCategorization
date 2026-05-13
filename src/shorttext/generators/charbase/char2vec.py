@@ -1,6 +1,7 @@
 
 from functools import partial
 from os import PathLike
+from typing import Self, Optional
 
 import numpy as np
 import numpy.typing as npt
@@ -109,38 +110,53 @@ class SentenceToCharVecEncoder:
         """Return the number of unique characters in the dictionary."""
         return len(self.dictionary)
 
+    @classmethod
+    def from_pretrained(
+            cls,
+            textfile: str | PathLike,
+            encoding: Optional[bool] = None
+    ) -> Self:
+        """Create a SentenceToCharVecEncoder from a text file.
+
+            Builds a character dictionary from the given text file and returns
+            an encoder instance.
+
+            Args:
+                textfile: Path to the text file for building the character dictionary.
+                encoding: Encoding of the text file. Default: None.
+
+            Returns:
+                A SentenceToCharVecEncoder instance.
+            """
+        dictionary = Dictionary(
+            map(
+                lambda line: [c for c in line],
+                textfile_generator(textfile, encoding=encoding)
+            )
+        )
+        return SentenceToCharVecEncoder(dictionary)
+
 
 def initialize_SentenceToCharVecEncoder(
         textfile: str | PathLike,
-        encoding: bool=None
+        encoding: Optional[bool] = None
 ) -> SentenceToCharVecEncoder:
-    """Create a SentenceToCharVecEncoder from a text file.
-
-    Builds a character dictionary from the given text file and returns
-    an encoder instance.
-
-    Args:
-        textfile: Path to the text file for building the character dictionary.
-        encoding: Encoding of the text file. Default: None.
-
-    Returns:
-        A SentenceToCharVecEncoder instance.
     """
-    dictionary = Dictionary(
-        map(
-            lambda line: [c for c in line],
-            textfile_generator(textfile, encoding=encoding)
-        )
+    Deprecated. Use `~SentenceToCharVecEncoder.from_pretrained`.
+    """
+    return SentenceToCharVecEncoder.from_pretrained(
+        textfile, encoding=encoding
     )
-    return SentenceToCharVecEncoder(dictionary)
 
 
-@deprecated(deprecated_in="4.0.0", removed_in="5.0.0")
+@deprecated(deprecated_in="4.0.0", removed_in="4.1.0")
 def initSentenceToCharVecEncoder(
         textfile: str | PathLike,
-        encoding: bool=None
+        encoding: Optional[bool] = None
 ) -> SentenceToCharVecEncoder:
     """
     Deprecated. Use initialize_SentenceToCharVecEncoder instead.
     """
-    return initialize_SentenceToCharVecEncoder(textfile, encoding=encoding)
+    return SentenceToCharVecEncoder.from_pretrained(
+        textfile, encoding=encoding
+    )
