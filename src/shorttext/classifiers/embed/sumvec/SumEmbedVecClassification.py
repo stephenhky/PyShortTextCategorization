@@ -6,6 +6,7 @@ from typing import Optional, Annotated, Self
 import numpy as np
 import numpy.typing as npt
 from gensim.models.keyedvectors import KeyedVectors
+from deprecation import deprecated
 
 from ....utils.classification_exceptions import ModelNotTrainedException
 from ....utils import shorttext_to_avgvec
@@ -157,6 +158,7 @@ class SumEmbeddedVecClassifier(CompactIOMachine):
         return classifier
 
 
+@deprecated(deprecated_in="4.0.1", removed_in="5.0.0")
 def load_sumword2vec_classifier(
         wvmodel: KeyedVectors,
         name: str,

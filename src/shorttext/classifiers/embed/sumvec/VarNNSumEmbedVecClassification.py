@@ -1,5 +1,5 @@
 
-from typing import Optional, Annotated
+from typing import Optional, Annotated, Self
 
 import numpy as np
 import numpy.typing as npt
