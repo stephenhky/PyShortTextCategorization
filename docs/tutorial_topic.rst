@@ -267,7 +267,121 @@ immediately without training. Taking the LDA example above, such classifier can 
 Or if the user already saved the topic modeler, one can initiate the same classifier by
 loading the topic modeler:
 
->>> cos_classifier = shorttext.classifiers.load_gensimtopicvec_cosineClassifier('/path/to/nihlda128.bin')
+>>>import shorttext.classifiers cos_classifier = shorttext.classifiers.TopicVecCosineDistanceClassifierload_gensimtopicvec_cosineClassifier('/path/to/nihlda128.bin')
+
+To perform prediction, enter:
+
+>>> cos_classifier.score('stem cell research')
+
+which outputs a dictionary with labels and the corresponding scores.
+
+The same thing for autoencoder, but the classifier based on autoencoder can be loaded by another function:
+
+>>> cos_classifier = shorttext.classifiers.load_autoencoder_cosineClassifier('/path/to/sub_autoencoder8.bin')
+a classifier based on cosine similarities can be initiated
+immediately without training. Taking the LDA example above, such classifier can be initiated as follow:
+
+>>> cos_classifier = shorttext.classifiers.TopicVectorCosineDistanceClassifier(topicmodeler)
+
+Or if the user already saved the topic modeler, one can initiate the same classifier by
+loading the topic modeler:
+
+>>>import shorttext.classifiers cos_classifier = shorttext.classifiers.TopicVecCosineDistanceClassifierload_gensimtopicvec_cosineClassifier('/path/to/nihlda128.bin')
+
+To perform prediction, enter:
+
+>>> cos_classifier.score('stem cell research')
+
+which outputs a dictionary with labels and the corresponding scores.
+
+The same thing for autoencoder, but the classifier based on autoencoder can be loaded by another function:
+
+>>> cos_classifier = shorttext.classifiers.load_autoencoder_cosineClassifier('/path/to/sub_autoencoder8.bin')
+a classifier based on cosine similarities can be initiated
+immediately without training. Taking the LDA example above, such classifier can be initiated as follow:
+
+>>> cos_classifier = shorttext.classifiers.TopicVectorCosineDistanceClassifier(topicmodeler)
+
+Or if the user already saved the topic modeler, one can initiate the same classifier by
+loading the topic modeler:
+
+>>>import shorttext.classifiers cos_classifier = shorttext.classifiers.TopicVecCosineDistanceClassifierload_gensimtopicvec_cosineClassifier('/path/to/nihlda128.bin')
+
+To perform prediction, enter:
+
+>>> cos_classifier.score('stem cell research')
+
+which outputs a dictionary with labels and the corresponding scores.
+
+The same thing for autoencoder, but the classifier based on autoencoder can be loaded by another function:
+
+>>> cos_classifier = shorttext.classifiers.load_autoencoder_cosineClassifier('/path/to/sub_autoencoder8.bin')
+a classifier based on cosine similarities can be initiated
+immediately without training. Taking the LDA example above, such classifier can be initiated as follow:
+
+>>> cos_classifier = shorttext.classifiers.TopicVectorCosineDistanceClassifier(topicmodeler)
+
+Or if the user already saved the topic modeler, one can initiate the same classifier by
+loading the topic modeler:
+
+>>>import shorttext.classifiers cos_classifier = shorttext.classifiers.TopicVecCosineDistanceClassifierload_gensimtopicvec_cosineClassifier('/path/to/nihlda128.bin')
+
+To perform prediction, enter:
+
+>>> cos_classifier.score('stem cell research')
+
+which outputs a dictionary with labels and the corresponding scores.
+
+The same thing for autoencoder, but the classifier based on autoencoder can be loaded by another function:
+
+>>> cos_classifier = shorttext.classifiers.load_autoencoder_cosineClassifier('/path/to/sub_autoencoder8.bin')
+a classifier based on cosine similarities can be initiated
+immediately without training. Taking the LDA example above, such classifier can be initiated as follow:
+
+>>> cos_classifier = shorttext.classifiers.TopicVectorCosineDistanceClassifier(topicmodeler)
+
+Or if the user already saved the topic modeler, one can initiate the same classifier by
+loading the topic modeler:
+
+>>>import shorttext.classifiers cos_classifier = shorttext.classifiers.TopicVecCosineDistanceClassifierload_gensimtopicvec_cosineClassifier('/path/to/nihlda128.bin')
+
+To perform prediction, enter:
+
+>>> cos_classifier.score('stem cell research')
+
+which outputs a dictionary with labels and the corresponding scores.
+
+The same thing for autoencoder, but the classifier based on autoencoder can be loaded by another function:
+
+>>> cos_classifier = shorttext.classifiers.load_autoencoder_cosineClassifier('/path/to/sub_autoencoder8.bin')
+a classifier based on cosine similarities can be initiated
+immediately without training. Taking the LDA example above, such classifier can be initiated as follow:
+
+>>> cos_classifier = shorttext.classifiers.TopicVectorCosineDistanceClassifier(topicmodeler)
+
+Or if the user already saved the topic modeler, one can initiate the same classifier by
+loading the topic modeler:
+
+>>>import shorttext.classifiers cos_classifier = shorttext.classifiers.TopicVecCosineDistanceClassifierload_gensimtopicvec_cosineClassifier('/path/to/nihlda128.bin')
+
+To perform prediction, enter:
+
+>>> cos_classifier.score('stem cell research')
+
+which outputs a dictionary with labels and the corresponding scores.
+
+The same thing for autoencoder, but the classifier based on autoencoder can be loaded by another function:
+
+>>> cos_classifier = shorttext.classifiers.load_autoencoder_cosineClassifier('/path/to/sub_autoencoder8.bin')
+a classifier based on cosine similarities can be initiated
+immediately without training. Taking the LDA example above, such classifier can be initiated as follow:
+
+>>> cos_classifier = shorttext.classifiers.TopicVectorCosineDistanceClassifier(topicmodeler)
+
+Or if the user already saved the topic modeler, one can initiate the same classifier by
+loading the topic modeler:
+
+>>> cos_classifier = shorttext.classifiers.TopicVecCosineDistanceClassifier.from_pretrained_gensimtopic('/path/to/nihlda128.bin')
 
 To perform prediction, enter:
 
