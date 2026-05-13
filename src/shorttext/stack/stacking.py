@@ -273,8 +273,10 @@ class LogisticStackedGeneralization(StackedGeneralization, CompactIOMachine):
         if not self.trained:
             raise ModelNotTrainedException()
 
-        stackedmodeldict = {'classifiers': self.classifier2idx,
-                            'classlabels': self.classlabels}
+        stackedmodeldict = {
+            'classifiers': self.classifier2idx,
+            'classlabels': self.classlabels
+        }
         pickle.dump(stackedmodeldict, open(nameprefix+'_stackedlogistics.pkl', 'wb'))
         kerasio.save_model(nameprefix+'_stackedlogistics', self.model)
 

@@ -13,7 +13,7 @@ from .generators.bow.AutoEncodingTopicModeling import AutoencodingTopicModeler
 from .generators import CharBasedSeq2SeqGenerator, Seq2SeqWithKeras
 from .classifiers import TopicVectorSkLearnClassifier
 from .classifiers.bow.maxent.MaxEntClassification import MaxEntClassifier
-from .utils.dtm import load_numpy_documentmatrixmatrix
+from .utils.dtm import NumpyDocumentTermMatrix
 
 
 def smartload_compact_model(
@@ -71,6 +71,6 @@ def smartload_compact_model(
         case 'charbases2s':
             return CharBasedSeq2SeqGenerator.from_pretrained(filename, compact=True)
         case "npdtm":
-            return load_numpy_documentmatrixmatrix(filename)
+            return NumpyDocumentTermMatrix.from_npdict_file(filename)
         case _:
             raise e.AlgorithmNotExistException(classifier_name)
