@@ -67,7 +67,7 @@ The trained model can be saved:
 
 And with the same pre-trained Word2Vec model, this classifier can be loaded:
 
->>> classifier2 = shorttext.classifiers.load_sumword2vec_classifier(wvmodel, '/path/to/sumvec_nihdata_model.bin')
+>>> classifier2 = shorttext.classifiers.SumEmbeddedVecClassifier.from_pretrained(wvmodel, '/path/to/sumvec_nihdata_model.bin')
 
 Import the package:
 
@@ -119,7 +119,7 @@ The trained model can be saved:
 
 And with the same pre-trained Word2Vec model, this classifier can be loaded:
 
->>> classifier2 = shorttext.classifiers.load_sumword2vec_classifier(wvmodel, '/path/to/sumvec_nihdata_model.bin')
+>>> classifier2 = shorttext.classifiers.SumEmbeddedVecClassifier.from_pretrained(wvmodel, '/path/to/sumvec_nihdata_model.bin')
 
 Import the package:
 
@@ -171,7 +171,7 @@ The trained model can be saved:
 
 And with the same pre-trained Word2Vec model, this classifier can be loaded:
 
->>> classifier2 = shorttext.classifiers.load_sumword2vec_classifier(wvmodel, '/path/to/sumvec_nihdata_model.bin')
+>>> classifier2 = shorttext.classifiers.SumEmbeddedVecClassifier.from_pretrained(wvmodel, '/path/to/sumvec_nihdata_model.bin')
 
 Import the package:
 
@@ -223,7 +223,7 @@ The trained model can be saved:
 
 And with the same pre-trained Word2Vec model, this classifier can be loaded:
 
->>> classifier2 = shorttext.classifiers.load_sumword2vec_classifier(wvmodel, '/path/to/sumvec_nihdata_model.bin')
+>>> classifier2 = shorttext.classifiers.SumEmbeddedVecClassifier.from_pretrained(wvmodel, '/path/to/sumvec_nihdata_model.bin')
 
 Import the package:
 
@@ -275,7 +275,7 @@ The trained model can be saved:
 
 And with the same pre-trained Word2Vec model, this classifier can be loaded:
 
->>> classifier2 = shorttext.classifiers.load_sumword2vec_classifier(wvmodel, '/path/to/sumvec_nihdata_model.bin')
+>>> classifier2 = shorttext.classifiers.SumEmbeddedVecClassifier.from_pretrained(wvmodel, '/path/to/sumvec_nihdata_model.bin')
 
 Import the package:
 
@@ -327,7 +327,7 @@ The trained model can be saved:
 
 And with the same pre-trained Word2Vec model, this classifier can be loaded:
 
->>> classifier2 = shorttext.classifiers.load_sumword2vec_classifier(wvmodel, '/path/to/sumvec_nihdata_model.bin')
+>>> classifier2 = shorttext.classifiers.SumEmbeddedVecClassifier.from_pretrained(wvmodel, '/path/to/sumvec_nihdata_model.bin')
 
 Import the package:
 
@@ -379,7 +379,7 @@ The trained model can be saved:
 
 And with the same pre-trained Word2Vec model, this classifier can be loaded:
 
->>> classifier2 = shorttext.classifiers.load_sumword2vec_classifier(wvmodel, '/path/to/sumvec_nihdata_model.bin')
+>>> classifier2 = shorttext.classifiers.SumEmbeddedVecClassifier.from_pretrained(wvmodel, '/path/to/sumvec_nihdata_model.bin')
 
 .. autoclass:: shorttext.classifiers.embed.sumvec.SumEmbedVecClassification.SumEmbeddedVecClassifier
    :members:
@@ -401,7 +401,7 @@ This produces the following file for this model:
 
 It can be loaded by:
 
->>> classifier2 = shorttext.classifiers.load_sumword2vec_classifier(wvmodel, '/path/to/nihdata', compact=False)
+>>> classifier2 = shorttext.classifiers.SumEmbeddedVecClassifier.from_pretrained(wvmodel, '/path/to/nihdata', compact=False)
 
 Reference
 ---------

@@ -7,8 +7,7 @@ import gensim
 from .utils import standard_text_preprocessor_1
 from .utils import compactmodel_io as cio
 from .utils import classification_exceptions as e
-from .classifiers import  load_sumword2vec_classifier
-from .classifiers import VarNNEmbeddedVecClassifier
+from .classifiers import VarNNEmbeddedVecClassifier, SumEmbeddedVecClassifier
 from .generators import GensimTopicModeler
 from .generators.bow.AutoEncodingTopicModeling import AutoencodingTopicModeler
 from .generators import load_seq2seq_model, loadCharBasedSeq2SeqGenerator
@@ -64,7 +63,7 @@ def smartload_compact_model(
         case 'nnlibvec':
             return VarNNEmbeddedVecClassifier.from_pretrained(wvmodel, filename, compact=True, vecsize=vecsize)
         case 'sumvec':
-            return load_sumword2vec_classifier(wvmodel, filename, compact=True, vecsize=vecsize)
+            return SumEmbeddedVecClassifier.from_pretrained(wvmodel, filename, compact=True, vecsize=vecsize)
         case 'maxent':
             return MaxEntClassifier.from_pretrained(filename, compact=True)
         case 'kerasseq2seq':

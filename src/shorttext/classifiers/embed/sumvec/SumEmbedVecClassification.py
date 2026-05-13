@@ -1,12 +1,11 @@
 
 import pickle
 from collections import defaultdict
-from typing import Optional, Annotated
+from typing import Optional, Annotated, Self
 
 import numpy as np
 import numpy.typing as npt
 from gensim.models.keyedvectors import KeyedVectors
-from loguru import logger
 
 from ....utils.classification_exceptions import ModelNotTrainedException
 from ....utils import shorttext_to_avgvec
@@ -131,6 +130,32 @@ class SumEmbeddedVecClassifier(CompactIOMachine):
                 scoredict[classtype] = np.nan
         return scoredict
 
+    @classmethod
+    def from_pretrained(
+            cls,
+            wvmodel: KeyedVectors,
+            name: str,
+            compact: bool = True,
+            vecsize: Optional[int] = None
+    ) -> Self:
+        """Load a SumEmbeddedVecClassifier from file.
+
+            Args:
+                wvmodel: Word embedding model.
+                name: Model name (compact) or prefix (non-compact).
+                compact: Whether to load compact model. Default: True.
+                vecsize: Vector size. Default: None.
+
+            Returns:
+                SumEmbeddedVecClassifier instance.
+            """
+        classifier = SumEmbeddedVecClassifier(wvmodel, vecsize=vecsize)
+        if compact:
+            classifier.load_compact_model(name)
+        else:
+            classifier.loadmodel(name)
+        return classifier
+
 
 def load_sumword2vec_classifier(
         wvmodel: KeyedVectors,
@@ -138,20 +163,9 @@ def load_sumword2vec_classifier(
         compact: bool = True,
         vecsize: Optional[int] = None
 ) -> SumEmbeddedVecClassifier:
-    """Load a SumEmbeddedVecClassifier from file.
-
-    Args:
-        wvmodel: Word embedding model.
-        name: Model name (compact) or prefix (non-compact).
-        compact: Whether to load compact model. Default: True.
-        vecsize: Vector size. Default: None.
-
-    Returns:
-        SumEmbeddedVecClassifier instance.
     """
-    classifier = SumEmbeddedVecClassifier(wvmodel, vecsize=vecsize)
-    if compact:
-        classifier.load_compact_model(name)
-    else:
-        classifier.loadmodel(name)
-    return classifier
+    Deprecated. Use `~SumEmbeddedVecClassifier.from_pretrained`.
+    """
+    return SumEmbeddedVecClassifier.from_pretrained(
+        wvmodel, name, compact=compact, vecsize=vecsize
+    )
