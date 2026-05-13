@@ -214,7 +214,7 @@ class CharBasedSeq2SeqGenerator(CompactIOMachine):
         return seq2seqer
 
 
-
+@deprecated(deprecated_in="4.0.1", removed_in="5.0.0")
 def loadCharBasedSeq2SeqGenerator(
         path: str | PathLike,
         compact: bool = True
