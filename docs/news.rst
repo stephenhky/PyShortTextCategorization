@@ -1,6 +1,7 @@
 News
 ====
 
+* 05/14/2026: `shorttext` 4.0.1 released.
 * 04/19/2026: `shorttext` 4.0.0 released.
 * 03/22/2026: `shorttext` 3.1.1 released.
 * 03/02/2026: `shorttext` 3.1.0 reelased.
@@ -89,6 +90,12 @@ News
 
 What's New
 ----------
+
+Release 4.0.1 (May 14, 2026)
+----------------------------
+
+* Use classmethods to load pretrained models.
+* Code optimization.
 
 Release 4.0.0 (April 19, 2026)
 ------------------------------

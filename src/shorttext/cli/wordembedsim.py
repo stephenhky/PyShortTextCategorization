@@ -2,8 +2,6 @@
 import argparse
 import time
 
-from scipy.spatial.distance import cosine
-
 from ..metrics.embedfuzzy import jaccardscore_sents
 from ..utils import tokenize, load_word2vec_model, load_fasttext_model, load_poincare_model
 from ..utils import shorttext_to_avgvec
@@ -18,19 +16,20 @@ typedict = {
 }
 
 
-def getargparser():
+def getargparser() -> argparse.ArgumentParser:
     """Get argument parser for word embedding similarity CLI.
 
     Returns:
         ArgumentParser for command line arguments.
     """
+    parser = argparse.ArgumentParser
     parser.add_argument('modelpath', help='Path of the Word2Vec model')
     parser.add_argument('--type', default='word2vec',
                         help='Type of word-embedding model (default: "word2vec"; other options: "fasttext", "poincare")')
     return parser
 
 
-def main():
+def main() -> None:
     # argument parsing
     args = getargparser().parse_args()
 
