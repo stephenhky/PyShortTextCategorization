@@ -7,12 +7,13 @@ import gensim
 from .utils import standard_text_preprocessor_1
 from .utils import compactmodel_io as cio
 from .utils import classification_exceptions as e
-from .classifiers import  load_varnnlibvec_classifier, load_sumword2vec_classifier
-from .generators import load_autoencoder_topicmodel, load_gensimtopicmodel
-from .generators import load_seq2seq_model, loadCharBasedSeq2SeqGenerator
-from .classifiers import load_autoencoder_topic_sklearnclassifier, load_gensim_topicvec_sklearnclassifier
-from .classifiers import load_maxent_classifier
-from .utils.dtm import load_numpy_documentmatrixmatrix
+from .classifiers import VarNNEmbeddedVecClassifier, SumEmbeddedVecClassifier
+from .generators import GensimTopicModeler
+from .generators.bow.AutoEncodingTopicModeling import AutoencodingTopicModeler
+from .generators import CharBasedSeq2SeqGenerator, Seq2SeqWithKeras
+from .classifiers import TopicVectorSkLearnClassifier
+from .classifiers.bow.maxent.MaxEntClassification import MaxEntClassifier
+from .utils.dtm import NumpyDocumentTermMatrix
 
 
 def smartload_compact_model(
@@ -44,28 +45,32 @@ def smartload_compact_model(
     classifier_name = cio.get_model_classifier_name(filename)
     match classifier_name:
         case 'ldatopic' | 'lsitopic' | 'rptopic':
-            return load_gensimtopicmodel(filename, preprocessor=preprocessor, compact=True)
+            return GensimTopicModeler.from_pretrained(filename, preprocessor=preprocessor, compact=True)
         case 'kerasautoencoder':
-            return load_autoencoder_topicmodel(filename, preprocessor=preprocessor, compact=True)
+            return AutoencodingTopicModeler.from_pretrained(filename, preprocessor=preprocessor, compact=True)
         case 'topic_sklearn':
             topicmodel = cio.get_model_config_field(filename, 'topicmodel')
             if topicmodel in ['ldatopic', 'lsitopic', 'rptopic']:
-                return load_gensim_topicvec_sklearnclassifier(filename, preprocessor=preprocessor, compact=True)
+                return TopicVectorSkLearnClassifier.from_pretrained_gensimtopic_sklearnclassifier(
+                    filename, preprocessor=preprocessor, compact=True
+                )
             elif topicmodel in ['kerasautoencoder']:
-                return load_autoencoder_topic_sklearnclassifier(filename, preprocessor=preprocessor, compact=True)
+                return TopicVectorSkLearnClassifier.from_pretrained_autoencoder_sklearnclassifier(
+                    filename, preprocessor=preprocessor, compact=True
+                )
             else:
                 raise e.AlgorithmNotExistException(topicmodel)
         case 'nnlibvec':
-            return load_varnnlibvec_classifier(wvmodel, filename, compact=True, vecsize=vecsize)
+            return VarNNEmbeddedVecClassifier.from_pretrained(wvmodel, filename, compact=True, vecsize=vecsize)
         case 'sumvec':
-            return load_sumword2vec_classifier(wvmodel, filename, compact=True, vecsize=vecsize)
+            return SumEmbeddedVecClassifier.from_pretrained(wvmodel, filename, compact=True, vecsize=vecsize)
         case 'maxent':
-            return load_maxent_classifier(filename, compact=True)
+            return MaxEntClassifier.from_pretrained(filename, compact=True)
         case 'kerasseq2seq':
-            return load_seq2seq_model(filename, compact=True)
+            return Seq2SeqWithKeras.from_pretrained(filename, compact=True)
         case 'charbases2s':
-            return loadCharBasedSeq2SeqGenerator(filename, compact=True)
+            return CharBasedSeq2SeqGenerator.from_pretrained(filename, compact=True)
         case "npdtm":
-            return load_numpy_documentmatrixmatrix(filename)
+            return NumpyDocumentTermMatrix.from_npdict_file(filename)
         case _:
             raise e.AlgorithmNotExistException(classifier_name)

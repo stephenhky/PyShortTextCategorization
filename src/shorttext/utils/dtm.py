@@ -6,6 +6,7 @@ import numpy as np
 import numpy.typing as npt
 import npdict
 from os import PathLike
+from deprecation import deprecated
 
 import sparse
 
@@ -373,17 +374,24 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
         """Number of unique tokens."""
         return len(self.tokens)
 
+    @classmethod
+    def from_npdict_file(cls, filepath: str | PathLike) -> Self:
+        """Load a document-term matrix from a compact file.
 
+            Args:
+                filepath: Path to the compact model file.
+
+            Returns:
+                NumpyDocumentTermMatrix instance.
+            """
+        npdtm = NumpyDocumentTermMatrix()
+        npdtm.load_compact_model(filepath)
+        return npdtm
+
+
+@deprecated(deprecated_in="4.0.1", removed_in="5.0.0")
 def load_numpy_documentmatrixmatrix(filepath: str | PathLike) -> NumpyDocumentTermMatrix:
-    """Load a document-term matrix from a compact file.
-
-    Args:
-        filepath: Path to the compact model file.
-
-    Returns:
-        NumpyDocumentTermMatrix instance.
     """
-    npdtm = NumpyDocumentTermMatrix()
-    npdtm.load_compact_model(filepath)
-    return npdtm
-
+    Deprecated. Use `~NumpyDocumentTermMatrix.from_npdict_file`.
+    """
+    return NumpyDocumentTermMatrix.from_npdict_file(filepath)

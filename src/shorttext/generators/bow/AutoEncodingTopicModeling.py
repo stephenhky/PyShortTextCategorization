@@ -1,7 +1,7 @@
 
 import json
 import pickle
-from typing import Optional, Any
+from typing import Optional, Any, Self
 from collections import Counter
 
 import numpy as np
@@ -11,6 +11,7 @@ from tensorflow.keras import Input
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Dense
 import orjson
+from deprecation import deprecated
 
 from .LatentTopicModeling import LatentTopicModeler
 from ...utils import kerasmodel_io as kerasio, textpreprocessing as textpreprocess
@@ -281,22 +282,44 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         """
         return CompactIOMachine.get_info(self)
 
+    @classmethod
+    def from_pretrained(
+            cls,
+            name: str,
+            preprocessor: Optional[callable] = None,
+            tokenizer: Optional[callable] = None,
+            compact: bool = True
+    ) -> Self:
+        """Load an autoencoder topic model from files.
 
+            Args:
+                name: Model name (compact) or file prefix (non-compact).
+                preprocessor: Text preprocessing function.
+                compact: Whether to load compact model. Default: True.
+
+            Returns:
+                An AutoencodingTopicModeler instance.
+            """
+        if preprocessor is None:
+            preprocessor = textpreprocess.standard_text_preprocessor_1()
+
+        autoencoder = AutoencodingTopicModeler(preprocessor=preprocessor, tokenizer=tokenizer)
+        if compact:
+            autoencoder.load_compact_model(name)
+        else:
+            autoencoder.loadmodel(name)
+        return autoencoder
+
+
+@deprecated(deprecated_in="4.0.1", removed_in="5.0.0")
 def load_autoencoder_topicmodel(
         name: str,
         preprocessor: Optional[callable] = None,
         tokenizer: Optional[callable] = None,
         compact: bool=True
 ) -> AutoencodingTopicModeler:
-    """Load an autoencoder topic model from files.
-
-    Args:
-        name: Model name (compact) or file prefix (non-compact).
-        preprocessor: Text preprocessing function.
-        compact: Whether to load compact model. Default: True.
-
-    Returns:
-        An AutoencodingTopicModeler instance.
+    """
+    Deprecated. Use `~AutoEncodingTopicModeling.from_pretrained`.
     """
     if preprocessor is None:
         preprocessor = textpreprocess.standard_text_preprocessor_1()

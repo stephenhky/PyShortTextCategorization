@@ -1,10 +1,11 @@
 
-from typing import Optional, Annotated
+from typing import Optional, Annotated, Self
 
 import numpy as np
 import numpy.typing as npt
 from gensim.models.keyedvectors import KeyedVectors
 from tensorflow.keras.models import Model
+from deprecation import deprecated
 
 from ....utils import kerasmodel_io as kerasio
 from ....utils.classification_exceptions import ModelNotTrainedException
@@ -196,27 +197,43 @@ class VarNNSumEmbeddedVecClassifier(AbstractScorer, CompactIOMachine):
         }
         return scoredict
 
+    @classmethod
+    def from_pretrained(
+            cls,
+            wvmodel: KeyedVectors,
+            name: str,
+            compact: bool = True,
+            vecsize: Optional[int] = None
+    ) -> Self:
+        """Load a VarNNSumEmbeddedVecClassifier from file.
 
+            Args:
+                wvmodel: Word embedding model.
+                name: Model name (compact) or file prefix (non-compact).
+                compact: Whether to load compact model. Default: True.
+                vecsize: Vector size. Default: None.
+
+            Returns:
+                VarNNSumEmbeddedVecClassifier instance.
+            """
+        classifier = VarNNSumEmbeddedVecClassifier(wvmodel, vecsize=vecsize)
+        if compact:
+            classifier.load_compact_model(name)
+        else:
+            classifier.loadmodel(name)
+        return classifier
+
+
+@deprecated(deprecated_in="4.0.1", removed_in="5.0.0")
 def load_varnnsumvec_classifier(
         wvmodel: KeyedVectors,
         name: str,
         compact: bool = True,
         vecsize: Optional[int] = None
 ) -> VarNNSumEmbeddedVecClassifier:
-    """Load a VarNNSumEmbeddedVecClassifier from file.
-
-    Args:
-        wvmodel: Word embedding model.
-        name: Model name (compact) or file prefix (non-compact).
-        compact: Whether to load compact model. Default: True.
-        vecsize: Vector size. Default: None.
-
-    Returns:
-        VarNNSumEmbeddedVecClassifier instance.
     """
-    classifier = VarNNSumEmbeddedVecClassifier(wvmodel, vecsize=vecsize)
-    if compact:
-        classifier.load_compact_model(name)
-    else:
-        classifier.loadmodel(name)
-    return classifier
+    Deprecated. Use `~VarNNSumEmbeddedVecClassifier.from_pretrained`.
+    """
+    return VarNNSumEmbeddedVecClassifier.from_pretrained(
+        wvmodel, name, compact=compact, vecsize=vecsize
+    )

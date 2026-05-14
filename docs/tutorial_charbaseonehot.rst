@@ -17,17 +17,17 @@ the file `big.txt` in Peter Norvig's websites:
 >>> from urllib.request import urlopen
 >>> textfile = urlopen('http://norvig.com/big.txt', 'r')
 
-Then instantiate the class using the function :func:`shorttext.generators.initSentenceToCharVecEncoder`:
+Then instantiate the class using the classmethod `SentenceToCharVecEncoder.from_pretrained`:
 
->>> chartovec_encoder = shorttext.generators.initialize_SentenceToCharVecEncoder(textfile)
-
-Now, the object
-
->>> chartovec_encoder = shorttext.generators.initialize_SentenceToCharVecEncoder(textfile)
+>>> chartovec_encoder = shorttext.generators.SentenceToCharVecEncoder.from_pretrained(textfile)
 
 Now, the object
 
->>> chartovec_encoder = shorttext.generators.initialize_SentenceToCharVecEncoder(textfile)
+>>> chartovec_encoder = shorttext.generators.SentenceToCharVecEncoder.from_pretrained(textfile)
+
+Now, the object
+
+>>> chartovec_encoder = shorttext.generators.SentenceToCharVecEncoder.from_pretrained(textfile)
 
 Now, the object `chartovec_encoder` is an instance of :class:`shorttext.generators.SentenceToCharVecEncoder` . The
 default signal character is `\n`, which is also encoded, and can be checked by looking at the field:
