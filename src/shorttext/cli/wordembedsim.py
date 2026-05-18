@@ -22,7 +22,7 @@ def getargparser() -> argparse.ArgumentParser:
     Returns:
         ArgumentParser for command line arguments.
     """
-    parser = argparse.ArgumentParser
+    parser = argparse.ArgumentParser(description="Find the similarities between two short sentences using Word2Vec.")
     parser.add_argument('modelpath', help='Path of the Word2Vec model')
     parser.add_argument('--type', default='word2vec',
                         help='Type of word-embedding model (default: "word2vec"; other options: "fasttext", "poincare")')
