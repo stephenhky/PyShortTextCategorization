@@ -1,5 +1,5 @@
 numpy==2.4.6
-scipy==1.17.1
+scipy==1.18.0
 joblib==1.5.3
 scikit-learn==1.9.0
 tensorflow==2.21.0
