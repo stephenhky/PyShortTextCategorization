@@ -9,7 +9,7 @@ pandas==3.0.4
 snowballstemmer==3.1.1
 transformers==5.12.1
 torch==2.12.1
-numba==0.65.1
+numba==0.66.0
 deprecation==2.1.0
 npdict==0.0.10
 orjson==3.11.9
