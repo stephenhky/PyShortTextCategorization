@@ -11,7 +11,7 @@ transformers==5.12.1
 torch==2.12.1
 numba==0.66.0
 deprecation==2.1.0
-npdict==0.0.10
+npdict==0.0.11
 orjson==3.11.9
 sparse==0.18.0
 loguru==0.7.3
