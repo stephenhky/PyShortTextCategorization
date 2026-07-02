@@ -290,9 +290,11 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
         token_index = self.npdtm._keystrings_to_indices[1][token]
         if isinstance(self.npdtm, npdict.SparseArrayWrappedDict):
             matrix = self.npdtm.to_coo()
+            array = matrix[:, token_index].todense()
         else:
             matrix = self.npdtm.to_numpy()
-        return np.sum(matrix[:, token_index])
+            array = matrix[:, token_index]
+        return np.sum(array)
 
     def get_doc_frequency(self, token) -> int:
         """Get document frequency of a token.
@@ -305,7 +307,7 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
         """
         token_index = self.npdtm._keystrings_to_indices[1][token]
         if isinstance(self.npdtm, npdict.SparseArrayWrappedDict):
-            freq_array = self.npdtm.to_coo()[:, token_index]
+            freq_array = self.npdtm.to_coo()[:, token_index].todense()
         else:
             freq_array = self.npdtm.to_numpy()[:, token_index]
         return np.sum(freq_array > 0, axis=0)
