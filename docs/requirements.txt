@@ -13,5 +13,5 @@ numba==0.66.0
 deprecation==2.1.0
 npdict==0.0.10
 orjson==3.11.9
-sparse==0.18.0
+sparse==0.19.0
 loguru==0.7.3
