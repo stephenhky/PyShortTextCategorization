@@ -1,6 +1,7 @@
 News
 ====
 
+* 07/02/2026: `shorttext` 4.0.4 released.
 * 05/26/2026: `shorttext` 4.0.3 released.
 * 05/18/2026: `shorttext` 4.0.2 released.
 * 05/14/2026: `shorttext` 4.0.1 released.
@@ -92,6 +93,12 @@ News
 
 What's New
 ----------
+
+Release 4.0.4 (July 2, 2026)
+----------------------------
+
+* Debugging regarding the update of the library `sparse`.
+* Refactoring.
 
 Release 4.0.3 (May 26, 2026)
 ----------------------------

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "shorttext"
-version = "4.0.3"
+version = "4.0.4"
 authors = [
     {name = "Kwan Yuet Stephen Ho", email = "stephenhky@yahoo.com.hk"}
 ]
@@ -40,7 +40,7 @@ dependencies = [
     "snowballstemmer>=3.0.0",
     "numba>=0.57.0",
     "deprecation>=2.0.0",
-    "npdict>=0.0.10",
+    "npdict>=0.0.11",
     "sparse>=0.10.0",
     "orjson>=3.0.0",
     "loguru>=0.6.0"
