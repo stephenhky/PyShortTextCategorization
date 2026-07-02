@@ -173,7 +173,7 @@ def compute_document_frequency(
     Returns:
         Array of document frequencies for each token.
     """
-    if isinstance(npdtm, npdict.SparseArrayWrappedDict):
+    if npdtm.is_sparse():
         return np.sum(npdtm.to_coo() > 0, axis=0).todense()
     else:
         return np.sum(npdtm.to_numpy() > 0, axis=0)
@@ -194,7 +194,7 @@ def compute_tfidf_document_term_matrix(
     """
     doc_frequencies = compute_document_frequency(npdtm)
     nbdocs = npdtm.dimension_sizes[0]
-    if isinstance(npdtm, npdict.SparseArrayWrappedDict):
+    if npdtm.is_sparse():
         new_dtm_sparray = npdtm.to_coo() * np.log(nbdocs / doc_frequencies)
         return npdtm.generate_dict(new_dtm_sparray, dense=not sparse)
 
@@ -288,7 +288,7 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
             Total term frequency.
         """
         token_index = self.npdtm._keystrings_to_indices[1][token]
-        if isinstance(self.npdtm, npdict.SparseArrayWrappedDict):
+        if self.npdtm.is_sparse():
             matrix = self.npdtm.to_coo()
             array = matrix[:, token_index].todense()
         else:
@@ -306,7 +306,7 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
             Number of documents containing the token.
         """
         token_index = self.npdtm._keystrings_to_indices[1][token]
-        if isinstance(self.npdtm, npdict.SparseArrayWrappedDict):
+        if self.npdtm.is_sparse():
             freq_array = self.npdtm.to_coo()[:, token_index].todense()
         else:
             freq_array = self.npdtm.to_numpy()[:, token_index]
