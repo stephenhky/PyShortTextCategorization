@@ -98,6 +98,7 @@ Release 4.0.4 (July 2, 2026)
 ----------------------------
 
 * Debugging regarding the update of the library `sparse`.
+* Refactoring.
 
 Release 4.0.3 (May 26, 2026)
 ----------------------------
