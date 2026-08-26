@@ -1,6 +1,8 @@
 
-import argparse
 import time
+from pathlib import Path
+
+import click
 
 from ..metrics.embedfuzzy import jaccardscore_sents
 from ..utils import tokenize, load_word2vec_model, load_fasttext_model, load_poincare_model
@@ -16,29 +18,29 @@ typedict = {
 }
 
 
-def getargparser() -> argparse.ArgumentParser:
-    """Get argument parser for word embedding similarity CLI.
-
-    Returns:
-        ArgumentParser for command line arguments.
+@click.command()
+@click.argument("modelpath", type=click.Path(exists=True))
+@click.option("--type", default="word2vec", type=click.Choice(list(typedict.keys())),
+              help='Type of word-embedding model (default: "word2vec"; other options: "fasttext", "poincare")')
+def find_sentences_similarity(
+        modelpath: Path,
+        type: str
+) -> None:
     """
-    parser = argparse.ArgumentParser(description="Find the similarities between two short sentences using Word2Vec.")
-    parser.add_argument('modelpath', help='Path of the Word2Vec model')
-    parser.add_argument('--type', default='word2vec',
-                        help='Type of word-embedding model (default: "word2vec"; other options: "fasttext", "poincare")')
-    return parser
+    Find the similarities between two short sentences using Word2Vec.
 
-
-def main() -> None:
-    # argument parsing
-    args = getargparser().parse_args()
+    \b
+    MODELPATH    Path of the embedding model
+    """
+    # path normalization
+    modelpath = Path(modelpath)
 
     # preload tokenizer
     tokenize('Mogu is cute.')
 
     time0 = time.time()
-    print(f"Loading {args.type}   model: {args.modelpath}")
-    wvmodel = typedict[args.type](args.modelpath)
+    print(f"Loading {type} model: {modelpath.as_posix()}")
+    wvmodel = typedict[type](modelpath)
     time1 = time.time()
     end = False
     print(f"... loading time: {time1 - time0} seconds")
