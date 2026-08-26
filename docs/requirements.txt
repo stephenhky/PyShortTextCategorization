@@ -7,7 +7,7 @@ keras==3.15.1
 gensim==4.4.0
 pandas==3.0.5
 snowballstemmer==3.1.1
-transformers==5.15.1
+transformers==5.16.1
 torch==2.13.0
 numba==0.67.0
 deprecation==2.1.0
