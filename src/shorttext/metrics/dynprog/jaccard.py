@@ -7,7 +7,6 @@ from .dldist import damerau_levenshtein
 from .lcp import longest_common_prefix
 
 
-@nb.njit
 def similarity(word1: str, word2: str) -> float:
     """Calculate similarity between two words.
 
