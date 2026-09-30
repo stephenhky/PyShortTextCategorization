@@ -34,7 +34,6 @@ def similarity(word1: str, word2: str) -> float:
     return max(1. - float(editdistance)/maxlen, float(lcp)/maxlen)
 
 
-@nb.njit
 def soft_intersection_list(tokens1: list[str], tokens2: list[str]) -> set[str]:
     """Compute soft intersection between two token lists.
 
@@ -63,7 +62,6 @@ def soft_intersection_list(tokens1: list[str], tokens2: list[str]) -> set[str]:
     return included_list
 
 
-@nb.njit
 def soft_jaccard_score(tokens1: list[str], tokens2: list[str]) -> float:
     """Compute soft Jaccard score between token lists.
 
