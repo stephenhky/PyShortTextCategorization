@@ -64,7 +64,7 @@ def soft_intersection_list(tokens1: list[str], tokens2: list[str]) -> set[str]:
 
 
 @nb.njit
-def soft_jaccard_score(tokens1: str, tokens2: str) -> float:
+def soft_jaccard_score(tokens1: list[str], tokens2: list[str]) -> float:
     """Compute soft Jaccard score between token lists.
 
     Uses fuzzy matching based on edit distance and longest common prefix.
