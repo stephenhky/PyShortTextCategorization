@@ -99,7 +99,8 @@ Release 4.1.0 (September 30, 2026)
 ----------------------------------
 
 * Replace CLI commands: `ShortTextCategorizerConsole` replaced by `shorttext_categorize`, and `ShortTextWordEmbedSimilarity` replaced by `find_sentences_similarity`;
-* Fuzzy logic codes debugged.
+* Fuzzy logic codes debugged;
+* CircleCI CI/CD pipeline updated.
 
 
 Release 4.0.4 (July 2, 2026)
