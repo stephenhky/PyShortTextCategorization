@@ -35,9 +35,6 @@ def find_sentences_similarity(
     # path normalization
     modelpath = Path(modelpath)
 
-    # preload tokenizer
-    tokenize('Mogu is cute.')
-
     time0 = time.time()
     print(f"Loading {type} model: {modelpath.as_posix()}")
     wvmodel = typedict[type](modelpath)
