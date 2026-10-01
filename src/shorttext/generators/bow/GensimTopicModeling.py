@@ -133,7 +133,11 @@ class GensimTopicModeler(LatentTopicModeler):
         else:
             vec = np.ones(len(self.dictionary))
         if self.normalize:
-            vec /= np.linalg.norm(vec)
+            norm = np.linalg.norm(vec)
+            if norm > 0:
+                vec /= norm
+            else:
+                vec = np.ones(len(self.dictionary), dtype=np.float64) / np.sqrt(len(self.dictionary))
         return vec
 
     def retrieve_corpus_topicdist(self, shorttext: str) -> list[tuple[int, int | float]]:
@@ -175,7 +179,11 @@ class GensimTopicModeler(LatentTopicModeler):
         else:
             topicvec = np.ones(self.nb_topics)
         if self.normalize:
-            topicvec /= np.linalg.norm(topicvec)
+            norm = np.linalg.norm(topicvec)
+            if norm > 0:
+                topicvec /= norm
+            else:
+                topicvec = np.ones(self.nb_topics, dtype=np.float64) / np.sqrt(self.nb_topics)
         return topicvec
 
     def get_batch_cos_similarities(self, shorttext: str) -> dict[str, float]:

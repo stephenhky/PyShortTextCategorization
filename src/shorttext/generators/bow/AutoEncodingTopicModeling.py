@@ -163,7 +163,11 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         else:
             vec = np.ones(len(self.token2indices))
         if self.normalize:
-            vec = vec.astype(np.float64) / np.linalg.norm(vec)
+            norm = np.linalg.norm(vec)
+            if norm > 0:
+                vec = vec.astype(np.float64) / norm
+            else:
+                vec = np.ones(len(self.token2indices), dtype=np.float64) / np.sqrt(len(self.token2indices))
         return vec
 
     def retrieve_topicvec(self, shorttext: str) -> npt.NDArray[np.float64]:
@@ -183,7 +187,11 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         bow_vector = self.retrieve_bow_vector(shorttext)
         encoded_vec = self.encoder.predict(np.expand_dims(bow_vector, axis=0))[0]
         if self.normalize:
-            encoded_vec /= np.linalg.norm(encoded_vec)
+            norm = np.linalg.norm(encoded_vec)
+            if norm > 0:
+                encoded_vec /= norm
+            else:
+                encoded_vec = np.ones(self.nb_topics, dtype=np.float64) / np.sqrt(self.nb_topics)
         return encoded_vec.astype(np.float64)
 
     def precalculate_liststr_topicvec(self, shorttexts: list[str]) -> npt.NDArray[np.float64]:
@@ -201,7 +209,11 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
             ModelNotTrainedException: If model not trained.
         """
         sumvec = sum([self.retrieve_topicvec(shorttext) for shorttext in shorttexts])
-        sumvec /= np.linalg.norm(sumvec)
+        norm = np.linalg.norm(sumvec)
+        if norm > 0:
+            sumvec /= norm
+        else:
+            sumvec = np.ones(self.nb_topics, dtype=np.float64) / np.sqrt(self.nb_topics)
         return sumvec
 
     def get_batch_cos_similarities(self, shorttext: str) -> dict[str, float]:

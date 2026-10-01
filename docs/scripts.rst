@@ -5,49 +5,49 @@ This package provides two scripts.
 
 The development of the scripts is *not stable* yet, and more scripts will be added.
 
-ShortTextCategorizerConsole
----------------------------
+shorttext_categorize
+--------------------
 
 ::
 
-    usage: ShortTextCategorizerConsole [-h] [--wv WV] [--vecsize VECSIZE]
-                                       [--topn TOPN] [--inputtext INPUTTEXT]
-                                       [--type {word2vec,word2vec_nonbinary,fasttext,poincare,poincare_binary}]
-                                       model_filepath
+    Usage: shorttext_categorize [OPTIONS] MODEL_FILEPATH
 
-    Perform prediction on short text with a given trained model.
+      Perform prediction on short text with a given trained model.
 
-    positional arguments:
-      model_filepath        Path of the trained (compact) model.
+      MODEL_FILEPATH     Path of the trained (compact) model.
 
-    options:
-      -h, --help            show this help message and exit
-      --wv WV               Path of the pre-trained Word2Vec model.
-      --vecsize VECSIZE     Vector dimensions. (Default: 300)
-      --topn TOPN           Number of top results to show.
-      --inputtext INPUTTEXT
-                            Single input text for classification. If omitted, will
-                            enter console mode.
-      --type {word2vec,word2vec_nonbinary,fasttext,poincare,poincare_binary}
-                            Type of word-embedding model (default: word2vec)
+    Options:
+      --wv PATH                       Path of the pre-trained Word2Vec model, if
+                                      needed.
+      --vecsize INTEGER               Vector dimensions. (Default: 300)
+      --topn INTEGER                  Number of top results to show.
+      --inputtext TEXT                Single input text for classification. If
+                                      omitted, will enter console mode.
+      --type [word2vec|word2vec_nonbinary|fasttext|poincare|poincare_binary]
+                                      Type of word-embedding model (default:
+                                      word2vec)
+      --help                          Show this message and exit.
 
 
-ShortTextWordEmbedSimilarity
-----------------------------
+
+find_sentences_similarity
+-------------------------
 
 ::
 
-    usage: ShortTextWordEmbedSimilarity [-h] [--type TYPE] modelpath
+    Usage: find_sentences_similarity [OPTIONS] MODELPATH
 
-    Find the similarities between two short sentences using Word2Vec.
+      Find the similarities between two short sentences using Word2Vec.
 
-    positional arguments:
-      modelpath    Path of the Word2Vec model
+      MODELPATH    Path of the embedding model
 
-    optional arguments:
-      -h, --help   show this help message and exit
-      --type TYPE  Type of word-embedding model (default: "word2vec"; other
-                   options: "fasttext", "poincare")
+    Options:
+      --type [word2vec|fasttext|poincare]
+                                      Type of word-embedding model (default:
+                                      "word2vec"; other options: "fasttext",
+                                      "poincare")
+      --help                          Show this message and exit.
+
 
 
 Home: :doc:`index`

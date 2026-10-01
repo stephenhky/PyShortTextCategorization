@@ -7,11 +7,12 @@ keras==3.15.1
 gensim==4.4.0
 pandas==3.0.6
 snowballstemmer==3.1.1
-transformers==5.17.0
-torch==2.14.0
+transformers==5.18.0
+torch==2.14.1
 numba==0.68.0
 deprecation==2.1.0
 npdict==0.0.12
 orjson==3.12.0
 sparse==0.19.2
 loguru==0.7.3
+click==8.5.0

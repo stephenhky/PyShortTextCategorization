@@ -1,6 +1,7 @@
 News
 ====
 
+* 09/30/2026: `shorttext` 4.1.0 released.
 * 07/02/2026: `shorttext` 4.0.4 released.
 * 05/26/2026: `shorttext` 4.0.3 released.
 * 05/18/2026: `shorttext` 4.0.2 released.
@@ -93,6 +94,15 @@ News
 
 What's New
 ----------
+
+Release 4.1.0 (September 30, 2026)
+----------------------------------
+
+* Replace CLI commands: `ShortTextCategorizerConsole` replaced by `shorttext_categorize`, and `ShortTextWordEmbedSimilarity` replaced by `find_sentences_similarity`;
+* Fuzzy logic codes debugged;
+* Vector normalization added to `Word2VecEmbedding`;
+* CircleCI CI/CD pipeline updated.
+
 
 Release 4.0.4 (July 2, 2026)
 ----------------------------

@@ -1,7 +1,6 @@
 
 from itertools import product
 from typing import Optional
-import warnings
 
 import numpy as np
 from scipy.spatial.distance import euclidean
