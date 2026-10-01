@@ -67,7 +67,11 @@ class SumEmbeddedVecClassifier(CompactIOMachine):
                 ],
                 axis=0
             )
-            self.addvec[classtype] /= np.linalg.norm(self.addvec[classtype])
+            norm = np.linalg.norm(self.addvec[classtype])
+            if norm > 0:
+                self.addvec[classtype] /= norm
+            else:
+                self.addvec[classtype] = np.ones(self.vecsize, dtype=np.float64) / np.sqrt(self.vecsize)
         self.addvec = dict(self.addvec)
         self.trained = True
 
