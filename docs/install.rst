@@ -4,8 +4,7 @@ Installation
 PIP
 ---
 
-Package `shorttext` runs in Python 3.9, 3.10, 3.11, and 3.12. However, for Python>=3.7, the backend
-of keras_ cannot be Tensorflow_.
+Package `shorttext` runs in Python 3.11, 3.12, and 3.13.
 
 To install the package in Linux or OS X, enter the following in the console:
 

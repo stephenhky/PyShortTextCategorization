@@ -6,6 +6,7 @@ import numpy as np
 import numpy.typing as npt
 import npdict
 from os import PathLike
+from deprecation import deprecated
 
 import sparse
 
@@ -172,7 +173,7 @@ def compute_document_frequency(
     Returns:
         Array of document frequencies for each token.
     """
-    if isinstance(npdtm, npdict.SparseArrayWrappedDict):
+    if npdtm.is_sparse():
         return np.sum(npdtm.to_coo() > 0, axis=0).todense()
     else:
         return np.sum(npdtm.to_numpy() > 0, axis=0)
@@ -193,7 +194,7 @@ def compute_tfidf_document_term_matrix(
     """
     doc_frequencies = compute_document_frequency(npdtm)
     nbdocs = npdtm.dimension_sizes[0]
-    if isinstance(npdtm, npdict.SparseArrayWrappedDict):
+    if npdtm.is_sparse():
         new_dtm_sparray = npdtm.to_coo() * np.log(nbdocs / doc_frequencies)
         return npdtm.generate_dict(new_dtm_sparray, dense=not sparse)
 
@@ -287,11 +288,13 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
             Total term frequency.
         """
         token_index = self.npdtm._keystrings_to_indices[1][token]
-        if isinstance(self.npdtm, npdict.SparseArrayWrappedDict):
+        if self.npdtm.is_sparse():
             matrix = self.npdtm.to_coo()
+            array = matrix[:, token_index].todense()
         else:
             matrix = self.npdtm.to_numpy()
-        return np.sum(matrix[:, token_index])
+            array = matrix[:, token_index]
+        return np.sum(array)
 
     def get_doc_frequency(self, token) -> int:
         """Get document frequency of a token.
@@ -303,8 +306,8 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
             Number of documents containing the token.
         """
         token_index = self.npdtm._keystrings_to_indices[1][token]
-        if isinstance(self.npdtm, npdict.SparseArrayWrappedDict):
-            freq_array = self.npdtm.to_coo()[:, token_index]
+        if self.npdtm.is_sparse():
+            freq_array = self.npdtm.to_coo()[:, token_index].todense()
         else:
             freq_array = self.npdtm.to_numpy()[:, token_index]
         return np.sum(freq_array > 0, axis=0)
@@ -373,17 +376,24 @@ class NumpyDocumentTermMatrix(CompactIOMachine):
         """Number of unique tokens."""
         return len(self.tokens)
 
+    @classmethod
+    def from_npdict_file(cls, filepath: str | PathLike) -> Self:
+        """Load a document-term matrix from a compact file.
 
+            Args:
+                filepath: Path to the compact model file.
+
+            Returns:
+                NumpyDocumentTermMatrix instance.
+            """
+        npdtm = NumpyDocumentTermMatrix()
+        npdtm.load_compact_model(filepath)
+        return npdtm
+
+
+@deprecated(deprecated_in="4.0.1", removed_in="5.0.0")
 def load_numpy_documentmatrixmatrix(filepath: str | PathLike) -> NumpyDocumentTermMatrix:
-    """Load a document-term matrix from a compact file.
-
-    Args:
-        filepath: Path to the compact model file.
-
-    Returns:
-        NumpyDocumentTermMatrix instance.
     """
-    npdtm = NumpyDocumentTermMatrix()
-    npdtm.load_compact_model(filepath)
-    return npdtm
-
+    Deprecated. Use `~NumpyDocumentTermMatrix.from_npdict_file`.
+    """
+    return NumpyDocumentTermMatrix.from_npdict_file(filepath)

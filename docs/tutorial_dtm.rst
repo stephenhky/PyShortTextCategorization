@@ -63,7 +63,7 @@ To save the class, enter:
 
 To load this class later, enter:
 
->>> usprez_dtm2 = shorttext.utils.load_numpy_documentmatrixmatrix('/path/to/whatever.bin')
+>>> usprez_dtm2 = shorttext.utils.NumpyDocumentTermMatrix.from_npdict_file('/path/to/whatever.bin')
 
 .. automodule:: shorttext.utils.dtm
    :members: load_DocumentTermMatrix

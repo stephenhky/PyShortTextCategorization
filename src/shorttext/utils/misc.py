@@ -1,13 +1,13 @@
 
-from typing import Generator
+from typing import Generator, Optional
 from io import TextIOWrapper
 
 
 
 def textfile_generator(
         textfile: TextIOWrapper,
-        linebreak: bool=True,
-        encoding: bool=None
+        linebreak: bool = True,
+        encoding: Optional[bool] = None
 ) -> Generator[str, None, None]:
     """Generator that yields lines from a text file.
 

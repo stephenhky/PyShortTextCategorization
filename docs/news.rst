@@ -1,6 +1,11 @@
 News
 ====
 
+* 09/30/2026: `shorttext` 4.1.0 released.
+* 07/02/2026: `shorttext` 4.0.4 released.
+* 05/26/2026: `shorttext` 4.0.3 released.
+* 05/18/2026: `shorttext` 4.0.2 released.
+* 05/14/2026: `shorttext` 4.0.1 released.
 * 04/19/2026: `shorttext` 4.0.0 released.
 * 03/22/2026: `shorttext` 3.1.1 released.
 * 03/02/2026: `shorttext` 3.1.0 reelased.
@@ -89,6 +94,37 @@ News
 
 What's New
 ----------
+
+Release 4.1.0 (September 30, 2026)
+----------------------------------
+
+* Replace CLI commands: `ShortTextCategorizerConsole` replaced by `shorttext_categorize`, and `ShortTextWordEmbedSimilarity` replaced by `find_sentences_similarity`;
+* Fuzzy logic codes debugged;
+* Vector normalization added to `Word2VecEmbedding`;
+* CircleCI CI/CD pipeline updated.
+
+
+Release 4.0.4 (July 2, 2026)
+----------------------------
+
+* Debugging regarding the update of the library `sparse`.
+* Refactoring.
+
+Release 4.0.3 (May 26, 2026)
+----------------------------
+
+* Stemming helper functions updated.
+
+Release 4.0.2 (May 18, 2026)
+----------------------------
+
+* Fixed bugs in CLI.
+
+Release 4.0.1 (May 14, 2026)
+----------------------------
+
+* Use class methods to load pretrained models.
+* Code optimization.
 
 Release 4.0.0 (April 19, 2026)
 ------------------------------

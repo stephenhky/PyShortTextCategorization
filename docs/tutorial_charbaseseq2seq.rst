@@ -12,21 +12,21 @@ To use it, create an instance of the class :class:`shorttext.generators.Sentence
 >>> import numpy as np
 >>> import shorttext
 >>> from urllib.request import urlopen
->>> chartovec_encoder = shorttext.generators.initialize_SentenceToCharVecEncoder(urlopen('http://norvig.com/big.txt', 'r'))
+>>> chartovec_encoder = shorttext.generators.SentenceToCharVecEncoder.from_pretrained(urlopen('http://norvig.com/big.txt', 'r'))
 
 The above code is the same as
 
 >>> import numpy as np
 >>> import shorttext
 >>> from urllib.request import urlopen
->>> chartovec_encoder = shorttext.generators.initialize_SentenceToCharVecEncoder(urlopen('http://norvig.com/big.txt', 'r'))
+>>> chartovec_encoder = shorttext.generators.SentenceToCharVecEncoder.from_pretrained(urlopen('http://norvig.com/big.txt', 'r'))
 
 The above code is the same as
 
 >>> import numpy as np
 >>> import shorttext
 >>> from urllib.request import urlopen
->>> chartovec_encoder = shorttext.generators.initialize_SentenceToCharVecEncoder(urlopen('http://norvig.com/big.txt', 'r'))
+>>> chartovec_encoder = shorttext.generators.SentenceToCharVecEncoder.from_pretrained(urlopen('http://norvig.com/big.txt', 'r'))
 
 The above code is the same as :doc:`tutorial_charbaseonehot` .
 
@@ -71,7 +71,7 @@ This model can be saved by entering:
 
 And can be loaded by:
 
->>> seq2seqer2 = shorttext.generators.seq2seq.charbaseS2S.loadCharBasedSeq2SeqGenerator('/path/to/norvigtxt_iter5model.bin')
+>>> seq2seqer2 = shorttext.generators.seq2seq.charbaseS2S.CharBasedSeq2SeqGenerator.from_pretrained('/path/to/norvigtxt_iter5model.bin')
 
 .. automodule:: shorttext.generators.seq2seq.charbaseS2S
    :members: loadCharBasedSeq2SeqGenerator

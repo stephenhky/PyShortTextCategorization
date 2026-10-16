@@ -87,7 +87,7 @@ The trained model can be saved:
 
 To load it, enter:
 
->>> classifier2 = shorttext.classifiers.load_varnnlibvec_classifier(wvmodel, '/path/to/nnlibvec_convnet_subdata.bin')
+>>> classifier2 = shorttext.classifiers.VarNNEmbeddedVecClassifier.from_pretrained(wvmodel, '/path/to/nnlibvec_convnet_subdata.bin')
 
 .. automodule:: shorttext.classifiers.embed.nnlib.VarNNEmbedVecClassification
    :members: load_varnnlibvec_classifier

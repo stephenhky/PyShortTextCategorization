@@ -38,7 +38,7 @@ def damerau_levenshtein(word1: str, word2: str) -> int:
             inscost = matrix[i, j-1] + 1
             subcost = matrix[i-1, j-1] + cost
             score = min(min(delcost, inscost), subcost)
-            if ((i > 1) & (j > 1) & (word1[i - 1] == word2[j - 2]) & (word1[i - 2] == word2[j - 1])):
+            if ((i > 1) and (j > 1) and (word1[i - 1] == word2[j - 2]) and (word1[i - 2] == word2[j - 1])):
                 score = min(score, matrix[i-2, j-2] + cost)
             matrix[i, j] = score
 

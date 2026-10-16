@@ -1,13 +1,14 @@
 
-from typing import Literal
+from typing import Literal, Self
 from os import PathLike
 
 import numpy as np
 import numpy.typing as npt
 import gensim
 import orjson
+from deprecation import deprecated
 
-from .s2skeras import Seq2SeqWithKeras, load_seq2seq_model, kerasseq2seq_suffices
+from .s2skeras import Seq2SeqWithKeras, kerasseq2seq_suffices
 from ..charbase.char2vec import SentenceToCharVecEncoder
 from ...utils.compactmodel_io import CompactIOMachine
 
@@ -183,30 +184,42 @@ class CharBasedSeq2SeqGenerator(CompactIOMachine):
             prefix: Prefix of the file path.
         """
         self.dictionary = gensim.corpora.Dictionary.load(prefix+'_dictionary.dict')
-        self.s2sgenerator = load_seq2seq_model(prefix, compact=False)
+        self.s2sgenerator = Seq2SeqWithKeras.from_pretrained(prefix, compact=False)
         self.sent2charvec_encoder = SentenceToCharVecEncoder(self.dictionary)
         self.nbelem = len(self.dictionary)
         hyperparameters = orjson.loads(open(prefix+'_charbases2s.json', 'rb').read())
         self.latent_dim, self.maxlen = hyperparameters['latent_dim'], hyperparameters['maxlen']
         self.compiled = True
 
+    @classmethod
+    def from_pretrained(
+            cls,
+            path: str | PathLike,
+            compact: bool = True
+    ) -> Self:
+        """Load a trained CharBasedSeq2SeqGenerator from file.
 
+            Args:
+                path: Path of the model file.
+                compact: Whether to load a compact model. Default: True.
+
+            Returns:
+                CharBasedSeq2SeqGenerator instance for seq2seq inference.
+            """
+        seq2seqer = CharBasedSeq2SeqGenerator(None, 0, 0)
+        if compact:
+            seq2seqer.load_compact_model(path)
+        else:
+            seq2seqer.loadmodel(path)
+        return seq2seqer
+
+
+@deprecated(deprecated_in="4.0.1", removed_in="5.0.0")
 def loadCharBasedSeq2SeqGenerator(
         path: str | PathLike,
         compact: bool = True
 ) -> CharBasedSeq2SeqGenerator:
-    """Load a trained CharBasedSeq2SeqGenerator from file.
-
-    Args:
-        path: Path of the model file.
-        compact: Whether to load a compact model. Default: True.
-
-    Returns:
-        CharBasedSeq2SeqGenerator instance for seq2seq inference.
     """
-    seq2seqer = CharBasedSeq2SeqGenerator(None, 0, 0)
-    if compact:
-        seq2seqer.load_compact_model(path)
-    else:
-        seq2seqer.loadmodel(path)
-    return seq2seqer
+    Deprecated. Use `~CharBasedSeq2SeqGenerator.from_pretrained`.
+    """
+    return CharBasedSeq2SeqGenerator.from_pretrained(path, compact=compact)

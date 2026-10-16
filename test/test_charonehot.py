@@ -5,7 +5,7 @@ import shorttext
 
 
 def test_onehot_bigtxt():
-    chartovec_encoder = shorttext.generators.initialize_SentenceToCharVecEncoder(
+    chartovec_encoder = shorttext.generators.SentenceToCharVecEncoder.from_pretrained(
         urlopen('http://norvig.com/big.txt'),
         encoding='utf-8'
     )

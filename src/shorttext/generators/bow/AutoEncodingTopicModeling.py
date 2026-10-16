@@ -1,7 +1,7 @@
 
 import json
 import pickle
-from typing import Optional, Any
+from typing import Optional, Any, Self
 from collections import Counter
 
 import numpy as np
@@ -11,6 +11,7 @@ from tensorflow.keras import Input
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Dense
 import orjson
+from deprecation import deprecated
 
 from .LatentTopicModeling import LatentTopicModeler
 from ...utils import kerasmodel_io as kerasio, textpreprocessing as textpreprocess
@@ -162,7 +163,11 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         else:
             vec = np.ones(len(self.token2indices))
         if self.normalize:
-            vec = vec.astype(np.float64) / np.linalg.norm(vec)
+            norm = np.linalg.norm(vec)
+            if norm > 0:
+                vec = vec.astype(np.float64) / norm
+            else:
+                vec = np.ones(len(self.token2indices), dtype=np.float64) / np.sqrt(len(self.token2indices))
         return vec
 
     def retrieve_topicvec(self, shorttext: str) -> npt.NDArray[np.float64]:
@@ -182,7 +187,11 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         bow_vector = self.retrieve_bow_vector(shorttext)
         encoded_vec = self.encoder.predict(np.expand_dims(bow_vector, axis=0))[0]
         if self.normalize:
-            encoded_vec /= np.linalg.norm(encoded_vec)
+            norm = np.linalg.norm(encoded_vec)
+            if norm > 0:
+                encoded_vec /= norm
+            else:
+                encoded_vec = np.ones(self.nb_topics, dtype=np.float64) / np.sqrt(self.nb_topics)
         return encoded_vec.astype(np.float64)
 
     def precalculate_liststr_topicvec(self, shorttexts: list[str]) -> npt.NDArray[np.float64]:
@@ -200,7 +209,11 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
             ModelNotTrainedException: If model not trained.
         """
         sumvec = sum([self.retrieve_topicvec(shorttext) for shorttext in shorttexts])
-        sumvec /= np.linalg.norm(sumvec)
+        norm = np.linalg.norm(sumvec)
+        if norm > 0:
+            sumvec /= norm
+        else:
+            sumvec = np.ones(self.nb_topics, dtype=np.float64) / np.sqrt(self.nb_topics)
         return sumvec
 
     def get_batch_cos_similarities(self, shorttext: str) -> dict[str, float]:
@@ -281,22 +294,44 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         """
         return CompactIOMachine.get_info(self)
 
+    @classmethod
+    def from_pretrained(
+            cls,
+            name: str,
+            preprocessor: Optional[callable] = None,
+            tokenizer: Optional[callable] = None,
+            compact: bool = True
+    ) -> Self:
+        """Load an autoencoder topic model from files.
 
+            Args:
+                name: Model name (compact) or file prefix (non-compact).
+                preprocessor: Text preprocessing function.
+                compact: Whether to load compact model. Default: True.
+
+            Returns:
+                An AutoencodingTopicModeler instance.
+            """
+        if preprocessor is None:
+            preprocessor = textpreprocess.standard_text_preprocessor_1()
+
+        autoencoder = AutoencodingTopicModeler(preprocessor=preprocessor, tokenizer=tokenizer)
+        if compact:
+            autoencoder.load_compact_model(name)
+        else:
+            autoencoder.loadmodel(name)
+        return autoencoder
+
+
+@deprecated(deprecated_in="4.0.1", removed_in="5.0.0")
 def load_autoencoder_topicmodel(
         name: str,
         preprocessor: Optional[callable] = None,
         tokenizer: Optional[callable] = None,
         compact: bool=True
 ) -> AutoencodingTopicModeler:
-    """Load an autoencoder topic model from files.
-
-    Args:
-        name: Model name (compact) or file prefix (non-compact).
-        preprocessor: Text preprocessing function.
-        compact: Whether to load compact model. Default: True.
-
-    Returns:
-        An AutoencodingTopicModeler instance.
+    """
+    Deprecated. Use `~AutoEncodingTopicModeling.from_pretrained`.
     """
     if preprocessor is None:
         preprocessor = textpreprocess.standard_text_preprocessor_1()

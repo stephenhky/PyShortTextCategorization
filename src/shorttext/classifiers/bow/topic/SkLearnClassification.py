@@ -1,15 +1,15 @@
 
-from typing import Optional, Literal
+from typing import Optional, Literal, Self
 
 import numpy as np
 import numpy.typing as npt
 import joblib
 import sklearn
+from deprecation import deprecated
 
 from ....utils import textpreprocessing as textpreprocess
-from ....generators import load_autoencoder_topicmodel, load_gensimtopicmodel
 from ....generators import LDAModeler, LSIModeler, RPModeler, AutoencodingTopicModeler
-from ....generators import LatentTopicModeler
+from ....generators import LatentTopicModeler, GensimTopicModeler
 from ....utils import classification_exceptions as e
 from ....utils import compactmodel_io as cio
 from ...base import AbstractScorer
@@ -192,6 +192,92 @@ class TopicVectorSkLearnClassifier(AbstractScorer):
         )
         self.trained = True
 
+    @classmethod
+    def from_pretrained_gensimtopic_sklearnclassifier(
+            cls,
+            name: str,
+            preprocessor: Optional[callable] = None,
+            compact: bool = True
+    ) -> Self:
+        """Load a classifier with gensim topic vectors from files.
+
+        Args:
+            name: Model name (compact) or file prefix (non-compact).
+            preprocessor: Text preprocessing function. Default: standard_text_preprocessor_1.
+            compact: Load compact model. Default: True.
+
+        Returns:
+            TopicVectorSkLearnClassifier instance.
+
+        Reference:
+            Xuan Hieu Phan et al., "A Hidden Topic-Based Framework toward
+            Building Applications with Short Web Documents,"
+            IEEE Trans. Knowl. Data Eng. 23(7): 961-976 (2011).
+
+            Xuan Hieu Phan et al., "Learning to Classify Short and Sparse
+            Text & Web with Hidden Topics from Large-scale Data Collections,"
+            WWW 2008.
+            http://dl.acm.org/citation.cfm?id=1367510
+        """
+        if preprocessor is None:
+            preprocessor = textpreprocess.standard_text_preprocessor_1()
+
+        if compact:
+            modelerdict = {'ldatopic': LDAModeler, 'lsitopic': LSIModeler, 'rptopic': RPModeler}
+            topicmodel_name = cio.get_model_config_field(name, 'topicmodel')
+            classifier = TopicVectorSkLearnClassifier(modelerdict[topicmodel_name](preprocessor=preprocessor), None)
+            classifier.load_compact_model(name)
+            classifier.trained = True
+            return classifier
+        else:
+            topicmodeler = GensimTopicModeler.from_pretrained(name, preprocessor=preprocessor)
+            sklearn_classifier = joblib.load(name + '.pkl')
+            classifier = TopicVectorSkLearnClassifier(topicmodeler, sklearn_classifier)
+            classifier.trained = True
+            return classifier
+
+    @classmethod
+    def from_pretrained_autoencoder_sklearnclassifier(
+            cls,
+            name: str,
+            preprocessor: Optional[callable] = None,
+            compact: bool = True
+    ) -> Self:
+        """Load a classifier with autoencoder topic vectors from files.
+
+        Args:
+            name: Model name (compact) or file prefix (non-compact).
+            preprocessor: Text preprocessing function. Default: standard_text_preprocessor_1.
+            compact: Load compact model. Default: True.
+
+        Returns:
+            TopicVectorSkLearnClassifier instance.
+
+        Reference:
+            Xuan Hieu Phan et al., "A Hidden Topic-Based Framework toward
+            Building Applications with Short Web Documents,"
+            IEEE Trans. Knowl. Data Eng. 23(7): 961-976 (2011).
+
+            Xuan Hieu Phan et al., "Learning to Classify Short and Sparse
+            Text & Web with Hidden Topics from Large-scale Data Collections,"
+            WWW 2008.
+            http://dl.acm.org/citation.cfm?id=1367510
+        """
+        if preprocessor is None:
+            preprocessor = textpreprocess.standard_text_preprocessor_1()
+
+        if compact:
+            classifier = TopicVectorSkLearnClassifier(AutoencodingTopicModeler(preprocessor=preprocessor), None)
+            classifier.load_compact_model(name)
+            classifier.trained = True
+            return classifier
+        else:
+            autoencoder = AutoencodingTopicModeler.from_pretrained(name, preprocessor=preprocessor)
+            sklearn_classifier = joblib.load(name + '.pkl')
+            classifier = TopicVectorSkLearnClassifier(autoencoder, sklearn_classifier)
+            classifier.trained = True
+            return classifier
+
 
 def train_gensim_topicvec_sklearnclassifier(
         classdict: dict[str, list[str]],
@@ -254,47 +340,18 @@ def train_gensim_topicvec_sklearnclassifier(
     return classifier
 
 
+@deprecated(deprecated_in="4.0.1", removed_in="5.0.0")
 def load_gensim_topicvec_sklearnclassifier(
         name: str,
         preprocessor: Optional[callable] = None,
         compact: bool = True
 ) -> TopicVectorSkLearnClassifier:
-    """Load a classifier with gensim topic vectors from files.
-
-    Args:
-        name: Model name (compact) or file prefix (non-compact).
-        preprocessor: Text preprocessing function. Default: standard_text_preprocessor_1.
-        compact: Load compact model. Default: True.
-
-    Returns:
-        TopicVectorSkLearnClassifier instance.
-
-    Reference:
-        Xuan Hieu Phan et al., "A Hidden Topic-Based Framework toward
-        Building Applications with Short Web Documents,"
-        IEEE Trans. Knowl. Data Eng. 23(7): 961-976 (2011).
-
-        Xuan Hieu Phan et al., "Learning to Classify Short and Sparse
-        Text & Web with Hidden Topics from Large-scale Data Collections,"
-        WWW 2008.
-        http://dl.acm.org/citation.cfm?id=1367510
     """
-    if preprocessor is None:
-        preprocessor = textpreprocess.standard_text_preprocessor_1()
-
-    if compact:
-        modelerdict = {'ldatopic': LDAModeler, 'lsitopic': LSIModeler, 'rptopic': RPModeler}
-        topicmodel_name = cio.get_model_config_field(name, 'topicmodel')
-        classifier = TopicVectorSkLearnClassifier(modelerdict[topicmodel_name](preprocessor=preprocessor), None)
-        classifier.load_compact_model(name)
-        classifier.trained = True
-        return classifier
-    else:
-        topicmodeler = load_gensimtopicmodel(name, preprocessor=preprocessor)
-        sklearn_classifier = joblib.load(name + '.pkl')
-        classifier = TopicVectorSkLearnClassifier(topicmodeler, sklearn_classifier)
-        classifier.trained = True
-        return classifier
+    Deprecated. Use `~TopicVectorSkLearnClassifier.from_pretrained_gensimtopic_sklearnclassifier`.
+    """
+    return TopicVectorSkLearnClassifier.from_pretrained_gensimtopic_sklearnclassifier(
+        name, preprocessor=preprocessor, compact=compact
+    )
 
 
 def train_autoencoder_topic_sklearnclassifier(
@@ -349,42 +406,15 @@ def train_autoencoder_topic_sklearnclassifier(
     return classifier
 
 
+@deprecated(deprecated_in="4.0.1", removed_in="5.0.0")
 def load_autoencoder_topic_sklearnclassifier(
         name: str,
         preprocessor: Optional[callable] = None,
         compact: bool = True
 ) -> TopicVectorSkLearnClassifier:
-    """Load a classifier with autoencoder topic vectors from files.
-
-    Args:
-        name: Model name (compact) or file prefix (non-compact).
-        preprocessor: Text preprocessing function. Default: standard_text_preprocessor_1.
-        compact: Load compact model. Default: True.
-
-    Returns:
-        TopicVectorSkLearnClassifier instance.
-
-    Reference:
-        Xuan Hieu Phan et al., "A Hidden Topic-Based Framework toward
-        Building Applications with Short Web Documents,"
-        IEEE Trans. Knowl. Data Eng. 23(7): 961-976 (2011).
-
-        Xuan Hieu Phan et al., "Learning to Classify Short and Sparse
-        Text & Web with Hidden Topics from Large-scale Data Collections,"
-        WWW 2008.
-        http://dl.acm.org/citation.cfm?id=1367510
     """
-    if preprocessor is None:
-        preprocessor = textpreprocess.standard_text_preprocessor_1()
-
-    if compact:
-        classifier = TopicVectorSkLearnClassifier(AutoencodingTopicModeler(preprocessor=preprocessor), None)
-        classifier.load_compact_model(name)
-        classifier.trained = True
-        return classifier
-    else:
-        autoencoder = load_autoencoder_topicmodel(name, preprocessor=preprocessor)
-        sklearn_classifier = joblib.load(name + '.pkl')
-        classifier = TopicVectorSkLearnClassifier(autoencoder, sklearn_classifier)
-        classifier.trained = True
-        return classifier
+    Deprecated. Use `~TopicVectorSkLearnClassifier.from_pretrained_autoencoder_sklearnclassifier`.
+    """
+    return TopicVectorSkLearnClassifier.from_pretrained_autoencoder_sklearnclassifier(
+        name, preprocessor=preprocessor, compact=compact
+    )

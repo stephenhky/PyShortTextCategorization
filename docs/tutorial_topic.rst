@@ -68,7 +68,7 @@ Users can save the trained model by calling:
 
 And the topic model can be retrieved by calling:
 
->>> topicmodeler2 = shorttext.generators.load_gensimtopicmodel('/path/to/nihlda128.bin')
+>>>import shorttext.generators topicmodeler2 = shorttext.generators.GensimTopicModeler('/path/to/nihlda128.bin')
 
 While initialize the instance of the topic modeler, the user can also specify
 whether to weigh the terms using tf-idf (term frequency - inverse document frequency).
@@ -165,7 +165,7 @@ immediately without training. Taking the LDA example above, such classifier can 
 Or if the user already saved the topic modeler, one can initiate the same classifier by
 loading the topic modeler:
 
->>> cos_classifier = shorttext.classifiers.load_gensimtopicvec_cosineClassifier('/path/to/nihlda128.bin')
+>>>import shorttext.classifiers cos_classifier = shorttext.classifiers.TopicVecCosineDistanceClassifierload_gensimtopicvec_cosineClassifier('/path/to/nihlda128.bin')
 
 To perform prediction, enter:
 

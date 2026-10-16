@@ -1,13 +1,14 @@
 
 import os
 import warnings
-from typing import Any, Optional, Annotated
+from typing import Any, Optional, Annotated, Self
 
 import numpy as np
 import numpy.typing as npt
 from gensim.models.keyedvectors import KeyedVectors
 from tensorflow.keras.models import Model
 import orjson
+from deprecation import deprecated
 
 from ....utils import kerasmodel_io as kerasio
 from ....utils.classification_exceptions import ModelNotTrainedException
@@ -228,6 +229,32 @@ class VarNNEmbeddedVecClassifier(AbstractScorer, CompactIOMachine):
 
         return score_dict
 
+    @classmethod
+    def from_pretrained(
+            cls,
+            wvmodel: KeyedVectors,
+            name: str,
+            compact: bool = True,
+            vecsize: Optional[int] = None
+    ) -> Self:
+        """Load a VarNNEmbeddedVecClassifier from file.
+
+            Args:
+                wvmodel: Word embedding model.
+                name: Model name (compact) or file prefix (non-compact).
+                compact: Whether to load compact model. Default: True.
+                vecsize: Vector size. Default: None.
+
+            Returns:
+                VarNNEmbeddedVecClassifier instance.
+            """
+        classifier = VarNNEmbeddedVecClassifier(wvmodel, vecsize=vecsize)
+        if compact:
+            classifier.load_compact_model(name)
+        else:
+            classifier.loadmodel(name)
+        return classifier
+
 
 def load_varnnlibvec_classifier(
         wvmodel: KeyedVectors,
@@ -235,20 +262,9 @@ def load_varnnlibvec_classifier(
         compact: bool = True,
         vecsize: Optional[int] = None
 ) -> VarNNEmbeddedVecClassifier:
-    """Load a VarNNEmbeddedVecClassifier from file.
-
-    Args:
-        wvmodel: Word embedding model.
-        name: Model name (compact) or file prefix (non-compact).
-        compact: Whether to load compact model. Default: True.
-        vecsize: Vector size. Default: None.
-
-    Returns:
-        VarNNEmbeddedVecClassifier instance.
     """
-    classifier = VarNNEmbeddedVecClassifier(wvmodel, vecsize=vecsize)
-    if compact:
-        classifier.load_compact_model(name)
-    else:
-        classifier.loadmodel(name)
-    return classifier
+    Deprecated. Use `~VarNNEmbeddedVecClassifier.from_pretrained`.
+    """
+    return VarNNEmbeddedVecClassifier.from_pretrained(
+        wvmodel,name, compact=compact, vecsize=vecsize
+    )

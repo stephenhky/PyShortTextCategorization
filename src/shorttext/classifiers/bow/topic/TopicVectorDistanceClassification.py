@@ -1,8 +1,9 @@
 
-from typing import Optional, Literal
+from typing import Optional, Literal, Self
+
+from deprecation import deprecated
 
 from ....generators import LatentTopicModeler, GensimTopicModeler, AutoencodingTopicModeler
-from ....generators import load_autoencoder_topicmodel, load_gensimtopicmodel
 from ...base import AbstractScorer
 
 
@@ -68,6 +69,42 @@ class TopicVecCosineDistanceClassifier(AbstractScorer):
         """
         self.topicmodeler.save_compact_model(name)
 
+    @classmethod
+    def from_pretrained_gensimtopic(
+            cls,
+            name: str,
+            preprocessor: Optional[callable] = None,
+            tokenizer: Optional[callable] = None,
+            compact: bool = True
+    ) -> Self:
+        """Load a gensim topic model and return a cosine classifier.
+
+            Args:
+                name: Model name (compact) or file prefix (non-compact).
+                preprocessor: Text preprocessing function. Default: standard_text_preprocessor_1.
+                compact: Whether to load compact model. Default: True.
+
+            Returns:
+                TopicVecCosineDistanceClassifier instance.
+            """
+        topicmodeler = GensimTopicModeler.from_pretrained(
+            name, preprocessor=preprocessor, tokenizer=tokenizer, compact=compact
+        )
+        return TopicVecCosineDistanceClassifier(topicmodeler)
+
+    @classmethod
+    def from_pretrained_autoencoder(
+            cls,
+            name: str,
+            preprocessor: Optional[callable] = None,
+            tokenizer: Optional[callable] = None,
+            compact: bool = True
+    ) -> Self:
+        autoencoder = AutoencodingTopicModeler.from_pretrained(
+            name, preprocessor=preprocessor, tokenizer=tokenizer, compact=compact
+        )
+        return TopicVecCosineDistanceClassifier(autoencoder)
+
 
 def train_gensimtopicvec_cosineClassifier(
         classdict: dict[str, list[str]],
@@ -106,26 +143,19 @@ def train_gensimtopicvec_cosineClassifier(
     return TopicVecCosineDistanceClassifier(topicmodeler)
 
 
+@deprecated(deprecated_in="4.0.1", removed_in="5.0.0")
 def load_gensimtopicvec_cosineClassifier(
         name: str,
         preprocessor: Optional[callable] = None,
         tokenizer: Optional[callable] = None,
         compact: bool=True
 ) -> TopicVecCosineDistanceClassifier:
-    """Load a gensim topic model and return a cosine classifier.
-
-    Args:
-        name: Model name (compact) or file prefix (non-compact).
-        preprocessor: Text preprocessing function. Default: standard_text_preprocessor_1.
-        compact: Whether to load compact model. Default: True.
-
-    Returns:
-        TopicVecCosineDistanceClassifier instance.
     """
-    topicmodeler = load_gensimtopicmodel(
+    Deprecated. Use `~TopicVecCosineDistanceClassifier.from_pretrained_gensimtopic`.
+    """
+    return TopicVecCosineDistanceClassifier.from_pretrained_gensimtopic(
         name, preprocessor=preprocessor, tokenizer=tokenizer, compact=compact
     )
-    return TopicVecCosineDistanceClassifier(topicmodeler)
 
 
 def train_autoencoder_cosineClassifier(
@@ -165,17 +195,9 @@ def load_autoencoder_cosineClassifier(
         tokenizer: Optional[callable] = None,
         compact: bool = True
 ) -> TopicVecCosineDistanceClassifier:
-    """Load an autoencoder topic model and return a cosine classifier.
-
-    Args:
-        name: Model name (compact) or file prefix (non-compact).
-        preprocessor: Text preprocessing function. Default: standard_text_preprocessor_1.
-        compact: Whether to load compact model. Default: True.
-
-    Returns:
-        TopicVecCosineDistanceClassifier instance.
     """
-    autoencoder = load_autoencoder_topicmodel(
+    Deprecated. Use `~TopicVecCosineDistanceClassifier.from_pretrained_autoencoder`
+    """
+    return TopicVecCosineDistanceClassifier.from_pretrained_autoencoder(
         name, preprocessor=preprocessor, tokenizer=tokenizer, compact=compact
     )
-    return TopicVecCosineDistanceClassifier(autoencoder)

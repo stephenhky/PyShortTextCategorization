@@ -30,3 +30,7 @@ def test_dldistance_correct():
 
 def test_dldistance_jaccard():
     assert jaccard_similarity('diver', 'driver') == pytest.approx(5/6)
+
+def test_dldistance_single_character():
+    assert damerau_levenshtein("Y", "Y") == 0
+    assert damerau_levenshtein("Y", "N") == 1

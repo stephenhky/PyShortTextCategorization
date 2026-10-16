@@ -31,7 +31,7 @@ def generate_gensim_corpora(
     return dictionary, corpus, classlabels
 
 
-@deprecated(deprecated_in="5.0.0", removed_in="6.0.0")
+@deprecated(deprecated_in="4.0.0", removed_in="5.0.0")
 def save_corpus(
         dictionary: gensim.corpora.Dictionary,
         corpus: list[list[tuple[int, int]]],
@@ -51,7 +51,7 @@ def save_corpus(
     gensim.corpora.MmCorpus.serialize(prefix+'_corpus.mm', corpus)
 
 
-@deprecated(deprecated_in="5.0.0", removed_in="6.0.0")
+@deprecated(deprecated_in="4.0.0", removed_in="5.0.0")
 def load_corpus(prefix: str) -> tuple[gensim.corpora.MmCorpus, gensim.corpora.Dictionary]:
     """Load gensim corpus and dictionary from files.
 

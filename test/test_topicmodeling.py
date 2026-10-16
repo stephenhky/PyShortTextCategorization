@@ -30,7 +30,7 @@ def test_ldatopicmodel():
 
     # test I/O
     topicmodeler.save_compact_model('nihlda128.bin')
-    topicmodeler2 = shorttext.generators.load_gensimtopicmodel('nihlda128.bin')
+    topicmodeler2 = shorttext.generators.GensimTopicModeler.from_pretrained('nihlda128.bin')
     topic_vector_1a = topicmodeler2.retrieve_topicvec("stem cell research NIH cancer immunology")
     assert not np.any(np.isnan(topic_vector_1a))
     assert np.linalg.norm(topic_vector_1a) == pytest.approx(1.)

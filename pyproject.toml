@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "shorttext"
-version = "4.0.1"
+version = "4.1.1a1"
 authors = [
     {name = "Kwan Yuet Stephen Ho", email = "stephenhky@yahoo.com.hk"}
 ]
@@ -40,10 +40,11 @@ dependencies = [
     "snowballstemmer>=3.0.0",
     "numba>=0.57.0",
     "deprecation>=2.0.0",
-    "npdict>=0.0.10",
+    "npdict>=0.0.11",
     "sparse>=0.10.0",
     "orjson>=3.0.0",
-    "loguru>=0.6.0"
+    "loguru>=0.6.0",
+    "click>=8.0.0"
 ]
 
 [project.urls]
@@ -80,8 +81,8 @@ zip-safe = false
 package-dir = {"" = "src"}
 
 [project.scripts]
-ShortTextCategorizerConsole = "shorttext.cli.categorization:main"
-ShortTextWordEmbedSimilarity = "shorttext.cli.wordembedsim:main"
+shorttext_categorize = "shorttext.cli.categorization:shorttext_categorize"
+find_sentences_similarity = "shorttext.cli.wordembedsim:find_sentences_similarity"
 
 [project.optional-dependencies]
 test = ["pytest"]
