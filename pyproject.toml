@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "shorttext"
-version = "4.1.1a1"
+version = "4.1.1a2"
 authors = [
     {name = "Kwan Yuet Stephen Ho", email = "stephenhky@yahoo.com.hk"}
 ]
@@ -21,6 +21,7 @@ classifiers = [
       "Programming Language :: Python :: 3.11",
       "Programming Language :: Python :: 3.12",
       "Programming Language :: Python :: 3.13",
+      "Programming Language :: Python :: 3.14",
       "Natural Language :: English",
       "License :: OSI Approved :: MIT License",
       "Intended Audience :: Developers",
