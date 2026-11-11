@@ -14,5 +14,5 @@ deprecation==2.1.0
 npdict==0.0.13
 orjson==3.13.0
 sparse==0.19.3
-loguru==0.7.3
+loguru==0.8.0
 click==8.5.1
