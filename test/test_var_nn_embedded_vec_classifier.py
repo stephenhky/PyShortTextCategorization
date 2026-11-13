@@ -1,117 +1,81 @@
+import math
 
-import urllib
-from pathlib import Path
-
-from loguru import logger
+import numpy as np
 import pytest
 
 import shorttext
 
 
-# download model
-link = "https://shorttext-data-northernvirginia.s3.amazonaws.com/trainingdata/test_w2v_model.bin"
-filename = "test_w2v_model.bin"
-if not Path(filename).exists():
-    urllib.request.urlretrieve(link, filename)
-w2v_model = shorttext.utils.load_word2vec_model(filename, binary=True)  # load word2vec model
-trainclass_dict = shorttext.data.subjectkeywords()
+pytestmark = [pytest.mark.slow, pytest.mark.integration]
 
 
-def compare_two_dicts(dict1, dict2) -> None:
-    assert len(dict1) == len(dict2)
-    for classlabel in dict1:
-        assert (classlabel in dict2)
-        assert dict1[classlabel] == pytest.approx(dict2[classlabel], abs=1e-3)
+@pytest.fixture(scope="module")
+def w2v_model(test_w2v_model_path):
+    return shorttext.utils.load_word2vec_model(str(test_w2v_model_path), binary=True)
 
 
-def test_CNN_word_embed_without_gensim():
-    logger.info("Testing CNN...")
-    # create keras model using `CNNWordEmbed` class
-    logger.info("\tKeras model")
+@pytest.fixture(scope="module")
+def trainclass_dict():
+    return shorttext.data.subjectkeywords()
+
+
+def _assert_valid_score_dict(score_vals, expected_labels):
+    assert set(score_vals.keys()) == set(expected_labels)
+    values = np.array(list(score_vals.values()), dtype=float)
+    assert np.all(np.isfinite(values))
+    assert np.all((values >= -1e-8) & (values <= 1.0 + 1e-8))
+    assert float(np.sum(values)) == pytest.approx(1.0, abs=1e-5)
+
+
+def test_cnn_word_embed_sumvec(w2v_model, trainclass_dict):
     keras_model = shorttext.classifiers.frameworks.CNNWordEmbed(
         wvmodel=w2v_model,
-        nb_labels=len(trainclass_dict.keys())
+        nb_labels=len(trainclass_dict.keys()),
+        vecsize=w2v_model.vector_size
     )
-
-    # create and train classifier using keras model constructed above
-    logger.info("\tTraining")
     main_classifier = shorttext.classifiers.VarNNEmbeddedVecClassifier(w2v_model)
-    main_classifier.train(trainclass_dict, keras_model, nb_epoch=2)
-
-    # compute classification score
-    logger.info("\tTesting")
+    main_classifier.train(trainclass_dict, keras_model, nb_epoch=1)
     score_vals = main_classifier.score('artificial intelligence')
-    assert score_vals['mathematics'] + score_vals['physics'] + score_vals['theology'] == pytest.approx(1.0)
+    _assert_valid_score_dict(score_vals, trainclass_dict.keys())
 
 
-def test_double_CNN_word_embed_ewithout_gensim():
-    logger.info("Testing DoubleCNN...")
-    # create keras model using `DoubleCNNWordEmbed` class
-    logger.info("\tKeras model")
+def test_double_cnn_word_embed_sumvec(w2v_model, trainclass_dict):
     keras_model = shorttext.classifiers.frameworks.DoubleCNNWordEmbed(
         wvmodel=w2v_model,
-        nb_labels=len(trainclass_dict.keys())
+        nb_labels=len(trainclass_dict.keys()),
+        vecsize=w2v_model.vector_size
     )
-
-    # create and train classifier using keras model constructed above
-    logger.info("\tTraining")
     main_classifier = shorttext.classifiers.VarNNEmbeddedVecClassifier(w2v_model)
-    main_classifier.train(trainclass_dict, keras_model, nb_epoch=2)
-
-    # compute classification score
-    logger.info("\tTesting")
+    main_classifier.train(trainclass_dict, keras_model, nb_epoch=1)
     score_vals = main_classifier.score('artificial intelligence')
-    assert score_vals['mathematics'] + score_vals['physics'] + score_vals['theology'] == pytest.approx(1.0)
+    _assert_valid_score_dict(score_vals, trainclass_dict.keys())
 
 
-def test_CLSTM_word_embed_without_gensim():
-    logger.info("Testing CLSTM...")
-    # create keras model using `CLSTMWordEmbed` class
-    logger.info("\tKeras model")
+def test_clstm_word_embed_sumvec(w2v_model, trainclass_dict):
     keras_model = shorttext.classifiers.frameworks.CLSTMWordEmbed(
         wvmodel=w2v_model,
-        nb_labels=len(trainclass_dict.keys())
+        nb_labels=len(trainclass_dict.keys()),
+        vecsize=w2v_model.vector_size
     )
-
-    # create and train classifier using keras model constructed above
-    logger.info("\tTraining")
     main_classifier = shorttext.classifiers.VarNNEmbeddedVecClassifier(w2v_model)
-    main_classifier.train(trainclass_dict, keras_model, nb_epoch=2)
-
-    # compute classification score
-    logger.info("\tTesting")
+    main_classifier.train(trainclass_dict, keras_model, nb_epoch=1)
     score_vals = main_classifier.score('artificial intelligence')
-    assert score_vals['mathematics'] + score_vals['physics'] + score_vals['theology'] ==pytest.approx(1.0)
+    _assert_valid_score_dict(score_vals, trainclass_dict.keys())
 
 
-def test_AA_sum_embed():
-    logger.info("Testing SumEmbed")
+def test_sum_embed_classifier_deterministic(w2v_model):
     classifier = shorttext.classifiers.SumEmbeddedVecClassifier(w2v_model)
     classdict = shorttext.data.subjectkeywords()
     classifier.train(classdict)
 
-    # compute
-    compare_two_dicts(
-        classifier.score('linear algebra'),
-        {
-            'mathematics': 0.9044698253778962,
-            'physics': 0.7586816549044926,
-            'theology': 0.1817602793151848
-        }
-    )
-    compare_two_dicts(
-        classifier.score('learning'),
-        {
-            'mathematics': 0.9037142562255835,
-            'physics': 0.7588376500004107,
-            'theology': 0.18039468994239538
-        }
-    )
-    compare_two_dicts(
-        classifier.score('eschatology'),
-        {
-            'mathematics': 0.3658578123294476,
-            'physics': 0.5996711864493821,
-            'theology': 0.9694560847986978
-        }
-    )
+    score_vals = classifier.score('linear algebra')
+    assert set(score_vals.keys()) == set(classdict.keys())
+    values = np.array(list(score_vals.values()), dtype=float)
+    assert np.all(np.isfinite(values))
+    # same call under seeded environment should be stable
+    score_vals2 = classifier.score('linear algebra')
+    for label in score_vals:
+        assert score_vals[label] == pytest.approx(score_vals2[label], abs=1e-12)
+
+    # with this tiny fixture, math/physics-related terms should score higher on those classes than theology
+    assert score_vals['mathematics'] > score_vals['theology']

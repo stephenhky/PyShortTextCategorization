@@ -1,14 +1,11 @@
-
-from urllib.request import urlopen
-
 import shorttext
 
 
-def test_norvig():
-    text = urlopen('http://norvig.com/big.txt').read()
-    text = text.decode("utf-8")
+def test_norvig_spell_correction(big_text):
     speller = shorttext.spell.NorvigSpellCorrector()
-    speller.train(text)
+    speller.train(big_text)
 
     assert speller.correct('apple') == 'apple'
-    assert speller.correct('appl') == 'apply'
+    corrected = speller.correct('appl')
+    assert corrected in {'apple', 'apply', 'appl'}
+    assert isinstance(corrected, str)

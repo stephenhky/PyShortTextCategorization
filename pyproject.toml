@@ -86,3 +86,12 @@ find_sentences_similarity = "shorttext.cli.wordembedsim:find_sentences_similarit
 
 [project.optional-dependencies]
 test = ["pytest"]
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
+markers = [
+    "slow: marks tests as slow/integration (deselect with '-m \"not slow\"')",
+    "integration: marks integration tests that train models or exercise I/O",
+    "network: marks tests that require network access (should be avoided/mocked)",
+]
+addopts = "-ra"

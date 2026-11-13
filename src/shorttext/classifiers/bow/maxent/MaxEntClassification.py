@@ -106,7 +106,8 @@ class MaxEntClassifier(AbstractScorer, CompactIOMachine):
             nb_epochs: int = 500,
             l2reg: float = 0.01,
             bias_l2reg: float = 0.01,
-            optimizer: Literal["sgd", "rmsprop", "adagrad", "adadelta", "adam", "adamax", "nadam"] = "adam"
+            optimizer: Literal["sgd", "rmsprop", "adagrad", "adadelta", "adam", "adamax", "nadam"] = "adam",
+            **fit_kwargs
     ) -> None:
         """Train the classifier.
 
@@ -116,6 +117,7 @@ class MaxEntClassifier(AbstractScorer, CompactIOMachine):
             l2reg: L2 regularization coefficient. Default: 0.01.
             bias_l2reg: L2 regularization for bias. Default: 0.01.
             optimizer: Optimizer. Default: adam.
+            **fit_kwargs: Additional keyword arguments passed to Keras fit.
         """
         self.classlabels = sorted(classdict.keys())
         self.labels2idx = {label: idx for idx, label in enumerate(self.classlabels)}
@@ -135,7 +137,8 @@ class MaxEntClassifier(AbstractScorer, CompactIOMachine):
             bias_l2reg=bias_l2reg,
             optimizer=optimizer
         )
-        kmodel.fit(dtm_npdict_matrix.to_numpy(), y.todense(), epochs=nb_epochs)
+        fit_kwargs.setdefault('verbose', 0)
+        kmodel.fit(dtm_npdict_matrix.to_numpy(), y.todense(), epochs=nb_epochs, **fit_kwargs)
 
         self.model = kmodel
         self.trained = True

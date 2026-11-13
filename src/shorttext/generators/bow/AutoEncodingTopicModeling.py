@@ -113,7 +113,10 @@ class AutoencodingTopicModeler(LatentTopicModeler, CompactIOMachine):
         embedvecs = dtm_matrix.to_numpy()
 
         # fit the model
-        autoencoder.fit(embedvecs, embedvecs, *args, **kwargs)
+        fit_kwargs = dict(kwargs)
+        fit_kwargs.setdefault('verbose', 0)
+        fit_kwargs.setdefault('shuffle', True)
+        autoencoder.fit(embedvecs, embedvecs, *args, **fit_kwargs)
 
         # store the autoencoder models
         self.autoencoder = autoencoder
