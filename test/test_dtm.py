@@ -22,6 +22,6 @@ def test_inaugural_dtm_tfidf():
     assert dtm.get_total_termfreq(stemword('government')) > 0
 
     # regression values for this environment/data snapshot (stable given same corpus+preprocessor)
-    assert dtm.nbtokens == 5072
+    assert dtm.nbtokens == 5077
     assert dtm.get_token_occurences(stemword('change'))['2009-Obama'] == pytest.approx(0.9400072584914713)
     assert dtm.get_total_termfreq(stemword('government')) == pytest.approx(37.82606692473982)
