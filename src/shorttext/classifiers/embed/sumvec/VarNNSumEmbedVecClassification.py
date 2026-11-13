@@ -99,7 +99,8 @@ class VarNNSumEmbeddedVecClassifier(AbstractScorer, CompactIOMachine):
             self,
             classdict: dict[str, list[str]],
             kerasmodel: Model,
-            nb_epoch: int = 10
+            nb_epoch: int = 10,
+            **fit_kwargs
     ) -> None:
         """Train the classifier.
 
@@ -107,12 +108,14 @@ class VarNNSumEmbeddedVecClassifier(AbstractScorer, CompactIOMachine):
             classdict: Training data.
             kerasmodel: Keras Sequential model.
             nb_epoch: Number of training epochs. Default: 10.
+            **fit_kwargs: Additional keyword arguments passed to Keras fit.
 
         Raises:
             ModelNotTrainedException: If not trained or loaded.
         """
         self.classlabels, train_embedvec, indices = self.convert_traindata_embedvecs(classdict)
-        kerasmodel.fit(train_embedvec, indices, epochs=nb_epoch)
+        fit_kwargs.setdefault('verbose', 0)
+        kerasmodel.fit(train_embedvec, indices, epochs=nb_epoch, **fit_kwargs)
         self.model = kerasmodel
         self.trained = True
 

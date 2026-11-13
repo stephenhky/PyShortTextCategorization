@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "shorttext"
-version = "4.1.0"
+version = "4.1.1a1"
 authors = [
     {name = "Kwan Yuet Stephen Ho", email = "stephenhky@yahoo.com.hk"}
 ]
@@ -86,3 +86,13 @@ find_sentences_similarity = "shorttext.cli.wordembedsim:find_sentences_similarit
 
 [project.optional-dependencies]
 test = ["pytest"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["test"]
+markers = [
+    "slow: marks tests as slow/integration (deselect with '-m \"not slow\"')",
+    "integration: marks integration tests that train models or exercise I/O",
+    "network: marks tests that require network access (should be avoided/mocked)",
+]
+addopts = "-ra"

@@ -1,137 +1,102 @@
-
-from sklearn.svm import SVC
-from loguru import logger
+import numpy as np
 import pytest
+from sklearn.svm import SVC
 
 import shorttext
-from shorttext.stack import StackedGeneralization, LogisticStackedGeneralization
+from shorttext.classifiers import (
+    MaxEntClassifier,
+    TopicVectorCosineDistanceClassifier,
+    TopicVectorSkLearnClassifier,
+)
+from shorttext.generators import LDAModeler
 from shorttext.smartload import smartload_compact_model
-from shorttext.classifiers import TopicVectorSkLearnClassifier, TopicVectorCosineDistanceClassifier, MaxEntClassifier
-from shorttext.generators import GensimTopicModeler, LDAModeler
+from shorttext.stack import LogisticStackedGeneralization
 
 
-def training_stacking() -> tuple[MaxEntClassifier, GensimTopicModeler, TopicVectorSkLearnClassifier, StackedGeneralization]:
-    # loading NIH Reports
+pytestmark = [pytest.mark.slow, pytest.mark.integration]
+
+
+def _assert_score_dict_close(dict1, dict2, atol=1e-5):
+    assert set(dict1.keys()) == set(dict2.keys())
+    for label in dict1:
+        assert dict1[label] == pytest.approx(dict2[label], abs=atol)
+
+
+@pytest.fixture(scope="module")
+def nih_two_class_dict():
     nihdict = shorttext.data.nihreports(sample_size=None)
-    nihdict = {'NCCAM': nihdict['NCCAM'], 'NCATS': nihdict['NCATS']}
+    return {'NCCAM': nihdict['NCCAM'], 'NCATS': nihdict['NCATS']}
 
+
+def test_stacking_roundtrip(nih_two_class_dict, tmp_path):
     # maxent
     maxent_classifier = MaxEntClassifier()
-    maxent_classifier.train(nihdict, nb_epochs=100)
-    maxent_classifier.save_compact_model('./bio_maxent.bin')
+    maxent_classifier.train(nih_two_class_dict, nb_epochs=5)
+    maxent_classifier.save_compact_model(str(tmp_path / 'bio_maxent.bin'))
 
-    # SVM + LDA
+    # LDA + SVM/cosine
     topicmodeler = LDAModeler()
-    topicmodeler.train(nihdict, 8)
+    topicmodeler.train(nih_two_class_dict, 4, random_state=0)
+    topicmodeler.save_compact_model(str(tmp_path / 'bio_lda.bin'))
     topicdisclassifier = TopicVectorCosineDistanceClassifier(topicmodeler)
-    topicmodeler.save_compact_model('bio_lda.bin')
-    svm_classifier = TopicVectorSkLearnClassifier(topicmodeler, SVC())
-    svm_classifier.train(nihdict)
-    svm_classifier.save_compact_model('bio_svm.bin')
+    svm_classifier = TopicVectorSkLearnClassifier(topicmodeler, SVC(probability=False, random_state=0))
+    svm_classifier.train(nih_two_class_dict)
+    svm_classifier.save_compact_model(str(tmp_path / 'bio_svm.bin'))
 
-    # logistic
     stacked_classifier = LogisticStackedGeneralization({
         'maxent': maxent_classifier,
         'svm': svm_classifier,
         'topiccosine': topicdisclassifier
     })
-    stacked_classifier.train(nihdict, nb_epoch=300)
-    stacked_classifier.save_compact_model('bio_logistics.bin')
+    stacked_classifier.train(nih_two_class_dict, nb_epoch=10)
+    stacked_classifier.save_compact_model(str(tmp_path / 'bio_logistics.bin'))
 
-    return maxent_classifier, topicmodeler, svm_classifier, stacked_classifier
-
-
-def compare_two_dicts(dict1, dict2) -> None:
-    assert len(dict1) == len(dict2)
-    for classlabel in dict1:
-        assert (classlabel in dict2)
-        assert dict1[classlabel] == pytest.approx(dict2[classlabel], abs=1e-3)
-
-
-def test_studies() -> None:
-    # train
-    maxent_classifier, topicmodeler, svm_classifier, stacked_classifier = training_stacking()
-
-    # smartload
-    maxent_classifier2 = smartload_compact_model('bio_maxent.bin', None)
-    topicmodeler2 = smartload_compact_model('bio_lda.bin', None)
+    # reload
+    maxent_classifier2 = smartload_compact_model(str(tmp_path / 'bio_maxent.bin'), None)
+    topicmodeler2 = smartload_compact_model(str(tmp_path / 'bio_lda.bin'), None)
     topicdisclassifier2 = TopicVectorCosineDistanceClassifier(topicmodeler2)
-    svm_classifier2 = smartload_compact_model('bio_svm.bin', None)
+    svm_classifier2 = smartload_compact_model(str(tmp_path / 'bio_svm.bin'), None)
     stacked_classifier2 = LogisticStackedGeneralization({
         'maxent': maxent_classifier2,
         'svm': svm_classifier2,
         'topiccosine': topicdisclassifier2
     })
-    stacked_classifier2.load_compact_model('bio_logistics.bin')
+    stacked_classifier2.load_compact_model(str(tmp_path / 'bio_logistics.bin'))
 
-    # compare
     terms = ['stem cell', 'grant', 'system biology']
     for term in terms:
-        logger.info(term)
-
-        logger.info('maximum entropy')
-        compare_two_dicts(maxent_classifier.score(term), maxent_classifier2.score(term))
-
-        # logger.info('LDA')
-        # compare_two_dicts(topicdisclassifier.score(term), topicdisclassifier2.score(term))
-        #
-        # logger.info('SVM')
-        # compare_two_dicts(svm_classifier.score(term), svm_classifier2.score(term))
-
-        logger.info('combined')
-        compare_two_dicts(stacked_classifier.score(term), stacked_classifier2.score(term))
+        _assert_score_dict_close(maxent_classifier.score(term), maxent_classifier2.score(term))
+        _assert_score_dict_close(stacked_classifier.score(term), stacked_classifier2.score(term))
+        # topic-derived components should also be load-consistent when seeded
+        _assert_score_dict_close(topicdisclassifier.score(term), topicdisclassifier2.score(term))
+        # SVC.score returns accuracy-like per-label scores in this wrapper; compare dict shape/values
+        svm1 = svm_classifier.score(term)
+        svm2 = svm_classifier2.score(term)
+        assert set(svm1.keys()) == set(svm2.keys()) == set(nih_two_class_dict.keys())
 
 
-def test_svm() -> None:
-    # loading NIH Reports
-    nihdict = shorttext.data.nihreports(sample_size=None)
-    nihdict = {'NCCAM': nihdict['NCCAM'], 'NCATS': nihdict['NCATS']}
-
-    # svm
+def test_svm_topic_classifier(nih_two_class_dict, tmp_path):
     topicmodeler = LDAModeler()
-    topicmodeler.train(nihdict, 16)
-    svm_classifier = TopicVectorSkLearnClassifier(topicmodeler, SVC())
-    svm_classifier.train(nihdict)
+    topicmodeler.train(nih_two_class_dict, 4, random_state=0)
+    svm_classifier = TopicVectorSkLearnClassifier(topicmodeler, SVC(probability=False, random_state=0))
+    svm_classifier.train(nih_two_class_dict)
 
-    logger.info('before saving...')
-    logger.info('--'.join(svm_classifier.classlabels))
-    svm_classifier.save_compact_model('bio_svm2.bin')
-    logger.info('after saving...')
-    logger.info('--'.join(svm_classifier.classlabels))
+    assert svm_classifier.trained
+    assert sorted(svm_classifier.classlabels) == sorted(nih_two_class_dict.keys())
 
-    # load
-    svm_classifier2 = smartload_compact_model('bio_svm2.bin', None)
-    logger.info('second classifier...')
-    logger.info(','.join(svm_classifier2.classlabels))
-    logger.info(','.join(svm_classifier2.topicmodeler.classlabels))
+    model_path = tmp_path / 'bio_svm2.bin'
+    svm_classifier.save_compact_model(str(model_path))
+    svm_classifier2 = smartload_compact_model(str(model_path), None)
 
-    # compare
-    terms = ['stem cell', 'grant', 'system biology']
-    for term in terms:
-        logger.info(term)
-        topicvec = svm_classifier.getvector(term)
-        topicvec2 = svm_classifier2.getvector(term)
-
-        logger.info(topicvec)
-        logger.info(topicvec2)
-
-        for idx, classlabel in enumerate(svm_classifier.classlabels):
-            logger.info(f"{idx} {classlabel}")
-            logger.info(svm_classifier.classifier.score([topicvec], [idx]))
-
-        for idx, classlabel in enumerate(svm_classifier2.classlabels):
-            logger.info(f"{idx} {classlabel}")
-            logger.info(svm_classifier2.classifier.score([topicvec2], [idx]))
-
-        logger.info({
-            classlabel: svm_classifier.classifier.score([topicvec], [idx])
-            for idx, classlabel in enumerate(svm_classifier.classlabels)
-        })
-        logger.info({
-            classlabel: svm_classifier2.classifier.score([topicvec], [idx])
-            for idx, classlabel in enumerate(svm_classifier2.classlabels)
-        })
-
-    # for term in terms:
-    #     logger.info(term)
-    #     compare_two_dicts(svm_classifier.score(term), svm_classifier2.score(term))
+    assert sorted(svm_classifier2.classlabels) == sorted(nih_two_class_dict.keys())
+    for term in ['stem cell', 'grant', 'system biology']:
+        vec1 = svm_classifier.getvector(term)
+        vec2 = svm_classifier2.getvector(term)
+        assert np.all(np.isfinite(vec1))
+        assert np.all(np.isfinite(vec2))
+        np.testing.assert_allclose(vec1, vec2, atol=1e-6)
+        scores1 = svm_classifier.score(term)
+        scores2 = svm_classifier2.score(term)
+        assert set(scores1.keys()) == set(scores2.keys()) == set(nih_two_class_dict.keys())
+        assert all(np.isfinite(v) for v in scores1.values())
+        assert all(np.isfinite(v) for v in scores2.values())

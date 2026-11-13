@@ -1,6 +1,7 @@
 News
 ====
 
+* 11/13/2026: `shorttext` 4.1.1 released.
 * 09/30/2026: `shorttext` 4.1.0 released.
 * 07/02/2026: `shorttext` 4.0.4 released.
 * 05/26/2026: `shorttext` 4.0.3 released.
@@ -8,7 +9,7 @@ News
 * 05/14/2026: `shorttext` 4.0.1 released.
 * 04/19/2026: `shorttext` 4.0.0 released.
 * 03/22/2026: `shorttext` 3.1.1 released.
-* 03/02/2026: `shorttext` 3.1.0 reelased.
+* 03/02/2026: `shorttext` 3.1.0 released.
 * 10/27/2025: `shorttext` 3.0.1 released.
 * 08/10/2025: `shorttext` 3.0.0 released.
 * 06/02/2025: `shorttext` 2.2.1 released.
@@ -94,6 +95,13 @@ News
 
 What's New
 ----------
+
+Release 4.1.1 (November 13, 2026)
+---------------------------------
+
+* Fixed the stochasticity in unit tests by adding state control to topic models;
+* Unit tests rewritten by `Kilo Code
+<https://kilo.ai/>`_.
 
 Release 4.1.0 (September 30, 2026)
 ----------------------------------

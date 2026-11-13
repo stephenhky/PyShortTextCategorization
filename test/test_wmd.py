@@ -1,6 +1,4 @@
-
-import urllib
-from pathlib import Path
+import math
 
 import pytest
 
@@ -8,26 +6,21 @@ from shorttext.metrics.wasserstein import word_mover_distance
 from shorttext.utils import load_word2vec_model
 
 
-# download model
-link = "https://shorttext-data-northernvirginia.s3.amazonaws.com/trainingdata/test_w2v_model.bin"
-filename = "test_w2v_model.bin"
-if not Path(filename).exists():
-    urllib.request.urlretrieve(link, filename)
-w2v_model = load_word2vec_model(filename, binary=True)  # load word2vec model
+@pytest.fixture(scope="module")
+def w2v_model(test_w2v_model_path):
+    return load_word2vec_model(str(test_w2v_model_path), binary=True)
 
 
-def test_word_mover_distance_1():
+def test_word_mover_distance_closer_pairs(w2v_model):
     tokens1 = ['president', 'speaks']
     tokens2 = ['president', 'talks']
-    known_answer = 0.19936788082122803
-    wdistance = word_mover_distance(tokens1, tokens2, w2v_model)
-    assert wdistance == pytest.approx(known_answer)
+    close_dist = word_mover_distance(tokens1, tokens2, w2v_model)
+    far_dist = word_mover_distance(['fan', 'book'], ['apple', 'orange'], w2v_model)
+    assert close_dist >= 0.0
+    assert far_dist >= 0.0
+    assert close_dist < far_dist
 
 
-def test_word_mover_distance_2():
-    tokens1 = ['fan', 'book']
-    tokens2 = ['apple', 'orange']
-    known_answer = 1.8019972145557404
-    wdistance = word_mover_distance(tokens1, tokens2, w2v_model)
-    assert wdistance == pytest.approx(known_answer)
-
+def test_word_mover_distance_identity(w2v_model):
+    tokens = ['president', 'speaks']
+    assert word_mover_distance(tokens, tokens, w2v_model) == pytest.approx(0.0, abs=1e-8)

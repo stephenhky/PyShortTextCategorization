@@ -202,7 +202,8 @@ class LogisticStackedGeneralization(StackedGeneralization, CompactIOMachine):
             optimizer: Literal["sgd", "rmsprop", "adagrad", "adadelta", "adam", "adamax", "nadam"] = "adam",
             l2reg: float = 0.01,
             bias_l2reg: float = 0.01,
-            nb_epoch: int = 1000
+            nb_epoch: int = 1000,
+            **fit_kwargs
     ) -> None:
         """Train the stacked generalization model.
 
@@ -212,6 +213,7 @@ class LogisticStackedGeneralization(StackedGeneralization, CompactIOMachine):
             l2reg: L2 regularization coefficient. Default: 0.01.
             bias_l2reg: L2 regularization for bias. Default: 0.01.
             nb_epoch: Number of training epochs. Default: 1000.
+            **fit_kwargs: Additional keyword arguments passed to Keras fit.
         """
 
         # register
@@ -232,7 +234,8 @@ class LogisticStackedGeneralization(StackedGeneralization, CompactIOMachine):
         X = np.array([item[0] for item in Xy])
         y = np.array([item[1] for item in Xy])
 
-        kmodel.fit(X, y, epochs=nb_epoch)
+        fit_kwargs.setdefault('verbose', 0)
+        kmodel.fit(X, y, epochs=nb_epoch, **fit_kwargs)
 
         self.model = kmodel
         self.trained = True

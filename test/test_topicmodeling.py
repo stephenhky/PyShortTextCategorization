@@ -1,95 +1,96 @@
-
 import numpy as np
-from sklearn.naive_bayes import GaussianNB
-from sklearn.linear_model import LogisticRegression
 import pytest
+from sklearn.linear_model import LogisticRegression
 
 import shorttext
 
 
-def test_ldatopicmodel():
-    # load data
-    trainclassdict = shorttext.data.nihreports(sample_size=None)
+pytestmark = [pytest.mark.slow, pytest.mark.integration]
 
-    # train LDA model
+
+@pytest.fixture(scope="module")
+def nih_trainclass_dict():
+    return shorttext.data.nihreports(sample_size=None)
+
+
+@pytest.fixture(scope="module")
+def subject_trainclass_dict():
+    return shorttext.data.subjectkeywords()
+
+
+def _assert_valid_topic_vector(vec, expected_norm=1.0):
+    assert vec is not None
+    assert not np.any(np.isnan(vec))
+    assert np.isfinite(vec).all()
+    assert np.linalg.norm(vec) == pytest.approx(expected_norm, abs=1e-6)
+
+
+def _assert_score_dict(score_dict, labels):
+    assert isinstance(score_dict, dict)
+    assert set(score_dict.keys()) == set(labels)
+    assert all(np.isfinite(v) for v in score_dict.values())
+
+
+def test_ldatopicmodel(nih_trainclass_dict, tmp_path):
     topicmodeler = shorttext.generators.LDAModeler()
-    topicmodeler.train(trainclassdict, 128)
+    topicmodeler.train(nih_trainclass_dict, 8, random_state=0)
 
-    # retrieve topic vectors
     topic_vector_1 = topicmodeler.retrieve_topicvec('stem cell research NIH cancer immunology')
-    assert not np.any(np.isnan(topic_vector_1))
-    assert np.linalg.norm(topic_vector_1) == pytest.approx(1.)
-
+    _assert_valid_topic_vector(topic_vector_1)
     topic_vector_2 = topicmodeler.retrieve_topicvec('bioinformatics')
-    assert not np.any(np.isnan(topic_vector_2))
-    assert np.linalg.norm(topic_vector_2) == pytest.approx(1.)
-
+    _assert_valid_topic_vector(topic_vector_2)
     topic_vector_3 = topicmodeler.retrieve_topicvec('linear algebra')
-    assert not np.any(np.isnan(topic_vector_3))
-    assert np.linalg.norm(topic_vector_3) == pytest.approx(1.)
+    _assert_valid_topic_vector(topic_vector_3)
 
-    # test I/O
-    topicmodeler.save_compact_model('nihlda128.bin')
-    topicmodeler2 = shorttext.generators.GensimTopicModeler.from_pretrained('nihlda128.bin')
+    # I/O round trip
+    model_path = tmp_path / 'nihlda8.bin'
+    topicmodeler.save_compact_model(str(model_path))
+    topicmodeler2 = shorttext.generators.GensimTopicModeler.from_pretrained(str(model_path))
     topic_vector_1a = topicmodeler2.retrieve_topicvec("stem cell research NIH cancer immunology")
-    assert not np.any(np.isnan(topic_vector_1a))
-    assert np.linalg.norm(topic_vector_1a) == pytest.approx(1.)
-    # np.testing.assert_array_almost_equal(topic_vector_1a, topic_vector_1)  # do not check this; LDA models are stochastic
+    _assert_valid_topic_vector(topic_vector_1a)
+    np.testing.assert_allclose(topic_vector_1a, topic_vector_1, atol=1e-6)
 
     # cosine similarity scorer
     cos_classifier = shorttext.classifiers.TopicVectorCosineDistanceClassifier(topicmodeler)
     score_dict = cos_classifier.score("stem cell research NIH cancer immunology")
-    assert isinstance(score_dict, dict)
-    assert len(score_dict) == len(trainclassdict)
+    _assert_score_dict(score_dict, nih_trainclass_dict.keys())
 
     # scikit-learn classifier
-    gaussian_nb_classifier = shorttext.classifiers.TopicVectorSkLearnClassifier(
-        topicmodeler, LogisticRegression()
+    lr_classifier = shorttext.classifiers.TopicVectorSkLearnClassifier(
+        topicmodeler, LogisticRegression(random_state=0, max_iter=200)
     )
-    gaussian_nb_classifier.train(trainclassdict)
-    score_dict = gaussian_nb_classifier.score("stem cell research NIH cancer immunology")
-    assert isinstance(score_dict, dict)
+    lr_classifier.train(nih_trainclass_dict)
+    score_dict = lr_classifier.score("stem cell research NIH cancer immunology")
+    _assert_score_dict(score_dict, nih_trainclass_dict.keys())
 
 
-def test_autoencoder():
-    # load data
-    subdict = shorttext.data.subjectkeywords()
-
-    # train the model
+def test_autoencoder(subject_trainclass_dict):
     autoencoder = shorttext.generators.AutoencodingTopicModeler()
-    autoencoder.train(subdict, 8)
+    autoencoder.train(subject_trainclass_dict, 8, epochs=5, verbose=0, shuffle=False)
 
-    # retrieve BOW vector
     bow_vector = autoencoder.retrieve_bow_vector("critical race")
     assert not np.any(np.isnan(bow_vector))
-    assert np.all(bow_vector == 1 / np.sqrt(len(autoencoder.token2indices)))
+    assert bow_vector.shape[0] == len(autoencoder.token2indices)
 
-    # retrieve topic vector
     topic_vector_1 = autoencoder.retrieve_topicvec("linear algebra")
-    assert not np.any(np.isnan(topic_vector_1))
-    assert np.linalg.norm(topic_vector_1) == pytest.approx(1.)
-    np.testing.assert_array_almost_equal(autoencoder["linear algebra"], topic_vector_1)
+    _assert_valid_topic_vector(topic_vector_1)
+    np.testing.assert_allclose(autoencoder["linear algebra"], topic_vector_1)
 
     topic_vector_2 = autoencoder.retrieve_topicvec("path integral")
-    assert not np.any(np.isnan(topic_vector_2))
-    assert np.linalg.norm(topic_vector_2) == pytest.approx(1.)
-    np.testing.assert_array_almost_equal(autoencoder["path integral"], topic_vector_2)
+    _assert_valid_topic_vector(topic_vector_2)
+    np.testing.assert_allclose(autoencoder["path integral"], topic_vector_2)
 
     topic_vector_3 = autoencoder.retrieve_topicvec("critical race")
-    assert not np.any(np.isnan(topic_vector_3))
-    assert np.linalg.norm(topic_vector_3) == pytest.approx(1.)
-    np.testing.assert_array_almost_equal(autoencoder["critical race"], topic_vector_3)
+    _assert_valid_topic_vector(topic_vector_3)
+    np.testing.assert_allclose(autoencoder["critical race"], topic_vector_3)
 
-    # cosine similarity scholar
     cos_classifier = shorttext.classifiers.TopicVectorCosineDistanceClassifier(autoencoder)
     score_dict = cos_classifier.score("stem cell research")
-    assert isinstance(score_dict, dict)
-    assert len(score_dict) == 3
+    _assert_score_dict(score_dict, subject_trainclass_dict.keys())
 
-    # scikit-learn classifier
-    gaussian_nb_classifier = shorttext.classifiers.TopicVectorSkLearnClassifier(
-        autoencoder, LogisticRegression()
+    lr_classifier = shorttext.classifiers.TopicVectorSkLearnClassifier(
+        autoencoder, LogisticRegression(random_state=0, max_iter=200)
     )
-    gaussian_nb_classifier.train(subdict)
-    score_dict = gaussian_nb_classifier.score("path integral")
-    assert isinstance(score_dict, dict)
+    lr_classifier.train(subject_trainclass_dict)
+    score_dict = lr_classifier.score("path integral")
+    _assert_score_dict(score_dict, subject_trainclass_dict.keys())

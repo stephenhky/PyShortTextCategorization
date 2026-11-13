@@ -1,20 +1,19 @@
-
-import random
-from collections import defaultdict
+import csv
 import json
 import os
+import random
+import sys
+import zipfile
+from collections import defaultdict
+from io import TextIOWrapper
 from os import PathLike
 from pathlib import Path
-import zipfile
-import sys
-import csv
-from urllib.request import urlretrieve
-from io import TextIOWrapper
 from typing import Generator
+from urllib.request import urlretrieve
 
-import pandas as pd
 import numpy as np
 import orjson
+import pandas as pd
 
 
 def retrieve_csvdata_as_dict(filepath: str | PathLike) -> dict[str, list[str]]:
@@ -93,10 +92,11 @@ def get_or_download_data(
         print(f'Target: {targetfilepath}', file=sys.stderr)
         try:
             urlretrieve(origin, targetfilepath)
-        except:
+        except Exception:
             print('Failure to download file!', file=sys.stderr)
             print(sys.exc_info(), file=sys.stderr)
-            os.remove(targetfilepath)
+            if os.path.exists(targetfilepath):
+                os.remove(targetfilepath)
 
     # return
     return open(targetfilepath, 'rb' if asbytes else 'r')
@@ -142,7 +142,12 @@ def inaugural() -> dict[str, list[str]]:
     return json.loads(address_jsonstr.decode('utf-8'))
 
 
-def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512):
+def nihreports(
+        txt_col='PROJECT_TITLE',
+        label_col='FUNDING_ICs',
+        sample_size=512,
+        random_state=None
+):
     """Return an example dataset sampled from NIH RePORT.
 
     Returns an example dataset from NIH (National Institutes of Health)
@@ -154,6 +159,7 @@ def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512
         label_col: Column for labels. Options: 'FUNDING_ICs' or 'IC_NAME'.
                 Default: 'FUNDING_ICs'.
         sample_size: Number of samples to return. Set to None for all rows. Default: 512.
+        random_state: Optional seed or numpy random Generator for reproducible sampling.
 
     Returns:
         A dictionary with IC identifiers as keys and lists of text data as values.
@@ -179,14 +185,24 @@ def nihreports(txt_col='PROJECT_TITLE', label_col='FUNDING_ICs', sample_size=512
     nih = pd.read_csv(zfile.open('nih_full.csv'), na_filter=False, usecols=[label_col, txt_col], encoding='cp437')
     zfile.close()
     nb_data = len(nih)
-    sample_size = nb_data if sample_size==None else min(nb_data, sample_size)
+    sample_size = nb_data if sample_size is None else min(nb_data, sample_size)
 
-    classdict = defaultdict(lambda : [])
+    if isinstance(random_state, np.random.Generator):
+        rng = random_state
+    else:
+        rng = np.random.default_rng(random_state)
 
-    for rowidx in np.random.randint(nb_data, size=min(nb_data, sample_size)):
+    classdict = defaultdict(lambda: [])
+
+    sampled_indices = (
+        np.arange(nb_data)
+        if sample_size == nb_data
+        else rng.integers(0, nb_data, size=sample_size)
+    )
+    for rowidx in sampled_indices:
         label = nih.iloc[rowidx, nih.columns.get_loc(label_col)]
-        if label_col=='FUNDING_ICs':
-            if label=='':
+        if label_col == 'FUNDING_ICs':
+            if label == '':
                 label = 'OTHER'
             else:
                 endpos = label.index(':')
@@ -210,7 +226,7 @@ def merge_cv_dicts(dicts: list[dict[str, list[str]]]) -> dict[str, list[str]]:
         A merged dictionary with all class labels and texts combined.
     """
     # NOTE: this is not a usualy Python dict merge. It does specialized merging.
-    mdict = defaultdict(lambda : [])
+    mdict = defaultdict(lambda: [])
     for thisdict in dicts:
         for label in thisdict:
             mdict[label] += thisdict[label]
@@ -220,7 +236,8 @@ def merge_cv_dicts(dicts: list[dict[str, list[str]]]) -> dict[str, list[str]]:
 def yield_crossvalidation_classdicts(
         classdict: dict[str, list[str]],
         nb_partitions: int,
-        shuffle: bool = False
+        shuffle: bool = False,
+        random_state=None
 ) -> Generator[tuple[dict[str, list[str]], dict[str, list[str]]], None, None]:
     """Yield training and test data partitions for cross-validation.
 
@@ -233,20 +250,30 @@ def yield_crossvalidation_classdicts(
                  and lists of texts as values.
         nb_partitions: Number of partitions to create.
         shuffle: Whether to shuffle data before partitioning. Default: False.
+        random_state: Optional seed or random.Random instance for deterministic shuffling.
 
     Yields:
         Tuples of (test_dict, train_dict) for each partition.
     """
-    crossvaldicts = []
-    for _ in range(nb_partitions):
-        crossvaldicts.append(defaultdict(lambda: []))
+    if nb_partitions < 1:
+        raise ValueError("nb_partitions must be at least 1")
+
+    if isinstance(random_state, random.Random):
+        rng = random_state
+    else:
+        rng = random.Random(random_state)
+
+    crossvaldicts = [defaultdict(list) for _ in range(nb_partitions)]
 
     for label in classdict:
-        nb_data = len(classdict[label])
-        partsize = nb_data / nb_partitions
-        sentences = classdict[label] if not shuffle else random.shuffle(sentences)
+        sentences = list(classdict[label])
+        if shuffle:
+            rng.shuffle(sentences)
+        nb_data = len(sentences)
         for i in range(nb_partitions):
-            crossvaldicts[i][label] += sentences[i * partsize:min(nb_data, (i + 1) * partsize)]
+            start = (i * nb_data) // nb_partitions
+            end = ((i + 1) * nb_data) // nb_partitions
+            crossvaldicts[i][label].extend(sentences[start:end])
     crossvaldicts = [dict(crossvaldict) for crossvaldict in crossvaldicts]
 
     for i in range(nb_partitions):
