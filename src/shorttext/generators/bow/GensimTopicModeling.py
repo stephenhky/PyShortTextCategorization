@@ -155,7 +155,15 @@ class GensimTopicModeler(LatentTopicModeler):
         if not self.trained:
             raise ModelNotTrainedException()
         bow = self.retrieve_bow(shorttext)
-        return self.topicmodel[self.tfidf[bow] if self.toweigh else bow]
+        corpus_input = self.tfidf[bow] if self.toweigh else bow
+        random_state = getattr(self.topicmodel, 'random_state', None)
+        if random_state is not None and hasattr(random_state, 'get_state'):
+            state = random_state.get_state()
+            try:
+                return self.topicmodel[corpus_input]
+            finally:
+                random_state.set_state(state)
+        return self.topicmodel[corpus_input]
 
     def retrieve_topicvec(self, shorttext: str) -> npt.NDArray[np.float64]:
         """Get topic vector for short text.

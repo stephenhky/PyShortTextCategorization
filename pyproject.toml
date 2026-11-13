@@ -88,6 +88,7 @@ find_sentences_similarity = "shorttext.cli.wordembedsim:find_sentences_similarit
 test = ["pytest"]
 
 [tool.pytest.ini_options]
+pythonpath = ["src"]
 testpaths = ["test"]
 markers = [
     "slow: marks tests as slow/integration (deselect with '-m \"not slow\"')",
